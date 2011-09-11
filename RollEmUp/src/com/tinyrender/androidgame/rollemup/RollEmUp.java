@@ -12,6 +12,8 @@ public class RollEmUp extends Game {
 	
 	@Override
 	public void create() {
+		Settings.load();
+		Assets.create();
 		super.create();
 	}
 
