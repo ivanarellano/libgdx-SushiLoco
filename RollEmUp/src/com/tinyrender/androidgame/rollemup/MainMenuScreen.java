@@ -37,6 +37,7 @@ public class MainMenuScreen implements Screen {
 			Assets.batch.draw(Assets.start,
 							  Gdx.graphics.getWidth()/2 - Assets.start.packedWidth/2,
 							  Gdx.graphics.getHeight()/2 - 150);
+			Assets.batch.draw(Assets.soundOn, 25, 25);
 		Assets.batch.end();
 	}
 

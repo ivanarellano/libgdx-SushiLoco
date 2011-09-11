@@ -1,7 +1,7 @@
 
 data1.png
 format: RGBA8888
-filter: MipMapNearestLinear,Nearest
+filter: Nearest,Nearest
 repeat: none
 splash1
   rotate: false
