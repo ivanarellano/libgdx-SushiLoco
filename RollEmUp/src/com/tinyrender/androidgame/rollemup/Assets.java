@@ -57,8 +57,11 @@ public class Assets {
     		titleLogo = manager.get("assets/data/pack", TextureAtlas.class).findRegion("title");
     	}
     	
-    	if (Assets.manager.isLoaded("assets/data/music.mp3"))
+    	if (Assets.manager.isLoaded("assets/data/music.mp3")) {
     		music = manager.get("assets/data/music.mp3", Music.class);
+    		music.setLooping(true);
+    		music.setVolume(0.5f);
+    	}
     	
     	if (Assets.manager.isLoaded("assets/data/click.ogg"))
     		hitSound = manager.get("assets/data/click.ogg", Sound.class);

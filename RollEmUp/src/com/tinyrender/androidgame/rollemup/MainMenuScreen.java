@@ -2,34 +2,30 @@ package com.tinyrender.androidgame.rollemup;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.GL11;
 
 public class MainMenuScreen implements Screen {
-	boolean diagnosed = false;
+	RollEmUp game;
+	
+	public MainMenuScreen(RollEmUp g) {
+		game = g;
+	}
+	
 	@Override
 	public void dispose() {
-		
 	}
 
 	@Override
 	public void hide() {
-		
 	}
 
 	@Override
 	public void pause() {
-		
 	}
 
 	@Override
-	public void render(float arg0) {
-		boolean result = Assets.manager.update();
-		if (result & !diagnosed) {
-			Gdx.app.log("AssetManagerTest", "\n" + Assets.manager.getDiagonistics() + "\n" + Texture.getManagedStatus());
-			diagnosed = true;
-		}
-		
+	public void render(float deltaTime) {
+		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		Assets.batch.begin();
 			Assets.batch.draw(Assets.titleLogo,
 							  Gdx.graphics.getWidth()/2 - Assets.titleLogo.packedWidth/2,
@@ -42,18 +38,18 @@ public class MainMenuScreen implements Screen {
 	}
 
 	@Override
-	public void resize(int arg0, int arg1) {
-		
+	public void resize(int width, int height) {
 	}
 
 	@Override
 	public void resume() {
-		
 	}
 
 	@Override
 	public void show() {
-		
+		Assets.batch.setColor(1, 1, 1, 1);
+		if(Settings.musicEnabled)
+            Assets.music.play();
 	}
 
 }
