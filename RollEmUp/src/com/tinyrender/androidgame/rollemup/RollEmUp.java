@@ -21,10 +21,13 @@ public class RollEmUp extends Game implements ApplicationListener {
 
 	@Override
 	public void dispose() {
+		getScreen().dispose();
+		Assets.manager.dispose();
 	}
 
 	@Override
 	public void pause() {
+		getScreen().pause();
 	}
 
 	@Override
@@ -33,10 +36,12 @@ public class RollEmUp extends Game implements ApplicationListener {
 	}
 
 	@Override
-	public void resize(int arg0, int arg1) {
+	public void resize(int width, int height) {
+		getScreen().resize(width, height);
 	}
 
 	@Override
 	public void resume() {
+		getScreen().resume();
 	}	
 }

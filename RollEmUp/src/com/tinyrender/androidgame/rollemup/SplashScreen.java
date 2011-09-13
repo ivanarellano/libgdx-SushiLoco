@@ -3,6 +3,7 @@ package com.tinyrender.androidgame.rollemup;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
 public class SplashScreen implements Screen {
@@ -10,11 +11,12 @@ public class SplashScreen implements Screen {
 	public float totalScreenTime = 0;
 	public float splashAlpha = 1.0f;
 	public boolean diagnosed = false;
-	
+	OrthographicCamera guiCam;
 	RollEmUp game;
 	
 	public SplashScreen(RollEmUp g) {
 		game = g;
+		guiCam = new OrthographicCamera();
 	}
 	
 	@Override
