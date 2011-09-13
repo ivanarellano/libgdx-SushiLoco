@@ -42,35 +42,35 @@ public class Assets {
     }
     
     private static void load() {
-    	manager.load("assets/data/pack", TextureAtlas.class);
-    	manager.load("assets/data/music.mp3", Music.class);
-    	manager.load("assets/data/click.ogg", Sound.class);
+    	manager.load("data/pack", TextureAtlas.class);
+    	manager.load("data/music.mp3", Music.class);
+    	manager.load("data/click.ogg", Sound.class);
     	
     	manager.finishLoading();
     	
-    	if (Assets.manager.isLoaded("assets/data/pack")) {
-    		levelSelectMap = manager.get("assets/data/pack", TextureAtlas.class).findRegion("levelselect");
-    		soundOff = manager.get("assets/data/pack", TextureAtlas.class).findRegion("soundoff");
-    		soundOn = manager.get("assets/data/pack", TextureAtlas.class).findRegion("soundon");
-    		splashScreen = manager.get("assets/data/pack", TextureAtlas.class).findRegion("splash1");
-    		start = manager.get("assets/data/pack", TextureAtlas.class).findRegion("start");
-    		titleLogo = manager.get("assets/data/pack", TextureAtlas.class).findRegion("title");
+    	if (Assets.manager.isLoaded("data/pack")) {
+    		levelSelectMap = manager.get("data/pack", TextureAtlas.class).findRegion("levelselect");
+    		soundOff = manager.get("data/pack", TextureAtlas.class).findRegion("soundoff");
+    		soundOn = manager.get("data/pack", TextureAtlas.class).findRegion("soundon");
+    		splashScreen = manager.get("data/pack", TextureAtlas.class).findRegion("splash1");
+    		start = manager.get("data/pack", TextureAtlas.class).findRegion("start");
+    		titleLogo = manager.get("data/pack", TextureAtlas.class).findRegion("title");
     	}
     	
-    	if (Assets.manager.isLoaded("assets/data/music.mp3")) {
-    		music = manager.get("assets/data/music.mp3", Music.class);
+    	if (Assets.manager.isLoaded("data/music.mp3")) {
+    		music = manager.get("data/music.mp3", Music.class);
     		music.setLooping(true);
     		music.setVolume(0.5f);
     	}
     	
-    	if (Assets.manager.isLoaded("assets/data/click.ogg"))
-    		hitSound = manager.get("assets/data/click.ogg", Sound.class);
+    	if (Assets.manager.isLoaded("data/click.ogg"))
+    		hitSound = manager.get("data/click.ogg", Sound.class);
     }
     
     private static void unload() {
-    	manager.unload("assets/data/pack");
-    	manager.unload("assets/data/music.mp3");
-    	manager.unload("assets/data/click.ogg");
+    	manager.unload("data/pack");
+    	manager.unload("data/music.mp3");
+    	manager.unload("data/click.ogg");
     }
     
     public static void playSound(Sound sound) {
