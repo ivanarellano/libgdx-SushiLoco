@@ -23,6 +23,7 @@ public class RollEmUp extends Game implements ApplicationListener {
 	public void dispose() {
 		getScreen().dispose();
 		Assets.manager.dispose();
+		Assets.batch.dispose();
 	}
 
 	@Override

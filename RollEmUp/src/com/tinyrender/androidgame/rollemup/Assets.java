@@ -6,21 +6,21 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 
 public class Assets {
 	public static AssetManager manager;
 	public static AssetErrorListener managerError;
 	
 	public static TextureAtlas atlas;
-	public static AtlasRegion levelSelectMap;
-	public static AtlasRegion soundOff;
-	public static AtlasRegion soundOn;
-	public static AtlasRegion splashScreen;
-	public static AtlasRegion start;
-	public static AtlasRegion titleLogo;
+	public static Sprite levelSelectMap;
+	public static Sprite soundOff;
+	public static Sprite soundOn;
+	public static Sprite splashScreen;
+	public static Sprite start;
+	public static Sprite titleLogo;
 	
 	public static Music music;
 	public static Sound hitSound;
@@ -47,14 +47,14 @@ public class Assets {
     	manager.load("data/click.ogg", Sound.class);
     	
     	manager.finishLoading();
-    	
-    	if (Assets.manager.isLoaded("data/pack")) {
-    		levelSelectMap = manager.get("data/pack", TextureAtlas.class).findRegion("levelselect");
-    		soundOff = manager.get("data/pack", TextureAtlas.class).findRegion("soundoff");
-    		soundOn = manager.get("data/pack", TextureAtlas.class).findRegion("soundon");
-    		splashScreen = manager.get("data/pack", TextureAtlas.class).findRegion("splash1");
-    		start = manager.get("data/pack", TextureAtlas.class).findRegion("start");
-    		titleLogo = manager.get("data/pack", TextureAtlas.class).findRegion("title");
+   	
+    	if (manager.isLoaded("data/pack")) {
+    		levelSelectMap = manager.get("data/pack", TextureAtlas.class).createSprite("levelselect");
+    		soundOff = manager.get("data/pack", TextureAtlas.class).createSprite("soundoff");
+    		soundOn = manager.get("data/pack", TextureAtlas.class).createSprite("soundon");
+    		splashScreen = manager.get("data/pack", TextureAtlas.class).createSprite("splash1");
+    		start = manager.get("data/pack", TextureAtlas.class).createSprite("start");
+    		titleLogo = manager.get("data/pack", TextureAtlas.class).createSprite("title");
     	}
     	
     	if (Assets.manager.isLoaded("data/music.mp3")) {

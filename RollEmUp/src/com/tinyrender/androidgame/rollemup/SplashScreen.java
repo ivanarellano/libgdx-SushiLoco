@@ -7,16 +7,16 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
 public class SplashScreen implements Screen {
-	public static final float NEXT_SCREEN = 3.0f;
+	public static final float NEXT_SCREEN = 5.0f;
 	public float totalScreenTime = 0;
 	public float splashAlpha = 1.0f;
 	public boolean diagnosed = false;
-	OrthographicCamera guiCam;
+	Gui gui;
 	RollEmUp game;
 	
 	public SplashScreen(RollEmUp g) {
 		game = g;
-		guiCam = new OrthographicCamera();
+		gui = new Gui();
 	}
 	
 	@Override
@@ -33,15 +33,18 @@ public class SplashScreen implements Screen {
 
 	@Override
 	public void render(float deltaTime) {
+		gui.camera.update();
+		Assets.batch.setProjectionMatrix(gui.camera.combined);
+		
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		boolean result = Assets.manager.update();
 		if (result & !diagnosed) {
-			Gdx.app.log("AssetManagerTest", "\n" + Assets.manager.getDiagonistics() + "\n" + Texture.getManagedStatus());
+			Gdx.app.log("AssetManagerDiagnostics", "\n" + Assets.manager.getDiagonistics() + "\n" + Texture.getManagedStatus());
 			diagnosed = true;
 		}
 		
 		Assets.batch.begin();
-			if ((totalScreenTime >= 1.0f) && (splashAlpha >= 0)) {
+			if ((totalScreenTime >= 3.5f) && (splashAlpha >= 0)) {
 				Assets.batch.setColor(1, 1, 1, splashAlpha);
 				splashAlpha -= deltaTime;
 			}

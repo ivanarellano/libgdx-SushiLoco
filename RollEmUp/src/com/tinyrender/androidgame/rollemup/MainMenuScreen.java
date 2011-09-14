@@ -3,29 +3,32 @@ package com.tinyrender.androidgame.rollemup;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 public class MainMenuScreen implements Screen {
+	public int screenHalfWidth = Gdx.graphics.getWidth()/2;
+	public int screenHalfHeight = Gdx.graphics.getHeight()/2;
 	RollEmUp game;
 	Gui gui;
-	OrthographicCamera camera;
-	GameObject startBounds;
-	GameObject soundBounds;
+	
+	Rectangle startBounds;
+	Rectangle soundBounds;
 	Vector3 touchPoint;
 	
 	public MainMenuScreen(RollEmUp g) {
 		game = g;
-		camera = new OrthographicCamera();
 		gui = new Gui();
 		
-		startBounds = new GameObject(Gdx.graphics.getWidth()/2 - Assets.start.packedWidth/2,
-									 Gdx.graphics.getHeight()/2 - 150,
-									 Assets.start.packedWidth, Assets.start.packedHeight);
-		soundBounds = new GameObject(25, 25,
-									 Assets.soundOff.packedWidth, Assets.soundOff.packedHeight);
+		Assets.titleLogo.setPosition(screenHalfWidth - Assets.titleLogo.getWidth()/2, screenHalfHeight + 75);		
+		Assets.start.setPosition(screenHalfWidth - Assets.start.getWidth()/2, screenHalfHeight - 150);
+		Assets.soundOff.setPosition(25, 25);
+		Assets.soundOn.setPosition(25, 25);
 		
-		touchPoint = new Vector3();
+		startBounds = Assets.start.getBoundingRectangle();
+		soundBounds = Assets.soundOff.getBoundingRectangle();
+		
+		touchPoint = new Vector3();		
 	}
 	
 	@Override
@@ -44,15 +47,17 @@ public class MainMenuScreen implements Screen {
 	public void update() {
 		if (Gdx.input.justTouched()) {
 			gui.camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+			
 			Gdx.app.log("touchLog", "x: " + Integer.toString(Gdx.input.getX()) + " / y: " + Integer.toString(Gdx.input.getY()));
-			if (OverlapTester.pointInRectangle(startBounds.bounds, touchPoint.x, touchPoint.y)) {
+			
+			if (OverlapTester.pointInRectangle(startBounds, touchPoint.x, touchPoint.y)) {
 				Assets.playSound(Assets.hitSound);
-				Gdx.app.log("hitStart", startBounds.bounds.x + " " + startBounds.bounds.y);
+				Gdx.app.log("hitStart", startBounds.x + " " + startBounds.y);
 				//game.setScreen(new LevelSelectScreen(game));
 				return;
 			}
 			
-			if (OverlapTester.pointInRectangle(soundBounds.bounds, touchPoint.x, touchPoint.y)) {
+			if (OverlapTester.pointInRectangle(soundBounds, touchPoint.x, touchPoint.y)) {
 				Assets.playSound(Assets.hitSound);
 				Settings.soundEnabled = !Settings.soundEnabled;
 				Gdx.app.log("touchLog", "Hit sound button");
@@ -70,19 +75,17 @@ public class MainMenuScreen implements Screen {
 		gui.camera.update();
 		Assets.batch.setProjectionMatrix(gui.camera.combined);
 
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		
 		Assets.batch.begin();
-			Assets.batch.draw(Assets.titleLogo,
-							  Gdx.graphics.getWidth()/2 - Assets.titleLogo.packedWidth/2,
-							  Gdx.graphics.getHeight()/2 + 75);
-			Assets.batch.draw(Assets.start,
-							  startBounds.position.x,
-							  startBounds.position.y);
-			Assets.batch.draw(Settings.soundEnabled ? Assets.soundOn : Assets.soundOff,
-							  soundBounds.position.x,
-							  soundBounds.position.y);
+			Assets.titleLogo.draw(Assets.batch);
+			Assets.start.draw(Assets.batch);
+			
+			if(Settings.soundEnabled)
+				Assets.soundOn.draw(Assets.batch);
+			else
+				Assets.soundOff.draw(Assets.batch);
 		Assets.batch.end();		
 	}
 
