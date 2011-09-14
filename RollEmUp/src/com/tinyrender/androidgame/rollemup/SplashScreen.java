@@ -11,8 +11,9 @@ public class SplashScreen implements Screen {
 	public float totalScreenTime = 0;
 	public float splashAlpha = 1.0f;
 	public boolean diagnosed = false;
-	Gui gui;
+	
 	RollEmUp game;
+	Gui gui;
 	
 	public SplashScreen(RollEmUp g) {
 		game = g;
@@ -33,12 +34,8 @@ public class SplashScreen implements Screen {
 
 	@Override
 	public void render(float deltaTime) {
-		gui.camera.update();
-		Assets.batch.setProjectionMatrix(gui.camera.combined);
-		
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
-		boolean result = Assets.manager.update();
-		if (result & !diagnosed) {
+		if (!diagnosed) {
 			Gdx.app.log("AssetManagerDiagnostics", "\n" + Assets.manager.getDiagonistics() + "\n" + Texture.getManagedStatus());
 			diagnosed = true;
 		}
