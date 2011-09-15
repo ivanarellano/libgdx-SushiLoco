@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 
 public class Gui extends InputAdapter {
-    final OrthographicCamera camera;
+    public final OrthographicCamera camera;
     final Vector3 curr = new Vector3();
     final Vector3 last = new Vector3(-1, -1, -1);
     final Vector3 delta = new Vector3();

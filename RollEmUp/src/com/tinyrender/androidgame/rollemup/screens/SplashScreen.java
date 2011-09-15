@@ -1,10 +1,10 @@
-package com.tinyrender.androidgame.rollemup;
+package com.tinyrender.androidgame.rollemup.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.tinyrender.androidgame.rollemup.Assets;
+import com.tinyrender.androidgame.rollemup.RollEmUp;
 
 public class SplashScreen implements Screen {
 	public static final float NEXT_SCREEN = 5.0f;
@@ -13,11 +13,9 @@ public class SplashScreen implements Screen {
 	public boolean diagnosed = false;
 	
 	RollEmUp game;
-	Gui gui;
 	
 	public SplashScreen(RollEmUp g) {
 		game = g;
-		gui = new Gui();
 	}
 	
 	@Override
@@ -35,18 +33,15 @@ public class SplashScreen implements Screen {
 	@Override
 	public void render(float deltaTime) {
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
-		if (!diagnosed) {
-			Gdx.app.log("AssetManagerDiagnostics", "\n" + Assets.manager.getDiagonistics() + "\n" + Texture.getManagedStatus());
-			diagnosed = true;
-		}
 		
 		Assets.batch.begin();
 			if ((totalScreenTime >= 3.5f) && (splashAlpha >= 0)) {
-				Assets.batch.setColor(1, 1, 1, splashAlpha);
 				splashAlpha -= deltaTime;
+				if(splashAlpha <= 0)
+					splashAlpha = 0;
 			}
 			
-			Assets.batch.draw(Assets.splashScreen, 0, 0);
+			Assets.splashScreen.draw(Assets.batch, splashAlpha);
 		Assets.batch.end();
 		
 		if(!(totalScreenTime <= NEXT_SCREEN))
@@ -66,6 +61,4 @@ public class SplashScreen implements Screen {
 	@Override
 	public void show() {
 	}
-
-	//Gdx.app.log("splashAlpha", Float.valueOf(splashAlpha).toString());
 }

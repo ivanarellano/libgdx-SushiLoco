@@ -35,19 +35,22 @@ public class Assets {
 				Gdx.app.error("AssetManagerTest", "couldn't load asset '" + fileName + "'", (Exception)t);						
 			}
 		};
-        manager.setErrorListener(managerError);
-    	batch = new SpriteBatch();
+		
+    	manager.setErrorListener(managerError);
     	load();
-    	Texture.setAssetManager(manager);    	
+    	Texture.setAssetManager(manager);
+    	
+    	batch = new SpriteBatch();
     }
     
     private static void load() {
     	manager.load("data/pack", TextureAtlas.class);
+    	manager.load("data/data1.png", Texture.class);
     	manager.load("data/music.mp3", Music.class);
     	manager.load("data/click.ogg", Sound.class);
     	
     	manager.finishLoading();
-   	
+    	
     	if (manager.isLoaded("data/pack")) {
     		levelSelectMap = manager.get("data/pack", TextureAtlas.class).createSprite("levelselect");
     		soundOff = manager.get("data/pack", TextureAtlas.class).createSprite("soundoff");
@@ -57,20 +60,14 @@ public class Assets {
     		titleLogo = manager.get("data/pack", TextureAtlas.class).createSprite("title");
     	}
     	
-    	if (Assets.manager.isLoaded("data/music.mp3")) {
+    	if (manager.isLoaded("data/music.mp3")) {
     		music = manager.get("data/music.mp3", Music.class);
     		music.setLooping(true);
     		music.setVolume(0.5f);
     	}
     	
-    	if (Assets.manager.isLoaded("data/click.ogg"))
+    	if (manager.isLoaded("data/click.ogg"))
     		hitSound = manager.get("data/click.ogg", Sound.class);
-    }
-    
-    private static void unload() {
-    	manager.unload("data/pack");
-    	manager.unload("data/music.mp3");
-    	manager.unload("data/click.ogg");
     }
     
     public static void playSound(Sound sound) {
