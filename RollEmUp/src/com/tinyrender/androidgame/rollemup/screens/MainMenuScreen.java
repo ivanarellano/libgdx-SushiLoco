@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.tinyrender.androidgame.rollemup.Assets;
 import com.tinyrender.androidgame.rollemup.Gui;
-import com.tinyrender.androidgame.rollemup.OverlapTester;
 import com.tinyrender.androidgame.rollemup.RollEmUp;
 import com.tinyrender.androidgame.rollemup.Settings;
 
@@ -33,7 +32,6 @@ public class MainMenuScreen implements Screen {
 		
 		startBounds = Assets.start.getBoundingRectangle();
 		soundBounds = Assets.soundOff.getBoundingRectangle();
-		
 		touchPoint = new Vector3();		
 	}
 	
@@ -56,13 +54,13 @@ public class MainMenuScreen implements Screen {
 		if (Gdx.input.justTouched()) {
 			gui.camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 			
-			if (OverlapTester.pointInRectangle(startBounds, touchPoint.x, touchPoint.y)) {
+			if (startBounds.contains(touchPoint.x, touchPoint.y)) {
 				Assets.playSound(Assets.hitSound);
 				game.setScreen(game.levelSelectScreen);
 				return;
 			}
 			
-			if (OverlapTester.pointInRectangle(soundBounds, touchPoint.x, touchPoint.y)) {
+			if (soundBounds.contains(touchPoint.x, touchPoint.y)) {
 				Assets.playSound(Assets.hitSound);
 				Settings.soundEnabled = !Settings.soundEnabled;
 				if (Settings.soundEnabled)
