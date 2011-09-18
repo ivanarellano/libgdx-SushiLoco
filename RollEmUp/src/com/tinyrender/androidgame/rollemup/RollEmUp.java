@@ -12,7 +12,6 @@ public class RollEmUp extends Game implements ApplicationListener {
 	public SplashScreen splashScreen;
 	public MainMenuScreen mainMenuScreen;
 	public LevelSelectScreen levelSelectScreen;
-	public GameScreen gameScreen;
 	boolean assetsDiagnosed = false;
 	
 	@Override
@@ -23,7 +22,6 @@ public class RollEmUp extends Game implements ApplicationListener {
 		splashScreen = new SplashScreen(this);
 		mainMenuScreen = new MainMenuScreen(this);
 		levelSelectScreen = new LevelSelectScreen(this);
-		gameScreen = new GameScreen(this);
 		
 		if (!assetsDiagnosed) {
 			//Gdx.app.log("AssetManagerDiagnostics", "\n" + Assets.manager.getDiagonistics() + "\n" + Texture.getManagedStatus());

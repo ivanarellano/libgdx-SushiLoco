@@ -30,7 +30,7 @@ public class LevelSelectScreen implements Screen {
 	
 	public void update() {
 		if(Gdx.input.justTouched())
-			game.setScreen(game.gameScreen);
+			game.setScreen(new GameScreen(game));
 	}
 
 	@Override
