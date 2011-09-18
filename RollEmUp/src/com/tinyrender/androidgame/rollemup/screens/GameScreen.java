@@ -1,5 +1,7 @@
 package com.tinyrender.androidgame.rollemup.screens;
 
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -25,8 +28,9 @@ public class GameScreen extends InputAdapter implements Screen {
 	World world;
 	
 	Body player;
-	Body playerSensor;
 	Fixture playerFixture;
+	Body playerSensor;
+	Fixture playerSensorFixture;
 	boolean isGrounded;
 	boolean isJumping;
 	
@@ -43,7 +47,7 @@ public class GameScreen extends InputAdapter implements Screen {
 	}
 
 	private void createWorld() {
-		Body ground = createEdge(-100.0f, 0, 100.0f, 0, 0, 0.4f);
+		Body ground = createEdge(-100.0f, 0, 100.0f, 0, 0.4f);
 		player = createPlayer(BodyType.DynamicBody, 0, 5.0f, 2.5f, 1.0f);
 		
 		Vector2 anchorA = new Vector2(player.getPosition().x, player.getPosition().y);
@@ -58,7 +62,7 @@ public class GameScreen extends InputAdapter implements Screen {
 		}
 	}
 	
-	private Body createEdge(float x1, float y1, float x2, float y2, float density, float friction) {
+	private Body createEdge(float x1, float y1, float x2, float y2, float friction) {
         BodyDef bd = new BodyDef();
         Body body = world.createBody(bd);
 
@@ -67,32 +71,12 @@ public class GameScreen extends InputAdapter implements Screen {
         
         FixtureDef fd = new FixtureDef();
         fd.friction = friction;
-        fd.density = density;
         fd.shape = shape;
         body.createFixture(fd);
         
         shape.dispose();
         
 		return body;
-	}
-
-	private Body createEdge(float x1, float y1, float x2, float y2) {
-		BodyDef bd = new BodyDef();
-		bd.type = BodyType.StaticBody;
-		Body box = world.createBody(bd);
- 
-		EdgeShape shape = new EdgeShape();		
-		shape.set(new Vector2(0, 0), new Vector2(x2 - x1, y2 - y1));
-		
-		FixtureDef fd = new FixtureDef();
-		fd.shape = shape;
-		fd.density = 0;
-		fd.friction = 0.4f;
-		box.createFixture(fd);
-		box.setTransform(x1, y1, 0);
-		shape.dispose();
- 
-		return box;
 	}
 
 	private Body createCircle(BodyType type, float radius, float density) {
@@ -124,7 +108,7 @@ public class GameScreen extends InputAdapter implements Screen {
 		playerFixture = body.createFixture(fd);
 		shape.dispose();
 		
-		playerSensor = createPlayerSensor(x, y-radius, radius/4);
+		playerSensor = createPlayerSensor(x, y-radius+.5f, radius/2);
 		
 		return body;
 	}
@@ -141,7 +125,7 @@ public class GameScreen extends InputAdapter implements Screen {
 		FixtureDef fd = new FixtureDef();
 		fd.isSensor = true;
 		fd.shape = shape;
-		body.createFixture(fd);
+		playerSensorFixture = body.createFixture(fd);
 		shape.dispose();
 		
 		return body;
@@ -176,29 +160,36 @@ public class GameScreen extends InputAdapter implements Screen {
 		Vector2 pos = player.getPosition();
 		isGrounded = isPlayerGrounded();
 		cam.project(point.set(pos.x, pos.y, 0));
- 
+ 		
 		// cap max velocity on x		
 		if(Math.abs(vel.x) > MAX_VELOCITY) {			
 			vel.x = Math.signum(vel.x) * MAX_VELOCITY;
 			player.setLinearVelocity(vel.x, vel.y);
 		}
  
-		if(Gdx.input.getAccelerometerY() <= -0.2f && vel.x > -MAX_VELOCITY) {
+		if(Gdx.input.getAccelerometerY() <= -0.2f && vel.x > -MAX_VELOCITY)
 			player.applyLinearImpulse(Gdx.input.getAccelerometerY() * 9.0f, 0, pos.x, pos.y);
-		}
 		
-		if(Gdx.input.getAccelerometerY() >= 0.2f && vel.x < MAX_VELOCITY) {
+		if(Gdx.input.getAccelerometerY() >= 0.2f && vel.x < MAX_VELOCITY)
 			player.applyLinearImpulse(Gdx.input.getAccelerometerY() * 9.0f, 0, pos.x, pos.y);
-		}
 				
 		if(isJumping) {
 			isJumping = false;
-			if(isGrounded) {
-				player.setLinearVelocity(vel.x, 0);			
-				player.setTransform(pos.x, pos.y + 0.01f, 0);
-				player.applyLinearImpulse(0, 30.0f, pos.x, pos.y);			
-			}
+			if(isGrounded)
+				player.applyLinearImpulse(0, 400.0f, pos.x, pos.y);
 		}		
+	}
+	
+	private boolean isPlayerGrounded() {				
+		List<Contact> contactList = world.getContactList();
+		for(int i = 0; i < contactList.size(); i++) {
+			Contact contact = contactList.get(i);
+			if(contact.isTouching() && (contact.getFixtureA() == playerSensorFixture ||
+			   contact.getFixtureB() == playerSensorFixture)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -230,21 +221,6 @@ public class GameScreen extends InputAdapter implements Screen {
 	public boolean touchDown(int x, int y, int pointerId, int button) {
 		isJumping = true;
 		return false;
-		/*
-		cam.unproject(point.set(x, y, 0));
-		
-		if(button == Input.Buttons.LEFT) {
-			if(last == null) {
-				last = new Vector2(point.x, point.y);
-			} else {
-				createEdge(last.x, last.y, point.x, point.y);
-				last.set(point.x, point.y);
-			}
-		} else {
-			last = null;
-		}
-		return false;
-		*/
 	}
 	
 	@Override
@@ -252,10 +228,4 @@ public class GameScreen extends InputAdapter implements Screen {
 		isJumping = false;
 		return false;
 	}
-	
-	private boolean isPlayerGrounded() {				
-
-		return false;
-	}
-
 }
