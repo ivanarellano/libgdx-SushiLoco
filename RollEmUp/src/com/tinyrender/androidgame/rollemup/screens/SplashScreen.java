@@ -45,7 +45,7 @@ public class SplashScreen implements Screen {
 		Assets.batch.end();
 		
 		if(!(totalScreenTime <= NEXT_SCREEN))
-			game.setScreen(game.mainMenuScreen);
+			game.setScreen(new MainMenuScreen(game));
 		
 		totalScreenTime += deltaTime;
 	}

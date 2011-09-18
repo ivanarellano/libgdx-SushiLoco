@@ -9,9 +9,6 @@ import com.tinyrender.androidgame.rollemup.screens.MainMenuScreen;
 import com.tinyrender.androidgame.rollemup.screens.SplashScreen;
 
 public class RollEmUp extends Game implements ApplicationListener {
-	public SplashScreen splashScreen;
-	public MainMenuScreen mainMenuScreen;
-	public LevelSelectScreen levelSelectScreen;
 	boolean assetsDiagnosed = false;
 	
 	@Override
@@ -19,16 +16,12 @@ public class RollEmUp extends Game implements ApplicationListener {
 		Settings.load();
 		Assets.create();
 		
-		splashScreen = new SplashScreen(this);
-		mainMenuScreen = new MainMenuScreen(this);
-		levelSelectScreen = new LevelSelectScreen(this);
-		
 		if (!assetsDiagnosed) {
 			//Gdx.app.log("AssetManagerDiagnostics", "\n" + Assets.manager.getDiagonistics() + "\n" + Texture.getManagedStatus());
 			assetsDiagnosed = true;
 		}
 		
-		setScreen(splashScreen);
+		setScreen(new SplashScreen(this));
 	}
 
 	@Override

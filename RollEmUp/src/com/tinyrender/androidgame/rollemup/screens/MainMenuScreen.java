@@ -56,7 +56,7 @@ public class MainMenuScreen implements Screen {
 			
 			if (startBounds.contains(touchPoint.x, touchPoint.y)) {
 				Assets.playSound(Assets.hitSound);
-				game.setScreen(game.levelSelectScreen);
+				game.setScreen(new LevelSelectScreen(game));
 				return;
 			}
 			
