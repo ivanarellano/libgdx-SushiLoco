@@ -1,7 +1,6 @@
 package com.tinyrender.androidgame.rollemup.screens;
 
 import java.util.List;
-import java.lang.Math;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -25,7 +23,10 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.tinyrender.androidgame.rollemup.RollEmUp;
 
 public class GameScreen extends InputAdapter implements Screen {	
-	final static float MAX_VELOCITY = 12f;
+	final static float MAX_VELOCITY = 11.0f;
+	final static float UPDATE_INTERVAL = 1.0f / 60.0f;
+	final static float MAX_CYCLES_PER_FRAME = 5.0f;
+	static float timeAccumulator = 0.0f;
 	RollEmUp game;	
 	World world;
 	
@@ -164,6 +165,16 @@ public class GameScreen extends InputAdapter implements Screen {
 	public void render(float deltaTime) {
 		world.step(Gdx.graphics.getDeltaTime(), 5, 2);
 		
+		timeAccumulator += deltaTime;
+		if (timeAccumulator > (MAX_CYCLES_PER_FRAME * UPDATE_INTERVAL)) {
+		    timeAccumulator = UPDATE_INTERVAL;
+		}
+
+		while (timeAccumulator >= UPDATE_INTERVAL) {
+		    timeAccumulator -= UPDATE_INTERVAL;
+		    world.step(UPDATE_INTERVAL, 3, 2);
+		}
+		
 		Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		
@@ -185,10 +196,10 @@ public class GameScreen extends InputAdapter implements Screen {
  
 		if ((Gdx.input.getAccelerometerY() <= -0.2f && vel.x > -MAX_VELOCITY) ||
 				Gdx.input.getAccelerometerY() >= 0.2f && vel.x < MAX_VELOCITY)
-			player.applyForceToCenter(Gdx.input.getAccelerometerY() * 15.0f, 0);
+			player.applyForceToCenter(Gdx.input.getAccelerometerY() * 13.0f, 0);
 
 		if (vel.x < MAX_VELOCITY/3 || vel.x > -MAX_VELOCITY/3)
-			player.applyLinearImpulse(Gdx.input.getAccelerometerY() * 3.0f, 0, pos.x, pos.y);
+			player.applyLinearImpulse(Gdx.input.getAccelerometerY() * 2.5f, 0, pos.x, pos.y);
 		
 		if(isJumping) {
 			isJumping = false;
