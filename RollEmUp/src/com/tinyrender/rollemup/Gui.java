@@ -1,4 +1,4 @@
-package com.tinyrender.androidgame.rollemup;
+package com.tinyrender.rollemup;
 
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;

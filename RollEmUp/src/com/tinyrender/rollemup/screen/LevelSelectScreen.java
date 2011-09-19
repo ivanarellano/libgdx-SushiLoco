@@ -1,11 +1,11 @@
-package com.tinyrender.androidgame.rollemup.screens;
+package com.tinyrender.rollemup.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
-import com.tinyrender.androidgame.rollemup.Assets;
-import com.tinyrender.androidgame.rollemup.Gui;
-import com.tinyrender.androidgame.rollemup.RollEmUp;
+import com.tinyrender.rollemup.Assets;
+import com.tinyrender.rollemup.Gui;
+import com.tinyrender.rollemup.RollEmUp;
 
 public class LevelSelectScreen implements Screen {
 	RollEmUp game;

@@ -1,4 +1,4 @@
-package com.tinyrender.androidgame.rollemup;
+package com.tinyrender.rollemup;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetErrorListener;

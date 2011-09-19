@@ -1,4 +1,4 @@
-package com.tinyrender.androidgame.rollemup;
+package com.tinyrender.rollemup;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

@@ -1,4 +1,4 @@
-package com.tinyrender.androidgame.rollemup.screens;
+package com.tinyrender.rollemup.screen;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
-import com.tinyrender.androidgame.rollemup.RollEmUp;
+import com.tinyrender.rollemup.RollEmUp;
 
 public class GameScreen extends InputAdapter implements Screen {	
 	final static float MAX_VELOCITY = 11.0f;

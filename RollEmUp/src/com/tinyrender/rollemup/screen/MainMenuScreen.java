@@ -1,14 +1,14 @@
-package com.tinyrender.androidgame.rollemup.screens;
+package com.tinyrender.rollemup.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.tinyrender.androidgame.rollemup.Assets;
-import com.tinyrender.androidgame.rollemup.Gui;
-import com.tinyrender.androidgame.rollemup.RollEmUp;
-import com.tinyrender.androidgame.rollemup.Settings;
+import com.tinyrender.rollemup.Assets;
+import com.tinyrender.rollemup.Gui;
+import com.tinyrender.rollemup.RollEmUp;
+import com.tinyrender.rollemup.Settings;
 
 public class MainMenuScreen implements Screen {
 	public final int screenHalfWidth = Gdx.graphics.getWidth()/2;
