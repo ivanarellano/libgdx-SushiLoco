@@ -1,6 +1,7 @@
 package com.tinyrender.androidgame.rollemup.screens;
 
 import java.util.List;
+import java.lang.Math;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -18,27 +19,25 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.tinyrender.androidgame.rollemup.RollEmUp;
 
 public class GameScreen extends InputAdapter implements Screen {	
-	final static float MAX_VELOCITY = 10f;
+	final static float MAX_VELOCITY = 12f;
 	RollEmUp game;	
 	World world;
 	
 	Body player;
-	Fixture playerFixture;
 	Body playerSensor;
+	Fixture playerFixture;
 	Fixture playerSensorFixture;
 	boolean isGrounded;
 	boolean isJumping;
 	
 	OrthographicCamera cam;
 	Box2DDebugRenderer renderer;
-	
-	Vector3 point = new Vector3();
-	Vector2 last = null;
 
 	public GameScreen(RollEmUp g) {
 		game = g;
@@ -56,10 +55,28 @@ public class GameScreen extends InputAdapter implements Screen {
 		djd.initialize(player, playerSensor, anchorA);
 		world.createJoint(djd);
 		
-		for(int i = 0; i < 10; i++) {
+		createBox(-60.0f, 7.0f, 10.0f, 1.0f);
+		createBox(-20.0f, 7.0f, 10.0f, 1.0f);
+		createBox(20.0f, 7.0f, 10.0f, 1.0f);
+		createBox(60.0f, 7.0f, 10.0f, 1.0f);
+		
+		for (int i = 0; i < 10; i++) {
 			Body circle = createCircle(BodyType.DynamicBody, (float)Math.random() * 0.9f + 0.3f, 3);
 			circle.setTransform((float)Math.random() * 10f - (float)Math.random() * 10f, (float)Math.random() * 10 + 6, (float)(Math.random() * 2 * Math.PI));
 		}
+	}
+	
+	private Body createBox(float x, float y, float hx, float hy) {
+		BodyDef bd = new BodyDef();
+		bd.position.set(x, y);
+		Body body = world.createBody(bd);
+		
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(hx, hy);
+		body.createFixture(shape, 0);
+		shape.dispose();
+		
+		return body;
 	}
 	
 	private Body createEdge(float x1, float y1, float x2, float y2, float friction) {
@@ -159,24 +176,24 @@ public class GameScreen extends InputAdapter implements Screen {
 		Vector2 vel = player.getLinearVelocity();
 		Vector2 pos = player.getPosition();
 		isGrounded = isPlayerGrounded();
-		cam.project(point.set(pos.x, pos.y, 0));
  		
-		// cap max velocity on x		
-		if(Math.abs(vel.x) > MAX_VELOCITY) {			
+		// terminal velocity on x	
+		if (Math.abs(vel.x) > MAX_VELOCITY) {			
 			vel.x = Math.signum(vel.x) * MAX_VELOCITY;
 			player.setLinearVelocity(vel.x, vel.y);
 		}
  
-		if(Gdx.input.getAccelerometerY() <= -0.2f && vel.x > -MAX_VELOCITY)
-			player.applyLinearImpulse(Gdx.input.getAccelerometerY() * 9.0f, 0, pos.x, pos.y);
+		if ((Gdx.input.getAccelerometerY() <= -0.2f && vel.x > -MAX_VELOCITY) ||
+				Gdx.input.getAccelerometerY() >= 0.2f && vel.x < MAX_VELOCITY)
+			player.applyForceToCenter(Gdx.input.getAccelerometerY() * 15.0f, 0);
+
+		if (vel.x < MAX_VELOCITY/3 || vel.x > -MAX_VELOCITY/3)
+			player.applyLinearImpulse(Gdx.input.getAccelerometerY() * 3.0f, 0, pos.x, pos.y);
 		
-		if(Gdx.input.getAccelerometerY() >= 0.2f && vel.x < MAX_VELOCITY)
-			player.applyLinearImpulse(Gdx.input.getAccelerometerY() * 9.0f, 0, pos.x, pos.y);
-				
 		if(isJumping) {
 			isJumping = false;
 			if(isGrounded)
-				player.applyLinearImpulse(0, 400.0f, pos.x, pos.y);
+				player.applyLinearImpulse(0, 350.0f, pos.x, pos.y);
 		}		
 	}
 	
