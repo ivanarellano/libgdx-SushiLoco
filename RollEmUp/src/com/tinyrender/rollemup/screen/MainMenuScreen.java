@@ -32,7 +32,9 @@ public class MainMenuScreen implements Screen {
 		
 		startBounds = Assets.start.getBoundingRectangle();
 		soundBounds = Assets.soundOff.getBoundingRectangle();
-		touchPoint = new Vector3();		
+		touchPoint = new Vector3();
+		
+		Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	}
 	
 	@Override
@@ -78,7 +80,6 @@ public class MainMenuScreen implements Screen {
 		gui.camera.update();
 		Assets.batch.setProjectionMatrix(gui.camera.combined);
 
-		Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		
 		Assets.batch.begin();

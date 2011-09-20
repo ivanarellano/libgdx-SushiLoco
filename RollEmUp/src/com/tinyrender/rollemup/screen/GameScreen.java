@@ -1,156 +1,39 @@
 package com.tinyrender.rollemup.screen;
 
-import java.util.List;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL11;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
+import com.tinyrender.rollemup.Level;
+import com.tinyrender.rollemup.LevelRenderer;
 import com.tinyrender.rollemup.RollEmUp;
+import com.tinyrender.rollemup.level.TestLevel;
 
-public class GameScreen extends InputAdapter implements Screen {	
-	final static float MAX_VELOCITY = 11.0f;
-	final static float UPDATE_INTERVAL = 1.0f / 60.0f;
-	final static float MAX_CYCLES_PER_FRAME = 5.0f;
-	static float timeAccumulator = 0.0f;
-	RollEmUp game;	
-	World world;
+public class GameScreen extends InputAdapter implements Screen {
+	static final int GAME_READY = 0;
+	static final int GAME_RUNNING = 1;
+	static final int GAME_PAUSED = 2;
+	static final int GAME_LEVEL_END = 3;
+	static final int GAME_OVER = 4;
 	
-	Body player;
-	Body playerSensor;
-	Fixture playerFixture;
-	Fixture playerSensorFixture;
-	boolean isGrounded;
-	boolean isJumping;
+	int state;
 	
-	OrthographicCamera cam;
-	Box2DDebugRenderer renderer;
+	RollEmUp game;
+	Level level;
+	LevelRenderer renderer;
 
 	public GameScreen(RollEmUp g) {
 		game = g;
-		cam = new OrthographicCamera(48, 32);
+		level = new TestLevel();
+		renderer = new LevelRenderer(this);
+		
 		Gdx.input.setInputProcessor(this);
-	}
-
-	private void createWorld() {
-		Body ground = createEdge(-100.0f, 0, 100.0f, 0, 0.4f);
-		player = createPlayer(BodyType.DynamicBody, 0, 5.0f, 2.5f, 1.0f);
-		
-		Vector2 anchorA = new Vector2(player.getPosition().x, player.getPosition().y);
-		RevoluteJointDef djd = new RevoluteJointDef();
-		
-		djd.initialize(player, playerSensor, anchorA);
-		world.createJoint(djd);
-		
-		createBox(-60.0f, 7.0f, 10.0f, 1.0f);
-		createBox(-20.0f, 7.0f, 10.0f, 1.0f);
-		createBox(20.0f, 7.0f, 10.0f, 1.0f);
-		createBox(60.0f, 7.0f, 10.0f, 1.0f);
-		
-		for (int i = 0; i < 10; i++) {
-			Body circle = createCircle(BodyType.DynamicBody, (float)Math.random() * 0.9f + 0.3f, 3);
-			circle.setTransform((float)Math.random() * 10f - (float)Math.random() * 10f, (float)Math.random() * 10 + 6, (float)(Math.random() * 2 * Math.PI));
-		}
-	}
-	
-	private Body createBox(float x, float y, float hx, float hy) {
-		BodyDef bd = new BodyDef();
-		bd.position.set(x, y);
-		Body body = world.createBody(bd);
-		
-		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(hx, hy);
-		body.createFixture(shape, 0);
-		shape.dispose();
-		
-		return body;
-	}
-	
-	private Body createEdge(float x1, float y1, float x2, float y2, float friction) {
-        BodyDef bd = new BodyDef();
-        Body body = world.createBody(bd);
-
-        EdgeShape shape = new EdgeShape();
-        shape.set(x1, y1, x2, y2);
-        
-        FixtureDef fd = new FixtureDef();
-        fd.friction = friction;
-        fd.shape = shape;
-        body.createFixture(fd);
-        
-        shape.dispose();
-        
-		return body;
-	}
-
-	private Body createCircle(BodyType type, float radius, float density) {
-		BodyDef bd = new BodyDef();
-		bd.type = type;
-		Body body = world.createBody(bd);
- 
-		CircleShape shape = new CircleShape();
-		shape.setRadius(radius);
-		body.createFixture(shape, density);
-		shape.dispose();
- 
-		return body;
-	}
-
-	private Body createPlayer(BodyType bodyType, float x, float y, float radius, float density) {
-		BodyDef bd = new BodyDef();
-		bd.type = bodyType;
-		bd.position.set(x, y);
-		Body body = world.createBody(bd);
- 
-		CircleShape shape = new CircleShape();		
-		shape.setRadius(radius);
-		
-		FixtureDef fd = new FixtureDef();
-		fd.shape = shape;
-		fd.density = density;
-		fd.friction = 1.0f;
-		playerFixture = body.createFixture(fd);
-		shape.dispose();
-		
-		playerSensor = createPlayerSensor(x, y-radius+.5f, radius/2);
-		
-		return body;
-	}
-	
-	private Body createPlayerSensor(float x, float y, float radius) {
-		BodyDef bd = new BodyDef();
-		bd.position.set(x, y);
-		bd.type = BodyType.DynamicBody;
-		Body body = world.createBody(bd);
- 
-		CircleShape shape = new CircleShape();		
-		shape.setRadius(radius);
-		
-		FixtureDef fd = new FixtureDef();
-		fd.isSensor = true;
-		fd.shape = shape;
-		playerSensorFixture = body.createFixture(fd);
-		shape.dispose();
-		
-		return body;
+		state = GAME_READY;
 	}
 
 	@Override
 	public void dispose() {
+		level.disposeWorld();
+		renderer.dispose();
 	}
 
 	@Override
@@ -163,61 +46,8 @@ public class GameScreen extends InputAdapter implements Screen {
 
 	@Override
 	public void render(float deltaTime) {
-		world.step(Gdx.graphics.getDeltaTime(), 5, 2);
-		
-		timeAccumulator += deltaTime;
-		if (timeAccumulator > (MAX_CYCLES_PER_FRAME * UPDATE_INTERVAL)) {
-		    timeAccumulator = UPDATE_INTERVAL;
-		}
-
-		while (timeAccumulator >= UPDATE_INTERVAL) {
-		    timeAccumulator -= UPDATE_INTERVAL;
-		    world.step(UPDATE_INTERVAL, 3, 2);
-		}
-		
-		Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
-		
-		cam.position.set(player.getPosition().x, player.getPosition().y, 0);
-		cam.update();
-		cam.apply(Gdx.gl11);
-		
-		renderer.render(world, cam.combined);
- 
-		Vector2 vel = player.getLinearVelocity();
-		Vector2 pos = player.getPosition();
-		isGrounded = isPlayerGrounded();
- 		
-		// terminal velocity on x	
-		if (Math.abs(vel.x) > MAX_VELOCITY) {			
-			vel.x = Math.signum(vel.x) * MAX_VELOCITY;
-			player.setLinearVelocity(vel.x, vel.y);
-		}
- 
-		if ((Gdx.input.getAccelerometerY() <= -0.2f && vel.x > -MAX_VELOCITY) ||
-				Gdx.input.getAccelerometerY() >= 0.2f && vel.x < MAX_VELOCITY)
-			player.applyForceToCenter(Gdx.input.getAccelerometerY() * 13.0f, 0);
-
-		if (vel.x < MAX_VELOCITY/3 || vel.x > -MAX_VELOCITY/3)
-			player.applyLinearImpulse(Gdx.input.getAccelerometerY() * 2.5f, 0, pos.x, pos.y);
-		
-		if(isJumping) {
-			isJumping = false;
-			if(isGrounded)
-				player.applyLinearImpulse(0, 350.0f, pos.x, pos.y);
-		}		
-	}
-	
-	private boolean isPlayerGrounded() {				
-		List<Contact> contactList = world.getContactList();
-		for(int i = 0; i < contactList.size(); i++) {
-			Contact contact = contactList.get(i);
-			if(contact.isTouching() && (contact.getFixtureA() == playerSensorFixture ||
-			   contact.getFixtureB() == playerSensorFixture)) {
-				return true;
-			}
-		}
-		return false;
+		level.update(deltaTime); 		// updates world physics and level logic
+		renderer.render(deltaTime); 	// draws world and level
 	}
 
 	@Override
@@ -226,34 +56,33 @@ public class GameScreen extends InputAdapter implements Screen {
 
 	@Override
 	public void resume() {
+		level.resumeWorld();
+		renderer.resume();
 	}
 
 	@Override
 	public void show() {
-		world = new World(new Vector2(0, -20), true);		
-		renderer = new Box2DDebugRenderer();
-		createWorld();
+		level.show();
+		renderer.show();
 	}
-
-	@Override
-	public boolean keyDown(int keycode) {
-		return false;
-	}
- 
-	@Override
-	public boolean keyUp(int keycode) {
-		return false;
-	}
-
+	
 	@Override
 	public boolean touchDown(int x, int y, int pointerId, int button) {
-		isJumping = true;
+		level.touchDown();
 		return false;
 	}
 	
 	@Override
-	public boolean touchUp(int x, int y, int pointer, int button) {
-		isJumping = false;
+	public boolean touchUp(int x, int y, int pointerId, int button) {
+		level.touchUp();
 		return false;
+	}
+	
+	public void setLevel(Level level) {
+		this.level = level;
+	}
+
+	public Level getLevel() {
+		return level;
 	}
 }

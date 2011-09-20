@@ -3,9 +3,6 @@ package com.tinyrender.rollemup;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.tinyrender.rollemup.screen.GameScreen;
-import com.tinyrender.rollemup.screen.LevelSelectScreen;
-import com.tinyrender.rollemup.screen.MainMenuScreen;
 import com.tinyrender.rollemup.screen.SplashScreen;
 
 public class RollEmUp extends Game implements ApplicationListener {
