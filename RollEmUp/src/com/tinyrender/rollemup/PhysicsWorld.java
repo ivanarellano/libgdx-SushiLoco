@@ -42,6 +42,5 @@ public abstract class PhysicsWorld {
 	public void disposeWorld() {
 		b2world.dispose();
 		b2world = null;
-		Gdx.app.log("physicsworld.dispose()", "b2world is null");
 	}
 }

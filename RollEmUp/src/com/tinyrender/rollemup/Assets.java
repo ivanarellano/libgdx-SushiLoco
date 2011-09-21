@@ -45,7 +45,7 @@ public class Assets {
     
     private static void load() {
     	manager.load("data/pack", TextureAtlas.class);
-    	manager.load("data/data1.png", Texture.class);
+    	manager.load("data/assets1.png", Texture.class);
     	manager.load("data/music.mp3", Music.class);
     	manager.load("data/click.ogg", Sound.class);
     	
@@ -55,9 +55,9 @@ public class Assets {
     		levelSelectMap = manager.get("data/pack", TextureAtlas.class).createSprite("levelselect");
     		soundOff = manager.get("data/pack", TextureAtlas.class).createSprite("soundoff");
     		soundOn = manager.get("data/pack", TextureAtlas.class).createSprite("soundon");
-    		splashScreen = manager.get("data/pack", TextureAtlas.class).createSprite("splash1");
+    		splashScreen = manager.get("data/pack", TextureAtlas.class).createSprite("tuna");
     		start = manager.get("data/pack", TextureAtlas.class).createSprite("start");
-    		titleLogo = manager.get("data/pack", TextureAtlas.class).createSprite("title");
+    		titleLogo = manager.get("data/pack", TextureAtlas.class).createSprite("titlelogo");
     	}
     	
     	if (manager.isLoaded("data/music.mp3")) {

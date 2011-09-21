@@ -1,46 +1,46 @@
 
-data1.png
+assets1.png
 format: RGBA8888
-filter: Nearest,Nearest
+filter: MipMapLinearNearest,Nearest
 repeat: none
-splash1
+tuna
   rotate: false
-  xy: 5, 5
+  xy: 2, 2
   size: 854, 480
   orig: 854, 480
   offset: 0, 0
   index: -1
 levelselect
   rotate: false
-  xy: 5, 490
+  xy: 2, 484
   size: 854, 480
   orig: 854, 480
   offset: 0, 0
   index: -1
-title
+titlelogo
   rotate: false
-  xy: 864, 5
+  xy: 858, 2
   size: 151, 116
   orig: 151, 118
   offset: 0, 1
   index: -1
 start
   rotate: false
-  xy: 864, 126
+  xy: 858, 120
   size: 97, 27
   orig: 99, 30
   offset: 2, 1
   index: -1
 soundoff
   rotate: false
-  xy: 864, 158
+  xy: 858, 149
   size: 110, 20
   orig: 128, 22
   offset: 2, 1
   index: -1
 soundon
   rotate: false
-  xy: 864, 183
+  xy: 858, 171
   size: 105, 20
   orig: 128, 22
   offset: 2, 1

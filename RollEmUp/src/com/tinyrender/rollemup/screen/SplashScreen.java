@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
 import com.tinyrender.rollemup.Assets;
+import com.tinyrender.rollemup.Gui;
 import com.tinyrender.rollemup.RollEmUp;
 
 public class SplashScreen implements Screen {
@@ -13,9 +14,11 @@ public class SplashScreen implements Screen {
 	public boolean diagnosed = false;
 	
 	RollEmUp game;
+	Gui gui;
 	
 	public SplashScreen(RollEmUp g) {
 		game = g;
+		gui = new Gui();
 	}
 	
 	@Override
@@ -60,5 +63,8 @@ public class SplashScreen implements Screen {
 
 	@Override
 	public void show() {
+		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		Assets.splashScreen.setScale(1.0f, RollEmUp.SCALE_FACTOR_Y);
+		Assets.batch.setProjectionMatrix(gui.camera.combined);
 	}
 }

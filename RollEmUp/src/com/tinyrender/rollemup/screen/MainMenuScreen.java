@@ -10,10 +10,7 @@ import com.tinyrender.rollemup.Gui;
 import com.tinyrender.rollemup.RollEmUp;
 import com.tinyrender.rollemup.Settings;
 
-public class MainMenuScreen implements Screen {
-	public final int screenHalfWidth = Gdx.graphics.getWidth()/2;
-	public final int screenHalfHeight = Gdx.graphics.getHeight()/2;
-	
+public class MainMenuScreen implements Screen {	
 	RollEmUp game;
 	Gui gui;
 	
@@ -25,21 +22,18 @@ public class MainMenuScreen implements Screen {
 		game = g;
 		gui = new Gui();
 		
-		Assets.titleLogo.setPosition(screenHalfWidth - Assets.titleLogo.getWidth()/2, screenHalfHeight + 75);		
-		Assets.start.setPosition(screenHalfWidth - Assets.start.getWidth()/2, screenHalfHeight - 150);
+		Assets.titleLogo.setPosition(RollEmUp.SCREEN_HALF_WIDTH - Assets.titleLogo.getWidth()/2, RollEmUp.SCREEN_HALF_HEIGHT + 75);		
+		Assets.start.setPosition(RollEmUp.SCREEN_HALF_WIDTH - Assets.start.getWidth()/2, RollEmUp.SCREEN_HALF_HEIGHT - 150);
 		Assets.soundOff.setPosition(50, 50);
 		Assets.soundOn.setPosition(50, 50);
 		
 		startBounds = Assets.start.getBoundingRectangle();
 		soundBounds = Assets.soundOff.getBoundingRectangle();
 		touchPoint = new Vector3();
-		
-		Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	}
 	
 	@Override
 	public void dispose() {
-		Gdx.app.log("MainMenuScreen", "dispose()");
 	}
 
 	@Override
@@ -49,7 +43,6 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void pause() {
 		Settings.write();
-		Gdx.app.log("MainMenuScreen", "pause()");
 	}
 	
 	public void update() {
@@ -77,9 +70,6 @@ public class MainMenuScreen implements Screen {
 	public void render(float deltaTime) {
 		update();
 		
-		gui.camera.update();
-		Assets.batch.setProjectionMatrix(gui.camera.combined);
-
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		
 		Assets.batch.begin();
@@ -103,6 +93,8 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void show() {
+		Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+		Assets.batch.setProjectionMatrix(gui.camera.combined);
 		Assets.batch.setColor(1, 1, 1, 1);
 		
 		if(Settings.soundEnabled) // FIXME: CHANGE TO musicEnabled WHEN READY

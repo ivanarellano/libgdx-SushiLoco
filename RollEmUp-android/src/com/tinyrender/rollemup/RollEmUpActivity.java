@@ -1,4 +1,4 @@
-package com.tinyrender.androidgame.rollemup;
+package com.tinyrender.rollemup;
 
 import android.os.Bundle;
 

@@ -6,17 +6,19 @@ import com.badlogic.gdx.math.Vector3;
 
 public class Gui extends InputAdapter {
     public final OrthographicCamera camera;
-    final Vector3 curr = new Vector3();
-    final Vector3 last = new Vector3(-1, -1, -1);
-    final Vector3 delta = new Vector3();
+    //final Vector3 curr = new Vector3();
+    //final Vector3 last = new Vector3(-1, -1, -1);
+    //final Vector3 delta = new Vector3();
     public static final int TARGET_WIDTH = 854;
     public static final int TARGET_HEIGHT = 480;
 
 	public Gui() {
 		camera = new OrthographicCamera(TARGET_WIDTH, TARGET_HEIGHT);
+		camera.setToOrtho(false, TARGET_WIDTH, TARGET_HEIGHT);
 		camera.position.set(TARGET_WIDTH / 2, TARGET_HEIGHT / 2, 0);
 	}
 	
+	/*
     @Override
     public boolean touchDragged (int x, int y, int pointer) {
             camera.unproject(curr.set(x, y, 0));
@@ -34,4 +36,5 @@ public class Gui extends InputAdapter {
             last.set(-1, -1, -1);
             return false;
     }
+    */
 }

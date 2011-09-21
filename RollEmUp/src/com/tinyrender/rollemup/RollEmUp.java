@@ -3,18 +3,30 @@ package com.tinyrender.rollemup;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.tinyrender.rollemup.screen.SplashScreen;
 
 public class RollEmUp extends Game implements ApplicationListener {
+	public final static int TARGET_WIDTH = 854;
+	public final static int TARGET_HEIGHT = 480;
+	public final static int SCREEN_HALF_WIDTH = (int) Math.ceil(TARGET_WIDTH / 2);
+	public final static int SCREEN_HALF_HEIGHT = (int) Math.ceil(TARGET_HEIGHT /2);
+	public static float ASPECT_RATIO;
+	public static float SCALE_FACTOR_X;
+	public static float SCALE_FACTOR_Y;
 	boolean assetsDiagnosed = false;
 	
 	@Override
-	public void create() {
+	public void create() {		
+		SCALE_FACTOR_X = (float)Gdx.graphics.getWidth() / TARGET_WIDTH;
+		SCALE_FACTOR_Y = (float)Gdx.graphics.getHeight() / TARGET_HEIGHT;
+		ASPECT_RATIO = (float)Gdx.graphics.getWidth() / Gdx.graphics.getHeight();
+		
 		Settings.load();
 		Assets.create();
-		
+
 		if (!assetsDiagnosed) {
-			//Gdx.app.log("AssetManagerDiagnostics", "\n" + Assets.manager.getDiagonistics() + "\n" + Texture.getManagedStatus());
+			Gdx.app.log("AssetManagerDiagnostics", "\n" + Assets.manager.getDiagonistics() + "\n" + Texture.getManagedStatus());
 			assetsDiagnosed = true;
 		}
 		
@@ -50,10 +62,5 @@ public class RollEmUp extends Game implements ApplicationListener {
 		Assets.manager.finishLoading();
 		
 		getScreen().resume();
-	}
-	
-	/** Assumes Gdx.input.justTouched() is true */
-	public static void logTouchedInput() {
-		Gdx.app.log("touchLog", "x: " + Integer.toString(Gdx.input.getX()) + " / y: " + Integer.toString(Gdx.input.getY()));
 	}
 }
