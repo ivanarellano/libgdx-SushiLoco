@@ -73,6 +73,7 @@ public class MainMenuScreen implements Screen {
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		
 		Assets.batch.begin();
+			Assets.titleScreen.draw(Assets.batch);
 			Assets.titleLogo.draw(Assets.batch);
 			Assets.start.draw(Assets.batch);
 			
@@ -93,7 +94,6 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void show() {
-		Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 		Assets.batch.setProjectionMatrix(gui.camera.combined);
 		Assets.batch.setColor(1, 1, 1, 1);
 		

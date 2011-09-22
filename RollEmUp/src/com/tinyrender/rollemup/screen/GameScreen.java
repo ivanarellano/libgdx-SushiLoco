@@ -27,7 +27,7 @@ public class GameScreen extends InputAdapter implements Screen {
 		renderer = new LevelRenderer(this);
 		
 		Gdx.input.setInputProcessor(this);
-		state = GAME_READY;
+		state = GAME_READY;		
 	}
 
 	@Override
@@ -62,8 +62,7 @@ public class GameScreen extends InputAdapter implements Screen {
 
 	@Override
 	public void show() {
-		level.show();
-		renderer.show();
+		level.create();
 	}
 	
 	@Override

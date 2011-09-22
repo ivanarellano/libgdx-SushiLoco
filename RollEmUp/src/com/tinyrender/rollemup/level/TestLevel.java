@@ -20,7 +20,7 @@ public class TestLevel extends Level {
 	}
 	
 	@Override
-	public void show() {
+	public void create() {
 		createEdge(-100.0f, 0, 100.0f, 0, 0.4f);
 		
 		Vector2 anchorA = new Vector2(player.body.getPosition().x, player.body.getPosition().y);

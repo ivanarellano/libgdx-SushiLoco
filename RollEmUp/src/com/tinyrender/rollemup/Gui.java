@@ -2,7 +2,6 @@ package com.tinyrender.rollemup;
 
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector3;
 
 public class Gui extends InputAdapter {
     public final OrthographicCamera camera;

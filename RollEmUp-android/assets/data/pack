@@ -5,43 +5,55 @@ filter: MipMapLinearNearest,Nearest
 repeat: none
 tuna
   rotate: false
-  xy: 2, 2
+  xy: 4, 4
   size: 854, 480
   orig: 854, 480
   offset: 0, 0
   index: -1
 levelselect
   rotate: false
-  xy: 2, 484
+  xy: 4, 488
   size: 854, 480
   orig: 854, 480
   offset: 0, 0
   index: -1
 titlelogo
   rotate: false
-  xy: 858, 2
+  xy: 862, 4
   size: 151, 116
   orig: 151, 118
   offset: 0, 1
   index: -1
 start
   rotate: false
-  xy: 858, 120
+  xy: 862, 124
   size: 97, 27
   orig: 99, 30
   offset: 2, 1
   index: -1
 soundoff
   rotate: false
-  xy: 858, 149
+  xy: 862, 155
   size: 110, 20
   orig: 128, 22
   offset: 2, 1
   index: -1
 soundon
   rotate: false
-  xy: 858, 171
+  xy: 862, 179
   size: 105, 20
   orig: 128, 22
   offset: 2, 1
+  index: -1
+
+assets2.png
+format: RGBA8888
+filter: MipMapLinearNearest,Nearest
+repeat: none
+bgtitlescreen
+  rotate: false
+  xy: 4, 4
+  size: 854, 480
+  orig: 854, 480
+  offset: 0, 0
   index: -1
