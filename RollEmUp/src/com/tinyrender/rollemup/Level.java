@@ -9,7 +9,7 @@ public abstract class Level extends PhysicsWorld {
 		cam = new OrthographicCamera(48.0f, 32.0f);
 	}
 	
-	public abstract void show();
+	public abstract void create();
 	public abstract void update(float deltaTime);
 	public abstract void render(float deltaTime);
 	

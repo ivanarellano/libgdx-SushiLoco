@@ -31,9 +31,6 @@ public abstract class PhysicsWorld {
 		}
 	}
 	
-	public void show() {
-	}
-	
 	public void resumeWorld() {
 		if(null == b2world)
 			b2world = new World(gravity, true);

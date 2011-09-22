@@ -14,7 +14,6 @@ public class RollEmUp extends Game implements ApplicationListener {
 	public static float ASPECT_RATIO;
 	public static float SCALE_FACTOR_X;
 	public static float SCALE_FACTOR_Y;
-	boolean assetsDiagnosed = false;
 	
 	@Override
 	public void create() {		
@@ -25,10 +24,7 @@ public class RollEmUp extends Game implements ApplicationListener {
 		Settings.load();
 		Assets.create();
 
-		if (!assetsDiagnosed) {
-			Gdx.app.log("AssetManagerDiagnostics", "\n" + Assets.manager.getDiagonistics() + "\n" + Texture.getManagedStatus());
-			assetsDiagnosed = true;
-		}
+		Gdx.app.log("AssetManagerDiagnostics", "\n" + Assets.manager.getDiagonistics() + "\n" + Texture.getManagedStatus());
 		
 		setScreen(new SplashScreen(this));
 	}

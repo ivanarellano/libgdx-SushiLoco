@@ -19,6 +19,7 @@ public class Assets {
 	public static Sprite soundOff;
 	public static Sprite soundOn;
 	public static Sprite splashScreen;
+	public static Sprite titleScreen;
 	public static Sprite start;
 	public static Sprite titleLogo;
 	
@@ -46,6 +47,7 @@ public class Assets {
     private static void load() {
     	manager.load("data/pack", TextureAtlas.class);
     	manager.load("data/assets1.png", Texture.class);
+    	manager.load("data/assets2.png", Texture.class);
     	manager.load("data/music.mp3", Music.class);
     	manager.load("data/click.ogg", Sound.class);
     	
@@ -56,6 +58,7 @@ public class Assets {
     		soundOff = manager.get("data/pack", TextureAtlas.class).createSprite("soundoff");
     		soundOn = manager.get("data/pack", TextureAtlas.class).createSprite("soundon");
     		splashScreen = manager.get("data/pack", TextureAtlas.class).createSprite("tuna");
+    		titleScreen = manager.get("data/pack", TextureAtlas.class).createSprite("bgtitlescreen");
     		start = manager.get("data/pack", TextureAtlas.class).createSprite("start");
     		titleLogo = manager.get("data/pack", TextureAtlas.class).createSprite("titlelogo");
     	}
