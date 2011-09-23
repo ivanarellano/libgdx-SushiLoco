@@ -47,8 +47,8 @@ public class RollEmUp extends Game implements ApplicationListener {
 		getScreen().render(Gdx.graphics.getDeltaTime());
 		
 		Assets.batch.begin();
-			Assets.droidFontCache.setText(Integer.toString(Gdx.graphics.getFramesPerSecond()),
-							Gdx.graphics.getWidth()-25.0f, Gdx.graphics.getHeight()-25.0f);
+			Assets.droidFontCache.setText(Integer.toString(Gdx.graphics.getFramesPerSecond()), 
+									Gdx.graphics.getWidth()-25.0f, Gdx.graphics.getHeight()-25.0f);
 			Assets.droidFontCache.draw(Assets.batch);
 		Assets.batch.end();
 	}

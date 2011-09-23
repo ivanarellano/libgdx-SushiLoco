@@ -14,4 +14,8 @@ public class GameObject {
 	public GameObject(World world) {
 		b2world = world;
 	}
+	
+	public void setBody(Body body) {
+		this.body = body;
+	}
 }
