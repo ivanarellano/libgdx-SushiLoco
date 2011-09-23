@@ -3,7 +3,6 @@ package com.tinyrender.rollemup;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -13,24 +12,18 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class Player {
+public class Player extends GameObject {
 	final static float MAX_VELOCITY = 10.0f;
 
-	public Body body;
-	public Body groundSensor;
 	public Fixture bodyFixture;
+	public Body groundSensor;
 	public Fixture groundSensorFixture;
-	
-	Vector2 vel;
-	Vector2 pos;
 	
 	public boolean isGrounded;
 	public boolean isJumping;
-	
-	World b2world;
 		
 	public Player(World world) {
-		b2world = world;
+		super(world);
 		body = createPlayer(BodyType.DynamicBody, 0, 5.0f, 2.5f, 1.0f);
 		body.setUserData("player");
 	}
@@ -46,17 +39,24 @@ public class Player {
 			body.setLinearVelocity(vel.x, vel.y);
 		}
  
+		// apply a force when the phone is tilted enough,
+		// otherwise dampen down the acceleration to a stop
 		if ((Gdx.input.getAccelerometerY() <= -0.2f && vel.x > -MAX_VELOCITY) ||
-				Gdx.input.getAccelerometerY() >= 0.2f && vel.x < MAX_VELOCITY)
+				Gdx.input.getAccelerometerY() >= 0.2f && vel.x < MAX_VELOCITY) {
 			body.applyForceToCenter(Gdx.input.getAccelerometerY() * 12.0f, 0);
+		} else {
+			body.setLinearVelocity(vel.x * 0.9f, vel.y);
+		}
 
+		// regain rolling momentum with a small impulse
 		if (vel.x < MAX_VELOCITY/3 || vel.x > -MAX_VELOCITY/3)
 			body.applyLinearImpulse(Gdx.input.getAccelerometerY() * 2.0f, 0, pos.x, pos.y);
 		
+		// jump if grounded
 		if(isJumping) {
 			isJumping = false;
 			if(isGrounded)
-				body.applyLinearImpulse(0, 320.0f, pos.x, pos.y);
+				body.applyLinearImpulse(0, 300.0f, pos.x, pos.y);
 		}
 	}
 	
