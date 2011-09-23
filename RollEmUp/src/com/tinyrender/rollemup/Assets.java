@@ -6,6 +6,9 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData;
+import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,10 +25,12 @@ public class Assets {
 	public static Sprite titleScreen;
 	public static Sprite start;
 	public static Sprite titleLogo;
+	public static BitmapFont droidsans;
 	
 	public static Music music;
 	public static Sound hitSound;
 	
+	public static BitmapFontCache droidFontCache;
 	public static SpriteBatch batch;
     
     public static void create() {
@@ -48,6 +53,7 @@ public class Assets {
     	manager.load("data/pack", TextureAtlas.class);
     	manager.load("data/assets1.png", Texture.class);
     	manager.load("data/assets2.png", Texture.class);
+    	manager.load("data/droidsans.fnt", BitmapFont.class);
     	manager.load("data/music.mp3", Music.class);
     	manager.load("data/click.ogg", Sound.class);
     	
@@ -61,6 +67,12 @@ public class Assets {
     		titleScreen = manager.get("data/pack", TextureAtlas.class).createSprite("bgtitlescreen");
     		start = manager.get("data/pack", TextureAtlas.class).createSprite("start");
     		titleLogo = manager.get("data/pack", TextureAtlas.class).createSprite("titlelogo");
+    		
+        	if (manager.isLoaded("data/droidsans.fnt")) {
+        		BitmapFontData bfd = new BitmapFontData(Gdx.files.internal("data/droidsans.fnt"), false);
+        		droidsans = new BitmapFont(bfd, manager.get("data/pack", TextureAtlas.class).findRegion("droidsans"), false);
+            	droidFontCache = new BitmapFontCache(droidsans);
+        	}
     	}
     	
     	if (manager.isLoaded("data/music.mp3")) {

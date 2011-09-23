@@ -14,6 +14,6 @@ public class RollEmUpDesktop {
         settings.pot = true;
         TexturePacker.process(settings, "assets", "data");
         
-		new JoglApplication(new RollEmUp(), "Roll 'Em Up", 480, 320, false);
+		new JoglApplication(new RollEmUp(), "Roll 'Em Up", 854, 480, false);
 	}
 }
