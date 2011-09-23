@@ -3,9 +3,11 @@ package com.tinyrender.rollemup;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -77,6 +79,12 @@ public class Player extends GameObject {
 		shape.dispose();
 		
 		groundSensor = createPlayerSensor(x, y-radius+.5f, radius/2);
+		
+		Vector2 anchorA = new Vector2(body.getPosition().x, body.getPosition().y);
+		RevoluteJointDef djd = new RevoluteJointDef();
+		
+		djd.initialize(body, groundSensor, anchorA);
+		b2world.createJoint(djd);
 		
 		return body;
 	}

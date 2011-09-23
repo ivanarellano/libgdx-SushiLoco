@@ -2,9 +2,7 @@ package com.tinyrender.rollemup.level;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.tinyrender.rollemup.BoxSushi;
 import com.tinyrender.rollemup.CircleSushi;
 import com.tinyrender.rollemup.GameObject;
@@ -24,12 +22,6 @@ public class TestLevel extends Level {
 	@Override
 	public void create() {
 		Utils.createEdge(-100.0f, 0.0f, 100.0f, 0.0f, 0.4f, b2world);
-		
-		Vector2 anchorA = new Vector2(player.body.getPosition().x, player.body.getPosition().y);
-		RevoluteJointDef djd = new RevoluteJointDef();
-		
-		djd.initialize(player.body, player.groundSensor, anchorA);
-		b2world.createJoint(djd);
 		
 		Utils.createBox(BodyType.StaticBody, -60.0f, 9.0f, 10.0f, 1.0f, 0.0f, b2world);
 		Utils.createBox(BodyType.StaticBody, -20.0f, 9.0f, 10.0f, 1.0f, 0.0f, b2world);
