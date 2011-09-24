@@ -8,6 +8,7 @@ public class GameObject {
 	public Body body;
 	public Vector2 vel;
 	public Vector2 pos;
+	public boolean isContacting;
 	
 	World b2world;
 	

@@ -1,5 +1,6 @@
 package com.tinyrender.rollemup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
@@ -7,12 +8,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 
 public class Player extends GameObject {
 	final static float MAX_VELOCITY = 10.0f;
@@ -23,7 +24,9 @@ public class Player extends GameObject {
 	
 	public boolean isGrounded;
 	public boolean isJumping;
-		
+	
+	ArrayList<GameObject> rolledObjects = new ArrayList<GameObject>();
+	
 	public Player(World world) {
 		super(world);
 		body = createPlayer(BodyType.DynamicBody, 0, 5.0f, 2.5f, 1.0f);
@@ -106,7 +109,7 @@ public class Player extends GameObject {
 		
 		return body;
 	}
-	
+
 	private boolean isPlayerGrounded() {				
 		List<Contact> contactList = b2world.getContactList();
 		for(int i = 0; i < contactList.size(); i++) {
@@ -117,5 +120,13 @@ public class Player extends GameObject {
 			}
 		}
 		return false;
+	}
+	
+	public void enterContact() {
+		
+	}
+	
+	public void leaveContact() {
+		
 	}
 }

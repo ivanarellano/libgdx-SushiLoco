@@ -12,7 +12,7 @@ public class BoxSushi extends GameObject {
 	public BoxSushi(float x, float y, float density, World world) {
 		super(world);
 		createBody(x, y, density);
-		body.setUserData("boxsushi");
+		body.setUserData("gameobject");
 	}
 	
 	public void createBody(float x, float y, float density) {

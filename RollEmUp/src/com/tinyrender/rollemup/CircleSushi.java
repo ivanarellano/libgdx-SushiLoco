@@ -12,7 +12,7 @@ public class CircleSushi extends GameObject {
 	public CircleSushi(float x, float y, float radius, float density, float angle, World world) {
 		super(world);
 		createBody(x, y, radius, density, angle);
-		body.setUserData("circlesushi");
+		body.setUserData("gameobject");
 	}
 	
 	public void createBody(float x, float y, float radius, float density, float angle) {

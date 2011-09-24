@@ -15,12 +15,10 @@ public class TestLevel extends Level {
 	
 	ArrayList<GameObject> objects = new ArrayList<GameObject>();
 	
-	public TestLevel() {
-		player = new Player(b2world);
-	}
-	
 	@Override
 	public void create() {
+		player = new Player(b2world);
+				
 		Utils.createEdge(-100.0f, 0.0f, 100.0f, 0.0f, 0.4f, b2world);
 		
 		Utils.createBox(BodyType.StaticBody, -60.0f, 9.0f, 10.0f, 1.0f, 0.0f, b2world);
@@ -43,10 +41,10 @@ public class TestLevel extends Level {
 	
 	@Override
 	public void update(float deltaTime) {
-		physicsStep(deltaTime);
-		
 		cam.position.set(player.body.getPosition().x, player.body.getPosition().y, 0); // cheap hack
 		player.update();
+		
+		physicsStep(deltaTime);
 	}
 
 	@Override
