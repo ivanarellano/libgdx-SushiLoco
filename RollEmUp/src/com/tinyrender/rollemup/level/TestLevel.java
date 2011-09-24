@@ -2,6 +2,7 @@ package com.tinyrender.rollemup.level;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.tinyrender.rollemup.BoxSushi;
 import com.tinyrender.rollemup.CircleSushi;
@@ -19,7 +20,8 @@ public class TestLevel extends Level {
 	public void create() {
 		player = new Player(world);
 				
-		Utils.createEdge(-100.0f, 0.0f, 100.0f, 0.0f, 0.4f, world.b2world);
+		Body ground = Utils.createEdge(-100.0f, 0.0f, 100.0f, 0.0f, 0.4f, world.b2world);
+		ground.setUserData("ground");
 		
 		Utils.createBox(BodyType.StaticBody, -60.0f, 9.0f, 10.0f, 1.0f, 0.0f, world.b2world);
 		Utils.createBox(BodyType.StaticBody, -20.0f, 9.0f, 10.0f, 1.0f, 0.0f, world.b2world);

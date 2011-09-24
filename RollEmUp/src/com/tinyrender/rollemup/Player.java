@@ -123,7 +123,6 @@ public class Player extends GameObject {
 	
 	public void enterContact() {
 		
-		
 	}
 	
 	public void leaveContact() {

@@ -27,7 +27,7 @@ public class Utils {
 	public static Body createEdge(float x1, float y1, float x2, float y2, float friction, World b2world) {
         BodyDef bd = new BodyDef();
         Body body = b2world.createBody(bd);
-
+        
         EdgeShape shape = new EdgeShape();
         shape.set(x1, y1, x2, y2);
         

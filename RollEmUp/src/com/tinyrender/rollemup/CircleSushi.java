@@ -18,4 +18,12 @@ public class CircleSushi extends GameObject {
 		body = Utils.createCircle(BodyType.DynamicBody, x, y, radius, density, angle, world.b2world);
 	}
 
+	@Override
+	public void enterContact() {		
+	}
+
+	@Override
+	public void leaveContact() {		
+	}
+
 }

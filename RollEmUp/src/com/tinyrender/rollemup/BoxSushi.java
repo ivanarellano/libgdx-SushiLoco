@@ -18,4 +18,12 @@ public class BoxSushi extends GameObject {
 		body = Utils.createBox(BodyType.DynamicBody, x, y, 1.0f, 0.25f, density, world.b2world);
 	}
 
+	@Override
+	public void enterContact() {		
+	}
+
+	@Override
+	public void leaveContact() {		
+	}
+
 }

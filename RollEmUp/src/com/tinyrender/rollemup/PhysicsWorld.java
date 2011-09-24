@@ -11,22 +11,31 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 
-public abstract class PhysicsWorld {
+public abstract class PhysicsWorld implements ContactListener {
+	class ContactFixtures {
+		Fixture fixtureA;
+		Fixture fixtureB;
+		
+		ContactFixtures(Fixture fixA, Fixture fixB) {
+			fixtureA = fixA;
+			fixtureB = fixB;
+		}
+	}
+	
 	final static float UPDATE_INTERVAL = 1.0f / 60.0f;
 	final static float MAX_CYCLES_PER_FRAME = 5.0f;
 	static float timeAccumulator = 0.0f;
 	
 	public PhysicsWorld world;
 	public World b2world;
-	public WorldContactListener contactListener;
 	public Vector2 gravity;
+	public ArrayList<ContactFixtures> contacts = new ArrayList<ContactFixtures>();
 	
 	public PhysicsWorld() {
 		gravity = new Vector2(0, -10.0f);
 		world = this;
 		b2world = new World(gravity, true);
-		contactListener = new WorldContactListener();
-		b2world.setContactListener(contactListener);
+		b2world.setContactListener(this);
 	}
 
 	public void physicsStep(float deltaTime) {
@@ -52,46 +61,31 @@ public abstract class PhysicsWorld {
 		b2world.dispose();
 		b2world = null;
 	}
-	
-	class WorldContactListener implements ContactListener{
-		class ContactFixtures {
-			Fixture fixtureA;
-			Fixture fixtureB;
-			
-			ContactFixtures(Fixture fixA, Fixture fixB) {
-				fixtureA = fixA;
-				fixtureB = fixB;
+		
+	@Override
+	public void beginContact(Contact contact) {
+		ContactFixtures contactPoint = new ContactFixtures(contact.getFixtureA(), contact.getFixtureB());
+		contacts.add(contactPoint);
+	}
+
+	@Override
+	public void endContact(Contact contact) {
+		int contactsSize = contacts.size();
+
+		for (int i = 0; i < contactsSize; i++ ) {
+			if (contacts.get(i).fixtureA == contact.getFixtureA() &&
+					contacts.get(i).fixtureB == contact.getFixtureB()) {
+				contacts.remove(i);
+				break;
 			}
 		}
-		
-		public ArrayList<ContactFixtures> contacts = new ArrayList<ContactFixtures>();
-		
-		@Override
-		public void beginContact(Contact contact) {
-			ContactFixtures contactPoint = new ContactFixtures(contact.getFixtureA(), contact.getFixtureB());
-			contacts.add(contactPoint);
-		}
+	}
 
-		@Override
-		public void endContact(Contact contact) {
-			int contactsSize = contacts.size();
+	@Override
+	public void postSolve(Contact contact, ContactImpulse impulse) {			
+	}
 
-			for (int i = 0; i < contactsSize; i++ ) {
-				if (contacts.get(i).fixtureA == contact.getFixtureA() &&
-						contacts.get(i).fixtureB == contact.getFixtureB()) {
-					contacts.remove(i);
-					break;
-				}
-			}
-		}
-
-		@Override
-		public void postSolve(Contact contact, ContactImpulse impulse) {			
-		}
-
-		@Override
-		public void preSolve(Contact contact, Manifold oldManifold) {			
-		}
-		
+	@Override
+	public void preSolve(Contact contact, Manifold oldManifold) {			
 	}
 }
