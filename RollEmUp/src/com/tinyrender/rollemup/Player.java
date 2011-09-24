@@ -12,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 
 public class Player extends GameObject {
@@ -27,7 +26,7 @@ public class Player extends GameObject {
 	
 	ArrayList<GameObject> rolledObjects = new ArrayList<GameObject>();
 	
-	public Player(World world) {
+	public Player(PhysicsWorld world) {
 		super(world);
 		body = createPlayer(BodyType.DynamicBody, 0, 5.0f, 2.5f, 1.0f);
 		body.setUserData("player");
@@ -69,7 +68,7 @@ public class Player extends GameObject {
 		BodyDef bd = new BodyDef();
 		bd.type = bodyType;
 		bd.position.set(x, y);
-		Body body = b2world.createBody(bd);
+		Body body = world.b2world.createBody(bd);
  
 		CircleShape shape = new CircleShape();		
 		shape.setRadius(radius);
@@ -87,7 +86,7 @@ public class Player extends GameObject {
 		RevoluteJointDef djd = new RevoluteJointDef();
 		
 		djd.initialize(body, groundSensor, anchorA);
-		b2world.createJoint(djd);
+		world.b2world.createJoint(djd);
 		
 		return body;
 	}
@@ -96,7 +95,7 @@ public class Player extends GameObject {
 		BodyDef bd = new BodyDef();
 		bd.position.set(x, y);
 		bd.type = BodyType.DynamicBody;
-		Body body = b2world.createBody(bd);
+		Body body = world.b2world.createBody(bd);
  
 		CircleShape shape = new CircleShape();		
 		shape.setRadius(radius);
@@ -110,8 +109,8 @@ public class Player extends GameObject {
 		return body;
 	}
 
-	private boolean isPlayerGrounded() {				
-		List<Contact> contactList = b2world.getContactList();
+	private boolean isPlayerGrounded() {
+		List<Contact> contactList = world.b2world.getContactList();
 		for(int i = 0; i < contactList.size(); i++) {
 			Contact contact = contactList.get(i);
 			if(contact.isTouching() && (contact.getFixtureA() == groundSensorFixture ||
@@ -123,6 +122,7 @@ public class Player extends GameObject {
 	}
 	
 	public void enterContact() {
+		
 		
 	}
 	

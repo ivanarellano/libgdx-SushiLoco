@@ -16,12 +16,14 @@ public abstract class PhysicsWorld {
 	final static float MAX_CYCLES_PER_FRAME = 5.0f;
 	static float timeAccumulator = 0.0f;
 	
+	public PhysicsWorld world;
 	public World b2world;
 	public WorldContactListener contactListener;
 	public Vector2 gravity;
 	
 	public PhysicsWorld() {
 		gravity = new Vector2(0, -10.0f);
+		world = this;
 		b2world = new World(gravity, true);
 		contactListener = new WorldContactListener();
 		b2world.setContactListener(contactListener);
