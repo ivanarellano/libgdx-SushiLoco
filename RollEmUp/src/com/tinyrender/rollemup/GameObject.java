@@ -7,7 +7,7 @@ public abstract class GameObject {
 	public Body body;
 	public Vector2 vel;
 	public Vector2 pos;
-	public boolean isContacting;
+	public int numContacts;
 	
 	public PhysicsWorld world;
 	
@@ -19,6 +19,6 @@ public abstract class GameObject {
 		this.body = body;
 	}
 	
-	public abstract void enterContact();
+	public abstract void enterContact(GameObject collidesWith);
 	public abstract void leaveContact();
 }

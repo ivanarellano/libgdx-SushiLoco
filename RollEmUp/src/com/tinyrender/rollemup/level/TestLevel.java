@@ -2,31 +2,30 @@ package com.tinyrender.rollemup.level;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.tinyrender.rollemup.Box;
 import com.tinyrender.rollemup.BoxSushi;
 import com.tinyrender.rollemup.CircleSushi;
 import com.tinyrender.rollemup.GameObject;
+import com.tinyrender.rollemup.Ground;
 import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.Player;
-import com.tinyrender.rollemup.Utils;
 
 public class TestLevel extends Level {
 	Player player;
+	Ground ground;
 	
 	ArrayList<GameObject> objects = new ArrayList<GameObject>();
 	
 	@Override
 	public void create() {
 		player = new Player(world);
-				
-		Body ground = Utils.createEdge(-100.0f, 0.0f, 100.0f, 0.0f, 0.4f, world.b2world);
-		ground.setUserData("ground");
+		ground = new Ground(-100.0f, 0.0f, 100.0f, 0.0f, 0.4f, world);
 		
-		Utils.createBox(BodyType.StaticBody, -60.0f, 9.0f, 10.0f, 1.0f, 0.0f, world.b2world);
-		Utils.createBox(BodyType.StaticBody, -20.0f, 9.0f, 10.0f, 1.0f, 0.0f, world.b2world);
-		Utils.createBox(BodyType.StaticBody, 20.0f, 9.0f, 10.0f, 1.0f, 0.0f, world.b2world);
-		Utils.createBox(BodyType.StaticBody, 60.0f, 9.0f, 10.0f, 1.0f, 0.0f, world.b2world);
+		float distX = -60.0f;
+		for(int i = 0; i < 3; i++) {
+			objects.add(new Box(distX, 9.0f, 10.0f, 1.0f, 0.0f, world));
+			distX += 40.0f;
+		}
 		
 		objects.add(new BoxSushi((float)Math.random() * 10f - (float)Math.random() * 10f, (float)Math.random() * 10 + 6, 2.0f, world));
 		objects.add(new BoxSushi((float)Math.random() * 10f - (float)Math.random() * 10f, (float)Math.random() * 10 + 6, 2.0f, world));

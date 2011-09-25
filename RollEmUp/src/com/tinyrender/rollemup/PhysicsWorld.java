@@ -1,27 +1,14 @@
 package com.tinyrender.rollemup;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 
-public abstract class PhysicsWorld implements ContactListener {
-	class ContactFixtures {
-		Fixture fixtureA;
-		Fixture fixtureB;
-		
-		ContactFixtures(Fixture fixA, Fixture fixB) {
-			fixtureA = fixA;
-			fixtureB = fixB;
-		}
-	}
-	
+public abstract class PhysicsWorld implements ContactListener {	
 	final static float UPDATE_INTERVAL = 1.0f / 60.0f;
 	final static float MAX_CYCLES_PER_FRAME = 5.0f;
 	static float timeAccumulator = 0.0f;
@@ -29,7 +16,6 @@ public abstract class PhysicsWorld implements ContactListener {
 	public PhysicsWorld world;
 	public World b2world;
 	public Vector2 gravity;
-	public ArrayList<ContactFixtures> contacts = new ArrayList<ContactFixtures>();
 	
 	public PhysicsWorld() {
 		gravity = new Vector2(0, -10.0f);
@@ -64,21 +50,20 @@ public abstract class PhysicsWorld implements ContactListener {
 		
 	@Override
 	public void beginContact(Contact contact) {
-		ContactFixtures contactPoint = new ContactFixtures(contact.getFixtureA(), contact.getFixtureB());
-		contacts.add(contactPoint);
+		GameObject objectA = (GameObject) contact.getFixtureA().getBody().getUserData();
+		GameObject objectB = (GameObject) contact.getFixtureB().getBody().getUserData();
+
+		objectA.enterContact(objectB);
+		objectB.enterContact(objectA);
 	}
 
 	@Override
 	public void endContact(Contact contact) {
-		int contactsSize = contacts.size();
+		GameObject objectA = (GameObject) contact.getFixtureA().getBody().getUserData();
+		GameObject objectB = (GameObject) contact.getFixtureB().getBody().getUserData();
 
-		for (int i = 0; i < contactsSize; i++ ) {
-			if (contacts.get(i).fixtureA == contact.getFixtureA() &&
-					contacts.get(i).fixtureB == contact.getFixtureB()) {
-				contacts.remove(i);
-				break;
-			}
-		}
+		objectA.leaveContact();
+		objectB.leaveContact();
 	}
 
 	@Override

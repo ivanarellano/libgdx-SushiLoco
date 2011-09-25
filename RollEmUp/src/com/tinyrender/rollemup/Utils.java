@@ -41,7 +41,7 @@ public class Utils {
 		return body;
 	}
 	
-	public static Body createCircle(BodyType type, float x, float y, float radius, float density, float angle, World b2world) {
+	public static Body createCircle(BodyType type, float x, float y, float radius, float density, float angle, boolean isSensor, World b2world) {
 		BodyDef bd = new BodyDef();
 		bd.position.set(x, y);
 		bd.angle = angle;
@@ -50,7 +50,12 @@ public class Utils {
  
 		CircleShape shape = new CircleShape();
 		shape.setRadius(radius);
-		body.createFixture(shape, density);
+		
+		FixtureDef fd = new FixtureDef();
+		fd.density = density;
+		fd.isSensor = isSensor;
+		fd.shape = shape;
+		body.createFixture(fd);
 		shape.dispose();
  
 		return body;
