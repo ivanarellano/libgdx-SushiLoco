@@ -17,15 +17,19 @@ public class Ground extends GameObject {
 	}
 	
 	@Override
+	public void update() {		
+	}
+	
+	@Override
 	public void enterContact(GameObject collidesWith) {		
 	}
 
 	@Override
-	public void leaveContact() {		
+	public void leaveContact(GameObject leftCollisionWith) {		
 	}
 	
 	@Override
-	public Type objectType() {
+	public Type getType() {
 		return Type.PLATFORM;
 	}
 }

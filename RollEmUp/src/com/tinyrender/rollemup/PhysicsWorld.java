@@ -62,8 +62,8 @@ public abstract class PhysicsWorld implements ContactListener {
 		GameObject objectA = (GameObject) contact.getFixtureA().getBody().getUserData();
 		GameObject objectB = (GameObject) contact.getFixtureB().getBody().getUserData();
 
-		objectA.leaveContact();
-		objectB.leaveContact();
+		objectA.leaveContact(objectB);
+		objectB.leaveContact(objectA);
 	}
 
 	@Override

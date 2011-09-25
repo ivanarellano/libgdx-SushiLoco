@@ -1,6 +1,7 @@
 package com.tinyrender.rollemup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
+import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 
 public class Player extends GameObject {
 	class PlayerSensor extends Sensor {
@@ -23,15 +25,33 @@ public class Player extends GameObject {
 		
 		@Override
 		public void enterContact(GameObject collidesWith) {
-			numContacts++;
-			isGrounded = true;
+			if (!collidesWith.isRolled) {
+				numContacts++;
+				
+				if (collidesWith.getType().equals(Type.SUSHI)) {
+					numContacts--;
+					objectsToRoll.add(collidesWith);
+				}
+				
+				isGrounded = true;
+			}
 		}
 
 		@Override
-		public void leaveContact() {
-			numContacts--;
-			if(numContacts <= 0)
+		public void leaveContact(GameObject leftCollisionWith) {
+			if (!leftCollisionWith.isRolled)
+				numContacts--;
+			
+			Gdx.app.log("leaveContact", Integer.toString(numContacts));
+			if (numContacts <= 0) {
+				Gdx.app.log("leaveContact: notGrounded", Integer.toString(numContacts));
 				isGrounded = false;
+			}
+		}
+		
+		@Override
+		public Type getType() {
+			return Type.PLAYER_SENSOR;
 		}
 	}
 	
@@ -42,26 +62,35 @@ public class Player extends GameObject {
 	public boolean isJumping = false;
 	public float radius = 2.5f;
 	
-	ArrayList<GameObject> rolledObjects = new ArrayList<GameObject>();
+	List<GameObject> objectsToRoll = new ArrayList<GameObject>();
+	ArrayList<GameObject> objectsRolled = new ArrayList<GameObject>();
 	
 	public Player(PhysicsWorld world) {
 		super(world);
 		body = createPlayerBody(BodyType.DynamicBody, 0.0f, 5.0f, radius, 1.0f);
-		sensor = new PlayerSensor(0.0f, 5.0f-radius+0.8f, radius/1.3f, BodyType.DynamicBody, world);
+		pos = body.getPosition();
+		
+		sensor = new PlayerSensor(pos.x, pos.y-1.0f, radius/1.1f, BodyType.DynamicBody, world);
 		sensor.fixture = sensor.body.getFixtureList().get(0);
-		
-		Vector2 anchorA = new Vector2(body.getPosition().x, body.getPosition().y);
-		RevoluteJointDef djd = new RevoluteJointDef();
-		
-		djd.initialize(body, sensor.body, anchorA);
-		world.b2world.createJoint(djd);
-		
+
+		Vector2 anchorA = new Vector2(pos.x, pos.y);
+		RevoluteJointDef rjd = new RevoluteJointDef();
+		rjd.initialize(body, sensor.body, anchorA);
+		world.b2world.createJoint(rjd);
+
 		body.setUserData(this);
 	}
 	
+	@Override
 	public void update() {
 		vel = body.getLinearVelocity();
 		pos = body.getPosition();
+		
+		if (!objectsToRoll.isEmpty()) {
+			for (GameObject obj : objectsToRoll)
+				stickObject(obj);
+			objectsToRoll.clear();
+		}
 
 		// terminal velocity on x	
 		if (Math.abs(vel.x) > MAX_VELOCITY) {			
@@ -80,15 +109,28 @@ public class Player extends GameObject {
 
 		// regain rolling momentum with a small impulse
 		if (vel.x < MAX_VELOCITY/3 || vel.x > -MAX_VELOCITY/3)
-			body.applyLinearImpulse(Gdx.input.getAccelerometerY() * 1.7f, 0, pos.x, pos.y);
+			body.applyLinearImpulse(Gdx.input.getAccelerometerY() * 2.0f, 0, pos.x, pos.y);
 		
 		// jump if grounded
 		if(isJumping) {
 			isJumping = false;
-			if(sensor.isGrounded) {
+			if(sensor.isGrounded)
 				body.applyLinearImpulse(0, 310.0f, pos.x, pos.y);
-			}
 		}
+	}
+	
+	public void stickObject(GameObject other) {
+		other.isRolled = true;
+		objectsRolled.add(other);
+		
+		Vector2 anchorA = new Vector2(pos.x, pos.y);
+		WeldJointDef wjd = new WeldJointDef();
+		wjd.initialize(body, other.body, anchorA);
+		world.b2world.createJoint(wjd);
+		
+		other.body.setAngularVelocity(0.0f);
+		Fixture otherFix = other.body.getFixtureList().get(0);
+		otherFix.setSensor(true);
 	}
 	
 	private Body createPlayerBody(BodyType bodyType, float x, float y, float radius, float density) {
@@ -113,18 +155,15 @@ public class Player extends GameObject {
 	@Override
 	public void enterContact(GameObject collidesWith) {
 		numContacts++;
-
-		if(collidesWith.objectType().equals(Type.SUSHI))
-			Gdx.app.log("enterContact", "I hit sushi");
 	}
 	
 	@Override
-	public void leaveContact() {
+	public void leaveContact(GameObject leftCollisionWith) {
 		numContacts--;
 	}
 
 	@Override
-	public Type objectType() {
+	public Type getType() {
 		return Type.PLAYER;
 	}
 }

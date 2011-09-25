@@ -16,18 +16,22 @@ public class Sensor extends GameObject {
 	public void createBody(float x, float y, float radius, BodyType bodyType) {
 		body = Utils.createCircle(bodyType, x, y, radius, 0.0f, 0.0f, true, world.b2world);
 		body.setUserData(this);
-	}		
+	}
+	
+	@Override
+	public void update() {		
+	}
 	
 	@Override
 	public void enterContact(GameObject collidesWith) {
 	}
 
 	@Override
-	public void leaveContact() {		
+	public void leaveContact(GameObject leftCollisionWith) {		
 	}
 	
 	@Override
-	public Type objectType() {
+	public Type getType() {
 		return Type.SENSOR;
 	}
 }

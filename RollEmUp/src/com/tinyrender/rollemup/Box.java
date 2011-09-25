@@ -17,17 +17,21 @@ public class Box extends GameObject {
 		body = Utils.createBox(BodyType.StaticBody, x, y, hx, hy, density, world.b2world);
 		body.setUserData(this);
 	}
+	
+	@Override
+	public void update() {		
+	}
 
 	@Override
 	public void enterContact(GameObject collidesWith) {		
 	}
 
 	@Override
-	public void leaveContact() {		
+	public void leaveContact(GameObject leftCollisionWith) {		
 	}
 
 	@Override
-	public Type objectType() {
+	public Type getType() {
 		return Type.PLATFORM;
 	}
 }

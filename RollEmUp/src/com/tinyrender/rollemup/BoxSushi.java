@@ -17,17 +17,22 @@ public class BoxSushi extends GameObject {
 		body = Utils.createBox(BodyType.DynamicBody, x, y, 1.0f, 0.25f, density, world.b2world);
 		body.setUserData(this);
 	}
-
+	
 	@Override
-	public void enterContact(GameObject collidesWith) {		
-	}	
+	public void update() {
 
-	@Override
-	public void leaveContact() {		
 	}
 
 	@Override
-	public Type objectType() {
+	public void enterContact(GameObject collidesWith) {
+	}	
+
+	@Override
+	public void leaveContact(GameObject leftCollisionWith) {		
+	}
+
+	@Override
+	public Type getType() {
 		return Type.SUSHI;
 	}
 }

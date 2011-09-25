@@ -5,13 +5,14 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public abstract class GameObject {
 	public enum Type {
-		PLAYER, SUSHI, PLATFORM, SENSOR;
+		PLAYER, SUSHI, PLATFORM, SENSOR, PLAYER_SENSOR;
 	}
 	
 	public Body body;
 	public Vector2 vel;
 	public Vector2 pos;
 	public int numContacts;
+	public boolean isRolled = false;
 	
 	public PhysicsWorld world;
 	
@@ -23,7 +24,8 @@ public abstract class GameObject {
 		this.body = body;
 	}
 	
+	public abstract void update();
 	public abstract void enterContact(GameObject collidesWith);
-	public abstract void leaveContact();
-	public abstract Type objectType();
+	public abstract void leaveContact(GameObject leftCollisionWith);
+	public abstract Type getType();
 }
