@@ -1,6 +1,5 @@
 package com.tinyrender.rollemup;
 
-
 public class Ground extends GameObject {
 
 	public Ground(PhysicsWorld world) {
@@ -23,5 +22,10 @@ public class Ground extends GameObject {
 
 	@Override
 	public void leaveContact() {		
+	}
+	
+	@Override
+	public Type objectType() {
+		return Type.PLATFORM;
 	}
 }

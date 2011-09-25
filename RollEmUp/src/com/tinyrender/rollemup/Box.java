@@ -25,4 +25,9 @@ public class Box extends GameObject {
 	@Override
 	public void leaveContact() {		
 	}
+
+	@Override
+	public Type objectType() {
+		return Type.PLATFORM;
+	}
 }

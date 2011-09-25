@@ -26,4 +26,8 @@ public class BoxSushi extends GameObject {
 	public void leaveContact() {		
 	}
 
+	@Override
+	public Type objectType() {
+		return Type.SUSHI;
+	}
 }

@@ -73,21 +73,20 @@ public class Player extends GameObject {
 		// otherwise dampen down the acceleration to a stop
 		if ((Gdx.input.getAccelerometerY() <= -0.2f && vel.x > -MAX_VELOCITY) ||
 				Gdx.input.getAccelerometerY() >= 0.2f && vel.x < MAX_VELOCITY) {
-			body.applyForceToCenter(Gdx.input.getAccelerometerY() * 12.0f, 0);
+			body.applyForceToCenter(Gdx.input.getAccelerometerY() * 11.0f, 0);
 		} else {
 			body.setLinearVelocity(vel.x * 0.9f, vel.y);
 		}
 
 		// regain rolling momentum with a small impulse
 		if (vel.x < MAX_VELOCITY/3 || vel.x > -MAX_VELOCITY/3)
-			body.applyLinearImpulse(Gdx.input.getAccelerometerY() * 2.0f, 0, pos.x, pos.y);
+			body.applyLinearImpulse(Gdx.input.getAccelerometerY() * 1.7f, 0, pos.x, pos.y);
 		
 		// jump if grounded
 		if(isJumping) {
 			isJumping = false;
 			if(sensor.isGrounded) {
-				//sensor.isGrounded = false;
-				body.applyLinearImpulse(0, 300.0f, pos.x, pos.y);
+				body.applyLinearImpulse(0, 310.0f, pos.x, pos.y);
 			}
 		}
 	}
@@ -110,32 +109,22 @@ public class Player extends GameObject {
 		
 		return body;
 	}
-	/*
-	private boolean isPlayerGrounded() {
-		List<Contact> contactList = world.b2world.getContactList();
-		for(int i = 0; i < contactList.size(); i++) {
-			Contact contact = contactList.get(i);
-			if(contact.isTouching() && (contact.getFixtureA() == sensor.fixture ||
-			   contact.getFixtureB() == sensor.fixture)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	*/
 	
 	@Override
 	public void enterContact(GameObject collidesWith) {
 		numContacts++;
 
-		if(collidesWith.getClass().equals("BoxSushi"))
-			Gdx.app.log("playerEnterContact", "I hit box sushi");
-		if(collidesWith.getClass().equals("CircleSushi"))
-			Gdx.app.log("playerEnterContact", "I hit circle sushi");
-	}	
+		if(collidesWith.objectType().equals(Type.SUSHI))
+			Gdx.app.log("enterContact", "I hit sushi");
+	}
 	
 	@Override
 	public void leaveContact() {
 		numContacts--;
+	}
+
+	@Override
+	public Type objectType() {
+		return Type.PLAYER;
 	}
 }
