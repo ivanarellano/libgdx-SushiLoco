@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
@@ -63,9 +64,15 @@ public class Utils {
 		return body;
 	}
 	
-	public static void weldJoints(Body bodyA, Body bodyB, Vector2 anchorA, World b2world) {
+	public static void weldJoint(Body bodyA, Body bodyB, Vector2 anchorA, World b2world) {
 		WeldJointDef wjd = new WeldJointDef();
 		wjd.initialize(bodyA, bodyB, anchorA);
 		b2world.createJoint(wjd);
+	}
+	
+	public static void revoluteJoint(Body bodyA, Body bodyB, Vector2 anchorA, World b2world) {
+		RevoluteJointDef rjd = new RevoluteJointDef();
+		rjd.initialize(bodyA, bodyB, anchorA);
+		b2world.createJoint(rjd);
 	}
 }

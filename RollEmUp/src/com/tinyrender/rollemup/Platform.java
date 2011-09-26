@@ -2,13 +2,13 @@ package com.tinyrender.rollemup;
 
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
-public class Box extends GameObject {
+public class Platform extends GameObject {
 
-	public Box(PhysicsWorld world) {
+	public Platform(PhysicsWorld world) {
 		super(world);
 	}
 	
-	public Box(float x, float y, float hx, float hy, float density, PhysicsWorld world) {
+	public Platform(float x, float y, float hx, float hy, float density, PhysicsWorld world) {
 		super(world);
 		createBody(x, y, hx, hy, density);
 	}

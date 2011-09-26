@@ -2,7 +2,7 @@ package com.tinyrender.rollemup.level;
 
 import java.util.ArrayList;
 
-import com.tinyrender.rollemup.Box;
+import com.tinyrender.rollemup.Platform;
 import com.tinyrender.rollemup.BoxSushi;
 import com.tinyrender.rollemup.CircleSushi;
 import com.tinyrender.rollemup.GameObject;
@@ -24,7 +24,7 @@ public class TestLevel extends Level {
 		// floating platforms
 		float distX = -60.0f;
 		for(int i = 0; i < 3; i++) {
-			new Box(distX, 9.0f, 10.0f, 1.0f, 0.0f, world);
+			new Platform(distX, 9.0f, 10.0f, 1.0f, 0.0f, world);
 			distX += 40.0f;
 		}
 		
@@ -35,10 +35,10 @@ public class TestLevel extends Level {
 		objects.add(new BoxSushi((float)Math.random() * 10f - (float)Math.random() * 10f, (float)Math.random() * 10 + 6, 0.1f, world));
 		
 		// circles
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 40; i++) {
 			objects.add(new CircleSushi((float)Math.random() * 50f - (float)Math.random() * 50f, 
 										(float)Math.random() * 10 + 6,
-										(float)Math.random() * 1.0f + 0.1f,
+										(float)Math.random() * 0.7f + 0.3f,
 										0.2f, (float)(Math.random() * 2 * Math.PI), world));
 		}
 	}

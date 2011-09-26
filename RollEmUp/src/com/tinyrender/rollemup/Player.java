@@ -12,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 
 public class Player extends GameObject {
 	class PlayerSensor extends Sensor {
@@ -25,23 +24,15 @@ public class Player extends GameObject {
 		
 		@Override
 		public void enterContact(GameObject collidesWith) {
-			if (!collidesWith.isRolled) {
-				numContacts++;
-				
-				if (collidesWith.getType().equals(Type.SUSHI)) {
-					numContacts--;
-					objectsToRoll.add(collidesWith);
-				}
-				
-				isGrounded = true;
-			}
+			numContacts++;
+			isGrounded = true;
+			if (collidesWith.getType().equals(Type.SUSHI))
+				objectsToRoll.add(collidesWith);
 		}
 
 		@Override
 		public void leaveContact(GameObject leftCollisionWith) {
-			if (!leftCollisionWith.isRolled)
-				numContacts--;
-			
+			numContacts--;
 			if (numContacts <= 0) 
 				isGrounded = false;
 		}
@@ -55,8 +46,8 @@ public class Player extends GameObject {
 	final static float MAX_VELOCITY = 10.0f;
 
 	public PlayerSensor sensor;
-	
 	public boolean isJumping = false;
+	public boolean isGrowing = false;
 	public float radius = 2.5f;
 	
 	List<GameObject> objectsToRoll = new ArrayList<GameObject>();
@@ -69,20 +60,26 @@ public class Player extends GameObject {
 		
 		sensor = new PlayerSensor(pos.x, pos.y-1.0f, radius/1.1f, BodyType.DynamicBody, world);
 		sensor.fixture = sensor.body.getFixtureList().get(0);
-
-		Vector2 anchorA = new Vector2(pos.x, pos.y);
-		RevoluteJointDef rjd = new RevoluteJointDef();
-		rjd.initialize(body, sensor.body, anchorA);
-		world.b2world.createJoint(rjd);
+		
+		// join sensor to player body
+		Utils.revoluteJoint(body, sensor.body, new Vector2(pos.x, pos.y), world.b2world);
 
 		body.setUserData(this);
 	}
 	
 	@Override
 	public void update() {
+		if(isGrowing) {
+			if(objectsRolled.size() % 10 == 0) {
+				growPlayer();
+				isGrowing = false;
+			}
+		}
+		
 		vel = body.getLinearVelocity();
 		pos = body.getPosition();
 		
+		// stick newly rolled objects
 		if (!objectsToRoll.isEmpty()) {
 			for (GameObject obj : objectsToRoll)
 				stickObject(obj);
@@ -116,11 +113,23 @@ public class Player extends GameObject {
 		}
 	}
 	
-	public void stickObject(GameObject other) {
+	public void growPlayer() {
+		radius *= 1.15f;
+		
+		Fixture fixture = body.getFixtureList().get(0);
+		CircleShape shape = (CircleShape) fixture.getShape();
+		shape.setRadius(radius);
+		
+		fixture = sensor.body.getFixtureList().get(0);
+		shape = (CircleShape) fixture.getShape();
+		shape.setRadius(radius);
+	}
+	
+	private void stickObject(GameObject other) {
 		other.isRolled = true;
 		objectsRolled.add(other);
 		
-		Utils.weldJoints(body, other.body, new Vector2(pos.x, pos.y), world.b2world);
+		Utils.weldJoint(body, other.body, new Vector2(pos.x, pos.y), world.b2world);
 		
 		other.body.setAngularVelocity(0.0f);
 		Fixture otherFix = other.body.getFixtureList().get(0);
@@ -128,6 +137,8 @@ public class Player extends GameObject {
 		filter.maskBits = GameObject.CATEGORY_NO_COLLISION;
 		otherFix.setSensor(true);
 		otherFix.setFilterData(filter);
+		
+		isGrowing = true;
 	}
 	
 	private Body createPlayerBody(BodyType bodyType, float x, float y, float radius, float density) {
