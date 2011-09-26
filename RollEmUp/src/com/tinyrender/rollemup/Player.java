@@ -9,10 +9,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
-import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 
 public class Player extends GameObject {
 	class PlayerSensor extends Sensor {
@@ -42,11 +42,8 @@ public class Player extends GameObject {
 			if (!leftCollisionWith.isRolled)
 				numContacts--;
 			
-			Gdx.app.log("leaveContact", Integer.toString(numContacts));
-			if (numContacts <= 0) {
-				Gdx.app.log("leaveContact: notGrounded", Integer.toString(numContacts));
+			if (numContacts <= 0) 
 				isGrounded = false;
-			}
 		}
 		
 		@Override
@@ -98,8 +95,8 @@ public class Player extends GameObject {
 			body.setLinearVelocity(vel.x, vel.y);
 		}
  
-		// apply a force when the phone is tilted enough,
-		// otherwise dampen down the acceleration to a stop
+		// apply force when tilted, otherwise
+		// dampen down acceleration to stop
 		if ((Gdx.input.getAccelerometerY() <= -0.2f && vel.x > -MAX_VELOCITY) ||
 				Gdx.input.getAccelerometerY() >= 0.2f && vel.x < MAX_VELOCITY) {
 			body.applyForceToCenter(Gdx.input.getAccelerometerY() * 11.0f, 0);
@@ -107,7 +104,7 @@ public class Player extends GameObject {
 			body.setLinearVelocity(vel.x * 0.9f, vel.y);
 		}
 
-		// regain rolling momentum with a small impulse
+		// regain momentum with small impulse
 		if (vel.x < MAX_VELOCITY/3 || vel.x > -MAX_VELOCITY/3)
 			body.applyLinearImpulse(Gdx.input.getAccelerometerY() * 2.0f, 0, pos.x, pos.y);
 		
@@ -123,14 +120,14 @@ public class Player extends GameObject {
 		other.isRolled = true;
 		objectsRolled.add(other);
 		
-		Vector2 anchorA = new Vector2(pos.x, pos.y);
-		WeldJointDef wjd = new WeldJointDef();
-		wjd.initialize(body, other.body, anchorA);
-		world.b2world.createJoint(wjd);
+		Utils.weldJoints(body, other.body, new Vector2(pos.x, pos.y), world.b2world);
 		
 		other.body.setAngularVelocity(0.0f);
 		Fixture otherFix = other.body.getFixtureList().get(0);
+		Filter filter = new Filter();
+		filter.maskBits = GameObject.CATEGORY_NO_COLLISION;
 		otherFix.setSensor(true);
+		otherFix.setFilterData(filter);
 	}
 	
 	private Body createPlayerBody(BodyType bodyType, float x, float y, float radius, float density) {

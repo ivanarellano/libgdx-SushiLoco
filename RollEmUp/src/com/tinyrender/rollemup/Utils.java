@@ -1,8 +1,10 @@
 package com.tinyrender.rollemup;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -59,5 +61,11 @@ public class Utils {
 		shape.dispose();
  
 		return body;
+	}
+	
+	public static void weldJoints(Body bodyA, Body bodyB, Vector2 anchorA, World b2world) {
+		WeldJointDef wjd = new WeldJointDef();
+		wjd.initialize(bodyA, bodyB, anchorA);
+		b2world.createJoint(wjd);
 	}
 }
