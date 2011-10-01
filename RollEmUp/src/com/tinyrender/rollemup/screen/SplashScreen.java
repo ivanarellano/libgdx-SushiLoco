@@ -63,7 +63,6 @@ public class SplashScreen implements Screen {
 
 	@Override
 	public void show() {
-		Assets.splashScreen.setScale(1.0f, RollEmUp.SCALE_FACTOR_Y);
 		Assets.batch.setProjectionMatrix(gui.camera.combined);
 	}
 }

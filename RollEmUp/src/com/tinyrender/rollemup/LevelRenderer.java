@@ -14,6 +14,7 @@ public class LevelRenderer {
 		level = scr.getLevel();
 		renderer = new Box2DDebugRenderer();
 		Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+		Assets.batch.setProjectionMatrix(level.cam.combined);
 	}
 	
 	public void render(float deltaTime) {
@@ -22,8 +23,13 @@ public class LevelRenderer {
 		level.cam.update();
 		level.cam.apply(Gdx.gl11);
 		
-		renderer.render(level.b2world, level.cam.combined);
-		level.render(deltaTime);
+		Assets.batch.begin();
+			for (GameObject obj : level.objects) {
+				obj.sprite.draw(Assets.batch);
+			}
+		Assets.batch.end();
+				
+		renderer.render(level.b2world, level.box2dcam.combined);
 	}
 	
 	public void dispose() {

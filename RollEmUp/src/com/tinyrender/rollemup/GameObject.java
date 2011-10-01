@@ -1,34 +1,28 @@
 package com.tinyrender.rollemup;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public abstract class GameObject {
-	// disable collision
-	final static short CATEGORY_NO_COLLISION = 0x0000;
-	
+public abstract class GameObject extends PhysicsObject{
 	public enum Type {
-		PLAYER, SUSHI, PLATFORM, SENSOR, PLAYER_SENSOR;
+		PLAYER, SUSHI, PLATFORM;
 	}
 	
-	public Body body;
-	public Vector2 vel;
-	public Vector2 pos;
-	public int numContacts;
+	public Sprite sprite;
+	public int pointsWorth;
+	public int size;
 	public boolean isRolled = false;
 	
-	public PhysicsWorld world;
-	
 	public GameObject(PhysicsWorld world) {
-		this.world = world;
+		super(world);
 	}
 	
-	public void setBody(Body body) {
-		this.body = body;
+	@Override
+	public void enterContact(PhysicsObject collidesWith) {
+	}
+
+	@Override
+	public void leaveContact(PhysicsObject leftCollisionWith) {		
 	}
 	
-	public abstract void update();
-	public abstract void enterContact(GameObject collidesWith);
-	public abstract void leaveContact(GameObject leftCollisionWith);
 	public abstract Type getType();
 }

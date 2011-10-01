@@ -31,26 +31,47 @@ titlelogo
   orig: 151, 118
   offset: 0, 1
   index: -1
-start
+player
   rotate: false
   xy: 862, 417
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+start
+  rotate: false
+  xy: 4, 972
   size: 97, 27
   orig: 99, 30
   offset: 2, 1
   index: -1
 soundoff
   rotate: false
-  xy: 4, 972
+  xy: 105, 972
   size: 110, 20
   orig: 128, 22
   offset: 2, 1
   index: -1
 soundon
   rotate: false
-  xy: 4, 996
+  xy: 105, 996
   size: 105, 20
   orig: 128, 22
   offset: 2, 1
+  index: -1
+circlesushi
+  rotate: false
+  xy: 930, 417
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+boxsushi
+  rotate: false
+  xy: 966, 417
+  size: 33, 17
+  orig: 33, 17
+  offset: 0, 0
   index: -1
 
 assets2.png

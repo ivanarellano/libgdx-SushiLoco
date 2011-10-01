@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -23,23 +24,16 @@ public class Player extends GameObject {
 		}
 		
 		@Override
-		public void enterContact(GameObject collidesWith) {
+		public void enterContact(PhysicsObject collidesWith) {
 			numContacts++;
 			isGrounded = true;
-			if (collidesWith.getType().equals(Type.SUSHI))
-				objectsToRoll.add(collidesWith);
 		}
 
 		@Override
-		public void leaveContact(GameObject leftCollisionWith) {
+		public void leaveContact(PhysicsObject leftCollisionWith) {
 			numContacts--;
 			if (numContacts <= 0) 
 				isGrounded = false;
-		}
-		
-		@Override
-		public Type getType() {
-			return Type.PLAYER_SENSOR;
 		}
 	}
 	
@@ -48,22 +42,30 @@ public class Player extends GameObject {
 	public PlayerSensor sensor;
 	public boolean isJumping = false;
 	public boolean isGrowing = false;
-	public float radius = 2.5f;
+	public float moveHorizontal;
+	public float moveVertical;
+	public float radius;
+	public int totalScore;
+	public Vector2 pos;
+	public Vector2 vel;
 	
 	List<GameObject> objectsToRoll = new ArrayList<GameObject>();
 	ArrayList<GameObject> objectsRolled = new ArrayList<GameObject>();
 	
 	public Player(PhysicsWorld world) {
 		super(world);
-		body = createPlayerBody(BodyType.DynamicBody, 0.0f, 5.0f, radius, 1.0f);
-		pos = body.getPosition();
+		sprite = Assets.player;
+		radius = (sprite.getWidth()/2)/Level.PTM_RATIO;
 		
-		sensor = new PlayerSensor(pos.x, pos.y-1.0f, radius/1.1f, BodyType.DynamicBody, world);
+		body = createPlayerBody(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius, 1.0f, BodyType.DynamicBody);
+		pos = body.getPosition();
+				
+		sensor = new PlayerSensor(pos.x, pos.y+(radius*-0.3f), radius/1.1f, BodyType.DynamicBody, world);
 		sensor.fixture = sensor.body.getFixtureList().get(0);
 		
 		// join sensor to player body
 		Utils.revoluteJoint(body, sensor.body, new Vector2(pos.x, pos.y), world.b2world);
-
+		
 		body.setUserData(this);
 	}
 	
@@ -78,6 +80,16 @@ public class Player extends GameObject {
 		
 		vel = body.getLinearVelocity();
 		pos = body.getPosition();
+		
+		if (Gdx.input.isKeyPressed(Keys.A)) {
+			body.applyForceToCenter(-25.0f, 0);
+		}
+		
+		if (Gdx.input.isKeyPressed(Keys.D)) {
+			body.applyForceToCenter(25.0f, 0);
+		}
+		
+		sprite.setPosition((body.getPosition().x-radius)*Level.PTM_RATIO, (body.getPosition().y-radius)*Level.PTM_RATIO);
 		
 		// stick newly rolled objects
 		if (!objectsToRoll.isEmpty()) {
@@ -96,20 +108,20 @@ public class Player extends GameObject {
 		// dampen down acceleration to stop
 		if ((Gdx.input.getAccelerometerY() <= -0.2f && vel.x > -MAX_VELOCITY) ||
 				Gdx.input.getAccelerometerY() >= 0.2f && vel.x < MAX_VELOCITY) {
-			body.applyForceToCenter(Gdx.input.getAccelerometerY() * 11.0f, 0);
+			body.applyForceToCenter(Gdx.input.getAccelerometerY()*0.1f, 0);
 		} else {
 			body.setLinearVelocity(vel.x * 0.9f, vel.y);
 		}
 
 		// regain momentum with small impulse
 		if (vel.x < MAX_VELOCITY/3 || vel.x > -MAX_VELOCITY/3)
-			body.applyLinearImpulse(Gdx.input.getAccelerometerY() * 2.0f, 0, pos.x, pos.y);
+			body.applyLinearImpulse(Gdx.input.getAccelerometerY()*0.1f, 0, pos.x, pos.y);
 		
 		// jump if grounded
 		if(isJumping) {
 			isJumping = false;
 			if(sensor.isGrounded)
-				body.applyLinearImpulse(0, 310.0f, pos.x, pos.y);
+				body.applyLinearImpulse(0, 10.0f * body.getMass(), pos.x, pos.y);
 		}
 	}
 	
@@ -141,7 +153,7 @@ public class Player extends GameObject {
 		isGrowing = true;
 	}
 	
-	private Body createPlayerBody(BodyType bodyType, float x, float y, float radius, float density) {
+	private Body createPlayerBody(float x, float y, float radius, float density, BodyType bodyType) {
 		BodyDef bd = new BodyDef();
 		bd.type = bodyType;
 		bd.position.set(x, y);
@@ -161,12 +173,18 @@ public class Player extends GameObject {
 	}
 	
 	@Override
-	public void enterContact(GameObject collidesWith) {
+	public void enterContact(PhysicsObject collidesWith) {
+		GameObject otherObject = (GameObject) collidesWith.body.getUserData();
 		numContacts++;
+		if (otherObject.getType().equals(Type.SUSHI)) {
+			objectsToRoll.add(otherObject);
+			totalScore += otherObject.pointsWorth;
+			Gdx.app.log("score", Integer.toString(totalScore));
+		}
 	}
 	
 	@Override
-	public void leaveContact(GameObject leftCollisionWith) {
+	public void leaveContact(PhysicsObject leftCollisionWith) {
 		numContacts--;
 	}
 

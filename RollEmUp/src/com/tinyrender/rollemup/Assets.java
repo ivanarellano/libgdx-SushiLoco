@@ -25,6 +25,9 @@ public class Assets {
 	public static Sprite titleScreen;
 	public static Sprite start;
 	public static Sprite titleLogo;
+	public static Sprite player;
+	public static Sprite circleSushi;
+	public static Sprite boxSushi;
 	public static BitmapFont droidsans;
 	
 	public static Music music;
@@ -67,6 +70,9 @@ public class Assets {
     		titleScreen = manager.get("data/pack", TextureAtlas.class).createSprite("bgtitlescreen");
     		start = manager.get("data/pack", TextureAtlas.class).createSprite("start");
     		titleLogo = manager.get("data/pack", TextureAtlas.class).createSprite("titlelogo");
+    		player = manager.get("data/pack", TextureAtlas.class).createSprite("player");
+    		circleSushi = manager.get("data/pack", TextureAtlas.class).createSprite("circlesushi");
+    		boxSushi = manager.get("data/pack", TextureAtlas.class).createSprite("boxsushi");
     		
         	if (manager.isLoaded("data/droidsans.fnt")) {
         		BitmapFontData bfd = new BitmapFontData(Gdx.files.internal("data/droidsans.fnt"), false);

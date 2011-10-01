@@ -8,13 +8,11 @@ public class Gui extends InputAdapter {
     //final Vector3 curr = new Vector3();
     //final Vector3 last = new Vector3(-1, -1, -1);
     //final Vector3 delta = new Vector3();
-    public static final int TARGET_WIDTH = 854;
-    public static final int TARGET_HEIGHT = 480;
 
 	public Gui() {
-		camera = new OrthographicCamera(TARGET_WIDTH, TARGET_HEIGHT);
-		camera.setToOrtho(false, TARGET_WIDTH, TARGET_HEIGHT);
-		camera.position.set(TARGET_WIDTH / 2, TARGET_HEIGHT / 2, 0);
+		camera = new OrthographicCamera(RollEmUp.TARGET_WIDTH, RollEmUp.TARGET_HEIGHT);
+		camera.setToOrtho(false, RollEmUp.TARGET_WIDTH, RollEmUp.TARGET_HEIGHT);
+		camera.position.set(RollEmUp.SCREEN_HALF_WIDTH, RollEmUp.SCREEN_HALF_HEIGHT, 0);
 	}
 	
 	/*

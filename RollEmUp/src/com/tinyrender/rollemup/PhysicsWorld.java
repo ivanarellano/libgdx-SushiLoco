@@ -50,8 +50,8 @@ public abstract class PhysicsWorld implements ContactListener {
 		
 	@Override
 	public void beginContact(Contact contact) {
-		GameObject objectA = (GameObject) contact.getFixtureA().getBody().getUserData();
-		GameObject objectB = (GameObject) contact.getFixtureB().getBody().getUserData();
+		PhysicsObject objectA = (PhysicsObject) contact.getFixtureA().getBody().getUserData();
+		PhysicsObject objectB = (PhysicsObject) contact.getFixtureB().getBody().getUserData();
 
 		objectA.enterContact(objectB);
 		objectB.enterContact(objectA);
@@ -59,8 +59,8 @@ public abstract class PhysicsWorld implements ContactListener {
 
 	@Override
 	public void endContact(Contact contact) {
-		GameObject objectA = (GameObject) contact.getFixtureA().getBody().getUserData();
-		GameObject objectB = (GameObject) contact.getFixtureB().getBody().getUserData();
+		PhysicsObject objectA = (PhysicsObject) contact.getFixtureA().getBody().getUserData();
+		PhysicsObject objectB = (PhysicsObject) contact.getFixtureB().getBody().getUserData();
 
 		objectA.leaveContact(objectB);
 		objectB.leaveContact(objectA);

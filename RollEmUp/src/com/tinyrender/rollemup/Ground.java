@@ -21,11 +21,11 @@ public class Ground extends GameObject {
 	}
 	
 	@Override
-	public void enterContact(GameObject collidesWith) {		
+	public void enterContact(PhysicsObject collidesWith) {		
 	}
 
 	@Override
-	public void leaveContact(GameObject leftCollisionWith) {		
+	public void leaveContact(PhysicsObject leftCollisionWith) {		
 	}
 	
 	@Override

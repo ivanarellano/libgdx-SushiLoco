@@ -11,16 +11,9 @@ public class RollEmUp extends Game implements ApplicationListener {
 	public final static int TARGET_HEIGHT = 480;
 	public final static int SCREEN_HALF_WIDTH = (int) Math.ceil(TARGET_WIDTH / 2);
 	public final static int SCREEN_HALF_HEIGHT = (int) Math.ceil(TARGET_HEIGHT /2);
-	public static float ASPECT_RATIO;
-	public static float SCALE_FACTOR_X;
-	public static float SCALE_FACTOR_Y;
 	
 	@Override
-	public void create() {		
-		SCALE_FACTOR_X = (float)Gdx.graphics.getWidth() / TARGET_WIDTH;
-		SCALE_FACTOR_Y = (float)Gdx.graphics.getHeight() / TARGET_HEIGHT;
-		ASPECT_RATIO = (float)Gdx.graphics.getWidth() / Gdx.graphics.getHeight();
-		
+	public void create() {
 		Settings.load();
 		Assets.create();
 
@@ -48,7 +41,7 @@ public class RollEmUp extends Game implements ApplicationListener {
 		
 		Assets.batch.begin();
 			Assets.droidFontCache.setText(Integer.toString(Gdx.graphics.getFramesPerSecond()), 
-									Gdx.graphics.getWidth()-25.0f, Gdx.graphics.getHeight()-25.0f);
+									RollEmUp.TARGET_WIDTH-Assets.droidFontCache.getBounds().width-20.0f, RollEmUp.TARGET_HEIGHT-20.0f);
 			Assets.droidFontCache.draw(Assets.batch);
 		Assets.batch.end();
 	}

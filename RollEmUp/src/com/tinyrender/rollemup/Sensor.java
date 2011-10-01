@@ -2,8 +2,13 @@ package com.tinyrender.rollemup;
 
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
-public class Sensor extends GameObject {
-
+public class Sensor extends PhysicsObject {
+	public enum Type {
+		PLAYER, SUSHI, PLATFORM;
+	}
+	
+	Type type;
+	
 	public Sensor(PhysicsWorld world) {
 		super(world);
 	}
@@ -14,7 +19,7 @@ public class Sensor extends GameObject {
 	}
 
 	public void createBody(float x, float y, float radius, BodyType bodyType) {
-		body = Utils.createCircle(bodyType, x, y, radius, 0.0f, 0.0f, true, world.b2world);
+		body = Utils.createCircle(x, y, radius, 0.0f, 0.0f, true, bodyType, world.b2world);
 		body.setUserData(this);
 	}
 	
@@ -23,15 +28,10 @@ public class Sensor extends GameObject {
 	}
 	
 	@Override
-	public void enterContact(GameObject collidesWith) {
+	public void enterContact(PhysicsObject collidesWith) {
 	}
 
 	@Override
-	public void leaveContact(GameObject leftCollisionWith) {		
-	}
-	
-	@Override
-	public Type getType() {
-		return Type.SENSOR;
+	public void leaveContact(PhysicsObject leftCollisionWith) {		
 	}
 }

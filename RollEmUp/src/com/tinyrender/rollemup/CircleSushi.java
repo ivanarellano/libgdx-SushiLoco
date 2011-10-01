@@ -11,10 +11,11 @@ public class CircleSushi extends GameObject {
 	public CircleSushi(float x, float y, float radius, float density, float angle, PhysicsWorld world) {
 		super(world);
 		createBody(x, y, radius, density, angle);
+		pointsWorth = 2;
 	}
 	
 	public void createBody(float x, float y, float radius, float density, float angle) {
-		body = Utils.createCircle(BodyType.DynamicBody, x, y, radius, density, angle, false, world.b2world);
+		body = Utils.createCircle(x, y, radius, density, angle, false, BodyType.DynamicBody, world.b2world);
 		body.setUserData(this);
 	}
 
@@ -24,12 +25,12 @@ public class CircleSushi extends GameObject {
 	}
 	
 	@Override
-	public void enterContact(GameObject collidesWith) {
+	public void enterContact(PhysicsObject collidesWith) {
 
 	}	
 	
 	@Override
-	public void leaveContact(GameObject leftCollisionWith) {		
+	public void leaveContact(PhysicsObject leftCollisionWith) {		
 	}
 
 	@Override

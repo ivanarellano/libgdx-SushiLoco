@@ -44,7 +44,7 @@ public class Utils {
 		return body;
 	}
 	
-	public static Body createCircle(BodyType type, float x, float y, float radius, float density, float angle, boolean isSensor, World b2world) {
+	public static Body createCircle(float x, float y, float radius, float density, float angle, boolean isSensor, BodyType type, World b2world) {
 		BodyDef bd = new BodyDef();
 		bd.position.set(x, y);
 		bd.angle = angle;
