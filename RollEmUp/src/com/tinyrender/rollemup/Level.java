@@ -25,4 +25,6 @@ public abstract class Level extends PhysicsWorld {
 	// hook for gamescreen input
 	public abstract void touchDown();
 	public abstract void touchUp();
+	public abstract boolean keyDown(int keyCode);
+	public abstract boolean keyUp(int keyCode);
 }

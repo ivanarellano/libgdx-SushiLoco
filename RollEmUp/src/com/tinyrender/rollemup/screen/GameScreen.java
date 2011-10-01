@@ -77,6 +77,18 @@ public class GameScreen extends InputAdapter implements Screen {
 		return false;
 	}
 	
+	@Override
+	public boolean keyDown(int keyCode) {
+		level.keyDown(keyCode);
+		return false;
+	}
+	
+	@Override
+	public boolean keyUp(int keyCode) {
+		level.keyUp(keyCode);
+		return false;
+	}
+	
 	public void setLevel(Level level) {
 		this.level = level;
 	}

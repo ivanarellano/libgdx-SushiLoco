@@ -8,7 +8,6 @@ public abstract class GameObject extends PhysicsObject{
 	}
 	
 	public Sprite sprite;
-	public int pointsWorth;
 	public int size;
 	public boolean isRolled = false;
 	

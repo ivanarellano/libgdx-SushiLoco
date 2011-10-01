@@ -45,7 +45,7 @@ public class Player extends GameObject {
 	public float moveHorizontal;
 	public float moveVertical;
 	public float radius;
-	public int totalScore;
+	public int totalSize;
 	public Vector2 pos;
 	public Vector2 vel;
 	
@@ -71,8 +71,8 @@ public class Player extends GameObject {
 	
 	@Override
 	public void update() {
-		if(isGrowing) {
-			if(objectsRolled.size() % 10 == 0) {
+		if (isGrowing) {
+			if (objectsRolled.size() % 5 == 0) {
 				growPlayer();
 				isGrowing = false;
 			}
@@ -118,9 +118,9 @@ public class Player extends GameObject {
 			body.applyLinearImpulse(Gdx.input.getAccelerometerY()*0.1f, 0, pos.x, pos.y);
 		
 		// jump if grounded
-		if(isJumping) {
+		if (isJumping) {
 			isJumping = false;
-			if(sensor.isGrounded)
+			if (sensor.isGrounded)
 				body.applyLinearImpulse(0, 10.0f * body.getMass(), pos.x, pos.y);
 		}
 	}
@@ -178,8 +178,8 @@ public class Player extends GameObject {
 		numContacts++;
 		if (otherObject.getType().equals(Type.SUSHI)) {
 			objectsToRoll.add(otherObject);
-			totalScore += otherObject.pointsWorth;
-			Gdx.app.log("score", Integer.toString(totalScore));
+			totalSize += otherObject.size;
+			Gdx.app.log("size", Integer.toString(totalSize));
 		}
 	}
 	

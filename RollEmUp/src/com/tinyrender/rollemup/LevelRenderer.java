@@ -25,7 +25,8 @@ public class LevelRenderer {
 		
 		Assets.batch.begin();
 			for (GameObject obj : level.objects) {
-				obj.sprite.draw(Assets.batch);
+				if(null != obj.sprite.getTexture())
+					obj.sprite.draw(Assets.batch);
 			}
 		Assets.batch.end();
 				
