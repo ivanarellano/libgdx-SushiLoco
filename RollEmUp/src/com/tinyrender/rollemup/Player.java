@@ -60,8 +60,10 @@ public class Player extends GameObject {
 		body = createPlayerBody(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius, 1.0f, BodyType.DynamicBody);
 		pos = body.getPosition();
 				
-		sensor = new PlayerSensor(pos.x, pos.y+(radius*-0.3f), radius/1.1f, BodyType.DynamicBody, world);
+		sensor = new PlayerSensor(pos.x, pos.y+(radius*-0.2f), radius/1.1f, BodyType.DynamicBody, world);
 		sensor.fixture = sensor.body.getFixtureList().get(0);
+		
+		sprite.setOrigin(0.0f, 0.0f);
 		
 		// join sensor to player body
 		Utils.revoluteJoint(body, sensor.body, new Vector2(pos.x, pos.y), world.b2world);
@@ -127,6 +129,7 @@ public class Player extends GameObject {
 	
 	public void growPlayer() {
 		radius *= 1.15f;
+		sprite.scale(0.15f);
 		
 		Fixture fixture = body.getFixtureList().get(0);
 		CircleShape shape = (CircleShape) fixture.getShape();
@@ -134,16 +137,16 @@ public class Player extends GameObject {
 		
 		fixture = sensor.body.getFixtureList().get(0);
 		shape = (CircleShape) fixture.getShape();
-		shape.setRadius(radius);
+		shape.setRadius(radius);		
 	}
 	
 	private void stickObject(GameObject other) {
 		other.isRolled = true;
 		objectsRolled.add(other);
+		other.body.setAngularVelocity(0.0f);
 		
 		Utils.weldJoint(body, other.body, new Vector2(pos.x, pos.y), world.b2world);
 		
-		other.body.setAngularVelocity(0.0f);
 		Fixture otherFix = other.body.getFixtureList().get(0);
 		Filter filter = new Filter();
 		filter.maskBits = GameObject.CATEGORY_NO_COLLISION;
@@ -179,7 +182,7 @@ public class Player extends GameObject {
 		if (otherObject.getType().equals(Type.SUSHI)) {
 			objectsToRoll.add(otherObject);
 			totalSize += otherObject.size;
-			Gdx.app.log("size", Integer.toString(totalSize));
+			//Gdx.app.log("size", Integer.toString(totalSize));
 		}
 	}
 	
