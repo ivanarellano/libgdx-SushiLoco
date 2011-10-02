@@ -16,20 +16,25 @@ public class MainMenuScreen implements Screen {
 	
 	Rectangle startBounds;
 	Rectangle soundBounds;
+	Rectangle debugBounds;
 	Vector3 touchPoint;
+	boolean setMoreText = true;
 	
 	public MainMenuScreen(RollEmUp g) {
 		game = g;
 		gui = new Gui();
 		
-		Assets.titleLogo.setPosition(RollEmUp.SCREEN_HALF_WIDTH - Assets.titleLogo.getWidth()/2, RollEmUp.SCREEN_HALF_HEIGHT + 75);		
-		Assets.start.setPosition(RollEmUp.SCREEN_HALF_WIDTH - Assets.start.getWidth()/2, RollEmUp.SCREEN_HALF_HEIGHT - 150);
-		Assets.soundOff.setPosition(50, 50);
-		Assets.soundOn.setPosition(50, 50);
+		Assets.titleLogo.setPosition(RollEmUp.SCREEN_HALF_WIDTH - Assets.titleLogo.getWidth()/2.0f, RollEmUp.SCREEN_HALF_HEIGHT + 75.0f);		
+		Assets.start.setPosition(RollEmUp.SCREEN_HALF_WIDTH - Assets.start.getWidth()/2.0f, RollEmUp.SCREEN_HALF_HEIGHT - 150.0f);
+		Assets.soundOff.setPosition(50.0f, 50.0f);
+		Assets.soundOn.setPosition(50.0f, 50.0f);
 		
 		startBounds = Assets.start.getBoundingRectangle();
 		soundBounds = Assets.soundOff.getBoundingRectangle();
 		touchPoint = new Vector3();
+		
+		debugBounds = new Rectangle();
+		debugBounds.set(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 	
 	@Override
@@ -47,7 +52,7 @@ public class MainMenuScreen implements Screen {
 	
 	public void update() {
 		if (Gdx.input.justTouched()) {
-			gui.camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+			gui.camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0.0f));
 			
 			if (startBounds.contains(touchPoint.x, touchPoint.y)) {
 				Assets.playSound(Assets.hitSound);
@@ -63,6 +68,11 @@ public class MainMenuScreen implements Screen {
 				else
 					Assets.music.pause();				
 			}
+
+			if (debugBounds.contains(touchPoint.x, touchPoint.y)) {
+				Settings.debugEnabled = !Settings.debugEnabled;
+				setMoreText = true;
+			}
 		}
 	}
 
@@ -77,10 +87,30 @@ public class MainMenuScreen implements Screen {
 			Assets.titleLogo.draw(Assets.batch);
 			Assets.start.draw(Assets.batch);
 			
-			if(Settings.soundEnabled)
+			if (Settings.soundEnabled)
 				Assets.soundOn.draw(Assets.batch);
 			else
 				Assets.soundOff.draw(Assets.batch);
+			
+			if (setMoreText) {
+				setMoreText = false;
+				
+				if (Settings.debugEnabled)
+					Assets.droidFontCache.setText("Debug: On", 0.0f, 0.0f);
+				else
+					Assets.droidFontCache.setText("Debug: Off", 0.0f, 0.0f);
+				
+				Assets.droidFontCache.setPosition(RollEmUp.SCREEN_HALF_WIDTH - Assets.droidFontCache.getBounds().width/2.0f,
+						  RollEmUp.SCREEN_HALF_HEIGHT - 200.0f);
+				
+				debugBounds.set(Assets.droidFontCache.getX(),
+						Assets.droidFontCache.getY()-Assets.droidFontCache.getBounds().height,
+						Assets.droidFontCache.getBounds().width,
+						Assets.droidFontCache.getBounds().height);
+			}
+			
+			Assets.droidFontCache.draw(Assets.batch);
+			
 		Assets.batch.end();		
 	}
 
@@ -95,7 +125,7 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void show() {
 		Assets.batch.setProjectionMatrix(gui.camera.combined);
-		Assets.batch.setColor(1, 1, 1, 1);
+		Assets.batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		
 		if(Settings.soundEnabled) // FIXME: CHANGE TO musicEnabled WHEN READY
             Assets.music.play();

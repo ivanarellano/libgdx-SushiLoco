@@ -39,11 +39,15 @@ public class RollEmUp extends Game implements ApplicationListener {
 	public void render() {
 		getScreen().render(Gdx.graphics.getDeltaTime());
 		
-		Assets.batch.begin();
-			Assets.droidFontCache.setText(Integer.toString(Gdx.graphics.getFramesPerSecond()), 
-									RollEmUp.TARGET_WIDTH-Assets.droidFontCache.getBounds().width-20.0f, RollEmUp.TARGET_HEIGHT-20.0f);
-			Assets.droidFontCache.draw(Assets.batch);
-		Assets.batch.end();
+		if (Settings.debugEnabled) {
+			String fps = Integer.toString(Gdx.graphics.getFramesPerSecond());
+			Assets.batch.begin();
+				Assets.droidsans.draw(Assets.batch,
+									  fps, 
+									  RollEmUp.TARGET_WIDTH - Assets.droidsans.getBounds(fps).width - 20.0f,
+									  RollEmUp.TARGET_HEIGHT - 20.0f);
+			Assets.batch.end();
+		}
 	}
 
 	@Override

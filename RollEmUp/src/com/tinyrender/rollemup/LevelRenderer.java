@@ -29,8 +29,9 @@ public class LevelRenderer {
 					obj.sprite.draw(Assets.batch);
 			}
 		Assets.batch.end();
-				
-		renderer.render(level.b2world, level.box2dcam.combined);
+		
+		if (Settings.debugEnabled)
+			renderer.render(level.b2world, level.box2dcam.combined);
 	}
 	
 	public void dispose() {

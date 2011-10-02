@@ -11,6 +11,7 @@ import com.badlogic.gdx.Gdx;
 public class Settings {
 	public static boolean soundEnabled = true;
 	public static boolean musicEnabled = true;
+	public static boolean debugEnabled = true;
 	public final static String file = ".rollemup";
 	
 	public static void load() {
@@ -20,6 +21,7 @@ public class Settings {
 			in = new BufferedReader(new InputStreamReader(Gdx.files.external(file).read()));
 			soundEnabled = Boolean.parseBoolean(in.readLine());
 			musicEnabled = Boolean.parseBoolean(in.readLine());
+			debugEnabled = Boolean.parseBoolean(in.readLine());
 		} catch (Throwable e) {
 			
 		} finally {
@@ -39,6 +41,7 @@ public class Settings {
 			out = new BufferedWriter(new OutputStreamWriter(Gdx.files.external(file).write(false)));
 			out.write(Boolean.toString(soundEnabled));
 			out.write(Boolean.toString(musicEnabled));
+			out.write(Boolean.toString(debugEnabled));
 		} catch (Throwable e) {
 			
 		} finally {
