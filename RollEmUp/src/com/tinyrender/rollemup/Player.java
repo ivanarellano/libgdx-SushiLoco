@@ -182,7 +182,8 @@ public class Player extends GameObject {
 		if (otherObject.getType().equals(Type.SUSHI)) {
 			objectsToRoll.add(otherObject);
 			totalSize += otherObject.size;
-			//Gdx.app.log("size", Integer.toString(totalSize));
+			Gdx.app.log("boxsushisize", Float.toString(Assets.boxSushi.getU()) + " _ " + Assets.boxSushi.getU2() + " _ " + Assets.boxSushi.getV() + " _ " + Assets.boxSushi.getV2());
+			
 		}
 	}
 	

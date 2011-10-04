@@ -3,6 +3,7 @@ package com.tinyrender.rollemup.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
+import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.tinyrender.rollemup.Assets;
@@ -18,6 +19,8 @@ public class MainMenuScreen implements Screen {
 	Rectangle soundBounds;
 	Rectangle debugBounds;
 	Vector3 touchPoint;
+	
+	BitmapFontCache droidFontCache;
 	boolean setMoreText = true;
 	
 	public MainMenuScreen(RollEmUp g) {
@@ -35,6 +38,8 @@ public class MainMenuScreen implements Screen {
 		
 		debugBounds = new Rectangle();
 		debugBounds.set(0.0f, 0.0f, 0.0f, 0.0f);
+		
+    	droidFontCache = new BitmapFontCache(Assets.droidsans);
 	}
 	
 	@Override
@@ -96,20 +101,20 @@ public class MainMenuScreen implements Screen {
 				setMoreText = false;
 				
 				if (Settings.debugEnabled)
-					Assets.droidFontCache.setText("Debug: On", 0.0f, 0.0f);
+					droidFontCache.setText("Debug: On", 0.0f, 0.0f);
 				else
-					Assets.droidFontCache.setText("Debug: Off", 0.0f, 0.0f);
+					droidFontCache.setText("Debug: Off", 0.0f, 0.0f);
 				
-				Assets.droidFontCache.setPosition(RollEmUp.SCREEN_HALF_WIDTH - Assets.droidFontCache.getBounds().width/2.0f,
+				droidFontCache.setPosition(RollEmUp.SCREEN_HALF_WIDTH - droidFontCache.getBounds().width/2.0f,
 						  RollEmUp.SCREEN_HALF_HEIGHT - 200.0f);
 				
-				debugBounds.set(Assets.droidFontCache.getX(),
-						Assets.droidFontCache.getY()-Assets.droidFontCache.getBounds().height,
-						Assets.droidFontCache.getBounds().width,
-						Assets.droidFontCache.getBounds().height);
+				debugBounds.set(droidFontCache.getX(),
+						droidFontCache.getY()-droidFontCache.getBounds().height,
+						droidFontCache.getBounds().width,
+						droidFontCache.getBounds().height);
 			}
 			
-			Assets.droidFontCache.draw(Assets.batch);
+			droidFontCache.draw(Assets.batch);
 			
 		Assets.batch.end();		
 	}

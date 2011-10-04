@@ -28,12 +28,12 @@ public class Assets {
 	public static Sprite player;
 	public static Sprite circleSushi;
 	public static Sprite boxSushi;
+	public static Texture scratch;
 	public static BitmapFont droidsans;
 	
 	public static Music music;
 	public static Sound hitSound;
 	
-	public static BitmapFontCache droidFontCache;
 	public static SpriteBatch batch;
     
     public static void create() {
@@ -56,6 +56,7 @@ public class Assets {
     	manager.load("data/pack", TextureAtlas.class);
     	manager.load("data/assets1.png", Texture.class);
     	manager.load("data/assets2.png", Texture.class);
+    	manager.load("data/scratch.png", Texture.class);
     	manager.load("data/droidsans.fnt", BitmapFont.class);
     	manager.load("data/music.mp3", Music.class);
     	manager.load("data/click.ogg", Sound.class);
@@ -77,9 +78,11 @@ public class Assets {
         	if (manager.isLoaded("data/droidsans.fnt")) {
         		BitmapFontData bfd = new BitmapFontData(Gdx.files.internal("data/droidsans.fnt"), false);
         		droidsans = new BitmapFont(bfd, manager.get("data/pack", TextureAtlas.class).findRegion("droidsans"), false);
-            	droidFontCache = new BitmapFontCache(droidsans);
         	}
     	}
+    	
+    	if (manager.isLoaded("data/scratch.png"))
+    		scratch = manager.get("data/scratch.png", Texture.class);
     	
     	if (manager.isLoaded("data/music.mp3")) {
     		music = manager.get("data/music.mp3", Music.class);
@@ -92,7 +95,7 @@ public class Assets {
     }
     
     public static void playSound(Sound sound) {
-        if(Settings.soundEnabled)
+        if (Settings.soundEnabled)
             sound.play(1);
     }
 }
