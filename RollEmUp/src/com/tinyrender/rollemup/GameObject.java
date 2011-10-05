@@ -1,6 +1,5 @@
 package com.tinyrender.rollemup;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class GameObject extends PhysicsObject {
@@ -8,7 +7,6 @@ public abstract class GameObject extends PhysicsObject {
 		PLAYER, SUSHI, PLATFORM;
 	}
 	
-	public Sprite sprite;
 	public int size;
 	public Vector2 pos;
 	public Vector2 vel;
@@ -26,6 +24,6 @@ public abstract class GameObject extends PhysicsObject {
 	public void leaveContact(PhysicsObject leftCollisionWith) {		
 	}
 	
-	public abstract Type getType();
 	public abstract void draw();
+	public abstract Type getType();
 }

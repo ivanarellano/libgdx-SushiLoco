@@ -24,10 +24,8 @@ public class LevelRenderer {
 		level.cam.apply(Gdx.gl11);
 		
 		Assets.batch.begin();
-			for (GameObject obj : level.objects) {
-				//if(null != obj.getTexture())
-					obj.draw();
-			}
+			for (GameObject obj : level.objects)
+				obj.draw();
 		Assets.batch.end();
 		
 		if (Settings.debugEnabled)
@@ -41,7 +39,7 @@ public class LevelRenderer {
 	
 	public void resume() {
 		Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-		if(null == renderer)
+		if (null == renderer)
 			renderer = new Box2DDebugRenderer();
 	}
 }

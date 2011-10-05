@@ -66,7 +66,7 @@ public class Player extends GameObject {
 	@Override
 	public void update() {
 		if (isGrowing) {
-			if (objectsRolled.size() % 2 == 0) {
+			if (objectsRolled.size() % 4 == 0) {
 				growPlayer();
 				isGrowing = false;
 			}
@@ -117,11 +117,11 @@ public class Player extends GameObject {
 	
 	public void draw() {
 		Assets.batch.draw(Assets.player,
-							(pos.x-radius) * Level.PTM_RATIO, (pos.y-radius) * Level.PTM_RATIO,
-							radius * Level.PTM_RATIO, radius * Level.PTM_RATIO,
-							(radius+radius) * Level.PTM_RATIO, (radius+radius) * Level.PTM_RATIO,
-							1.0f, 1.0f,
-							body.getAngle()*(180.0f/(float) Math.PI));
+				(pos.x-radius) * Level.PTM_RATIO, (pos.y-radius) * Level.PTM_RATIO,
+				radius * Level.PTM_RATIO, radius * Level.PTM_RATIO,
+				(radius+radius) * Level.PTM_RATIO, (radius+radius) * Level.PTM_RATIO,
+				1.0f, 1.0f,
+				body.getAngle()*180.0f/(float) Math.PI);
 	}
 	
 	public void growPlayer() {
@@ -148,6 +148,8 @@ public class Player extends GameObject {
 		filter.maskBits = GameObject.CATEGORY_NO_COLLISION;
 		otherFix.setSensor(true);
 		otherFix.setFilterData(filter);
+		
+		Gdx.app.log("mass", Float.toString(body.getMass()));
 		
 		isGrowing = true;
 	}
@@ -177,7 +179,8 @@ public class Player extends GameObject {
 		numContacts++;
 		if (otherObject.getType().equals(Type.SUSHI)) {
 			objectsToRoll.add(otherObject);
-			totalSize += otherObject.size;			
+			totalSize += otherObject.size;
+			Gdx.app.log("size", Integer.toString(totalSize));
 		}
 	}
 	

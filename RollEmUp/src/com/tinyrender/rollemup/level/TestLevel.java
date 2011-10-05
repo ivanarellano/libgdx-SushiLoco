@@ -6,7 +6,6 @@ import com.tinyrender.rollemup.CircleSushi;
 import com.tinyrender.rollemup.GameObject;
 import com.tinyrender.rollemup.Ground;
 import com.tinyrender.rollemup.Level;
-import com.tinyrender.rollemup.Platform;
 import com.tinyrender.rollemup.Player;
 import com.tinyrender.rollemup.RollEmUp;
 
@@ -29,16 +28,16 @@ public class TestLevel extends Level {
 				   0.4f, world);
 		
 		// floating platform
-		new Platform(427.0f/Level.PTM_RATIO, 180.0f/Level.PTM_RATIO, 128.0f/Level.PTM_RATIO, 16.0f/Level.PTM_RATIO, 0.0f, world);
+		//new Platform(427.0f/Level.PTM_RATIO, 180.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, 4.0f/Level.PTM_RATIO, 0.0f, world);
 		
 		// boxes
-		//for (int i = 0; i < 4; i++) {
-		//	objects.add(new BoxSushi(((float)Math.random() * 320.0f + (float)Math.random() * 320.0f)/Level.PTM_RATIO,
-		//									((float)Math.random() * 320.0f)/Level.PTM_RATIO, 0.1f, world));
-		//}
+		for (int i = 0; i < 16; i++) {
+			objects.add(new BoxSushi(((float)Math.random() * 320.0f + (float)Math.random() * 320.0f)/Level.PTM_RATIO,
+											((float)Math.random() * 320.0f)/Level.PTM_RATIO, 0.1f, world));
+		}
 		
 		// circles
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 18; i++) {
 			objects.add(new CircleSushi(((float)Math.random() * 50f - (float)Math.random() * 50f)/Level.PTM_RATIO, 
 										((float)Math.random() * 10 + 6)/Level.PTM_RATIO,
 										0.2f, (float)(Math.random() * 2 * Math.PI), world));

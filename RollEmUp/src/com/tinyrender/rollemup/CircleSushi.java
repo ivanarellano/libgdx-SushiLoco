@@ -1,6 +1,5 @@
 package com.tinyrender.rollemup;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 public class CircleSushi extends GameObject {
@@ -13,10 +12,7 @@ public class CircleSushi extends GameObject {
 	public CircleSushi(float x, float y, float density, float angle, PhysicsWorld world) {
 		super(world);
 		size = 2;
-		
-		sprite = new Sprite();
-		sprite.set(Assets.circleSushi);
-		radius = (sprite.getWidth()/2)/Level.PTM_RATIO;
+		radius = (Assets.circleSushi.getWidth()/2.0f)/Level.PTM_RATIO;
 		createBody(x, y, density, angle);
 	}
 	
@@ -27,12 +23,17 @@ public class CircleSushi extends GameObject {
 
 	@Override
 	public void update() {
-		sprite.setPosition((body.getPosition().x-radius)*Level.PTM_RATIO, (body.getPosition().y-radius)*Level.PTM_RATIO);
+		pos = body.getPosition();
 	}
 	
 	@Override
 	public void draw() {
-		
+		Assets.batch.draw(Assets.circleSushi,
+				(pos.x-radius) * Level.PTM_RATIO, (pos.y-radius) * Level.PTM_RATIO,
+				radius * Level.PTM_RATIO, radius * Level.PTM_RATIO,
+				(radius+radius) * Level.PTM_RATIO, (radius+radius) * Level.PTM_RATIO,
+				1.0f, 1.0f,
+				body.getAngle()*180.0f/(float) Math.PI);
 	}
 	
 	@Override
