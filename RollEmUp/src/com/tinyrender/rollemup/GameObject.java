@@ -7,7 +7,7 @@ public abstract class GameObject extends PhysicsObject {
 		PLAYER, SUSHI, PLATFORM;
 	}
 	
-	public int size;
+	public float size;
 	public Vector2 pos;
 	public Vector2 vel;
 	public boolean isRolled = false;

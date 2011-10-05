@@ -12,9 +12,9 @@ public class BoxSushi extends GameObject {
 	
 	public BoxSushi(float x, float y, float density, PhysicsWorld world) {
 		super(world);
-		size = 4;
 		hx = (Assets.boxSushi.getRegionWidth()/2.0f) / Level.PTM_RATIO;
 		hy = (Assets.boxSushi.getRegionHeight()/2.0f) / Level.PTM_RATIO;
+		size = hx;
 		createBody(x, y, density);
 	}
 	

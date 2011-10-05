@@ -1,6 +1,7 @@
 package com.tinyrender.rollemup.level;
 
 import com.badlogic.gdx.Input.Keys;
+import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.BoxSushi;
 import com.tinyrender.rollemup.CircleSushi;
 import com.tinyrender.rollemup.GameObject;
@@ -27,20 +28,17 @@ public class TestLevel extends Level {
 				   854.0f/Level.PTM_RATIO, 480.0f/Level.PTM_RATIO,
 				   0.4f, world);
 		
-		// floating platform
-		//new Platform(427.0f/Level.PTM_RATIO, 180.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, 4.0f/Level.PTM_RATIO, 0.0f, world);
-		
 		// boxes
-		for (int i = 0; i < 16; i++) {
+		for (int i = 0; i < 31; i++) {
 			objects.add(new BoxSushi(((float)Math.random() * 320.0f + (float)Math.random() * 320.0f)/Level.PTM_RATIO,
-											((float)Math.random() * 320.0f)/Level.PTM_RATIO, 0.1f, world));
+											((float)Math.random() * 320.0f)/Level.PTM_RATIO, (Assets.boxSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO, world));
 		}
 		
 		// circles
-		for (int i = 0; i < 18; i++) {
+		for (int i = 0; i < 65; i++) {
 			objects.add(new CircleSushi(((float)Math.random() * 50f - (float)Math.random() * 50f)/Level.PTM_RATIO, 
 										((float)Math.random() * 10 + 6)/Level.PTM_RATIO,
-										0.2f, (float)(Math.random() * 2 * Math.PI), world));
+										(Assets.circleSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO, (float)(Math.random() * 2 * Math.PI), world));
 		}
 	}
 	

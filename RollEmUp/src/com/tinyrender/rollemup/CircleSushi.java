@@ -11,8 +11,8 @@ public class CircleSushi extends GameObject {
 	
 	public CircleSushi(float x, float y, float density, float angle, PhysicsWorld world) {
 		super(world);
-		size = 2;
 		radius = (Assets.circleSushi.getWidth()/2.0f)/Level.PTM_RATIO;
+		size = radius;
 		createBody(x, y, density, angle);
 	}
 	

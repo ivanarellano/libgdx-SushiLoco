@@ -56,7 +56,7 @@ public class Player extends GameObject {
 		body = createPlayerBody(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius, 1.0f, BodyType.DynamicBody);
 		pos = body.getPosition();
 				
-		sensor = new PlayerSensor(pos.x, pos.y+(radius*-0.2f), radius/1.1f, BodyType.DynamicBody, world);
+		sensor = new PlayerSensor(pos.x, pos.y+(radius*-0.25f), radius/1.35f, BodyType.DynamicBody, world);
 		// join sensor to player body
 		Utils.revoluteJoint(body, sensor.body, new Vector2(pos.x, pos.y), world.b2world);
 		
@@ -66,7 +66,7 @@ public class Player extends GameObject {
 	@Override
 	public void update() {
 		if (isGrowing) {
-			if (objectsRolled.size() % 4 == 0) {
+			if (objectsRolled.size() % 6 == 0) {
 				growPlayer();
 				isGrowing = false;
 			}
@@ -76,10 +76,10 @@ public class Player extends GameObject {
 		pos = body.getPosition();
 		
 		if (Gdx.input.isKeyPressed(Keys.A))
-			body.applyForceToCenter(-25.0f, 0);
+			body.applyForceToCenter(-25.0f * body.getMass(), 0);
 		
 		if (Gdx.input.isKeyPressed(Keys.D))
-			body.applyForceToCenter(25.0f, 0);
+			body.applyForceToCenter(25.0f * body.getMass(), 0);
 				
 		// stick newly rolled objects
 		if (!objectsToRoll.isEmpty()) {
@@ -98,14 +98,14 @@ public class Player extends GameObject {
 		// dampen down acceleration to stop
 		if ((Gdx.input.getAccelerometerY() <= -0.2f && vel.x > -MAX_VELOCITY) ||
 				Gdx.input.getAccelerometerY() >= 0.2f && vel.x < MAX_VELOCITY) {
-			body.applyForceToCenter(Gdx.input.getAccelerometerY()*0.1f, 0);
+			body.applyForceToCenter(Gdx.input.getAccelerometerY()*0.1f * body.getMass(), 0);
 		} else {
 			body.setLinearVelocity(vel.x * 0.9f, vel.y);
 		}
 
 		// regain momentum with small impulse
 		if (vel.x < MAX_VELOCITY/3 || vel.x > -MAX_VELOCITY/3)
-			body.applyLinearImpulse(Gdx.input.getAccelerometerY()*0.1f, 0, pos.x, pos.y);
+			body.applyLinearImpulse(Gdx.input.getAccelerometerY()*0.1f * body.getMass(), 0, pos.x, pos.y);
 		
 		// jump if grounded
 		if (isJumping) {
@@ -133,7 +133,8 @@ public class Player extends GameObject {
 		
 		fixture = sensor.body.getFixtureList().get(0);
 		shape = (CircleShape) fixture.getShape();
-		shape.setRadius(radius);		
+		shape.setPosition(new Vector2(0.0f, radius*-0.25f));
+		shape.setRadius(radius/1.35f);		
 	}
 	
 	private void stickObject(GameObject other) {
@@ -149,7 +150,7 @@ public class Player extends GameObject {
 		otherFix.setSensor(true);
 		otherFix.setFilterData(filter);
 		
-		Gdx.app.log("mass", Float.toString(body.getMass()));
+		body.resetMassData();
 		
 		isGrowing = true;
 	}
@@ -180,7 +181,7 @@ public class Player extends GameObject {
 		if (otherObject.getType().equals(Type.SUSHI)) {
 			objectsToRoll.add(otherObject);
 			totalSize += otherObject.size;
-			Gdx.app.log("size", Integer.toString(totalSize));
+			Gdx.app.log("size", Float.toString(totalSize));
 		}
 	}
 	
