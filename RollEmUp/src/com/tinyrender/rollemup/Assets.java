@@ -8,10 +8,10 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData;
-import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Assets {
 	public static AssetManager manager;
@@ -25,9 +25,9 @@ public class Assets {
 	public static Sprite titleScreen;
 	public static Sprite start;
 	public static Sprite titleLogo;
-	public static Sprite player;
+	public static TextureRegion player;
 	public static Sprite circleSushi;
-	public static Sprite boxSushi;
+	public static TextureRegion boxSushi;
 	public static Texture scratch;
 	public static BitmapFont droidsans;
 	
@@ -71,9 +71,9 @@ public class Assets {
     		titleScreen = manager.get("data/pack", TextureAtlas.class).createSprite("bgtitlescreen");
     		start = manager.get("data/pack", TextureAtlas.class).createSprite("start");
     		titleLogo = manager.get("data/pack", TextureAtlas.class).createSprite("titlelogo");
-    		player = manager.get("data/pack", TextureAtlas.class).createSprite("player");
+    		player = manager.get("data/pack", TextureAtlas.class).findRegion("player");
     		circleSushi = manager.get("data/pack", TextureAtlas.class).createSprite("circlesushi");
-    		boxSushi = manager.get("data/pack", TextureAtlas.class).createSprite("boxsushi");
+    		boxSushi = manager.get("data/pack", TextureAtlas.class).findRegion("boxsushi");
     		
         	if (manager.isLoaded("data/droidsans.fnt")) {
         		BitmapFontData bfd = new BitmapFontData(Gdx.files.internal("data/droidsans.fnt"), false);

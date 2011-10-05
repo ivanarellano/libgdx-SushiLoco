@@ -46,24 +46,17 @@ public class Player extends GameObject {
 	public float moveVertical;
 	public float radius;
 	public int totalSize;
-	public Vector2 pos;
-	public Vector2 vel;
 	
 	List<GameObject> objectsToRoll = new ArrayList<GameObject>();
 	ArrayList<GameObject> objectsRolled = new ArrayList<GameObject>();
 	
 	public Player(PhysicsWorld world) {
 		super(world);
-		sprite = Assets.player;
-		radius = (sprite.getWidth()/2)/Level.PTM_RATIO;
-		
+		radius = (Assets.player.getRegionWidth()/2.0f)/Level.PTM_RATIO;
 		body = createPlayerBody(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius, 1.0f, BodyType.DynamicBody);
 		pos = body.getPosition();
 				
 		sensor = new PlayerSensor(pos.x, pos.y+(radius*-0.2f), radius/1.1f, BodyType.DynamicBody, world);
-		sensor.fixture = sensor.body.getFixtureList().get(0);
-		
-		sprite.setOrigin(0.0f, 0.0f);
 		
 		// join sensor to player body
 		Utils.revoluteJoint(body, sensor.body, new Vector2(pos.x, pos.y), world.b2world);
@@ -83,16 +76,12 @@ public class Player extends GameObject {
 		vel = body.getLinearVelocity();
 		pos = body.getPosition();
 		
-		if (Gdx.input.isKeyPressed(Keys.A)) {
+		if (Gdx.input.isKeyPressed(Keys.A))
 			body.applyForceToCenter(-25.0f, 0);
-		}
 		
-		if (Gdx.input.isKeyPressed(Keys.D)) {
+		if (Gdx.input.isKeyPressed(Keys.D))
 			body.applyForceToCenter(25.0f, 0);
-		}
-		
-		sprite.setPosition((body.getPosition().x-radius)*Level.PTM_RATIO, (body.getPosition().y-radius)*Level.PTM_RATIO);
-		
+				
 		// stick newly rolled objects
 		if (!objectsToRoll.isEmpty()) {
 			for (GameObject obj : objectsToRoll)
@@ -127,9 +116,17 @@ public class Player extends GameObject {
 		}
 	}
 	
+	public void draw() {
+		Assets.batch.draw(Assets.player,
+							(pos.x-radius) * Level.PTM_RATIO, (pos.y-radius) * Level.PTM_RATIO,
+							0.0f, 0.0f,
+							Assets.player.getRegionWidth(), Assets.player.getRegionHeight(),
+							1.0f, 1.0f,
+							body.getAngle());
+	}
+	
 	public void growPlayer() {
 		radius *= 1.15f;
-		sprite.scale(0.15f);
 		
 		Fixture fixture = body.getFixtureList().get(0);
 		CircleShape shape = (CircleShape) fixture.getShape();
@@ -181,9 +178,7 @@ public class Player extends GameObject {
 		numContacts++;
 		if (otherObject.getType().equals(Type.SUSHI)) {
 			objectsToRoll.add(otherObject);
-			totalSize += otherObject.size;
-			Gdx.app.log("boxsushisize", Float.toString(Assets.boxSushi.getU()) + " _ " + Assets.boxSushi.getU2() + " _ " + Assets.boxSushi.getV() + " _ " + Assets.boxSushi.getV2());
-			
+			totalSize += otherObject.size;			
 		}
 	}
 	

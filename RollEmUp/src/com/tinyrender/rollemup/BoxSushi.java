@@ -1,6 +1,5 @@
 package com.tinyrender.rollemup;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 public class BoxSushi extends GameObject {
@@ -15,10 +14,8 @@ public class BoxSushi extends GameObject {
 		super(world);
 		size = 4;
 		
-		sprite = new Sprite();
-		sprite.set(Assets.boxSushi);
-		hx = (sprite.getWidth()/2) / Level.PTM_RATIO;
-		hy = (sprite.getHeight()/2) / Level.PTM_RATIO;
+		hx = (Assets.boxSushi.getRegionWidth()/2) / Level.PTM_RATIO;
+		hy = (Assets.boxSushi.getRegionHeight()/2) / Level.PTM_RATIO;
 		
 		createBody(x, y, density);
 	}
@@ -30,7 +27,18 @@ public class BoxSushi extends GameObject {
 	
 	@Override
 	public void update() {
-		sprite.setPosition((body.getPosition().x-hx) * Level.PTM_RATIO, (body.getPosition().y-hy) * Level.PTM_RATIO);
+		pos.x = body.getPosition().x;
+		pos.y = body.getPosition().y;		
+	}
+	
+	@Override
+	public void draw() {
+		Assets.batch.draw(Assets.boxSushi,
+							pos.x * Level.PTM_RATIO, pos.y * Level.PTM_RATIO,
+							0.0f, 0.0f,
+							Assets.boxSushi.getRegionWidth(), Assets.boxSushi.getRegionHeight(),
+							1.0f, 1.0f,
+							body.getAngle()*180.0f/(float) Math.PI);
 	}
 
 	@Override

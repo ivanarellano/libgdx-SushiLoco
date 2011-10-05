@@ -32,10 +32,10 @@ public class TestLevel extends Level {
 		new Platform(427.0f/Level.PTM_RATIO, 180.0f/Level.PTM_RATIO, 128.0f/Level.PTM_RATIO, 16.0f/Level.PTM_RATIO, 0.0f, world);
 		
 		// boxes
-		for (int i = 0; i < 4; i++) {
-			objects.add(new BoxSushi(((float)Math.random() * 320.0f + (float)Math.random() * 320.0f)/Level.PTM_RATIO,
-											((float)Math.random() * 320.0f)/Level.PTM_RATIO, 0.1f, world));
-		}
+		//for (int i = 0; i < 4; i++) {
+		//	objects.add(new BoxSushi(((float)Math.random() * 320.0f + (float)Math.random() * 320.0f)/Level.PTM_RATIO,
+		//									((float)Math.random() * 320.0f)/Level.PTM_RATIO, 0.1f, world));
+		//}
 		
 		// circles
 		for (int i = 0; i < 20; i++) {

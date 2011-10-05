@@ -1,14 +1,17 @@
 package com.tinyrender.rollemup;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 
-public abstract class GameObject extends PhysicsObject{
+public abstract class GameObject extends PhysicsObject {
 	public enum Type {
 		PLAYER, SUSHI, PLATFORM;
 	}
 	
 	public Sprite sprite;
 	public int size;
+	public Vector2 pos;
+	public Vector2 vel;
 	public boolean isRolled = false;
 	
 	public GameObject(PhysicsWorld world) {
@@ -24,4 +27,5 @@ public abstract class GameObject extends PhysicsObject{
 	}
 	
 	public abstract Type getType();
+	public abstract void draw();
 }

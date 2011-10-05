@@ -31,6 +31,11 @@ public class CircleSushi extends GameObject {
 	}
 	
 	@Override
+	public void draw() {
+		
+	}
+	
+	@Override
 	public void enterContact(PhysicsObject collidesWith) {
 
 	}	
