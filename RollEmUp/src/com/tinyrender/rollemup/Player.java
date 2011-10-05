@@ -57,7 +57,6 @@ public class Player extends GameObject {
 		pos = body.getPosition();
 				
 		sensor = new PlayerSensor(pos.x, pos.y+(radius*-0.2f), radius/1.1f, BodyType.DynamicBody, world);
-		
 		// join sensor to player body
 		Utils.revoluteJoint(body, sensor.body, new Vector2(pos.x, pos.y), world.b2world);
 		
@@ -67,7 +66,7 @@ public class Player extends GameObject {
 	@Override
 	public void update() {
 		if (isGrowing) {
-			if (objectsRolled.size() % 5 == 0) {
+			if (objectsRolled.size() % 2 == 0) {
 				growPlayer();
 				isGrowing = false;
 			}
@@ -119,10 +118,10 @@ public class Player extends GameObject {
 	public void draw() {
 		Assets.batch.draw(Assets.player,
 							(pos.x-radius) * Level.PTM_RATIO, (pos.y-radius) * Level.PTM_RATIO,
-							0.0f, 0.0f,
-							Assets.player.getRegionWidth(), Assets.player.getRegionHeight(),
+							radius * Level.PTM_RATIO, radius * Level.PTM_RATIO,
+							(radius+radius) * Level.PTM_RATIO, (radius+radius) * Level.PTM_RATIO,
 							1.0f, 1.0f,
-							body.getAngle());
+							body.getAngle()*(180.0f/(float) Math.PI));
 	}
 	
 	public void growPlayer() {
