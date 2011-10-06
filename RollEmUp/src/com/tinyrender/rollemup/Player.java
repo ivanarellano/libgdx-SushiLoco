@@ -56,7 +56,7 @@ public class Player extends GameObject {
 		body = createPlayerBody(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius, 1.0f, BodyType.DynamicBody);
 		pos = body.getPosition();
 				
-		sensor = new PlayerSensor(pos.x, pos.y+(radius*-0.25f), radius/1.35f, BodyType.DynamicBody, world);
+		sensor = new PlayerSensor(pos.x, pos.y+(radius*-0.4f), radius/1.35f, BodyType.DynamicBody, world);
 		// join sensor to player body
 		Utils.revoluteJoint(body, sensor.body, new Vector2(pos.x, pos.y), world.b2world);
 		
@@ -66,7 +66,7 @@ public class Player extends GameObject {
 	@Override
 	public void update() {
 		if (isGrowing) {
-			if (objectsRolled.size() % 6 == 0) {
+			if (objectsRolled.size() % 7 == 0) {
 				growPlayer();
 				isGrowing = false;
 			}
@@ -133,8 +133,8 @@ public class Player extends GameObject {
 		
 		fixture = sensor.body.getFixtureList().get(0);
 		shape = (CircleShape) fixture.getShape();
-		shape.setPosition(new Vector2(0.0f, radius*-0.25f));
-		shape.setRadius(radius/1.35f);		
+		shape.setPosition(new Vector2(0.0f, radius*-0.2f));
+		shape.setRadius(radius/1.35f);
 	}
 	
 	private void stickObject(GameObject other) {
@@ -180,8 +180,8 @@ public class Player extends GameObject {
 		numContacts++;
 		if (otherObject.getType().equals(Type.SUSHI)) {
 			objectsToRoll.add(otherObject);
-			totalSize += otherObject.size;
-			Gdx.app.log("size", Float.toString(totalSize));
+			totalSize += otherObject.size; // TODO: otherObject.size is always 0
+			//Gdx.app.log("size", Float.toString(totalSize));
 		}
 	}
 	

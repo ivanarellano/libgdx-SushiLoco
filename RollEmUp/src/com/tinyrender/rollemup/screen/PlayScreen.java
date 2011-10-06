@@ -1,14 +1,13 @@
 package com.tinyrender.rollemup.screen;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
+import com.tinyrender.rollemup.GameScreen;
 import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.LevelRenderer;
 import com.tinyrender.rollemup.RollEmUp;
 import com.tinyrender.rollemup.level.TestLevel;
 
-public class GameScreen extends InputAdapter implements Screen {
+public class PlayScreen extends GameScreen {
 	static final int GAME_READY = 0;
 	static final int GAME_RUNNING = 1;
 	static final int GAME_PAUSED = 2;
@@ -17,17 +16,15 @@ public class GameScreen extends InputAdapter implements Screen {
 	
 	int state;
 	
-	RollEmUp game;
-	Level level;
-	LevelRenderer renderer;
+	public RollEmUp game;
+	public Level level;
+	public LevelRenderer renderer;
 
-	public GameScreen(RollEmUp g) {
+	public PlayScreen(RollEmUp g) {
 		game = g;
 		level = new TestLevel();
 		renderer = new LevelRenderer(this);
-		
-		Gdx.input.setInputProcessor(this);
-		state = GAME_READY;		
+		state = GAME_READY;
 	}
 
 	@Override
@@ -38,6 +35,7 @@ public class GameScreen extends InputAdapter implements Screen {
 
 	@Override
 	public void hide() {
+		inputMultiplexer.removeProcessor(this);
 	}
 
 	@Override
@@ -62,6 +60,7 @@ public class GameScreen extends InputAdapter implements Screen {
 
 	@Override
 	public void show() {
+		inputMultiplexer.addProcessor(this);
 		level.create();
 	}
 	
@@ -79,7 +78,12 @@ public class GameScreen extends InputAdapter implements Screen {
 	
 	@Override
 	public boolean keyDown(int keyCode) {
-		level.keyDown(keyCode);
+		if (keyCode == Keys.BACK)
+			game.screenStack.setPrevious();
+		else if (keyCode == Keys.BACKSPACE)
+			game.screenStack.setPrevious();
+		else 
+			level.keyDown(keyCode);
 		return false;
 	}
 	
@@ -87,13 +91,5 @@ public class GameScreen extends InputAdapter implements Screen {
 	public boolean keyUp(int keyCode) {
 		level.keyUp(keyCode);
 		return false;
-	}
-	
-	public void setLevel(Level level) {
-		this.level = level;
-	}
-
-	public Level getLevel() {
-		return level;
 	}
 }

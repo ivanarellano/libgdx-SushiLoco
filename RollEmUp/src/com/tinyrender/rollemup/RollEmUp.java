@@ -11,23 +11,24 @@ public class RollEmUp extends Game implements ApplicationListener {
 	public final static int TARGET_HEIGHT = 480;
 	public final static int SCREEN_HALF_WIDTH = (int) Math.ceil(TARGET_WIDTH / 2);
 	public final static int SCREEN_HALF_HEIGHT = (int) Math.ceil(TARGET_HEIGHT /2);
+	public ScreenStack screenStack;
 	
 	@Override
 	public void create() {
 		Settings.load();
 		Assets.create();
-
 		Gdx.app.log("AssetManagerDiagnostics", "\n" + Assets.manager.getDiagonistics() + "\n" + Texture.getManagedStatus());
 		
-		setScreen(new SplashScreen(this));
+		screenStack = new ScreenStack(this);
+		screenStack.add(new SplashScreen(this));
+		
+		Gdx.input.setCatchBackKey(true);
 	}
 
 	@Override
 	public void dispose() {
 		Assets.manager.dispose();
 		Assets.batch.dispose();
-		
-		getScreen().dispose();
 	}
 
 	@Override
@@ -36,9 +37,10 @@ public class RollEmUp extends Game implements ApplicationListener {
 	}
 
 	@Override
-	public void render() {
+	public void render() {			
 		getScreen().render(Gdx.graphics.getDeltaTime());
 		
+		// FPS counter
 		String fps = Integer.toString(Gdx.graphics.getFramesPerSecond());
 		Assets.batch.begin();
 			Assets.droidsans.draw(Assets.batch,

@@ -1,17 +1,18 @@
 package com.tinyrender.rollemup.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL11;
 import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.tinyrender.rollemup.Assets;
+import com.tinyrender.rollemup.GameScreen;
 import com.tinyrender.rollemup.Gui;
 import com.tinyrender.rollemup.RollEmUp;
 import com.tinyrender.rollemup.Settings;
 
-public class MainMenuScreen implements Screen {	
+public class MainMenuScreen extends GameScreen {	
 	RollEmUp game;
 	Gui gui;
 	
@@ -48,6 +49,7 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void hide() {
+		inputMultiplexer.removeProcessor(this);
 	}
 
 	@Override
@@ -61,7 +63,7 @@ public class MainMenuScreen implements Screen {
 			
 			if (startBounds.contains(touchPoint.x, touchPoint.y)) {
 				Assets.playSound(Assets.hitSound);
-				game.setScreen(new LevelSelectScreen(game));
+				game.screenStack.add(new LevelSelectScreen(game));
 				return;
 			}
 			
@@ -75,6 +77,7 @@ public class MainMenuScreen implements Screen {
 			}
 
 			if (debugBounds.contains(touchPoint.x, touchPoint.y)) {
+				Assets.playSound(Assets.hitSound);
 				Settings.debugEnabled = !Settings.debugEnabled;
 				setMoreText = true;
 			}
@@ -129,11 +132,21 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void show() {
+		inputMultiplexer.addProcessor(this);
+		
 		Assets.batch.setProjectionMatrix(gui.camera.combined);
 		Assets.batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		
 		if(Settings.soundEnabled) // FIXME: CHANGE TO musicEnabled WHEN READY
             Assets.music.play();
 	}
-
+	
+	@Override
+	public boolean keyDown(int keyCode) {
+		if (keyCode == Keys.BACK)
+			game.screenStack.setPrevious();
+		else if (keyCode == Keys.BACKSPACE)
+			game.screenStack.setPrevious();
+		return false;
+	}
 }

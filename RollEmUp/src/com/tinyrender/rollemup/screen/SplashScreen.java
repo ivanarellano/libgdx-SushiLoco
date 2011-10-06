@@ -1,13 +1,13 @@
 package com.tinyrender.rollemup.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL11;
 import com.tinyrender.rollemup.Assets;
+import com.tinyrender.rollemup.GameScreen;
 import com.tinyrender.rollemup.Gui;
 import com.tinyrender.rollemup.RollEmUp;
 
-public class SplashScreen implements Screen {
+public class SplashScreen extends GameScreen {
 	public static final float NEXT_SCREEN = 5.0f;
 	public float totalScreenTime = 0;
 	public float splashAlpha = 1.0f;
@@ -48,7 +48,7 @@ public class SplashScreen implements Screen {
 		Assets.batch.end();
 		
 		if(!(totalScreenTime <= NEXT_SCREEN))
-			game.setScreen(new MainMenuScreen(game));
+			game.screenStack.add(new MainMenuScreen(game));
 		
 		totalScreenTime += deltaTime;
 	}
@@ -63,6 +63,9 @@ public class SplashScreen implements Screen {
 
 	@Override
 	public void show() {
+		// Remove splash from screen navigation
+		game.screenStack.list.pop();
+		
 		Assets.batch.setProjectionMatrix(gui.camera.combined);
 	}
 }

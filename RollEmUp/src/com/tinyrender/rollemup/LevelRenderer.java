@@ -3,15 +3,15 @@ package com.tinyrender.rollemup;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL11;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.tinyrender.rollemup.screen.GameScreen;
+import com.tinyrender.rollemup.screen.PlayScreen;
 
 public class LevelRenderer {
-	public GameScreen screen;
+	public PlayScreen screen;
 	public Level level;
 	public Box2DDebugRenderer renderer;
 	
-	public LevelRenderer(GameScreen scr) {
-		level = scr.getLevel();
+	public LevelRenderer(PlayScreen screen) {
+		level = screen.level;
 		renderer = new Box2DDebugRenderer();
 		Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 		Assets.batch.setProjectionMatrix(level.cam.combined);

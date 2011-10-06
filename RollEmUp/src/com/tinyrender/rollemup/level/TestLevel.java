@@ -29,14 +29,14 @@ public class TestLevel extends Level {
 				   0.4f, world);
 		
 		// boxes
-		for (int i = 0; i < 31; i++) {
+		for (int i = 0; i < 10; i++) {
 			objects.add(new BoxSushi(((float)Math.random() * 320.0f + (float)Math.random() * 320.0f)/Level.PTM_RATIO,
 											((float)Math.random() * 320.0f)/Level.PTM_RATIO, (Assets.boxSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO, world));
 		}
 		
 		// circles
-		for (int i = 0; i < 65; i++) {
-			objects.add(new CircleSushi(((float)Math.random() * 50f - (float)Math.random() * 50f)/Level.PTM_RATIO, 
+		for (int i = 0; i < 15; i++) {
+			objects.add(new CircleSushi(((float)Math.random() * 50f + (float)Math.random() * 50f)/Level.PTM_RATIO, 
 										((float)Math.random() * 10 + 6)/Level.PTM_RATIO,
 										(Assets.circleSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO, (float)(Math.random() * 2 * Math.PI), world));
 		}

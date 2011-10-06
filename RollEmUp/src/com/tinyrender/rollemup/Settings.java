@@ -8,11 +8,17 @@ import java.io.OutputStreamWriter;
 
 import com.badlogic.gdx.Gdx;
 
+// Noninstantiable utility class
 public class Settings {
 	public static boolean soundEnabled = true;
 	public static boolean musicEnabled = true;
-	public static boolean debugEnabled = true;
+	public static boolean debugEnabled = false;
 	public final static String file = ".rollemup";
+	
+	// Suppress default constructor for noninstantiability
+	private Settings() {
+		throw new AssertionError();
+	}
 	
 	public static void load() {
 		BufferedReader in = null;
