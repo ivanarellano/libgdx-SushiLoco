@@ -8,10 +8,11 @@ import com.tinyrender.rollemup.GameObject;
 import com.tinyrender.rollemup.Ground;
 import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.Player;
-import com.tinyrender.rollemup.RollEmUp;
+import com.tinyrender.rollemup.Settings;
 
 public class TestLevel extends Level {
 	Player player;
+	float newZoom = 1.0f;
 	
 	@Override
 	public void create() {
@@ -19,13 +20,13 @@ public class TestLevel extends Level {
 		objects.add(player);
 		
 		new Ground(0.0f, 0.0f,
-				   854.0f/Level.PTM_RATIO, 0.0f,
+				   (854.0f*2.0f)/Level.PTM_RATIO, 0.0f,
 				   0.4f, world);
 		new Ground(0.0f, 0.0f,
 				   0.0f, 480.0f/Level.PTM_RATIO,
 				   0.4f, world);
-		new Ground(854.0f/Level.PTM_RATIO, 0.0f, 
-				   854.0f/Level.PTM_RATIO, 480.0f/Level.PTM_RATIO,
+		new Ground((854.0f*2.0f)/Level.PTM_RATIO, 0.0f, 
+				   (854.0f*2.0f)/Level.PTM_RATIO, 480.0f/Level.PTM_RATIO,
 				   0.4f, world);
 		
 		// boxes
@@ -44,8 +45,13 @@ public class TestLevel extends Level {
 	
 	@Override
 	public void update(float deltaTime) {
-		cam.position.set((float)RollEmUp.SCREEN_HALF_WIDTH, (float)RollEmUp.SCREEN_HALF_HEIGHT, 0);
-		box2dcam.position.set((float)RollEmUp.SCREEN_HALF_WIDTH/Level.PTM_RATIO, (float)RollEmUp.SCREEN_HALF_HEIGHT/Level.PTM_RATIO, 0);
+		cam.position.set(player.pos.x*Level.PTM_RATIO, player.pos.y*Level.PTM_RATIO, 0);
+		cam.zoom = newZoom;
+		
+		if (Settings.debugEnabled) {
+			box2dcam.position.set(player.pos.x, player.pos.y, 0);
+			box2dcam.zoom = newZoom;
+		}
 		
 		for (GameObject obj : objects)
 			obj.update();
@@ -67,6 +73,11 @@ public class TestLevel extends Level {
 	public boolean keyDown(int keyCode) {
 		if (keyCode == Keys.SPACE)
 			player.isJumping = true;
+		
+		if (keyCode == Keys.DOWN)
+			newZoom += 0.1f;
+		else if (keyCode == Keys.UP)
+			newZoom -= 0.1f;
 		return false;
 	}
 	

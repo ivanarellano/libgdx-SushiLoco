@@ -46,6 +46,7 @@ public class PlayScreen extends GameScreen {
 	public void render(float deltaTime) {
 		level.update(deltaTime); 		// updates world physics and level logic
 		renderer.render(deltaTime); 	// draws world and level
+		//gui.render();
 	}
 
 	@Override

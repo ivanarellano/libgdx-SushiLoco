@@ -14,11 +14,9 @@ public class SplashScreen extends GameScreen {
 	public boolean diagnosed = false;
 	
 	RollEmUp game;
-	Gui gui;
 	
 	public SplashScreen(RollEmUp g) {
 		game = g;
-		gui = new Gui();
 	}
 	
 	@Override
@@ -66,6 +64,6 @@ public class SplashScreen extends GameScreen {
 		// Remove splash from screen navigation
 		game.screenStack.list.pop();
 		
-		Assets.batch.setProjectionMatrix(gui.camera.combined);
+		Assets.batch.setProjectionMatrix(Gui.cam.combined);
 	}
 }

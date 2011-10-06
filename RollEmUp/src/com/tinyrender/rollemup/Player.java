@@ -45,7 +45,6 @@ public class Player extends GameObject {
 	public float moveHorizontal;
 	public float moveVertical;
 	public float radius;
-	public int totalSize;
 	
 	List<GameObject> objectsToRoll = new ArrayList<GameObject>();
 	ArrayList<GameObject> objectsRolled = new ArrayList<GameObject>();
@@ -66,7 +65,7 @@ public class Player extends GameObject {
 	@Override
 	public void update() {
 		if (isGrowing) {
-			if (objectsRolled.size() % 7 == 0) {
+			if (objectsRolled.size() % 2 == 0) {
 				growPlayer();
 				isGrowing = false;
 			}
@@ -77,8 +76,7 @@ public class Player extends GameObject {
 		
 		if (Gdx.input.isKeyPressed(Keys.A))
 			body.applyForceToCenter(-25.0f * body.getMass(), 0);
-		
-		if (Gdx.input.isKeyPressed(Keys.D))
+		else if (Gdx.input.isKeyPressed(Keys.D))
 			body.applyForceToCenter(25.0f * body.getMass(), 0);
 				
 		// stick newly rolled objects
@@ -111,7 +109,7 @@ public class Player extends GameObject {
 		if (isJumping) {
 			isJumping = false;
 			if (sensor.isGrounded)
-				body.applyLinearImpulse(0, 10.0f * body.getMass(), pos.x, pos.y);
+				body.applyLinearImpulse(0, 12.0f * body.getMass(), pos.x, pos.y);
 		}
 	}
 	
@@ -133,7 +131,7 @@ public class Player extends GameObject {
 		
 		fixture = sensor.body.getFixtureList().get(0);
 		shape = (CircleShape) fixture.getShape();
-		shape.setPosition(new Vector2(0.0f, radius*-0.2f));
+		shape.setPosition(new Vector2(0.0f, radius*-0.35f));
 		shape.setRadius(radius/1.35f);
 	}
 	
@@ -180,8 +178,8 @@ public class Player extends GameObject {
 		numContacts++;
 		if (otherObject.getType().equals(Type.SUSHI)) {
 			objectsToRoll.add(otherObject);
-			totalSize += otherObject.size; // TODO: otherObject.size is always 0
-			//Gdx.app.log("size", Float.toString(totalSize));
+			size += otherObject.size; // TODO: otherObject.size is always 0
+			//Gdx.app.log("size", Float.toString(size));
 		}
 	}
 	

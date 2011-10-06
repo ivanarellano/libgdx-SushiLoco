@@ -14,7 +14,6 @@ public class LevelRenderer {
 		level = screen.level;
 		renderer = new Box2DDebugRenderer();
 		Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-		Assets.batch.setProjectionMatrix(level.cam.combined);
 	}
 	
 	public void render(float deltaTime) {
@@ -23,13 +22,16 @@ public class LevelRenderer {
 		level.cam.update();
 		level.cam.apply(Gdx.gl11);
 		
+		Assets.batch.setProjectionMatrix(level.cam.combined);
 		Assets.batch.begin();
 			for (GameObject obj : level.objects)
 				obj.draw();
 		Assets.batch.end();
 		
-		if (Settings.debugEnabled)
+		if (Settings.debugEnabled) {
+			level.box2dcam.update();
 			renderer.render(level.b2world, level.box2dcam.combined);
+		}
 	}
 	
 	public void dispose() {

@@ -14,7 +14,6 @@ import com.tinyrender.rollemup.Settings;
 
 public class MainMenuScreen extends GameScreen {	
 	RollEmUp game;
-	Gui gui;
 	
 	Rectangle startBounds;
 	Rectangle soundBounds;
@@ -26,7 +25,6 @@ public class MainMenuScreen extends GameScreen {
 	
 	public MainMenuScreen(RollEmUp g) {
 		game = g;
-		gui = new Gui();
 		
 		Assets.titleLogo.setPosition(RollEmUp.SCREEN_HALF_WIDTH - Assets.titleLogo.getWidth()/2.0f, RollEmUp.SCREEN_HALF_HEIGHT + 75.0f);		
 		Assets.start.setPosition(RollEmUp.SCREEN_HALF_WIDTH - Assets.start.getWidth()/2.0f, RollEmUp.SCREEN_HALF_HEIGHT - 150.0f);
@@ -59,7 +57,7 @@ public class MainMenuScreen extends GameScreen {
 	
 	public void update() {
 		if (Gdx.input.justTouched()) {
-			gui.camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0.0f));
+			Gui.cam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0.0f));
 			
 			if (startBounds.contains(touchPoint.x, touchPoint.y)) {
 				Assets.playSound(Assets.hitSound);
@@ -134,7 +132,7 @@ public class MainMenuScreen extends GameScreen {
 	public void show() {
 		inputMultiplexer.addProcessor(this);
 		
-		Assets.batch.setProjectionMatrix(gui.camera.combined);
+		Assets.batch.setProjectionMatrix(Gui.cam.combined);
 		Assets.batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		
 		if(Settings.soundEnabled) // FIXME: CHANGE TO musicEnabled WHEN READY

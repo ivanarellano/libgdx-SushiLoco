@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Matrix4;
 import com.tinyrender.rollemup.screen.SplashScreen;
 
 public class RollEmUp extends Game implements ApplicationListener {
@@ -12,6 +13,7 @@ public class RollEmUp extends Game implements ApplicationListener {
 	public final static int SCREEN_HALF_WIDTH = (int) Math.ceil(TARGET_WIDTH / 2);
 	public final static int SCREEN_HALF_HEIGHT = (int) Math.ceil(TARGET_HEIGHT /2);
 	public ScreenStack screenStack;
+	public Gui gui;
 	
 	@Override
 	public void create() {
@@ -19,6 +21,7 @@ public class RollEmUp extends Game implements ApplicationListener {
 		Assets.create();
 		Gdx.app.log("AssetManagerDiagnostics", "\n" + Assets.manager.getDiagonistics() + "\n" + Texture.getManagedStatus());
 		
+		gui = new Gui();
 		screenStack = new ScreenStack(this);
 		screenStack.add(new SplashScreen(this));
 		
@@ -42,6 +45,7 @@ public class RollEmUp extends Game implements ApplicationListener {
 		
 		// FPS counter
 		String fps = Integer.toString(Gdx.graphics.getFramesPerSecond());
+		Assets.batch.setProjectionMatrix(new Matrix4().set(Gui.cam.combined));
 		Assets.batch.begin();
 			Assets.droidsans.draw(Assets.batch,
 								  fps, 

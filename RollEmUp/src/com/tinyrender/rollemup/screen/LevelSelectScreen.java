@@ -10,11 +10,9 @@ import com.tinyrender.rollemup.RollEmUp;
 
 public class LevelSelectScreen extends GameScreen {
 	RollEmUp game;
-	Gui gui;
 	
 	public LevelSelectScreen(RollEmUp g) {
 		game = g;
-		gui = new Gui();
 	}
 	
 	@Override
@@ -31,10 +29,8 @@ public class LevelSelectScreen extends GameScreen {
 	}
 	
 	public void update() {
-		if (Gdx.input.justTouched()) {
+		if (Gdx.input.justTouched())
 			game.screenStack.add(new PlayScreen(game));
-			Gdx.app.log("gotFingered", "this many times");
-		}
 	}
 
 	@Override
