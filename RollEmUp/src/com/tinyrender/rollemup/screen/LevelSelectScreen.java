@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL11;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameScreen;
-import com.tinyrender.rollemup.Gui;
 import com.tinyrender.rollemup.RollEmUp;
 
 public class LevelSelectScreen extends GameScreen {

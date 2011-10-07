@@ -31,13 +31,13 @@ public class TestLevel extends Level {
 		
 		// boxes
 		for (int i = 0; i < 10; i++) {
-			objects.add(new BoxSushi(((float)Math.random() * 320.0f + (float)Math.random() * 320.0f)/Level.PTM_RATIO,
+			objects.add(new BoxSushi(((float)Math.random() * 120.0f + (float)Math.random() * 1100.0f)/Level.PTM_RATIO,
 											((float)Math.random() * 320.0f)/Level.PTM_RATIO, (Assets.boxSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO, world));
 		}
 		
 		// circles
-		for (int i = 0; i < 15; i++) {
-			objects.add(new CircleSushi(((float)Math.random() * 50f + (float)Math.random() * 50f)/Level.PTM_RATIO, 
+		for (int i = 0; i < 30; i++) {
+			objects.add(new CircleSushi(((float)Math.random() * 150f + (float)Math.random() * 1350f)/Level.PTM_RATIO, 
 										((float)Math.random() * 10 + 6)/Level.PTM_RATIO,
 										(Assets.circleSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO, (float)(Math.random() * 2 * Math.PI), world));
 		}
@@ -45,11 +45,11 @@ public class TestLevel extends Level {
 	
 	@Override
 	public void update(float deltaTime) {
-		cam.position.set(player.pos.x*Level.PTM_RATIO, player.pos.y*Level.PTM_RATIO, 0);
+		cam.position.set(player.pos.x*Level.PTM_RATIO, (player.pos.y+1.25f)*Level.PTM_RATIO, 0);
 		cam.zoom = newZoom;
 		
 		if (Settings.debugEnabled) {
-			box2dcam.position.set(player.pos.x, player.pos.y, 0);
+			box2dcam.position.set(player.pos.x, (player.pos.y+1.25f), 0);
 			box2dcam.zoom = newZoom;
 		}
 		

@@ -51,7 +51,7 @@ public class Player extends GameObject {
 	
 	public Player(PhysicsWorld world) {
 		super(world);
-		radius = (Assets.player.getRegionWidth()/2.0f)/Level.PTM_RATIO;
+		radius = (Assets.player.getRegionWidth()/2.0f)*0.7f /Level.PTM_RATIO;
 		body = createPlayerBody(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius, 1.0f, BodyType.DynamicBody);
 		pos = body.getPosition();
 				
@@ -65,7 +65,7 @@ public class Player extends GameObject {
 	@Override
 	public void update() {
 		if (isGrowing) {
-			if (objectsRolled.size() % 2 == 0) {
+			if (objectsRolled.size() % 4 == 0) {
 				growPlayer();
 				isGrowing = false;
 			}
@@ -109,21 +109,21 @@ public class Player extends GameObject {
 		if (isJumping) {
 			isJumping = false;
 			if (sensor.isGrounded)
-				body.applyLinearImpulse(0, 12.0f * body.getMass(), pos.x, pos.y);
+				body.applyLinearImpulse(0, 17.0f * body.getMass(), pos.x, pos.y);
 		}
 	}
 	
 	public void draw() {
 		Assets.batch.draw(Assets.player,
-				(pos.x-radius) * Level.PTM_RATIO, (pos.y-radius) * Level.PTM_RATIO,
-				radius * Level.PTM_RATIO, radius * Level.PTM_RATIO,
-				(radius+radius) * Level.PTM_RATIO, (radius+radius) * Level.PTM_RATIO,
+				(pos.x-0.5f) * Level.PTM_RATIO, (pos.y-0.5f) * Level.PTM_RATIO,
+				32.0f, 32.0f,
+				64.0f, 64.0f,
 				1.0f, 1.0f,
 				body.getAngle()*180.0f/(float) Math.PI);
 	}
 	
 	public void growPlayer() {
-		radius *= 1.15f;
+		radius *= 1.13f;
 		
 		Fixture fixture = body.getFixtureList().get(0);
 		CircleShape shape = (CircleShape) fixture.getShape();
