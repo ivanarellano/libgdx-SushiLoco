@@ -13,8 +13,6 @@ import com.tinyrender.rollemup.RollEmUp;
 import com.tinyrender.rollemup.Settings;
 
 public class MainMenuScreen extends GameScreen {	
-	RollEmUp game;
-	
 	Rectangle startBounds;
 	Rectangle soundBounds;
 	Rectangle debugBounds;
@@ -23,8 +21,8 @@ public class MainMenuScreen extends GameScreen {
 	BitmapFontCache droidFontCache;
 	boolean setMoreText = true;
 	
-	public MainMenuScreen(RollEmUp g) {
-		game = g;
+	public MainMenuScreen(RollEmUp game) {
+		super(game);
 		
 		Assets.titleLogo.setPosition(RollEmUp.SCREEN_HALF_WIDTH - Assets.titleLogo.getWidth()/2.0f, RollEmUp.SCREEN_HALF_HEIGHT + 75.0f);		
 		Assets.start.setPosition(RollEmUp.SCREEN_HALF_WIDTH - Assets.start.getWidth()/2.0f, RollEmUp.SCREEN_HALF_HEIGHT - 150.0f);

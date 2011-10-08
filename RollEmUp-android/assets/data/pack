@@ -85,3 +85,10 @@ levelselect
   orig: 854, 480
   offset: 0, 0
   index: -1
+soy
+  rotate: false
+  xy: 4, 488
+  size: 169, 385
+  orig: 169, 385
+  offset: 0, 0
+  index: -1

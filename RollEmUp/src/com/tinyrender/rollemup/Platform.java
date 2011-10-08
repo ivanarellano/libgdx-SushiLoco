@@ -10,12 +10,13 @@ public class Platform extends GameObject {
 	
 	public Platform(float x, float y, float hx, float hy, float density, PhysicsWorld world) {
 		super(world);
+		type = Type.PLATFORM;
 		createBody(x, y, hx, hy, density);
+		body.setUserData(this);
 	}
 	
 	public void createBody(float x, float y, float hx, float hy, float density) {
 		body = Utils.createBox(BodyType.StaticBody, x, y, hx, hy, density, world.b2world);
-		body.setUserData(this);
 	}
 	
 	@Override
@@ -25,18 +26,5 @@ public class Platform extends GameObject {
 	@Override
 	public void draw() {
 		
-	}
-
-	@Override
-	public void enterContact(PhysicsObject collidesWith) {		
-	}
-
-	@Override
-	public void leaveContact(PhysicsObject leftCollisionWith) {		
-	}
-
-	@Override
-	public Type getType() {
-		return Type.PLATFORM;
 	}
 }

@@ -13,12 +13,13 @@ public class CircleSushi extends GameObject {
 		super(world);
 		radius = (Assets.circleSushi.getWidth()/2.0f)/Level.PTM_RATIO;
 		size = radius;
+		type = Type.SUSHI;
 		createBody(x, y, density, angle);
+		body.setUserData(this);
 	}
 	
 	public void createBody(float x, float y, float density, float angle) {
 		body = Utils.createCircle(x, y, radius, density, angle, false, BodyType.DynamicBody, world.b2world);
-		body.setUserData(this);
 	}
 
 	@Override
@@ -34,19 +35,5 @@ public class CircleSushi extends GameObject {
 				(radius+radius) * Level.PTM_RATIO, (radius+radius) * Level.PTM_RATIO,
 				1.0f, 1.0f,
 				body.getAngle()*180.0f/(float) Math.PI);
-	}
-	
-	@Override
-	public void enterContact(PhysicsObject collidesWith) {
-
-	}	
-	
-	@Override
-	public void leaveContact(PhysicsObject leftCollisionWith) {		
-	}
-
-	@Override
-	public Type getType() {
-		return Type.SUSHI;
 	}
 }

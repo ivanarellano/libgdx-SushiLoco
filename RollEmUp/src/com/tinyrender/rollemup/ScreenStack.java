@@ -2,15 +2,14 @@ package com.tinyrender.rollemup;
 
 import java.util.Stack;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
 public class ScreenStack {
-	Game game;
+	RollEmUp game;
 	public Stack<Screen> list = new Stack<Screen>();
 	
-	public ScreenStack(Game game) {
+	public ScreenStack(RollEmUp game) {
 		this.game = game;
 	}
 	

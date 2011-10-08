@@ -8,10 +8,8 @@ import com.tinyrender.rollemup.GameScreen;
 import com.tinyrender.rollemup.RollEmUp;
 
 public class LevelSelectScreen extends GameScreen {
-	RollEmUp game;
-	
-	public LevelSelectScreen(RollEmUp g) {
-		game = g;
+	public LevelSelectScreen(RollEmUp game) {
+		super(game);
 	}
 	
 	@Override

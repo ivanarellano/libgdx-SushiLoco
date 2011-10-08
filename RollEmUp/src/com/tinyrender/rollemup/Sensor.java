@@ -26,12 +26,4 @@ public class Sensor extends PhysicsObject {
 	@Override
 	public void update() {		
 	}
-	
-	@Override
-	public void enterContact(PhysicsObject collidesWith) {
-	}
-
-	@Override
-	public void leaveContact(PhysicsObject leftCollisionWith) {		
-	}
 }

@@ -16,34 +16,33 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 public class Player extends GameObject {
 	class PlayerSensor extends Sensor {
-		public Fixture fixture;
 		public boolean isGrounded = false;
 		
 		PlayerSensor(float x, float y, float radius, BodyType bodyType, PhysicsWorld world) {
 			super(x, y, radius, bodyType, world);
-		}
-		
-		@Override
-		public void enterContact(PhysicsObject collidesWith) {
-			numContacts++;
-			isGrounded = true;
-		}
+			
+			contactResolver = new ContactResolver() {
+				@Override
+				public void enterContact(PhysicsObject collidesWith) {
+					numContacts++;
+					isGrounded = true;
+				}
 
-		@Override
-		public void leaveContact(PhysicsObject leftCollisionWith) {
-			numContacts--;
-			if (numContacts <= 0) 
-				isGrounded = false;
+				@Override
+				public void leaveContact(PhysicsObject leftCollisionWith) {
+					numContacts--;
+					if (numContacts <= 0) 
+						isGrounded = false;
+				}
+			};
 		}
 	}
 	
-	final static float MAX_VELOCITY = 10.0f;
+	final static float MAX_VELOCITY = 4.0f;
 
 	public PlayerSensor sensor;
 	public boolean isJumping = false;
 	public boolean isGrowing = false;
-	public float moveHorizontal;
-	public float moveVertical;
 	public float radius;
 	
 	List<GameObject> objectsToRoll = new ArrayList<GameObject>();
@@ -59,14 +58,33 @@ public class Player extends GameObject {
 		// join sensor to player body
 		Utils.revoluteJoint(body, sensor.body, new Vector2(pos.x, pos.y), world.b2world);
 		
+		type = Type.PLAYER;
 		body.setUserData(this);
+		
+		contactResolver = new ContactResolver() {
+			@Override
+			public void enterContact(PhysicsObject collidesWith) {
+				GameObject otherObject = (GameObject) collidesWith.body.getUserData();
+				numContacts++;
+				if (otherObject.getType().equals(Type.SUSHI)) {
+					objectsToRoll.add(otherObject);
+					size += otherObject.size; // TODO: otherObject.size is always 0
+					//Gdx.app.log("size", Float.toString(size));
+				}
+			}
+			
+			@Override
+			public void leaveContact(PhysicsObject leftCollisionWith) {
+				numContacts--;
+			}
+		};
 	}
 	
 	@Override
 	public void update() {
 		if (isGrowing) {
 			if (objectsRolled.size() % 4 == 0) {
-				growPlayer();
+				grow();
 				isGrowing = false;
 			}
 		}
@@ -122,7 +140,7 @@ public class Player extends GameObject {
 				body.getAngle()*180.0f/(float) Math.PI);
 	}
 	
-	public void growPlayer() {
+	public void grow() {
 		radius *= 1.13f;
 		
 		Fixture fixture = body.getFixtureList().get(0);
@@ -170,26 +188,5 @@ public class Player extends GameObject {
 		shape.dispose();
 		
 		return body;
-	}
-	
-	@Override
-	public void enterContact(PhysicsObject collidesWith) {
-		GameObject otherObject = (GameObject) collidesWith.body.getUserData();
-		numContacts++;
-		if (otherObject.getType().equals(Type.SUSHI)) {
-			objectsToRoll.add(otherObject);
-			size += otherObject.size; // TODO: otherObject.size is always 0
-			//Gdx.app.log("size", Float.toString(size));
-		}
-	}
-	
-	@Override
-	public void leaveContact(PhysicsObject leftCollisionWith) {
-		numContacts--;
-	}
-
-	@Override
-	public Type getType() {
-		return Type.PLAYER;
 	}
 }

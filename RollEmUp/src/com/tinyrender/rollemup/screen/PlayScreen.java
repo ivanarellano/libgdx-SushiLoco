@@ -15,13 +15,11 @@ public class PlayScreen extends GameScreen {
 	static final int GAME_OVER = 4;
 	
 	int state;
-	
-	public RollEmUp game;
 	public Level level;
 	public LevelRenderer renderer;
 
-	public PlayScreen(RollEmUp g) {
-		game = g;
+	public PlayScreen(RollEmUp game) {
+		super(game);
 		level = new TestLevel();
 		renderer = new LevelRenderer(this);
 		state = GAME_READY;

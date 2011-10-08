@@ -12,11 +12,9 @@ public class SplashScreen extends GameScreen {
 	public float totalScreenTime = 0;
 	public float splashAlpha = 1.0f;
 	public boolean diagnosed = false;
-	
-	RollEmUp game;
-	
-	public SplashScreen(RollEmUp g) {
-		game = g;
+		
+	public SplashScreen(RollEmUp game) {
+		super(game);
 	}
 	
 	@Override

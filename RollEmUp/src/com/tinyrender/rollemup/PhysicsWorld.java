@@ -18,8 +18,8 @@ public abstract class PhysicsWorld implements ContactListener {
 	public Vector2 gravity;
 	
 	public PhysicsWorld() {
-		gravity = new Vector2(0, -10.0f);
 		world = this;
+		gravity = new Vector2(0, -10.0f);
 		b2world = new World(gravity, true);
 		b2world.setContactListener(this);
 	}
@@ -34,7 +34,7 @@ public abstract class PhysicsWorld implements ContactListener {
 
 		while (timeAccumulator >= UPDATE_INTERVAL) {
 		    timeAccumulator -= UPDATE_INTERVAL;
-		    b2world.step(UPDATE_INTERVAL, 3, 2);
+		    b2world.step(UPDATE_INTERVAL, 5, 2);
 		}
 	}
 	
@@ -53,8 +53,8 @@ public abstract class PhysicsWorld implements ContactListener {
 		PhysicsObject objectA = (PhysicsObject) contact.getFixtureA().getBody().getUserData();
 		PhysicsObject objectB = (PhysicsObject) contact.getFixtureB().getBody().getUserData();
 
-		objectA.enterContact(objectB);
-		objectB.enterContact(objectA);
+		objectA.contactResolver.enterContact(objectB);
+		objectB.contactResolver.enterContact(objectA);
 	}
 
 	@Override
@@ -62,8 +62,8 @@ public abstract class PhysicsWorld implements ContactListener {
 		PhysicsObject objectA = (PhysicsObject) contact.getFixtureA().getBody().getUserData();
 		PhysicsObject objectB = (PhysicsObject) contact.getFixtureB().getBody().getUserData();
 
-		objectA.leaveContact(objectB);
-		objectB.leaveContact(objectA);
+		objectA.contactResolver.leaveContact(objectB);
+		objectB.contactResolver.leaveContact(objectA);
 	}
 
 	@Override

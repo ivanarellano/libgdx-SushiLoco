@@ -9,6 +9,7 @@ public class Ground extends GameObject {
 	public Ground(float x1, float y1, float x2, float y2, float friction, PhysicsWorld world) {
 		super(world);
 		createBody(x1, y1, x2, y2, friction);
+		type = Type.PLATFORM;
 		body.setUserData(this);
 	}
 
@@ -23,18 +24,5 @@ public class Ground extends GameObject {
 	@Override
 	public void draw() {
 		
-	}
-	
-	@Override
-	public void enterContact(PhysicsObject collidesWith) {		
-	}
-
-	@Override
-	public void leaveContact(PhysicsObject leftCollisionWith) {		
-	}
-	
-	@Override
-	public Type getType() {
-		return Type.PLATFORM;
 	}
 }
