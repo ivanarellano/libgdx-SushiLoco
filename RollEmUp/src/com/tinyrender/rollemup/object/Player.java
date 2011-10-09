@@ -66,7 +66,7 @@ public class Player extends GameObject {
 		JointFactory.revolute(body, sensor.body, new Vector2(pos.x, pos.y), world.b2world);
 		
 		controller = new PlayerController(this);
-		objectRepresentation.texture = Assets.player;
+		objectRepresentation.setTexture(Assets.player);
 		gameType = GameType.PLAYER;
 		body.setUserData(this);
 		
@@ -106,6 +106,7 @@ public class Player extends GameObject {
 		
 		vel = body.getLinearVelocity();
 		pos = body.getPosition();
+		rotation = body.getAngle()*180.0f/(float) Math.PI;
 		
 		if (Gdx.input.isKeyPressed(Keys.A))
 			body.applyForceToCenter(-25.0f * body.getMass(), 0);
@@ -142,17 +143,8 @@ public class Player extends GameObject {
 		if (isJumping) {
 			isJumping = false;
 			if (sensor.isGrounded)
-				body.applyLinearImpulse(0, 17.0f * body.getMass(), pos.x, pos.y);
+				controller.jump(this, 17.0f);
 		}
-	}
-	
-	public void draw() {
-		Assets.batch.draw(Assets.player,
-				(pos.x-0.5f) * Level.PTM_RATIO, (pos.y-0.5f) * Level.PTM_RATIO,
-				32.0f, 32.0f,
-				64.0f, 64.0f,
-				1.0f, 1.0f,
-				body.getAngle()*180.0f/(float) Math.PI);
 	}
 	
 	public void grow() {

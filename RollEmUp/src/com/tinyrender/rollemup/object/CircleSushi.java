@@ -8,15 +8,14 @@ import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.PhysicsWorld;
 
 public class CircleSushi extends GameObject {
-	public float radius;
-
 	public CircleSushi(PhysicsWorld world) {
 		super(world);
 	}
 	
 	public CircleSushi(float x, float y, float density, float angle, PhysicsWorld world) {
 		super(world);
-		radius = (Assets.circleSushi.getWidth()/2.0f)/Level.PTM_RATIO;
+		objectRepresentation.setTexture(Assets.circleSushi);
+		float radius = objectRepresentation.pixelWidth / 2.0f / Level.PTM_RATIO;
 		size = radius;
 		gameType = GameType.SUSHI;
 		
@@ -27,15 +26,6 @@ public class CircleSushi extends GameObject {
 	@Override
 	public void update() {
 		pos = body.getPosition();
-	}
-	
-	@Override
-	public void draw() {
-		Assets.batch.draw(Assets.circleSushi,
-				(pos.x-radius) * Level.PTM_RATIO, (pos.y-radius) * Level.PTM_RATIO,
-				radius * Level.PTM_RATIO, radius * Level.PTM_RATIO,
-				(radius+radius) * Level.PTM_RATIO, (radius+radius) * Level.PTM_RATIO,
-				1.0f, 1.0f,
-				body.getAngle()*180.0f/(float) Math.PI);
+		rotation = body.getAngle()*180.0f/(float) Math.PI;
 	}
 }

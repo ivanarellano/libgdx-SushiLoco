@@ -1,5 +1,6 @@
 package com.tinyrender.rollemup.controller;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -13,10 +14,6 @@ public class PlayerController extends Controller {
 	
 	public PlayerController(Player player) {
 		this.player = player;
-	}
-	
-	public void jump() {
-		
 	}
 	
 	public void rollObject(GameObject other) {
@@ -35,5 +32,23 @@ public class PlayerController extends Controller {
 		player.body.resetMassData();
 		
 		player.isGrowing = true;
+	}
+	
+	public void keyDown(int keyCode) {
+		if (keyCode == Keys.SPACE)
+			player.isJumping = true;
+	}
+	
+	public void keyUp(int keyCode) {
+		if (keyCode == Keys.SPACE)
+			player.isJumping = false;
+	}
+	
+	public void touchDown() {
+		player.isJumping = true;
+	}
+	
+	public void touchUp() {
+		player.isJumping = false;
 	}
 }

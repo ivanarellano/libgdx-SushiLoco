@@ -61,18 +61,17 @@ public class TestLevel extends Level {
 	
 	@Override
 	public void touchDown() {
-		player.isJumping = true;
+		player.controller.touchDown();
 	}
 
 	@Override
 	public void touchUp() {
-		player.isJumping = false;
+		player.controller.touchUp();
 	}
 	
 	@Override
 	public boolean keyDown(int keyCode) {
-		if (keyCode == Keys.SPACE)
-			player.isJumping = true;
+		player.controller.keyDown(keyCode);
 		
 		if (keyCode == Keys.DOWN)
 			newZoom += 0.1f;
@@ -83,8 +82,7 @@ public class TestLevel extends Level {
 	
 	@Override
 	public boolean keyUp(int keyCode) {
-		if (keyCode == Keys.SPACE)
-			player.isJumping = false;
+		player.controller.keyUp(keyCode);
 		return false;
 	}
 }

@@ -7,12 +7,14 @@ public abstract class GameObject extends PhysicsObject {
 		PLAYER, SUSHI, PLATFORM;
 	}
 	
-	public float size;
+	public boolean isRolled = false;
+	public float rotation = 0.0f;
+	public float size = 0.0f;
 	public Vector2 pos;
 	public Vector2 vel;
+	
 	public GameObjectRepresentation objectRepresentation;
 	public GameType gameType;
-	public boolean isRolled = false;
 	
 	public GameObject(PhysicsWorld world) {
 		super(world);
@@ -22,6 +24,4 @@ public abstract class GameObject extends PhysicsObject {
 	public GameType getType() {
 		return gameType;
 	}
-	
-	public abstract void draw();
 }

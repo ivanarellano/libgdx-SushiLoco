@@ -24,9 +24,4 @@ public class Ground extends GameObject {
 	@Override
 	public void update() {		
 	}
-	
-	@Override
-	public void draw() {
-		
-	}
 }

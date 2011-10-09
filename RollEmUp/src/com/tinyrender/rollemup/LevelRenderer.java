@@ -24,7 +24,7 @@ public class LevelRenderer {
 		Assets.batch.setProjectionMatrix(level.cam.combined);
 		Assets.batch.begin();
 			for (GameObject obj : level.objects)
-				obj.draw();
+				obj.objectRepresentation.draw();
 		Assets.batch.end();
 		
 		if (Settings.debugEnabled) {

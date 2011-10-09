@@ -25,9 +25,4 @@ public class Platform extends GameObject {
 	@Override
 	public void update() {		
 	}
-	
-	@Override
-	public void draw() {
-		
-	}
 }
