@@ -10,13 +10,13 @@ public class Platform extends GameObject {
 	
 	public Platform(float x, float y, float hx, float hy, float density, PhysicsWorld world) {
 		super(world);
-		type = Type.PLATFORM;
+		gameType = GameType.PLATFORM;
 		createBody(x, y, hx, hy, density);
 		body.setUserData(this);
 	}
 	
 	public void createBody(float x, float y, float hx, float hy, float density) {
-		body = Utils.createBox(BodyType.StaticBody, x, y, hx, hy, density, world.b2world);
+		body = BodyFactory.createBox(x, y, hx, hy, density, BodyType.StaticBody, world.b2world);
 	}
 	
 	@Override

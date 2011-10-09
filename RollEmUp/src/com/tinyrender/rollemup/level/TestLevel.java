@@ -36,7 +36,7 @@ public class TestLevel extends Level {
 		}
 		
 		// circles
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 10; i++) {
 			objects.add(new CircleSushi(((float)Math.random() * 150f + (float)Math.random() * 1350f)/Level.PTM_RATIO, 
 										((float)Math.random() * 10 + 6)/Level.PTM_RATIO,
 										(Assets.circleSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO, (float)(Math.random() * 2 * Math.PI), world));

@@ -13,13 +13,10 @@ public class CircleSushi extends GameObject {
 		super(world);
 		radius = (Assets.circleSushi.getWidth()/2.0f)/Level.PTM_RATIO;
 		size = radius;
-		type = Type.SUSHI;
-		createBody(x, y, density, angle);
+		gameType = GameType.SUSHI;
+		
+		body = BodyFactory.createCircle(x, y, radius, density, angle, 0.0f, false, BodyType.DynamicBody, world.b2world);
 		body.setUserData(this);
-	}
-	
-	public void createBody(float x, float y, float density, float angle) {
-		body = Utils.createCircle(x, y, radius, density, angle, false, BodyType.DynamicBody, world.b2world);
 	}
 
 	@Override

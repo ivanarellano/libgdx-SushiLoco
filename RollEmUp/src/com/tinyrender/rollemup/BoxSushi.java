@@ -15,13 +15,13 @@ public class BoxSushi extends GameObject {
 		hx = (Assets.boxSushi.getRegionWidth()/2.0f) / Level.PTM_RATIO;
 		hy = (Assets.boxSushi.getRegionHeight()/2.0f) / Level.PTM_RATIO;
 		size = hx;
-		type = Type.SUSHI;
+		gameType = GameType.SUSHI;
 		createBody(x, y, density);
 		body.setUserData(this);
 	}
 	
 	public void createBody(float x, float y, float density) {
-		body = Utils.createBox(BodyType.DynamicBody, x, y, hx, hy, density, world.b2world);
+		body = BodyFactory.createBox(x, y, hx, hy, density, BodyType.DynamicBody, world.b2world);
 	}
 	
 	@Override

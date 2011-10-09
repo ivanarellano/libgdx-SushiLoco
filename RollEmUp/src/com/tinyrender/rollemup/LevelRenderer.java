@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.tinyrender.rollemup.screen.PlayScreen;
 
 public class LevelRenderer {
-	public PlayScreen screen;
 	public Level level;
 	public Box2DDebugRenderer renderer;
 	

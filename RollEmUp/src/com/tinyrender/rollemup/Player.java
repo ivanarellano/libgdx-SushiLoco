@@ -6,13 +6,7 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Filter;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 public class Player extends GameObject {
 	class PlayerSensor extends Sensor {
@@ -41,24 +35,30 @@ public class Player extends GameObject {
 	final static float MAX_VELOCITY = 4.0f;
 
 	public PlayerSensor sensor;
+	public PlayerController controller;
 	public boolean isJumping = false;
 	public boolean isGrowing = false;
-	public float radius;
+	public float scaleAmount = 1.13f;
 	
 	List<GameObject> objectsToRoll = new ArrayList<GameObject>();
 	ArrayList<GameObject> objectsRolled = new ArrayList<GameObject>();
 	
 	public Player(PhysicsWorld world) {
 		super(world);
-		radius = (Assets.player.getRegionWidth()/2.0f)*0.7f /Level.PTM_RATIO;
-		body = createPlayerBody(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius, 1.0f, BodyType.DynamicBody);
+
+		float radius = (Assets.player.getRegionWidth()/2.0f)*0.7f /Level.PTM_RATIO;
+		
+		body = BodyFactory.createCircle(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius, 1.0f, 0.0f, 1.0f, false, BodyType.DynamicBody, world.b2world);
 		pos = body.getPosition();
 				
-		sensor = new PlayerSensor(pos.x, pos.y+(radius*-0.4f), radius/1.35f, BodyType.DynamicBody, world);
-		// join sensor to player body
-		Utils.revoluteJoint(body, sensor.body, new Vector2(pos.x, pos.y), world.b2world);
+		sensor = new PlayerSensor(pos.x, pos.y+(radius*-0.5f), radius/1.35f, BodyType.DynamicBody, world);
 		
-		type = Type.PLAYER;
+		// join sensor to player body
+		JointFactory.revolute(body, sensor.body, new Vector2(pos.x, pos.y), world.b2world);
+		
+		controller = new PlayerController(this);
+		objectRepresentation.texture = Assets.player;
+		gameType = GameType.PLAYER;
 		body.setUserData(this);
 		
 		contactResolver = new ContactResolver() {
@@ -66,10 +66,10 @@ public class Player extends GameObject {
 			public void enterContact(PhysicsObject collidesWith) {
 				GameObject otherObject = (GameObject) collidesWith.body.getUserData();
 				numContacts++;
-				if (otherObject.getType().equals(Type.SUSHI)) {
+				if (otherObject.getType().equals(GameType.SUSHI)) {
 					objectsToRoll.add(otherObject);
-					size += otherObject.size; // TODO: otherObject.size is always 0
-					//Gdx.app.log("size", Float.toString(size));
+					size += otherObject.size;
+					//Gdx.app.log("player", "size: " + size);
 				}
 			}
 			
@@ -85,6 +85,12 @@ public class Player extends GameObject {
 		if (isGrowing) {
 			if (objectsRolled.size() % 4 == 0) {
 				grow();
+				
+				if (scaleAmount >= 1.06f)
+					scaleAmount -= 0.028f;
+				
+				Gdx.app.log("scale", ": " + scaleAmount);
+				
 				isGrowing = false;
 			}
 		}
@@ -100,7 +106,7 @@ public class Player extends GameObject {
 		// stick newly rolled objects
 		if (!objectsToRoll.isEmpty()) {
 			for (GameObject obj : objectsToRoll)
-				stickObject(obj);
+				controller.rollObject(obj);
 			objectsToRoll.clear();
 		}
 
@@ -141,52 +147,7 @@ public class Player extends GameObject {
 	}
 	
 	public void grow() {
-		radius *= 1.13f;
-		
-		Fixture fixture = body.getFixtureList().get(0);
-		CircleShape shape = (CircleShape) fixture.getShape();
-		shape.setRadius(radius);
-		
-		fixture = sensor.body.getFixtureList().get(0);
-		shape = (CircleShape) fixture.getShape();
-		shape.setPosition(new Vector2(0.0f, radius*-0.35f));
-		shape.setRadius(radius/1.35f);
-	}
-	
-	private void stickObject(GameObject other) {
-		other.isRolled = true;
-		objectsRolled.add(other);
-		other.body.setAngularVelocity(0.0f);
-		
-		Utils.weldJoint(body, other.body, new Vector2(pos.x, pos.y), world.b2world);
-		
-		Fixture otherFix = other.body.getFixtureList().get(0);
-		Filter filter = new Filter();
-		filter.maskBits = GameObject.CATEGORY_NO_COLLISION;
-		otherFix.setSensor(true);
-		otherFix.setFilterData(filter);
-		
-		body.resetMassData();
-		
-		isGrowing = true;
-	}
-	
-	private Body createPlayerBody(float x, float y, float radius, float density, BodyType bodyType) {
-		BodyDef bd = new BodyDef();
-		bd.type = bodyType;
-		bd.position.set(x, y);
-		Body body = world.b2world.createBody(bd);
- 
-		CircleShape shape = new CircleShape();		
-		shape.setRadius(radius);
-		
-		FixtureDef fd = new FixtureDef();
-		fd.shape = shape;
-		fd.density = density;
-		fd.friction = 1.0f;
-		body.createFixture(fd);
-		shape.dispose();
-		
-		return body;
+		controller.scaleCircle(this, scaleAmount, new Vector2(0.0f,0.0f));
+		controller.scaleCircle(sensor, scaleAmount, new Vector2(0.0f, scaleAmount*-0.1f));
 	}
 }

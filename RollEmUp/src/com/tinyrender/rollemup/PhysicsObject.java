@@ -2,6 +2,7 @@ package com.tinyrender.rollemup;
 
 import com.badlogic.gdx.physics.box2d.Body;
 
+
 public abstract class PhysicsObject {
 	interface ContactResolver {
 		public void enterContact(PhysicsObject collidesWith);
@@ -11,8 +12,8 @@ public abstract class PhysicsObject {
 	// disable collision
 	final static short CATEGORY_NO_COLLISION = 0x0000;
 	
-	public Body body;
 	public ContactResolver contactResolver;
+	public Body body;
 	public PhysicsWorld world;
 	public int numContacts;
 	

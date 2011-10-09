@@ -9,9 +9,11 @@ import com.badlogic.gdx.Screen;
 public abstract class GameScreen extends InputAdapter implements Screen {
 	public static InputMultiplexer inputMultiplexer;
 	public RollEmUp game;
-
+	public Gui gui;
+	
 	public GameScreen(RollEmUp game) {
 		this.game = game;
+		gui = new Gui();
 		inputMultiplexer = new InputMultiplexer();
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}

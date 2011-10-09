@@ -1,23 +1,26 @@
 package com.tinyrender.rollemup;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
-import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class Utils {
-	public static Body createBox(BodyType type, float x, float y, float hx, float hy, float density, World b2world) {
+public class BodyFactory {
+	public static Body createBody(float x, float y, BodyType bodyType, World b2world) {
 		BodyDef bd = new BodyDef();
 		bd.position.set(x, y);
-		bd.type = type;
+		bd.type = bodyType;
 		Body body = b2world.createBody(bd);
+		
+		return body;
+	}
+	
+	public static Body createBox(float x, float y, float hx, float hy, float density, BodyType bodyType, World b2world) {
+		Body body = createBody(x, y, bodyType, b2world);
 		
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(hx, hy);
@@ -44,35 +47,20 @@ public class Utils {
 		return body;
 	}
 	
-	public static Body createCircle(float x, float y, float radius, float density, float angle, boolean isSensor, BodyType type, World b2world) {
-		BodyDef bd = new BodyDef();
-		bd.position.set(x, y);
-		bd.angle = angle;
-		bd.type = type;
-		Body body = b2world.createBody(bd);
+	public static Body createCircle(float x, float y, float radius, float density, float angle, float friction, boolean isSensor, BodyType bodyType, World b2world) {
+		Body body = createBody(x, y, bodyType, b2world);
  
 		CircleShape shape = new CircleShape();
 		shape.setRadius(radius);
 		
 		FixtureDef fd = new FixtureDef();
 		fd.density = density;
+		fd.friction = friction;
 		fd.isSensor = isSensor;
 		fd.shape = shape;
 		body.createFixture(fd);
 		shape.dispose();
  
 		return body;
-	}
-	
-	public static void weldJoint(Body bodyA, Body bodyB, Vector2 anchorA, World b2world) {
-		WeldJointDef wjd = new WeldJointDef();
-		wjd.initialize(bodyA, bodyB, anchorA);
-		b2world.createJoint(wjd);
-	}
-	
-	public static void revoluteJoint(Body bodyA, Body bodyB, Vector2 anchorA, World b2world) {
-		RevoluteJointDef rjd = new RevoluteJointDef();
-		rjd.initialize(bodyA, bodyB, anchorA);
-		b2world.createJoint(rjd);
 	}
 }

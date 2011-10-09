@@ -1,7 +1,9 @@
 package com.tinyrender.rollemup.screen;
 
 import com.badlogic.gdx.Input.Keys;
+import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameScreen;
+import com.tinyrender.rollemup.Gui;
 import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.LevelRenderer;
 import com.tinyrender.rollemup.RollEmUp;
@@ -16,19 +18,35 @@ public class PlayScreen extends GameScreen {
 	
 	int state;
 	public Level level;
-	public LevelRenderer renderer;
+	public LevelRenderer levelRenderer;
 
 	public PlayScreen(RollEmUp game) {
 		super(game);
 		level = new TestLevel();
-		renderer = new LevelRenderer(this);
+		levelRenderer = new LevelRenderer(this);
+		
 		state = GAME_READY;
+		
+		gui.control = new Gui.GuiController() {
+			@Override
+			public void update() {
+				gui.timer.update();
+			}
+
+			@Override
+			public void render() {
+				Assets.droidsans.draw(Assets.batch,
+						Integer.toString(gui.timer.time), 
+						RollEmUp.TARGET_WIDTH - Assets.droidsans.getBounds(Integer.toString(gui.timer.time)).width - 20.0f,
+						RollEmUp.TARGET_HEIGHT - 20.0f);
+			}
+		};
 	}
 
 	@Override
 	public void dispose() {
 		level.disposeWorld();
-		renderer.dispose();
+		levelRenderer.dispose();
 	}
 
 	@Override
@@ -43,8 +61,10 @@ public class PlayScreen extends GameScreen {
 	@Override
 	public void render(float deltaTime) {
 		level.update(deltaTime); 		// updates world physics and level logic
-		renderer.render(deltaTime); 	// draws world and level
-		//gui.render();
+		gui.control.update();
+		
+		levelRenderer.render(deltaTime); 	// draws world and level
+		gui.render();
 	}
 
 	@Override
@@ -54,7 +74,7 @@ public class PlayScreen extends GameScreen {
 	@Override
 	public void resume() {
 		level.resumeWorld();
-		renderer.resume();
+		levelRenderer.resume();
 	}
 
 	@Override

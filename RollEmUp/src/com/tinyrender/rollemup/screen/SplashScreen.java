@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL11;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameScreen;
-import com.tinyrender.rollemup.Gui;
 import com.tinyrender.rollemup.RollEmUp;
 
 public class SplashScreen extends GameScreen {
@@ -62,6 +61,6 @@ public class SplashScreen extends GameScreen {
 		// Remove splash from screen navigation
 		game.screenStack.list.pop();
 		
-		Assets.batch.setProjectionMatrix(Gui.cam.combined);
+		Assets.batch.setProjectionMatrix(gui.cam.combined);
 	}
 }

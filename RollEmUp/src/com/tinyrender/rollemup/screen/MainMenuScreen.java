@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameScreen;
-import com.tinyrender.rollemup.Gui;
 import com.tinyrender.rollemup.RollEmUp;
 import com.tinyrender.rollemup.Settings;
 
@@ -55,7 +54,7 @@ public class MainMenuScreen extends GameScreen {
 	
 	public void update() {
 		if (Gdx.input.justTouched()) {
-			Gui.cam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0.0f));
+			gui.cam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0.0f));
 			
 			if (startBounds.contains(touchPoint.x, touchPoint.y)) {
 				Assets.playSound(Assets.hitSound);
@@ -130,7 +129,7 @@ public class MainMenuScreen extends GameScreen {
 	public void show() {
 		inputMultiplexer.addProcessor(this);
 		
-		Assets.batch.setProjectionMatrix(Gui.cam.combined);
+		Assets.batch.setProjectionMatrix(gui.cam.combined);
 		Assets.batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		
 		if(Settings.soundEnabled) // FIXME: CHANGE TO musicEnabled WHEN READY
