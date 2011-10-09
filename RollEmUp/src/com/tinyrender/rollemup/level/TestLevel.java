@@ -2,13 +2,13 @@ package com.tinyrender.rollemup.level;
 
 import com.badlogic.gdx.Input.Keys;
 import com.tinyrender.rollemup.Assets;
-import com.tinyrender.rollemup.BoxSushi;
-import com.tinyrender.rollemup.CircleSushi;
 import com.tinyrender.rollemup.GameObject;
-import com.tinyrender.rollemup.Ground;
 import com.tinyrender.rollemup.Level;
-import com.tinyrender.rollemup.Player;
 import com.tinyrender.rollemup.Settings;
+import com.tinyrender.rollemup.object.BoxSushi;
+import com.tinyrender.rollemup.object.CircleSushi;
+import com.tinyrender.rollemup.object.Ground;
+import com.tinyrender.rollemup.object.Player;
 
 public class TestLevel extends Level {
 	Player player;

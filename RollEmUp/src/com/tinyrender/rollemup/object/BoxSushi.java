@@ -1,6 +1,11 @@
-package com.tinyrender.rollemup;
+package com.tinyrender.rollemup.object;
 
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.tinyrender.rollemup.Assets;
+import com.tinyrender.rollemup.BodyFactory;
+import com.tinyrender.rollemup.GameObject;
+import com.tinyrender.rollemup.Level;
+import com.tinyrender.rollemup.PhysicsWorld;
 
 public class BoxSushi extends GameObject {
 	public float hx;

@@ -5,11 +5,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Shape;
 
-public class Controller {
-	public void jump() {
-		
-	}
-	
+public class Controller {	
 	public void scaleCircle(PhysicsObject object, float scale, Vector2 posOffset) {
 		Fixture fixture = object.body.getFixtureList().get(0);
 		Shape.Type shapeType = fixture.getType();

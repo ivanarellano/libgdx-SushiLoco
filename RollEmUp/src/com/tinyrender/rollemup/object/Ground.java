@@ -1,4 +1,8 @@
-package com.tinyrender.rollemup;
+package com.tinyrender.rollemup.object;
+
+import com.tinyrender.rollemup.BodyFactory;
+import com.tinyrender.rollemup.GameObject;
+import com.tinyrender.rollemup.PhysicsWorld;
 
 public class Ground extends GameObject {
 

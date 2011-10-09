@@ -1,4 +1,4 @@
-package com.tinyrender.rollemup;
+package com.tinyrender.rollemup.object;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.tinyrender.rollemup.Assets;
+import com.tinyrender.rollemup.BodyFactory;
+import com.tinyrender.rollemup.GameObject;
+import com.tinyrender.rollemup.JointFactory;
+import com.tinyrender.rollemup.Level;
+import com.tinyrender.rollemup.PhysicsObject;
+import com.tinyrender.rollemup.PhysicsWorld;
+import com.tinyrender.rollemup.Sensor;
+import com.tinyrender.rollemup.controller.PlayerController;
 
 public class Player extends GameObject {
 	class PlayerSensor extends Sensor {
@@ -40,8 +49,8 @@ public class Player extends GameObject {
 	public boolean isGrowing = false;
 	public float scaleAmount = 1.13f;
 	
-	List<GameObject> objectsToRoll = new ArrayList<GameObject>();
-	ArrayList<GameObject> objectsRolled = new ArrayList<GameObject>();
+	public List<GameObject> objectsToRoll = new ArrayList<GameObject>();
+	public ArrayList<GameObject> objectsRolled = new ArrayList<GameObject>();
 	
 	public Player(PhysicsWorld world) {
 		super(world);

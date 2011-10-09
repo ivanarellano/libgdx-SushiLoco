@@ -1,14 +1,22 @@
-package com.tinyrender.rollemup;
+package com.tinyrender.rollemup.controller;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.tinyrender.rollemup.Controller;
+import com.tinyrender.rollemup.GameObject;
+import com.tinyrender.rollemup.JointFactory;
+import com.tinyrender.rollemup.object.Player;
 
 public class PlayerController extends Controller {
 	public Player player;
 	
 	public PlayerController(Player player) {
 		this.player = player;
+	}
+	
+	public void jump() {
+		
 	}
 	
 	public void rollObject(GameObject other) {

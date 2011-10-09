@@ -4,13 +4,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 
 public abstract class PhysicsObject {
-	interface ContactResolver {
+	public interface ContactResolver {
 		public void enterContact(PhysicsObject collidesWith);
 		public void leaveContact(PhysicsObject leftCollisionWith);
 	}
 	
 	// disable collision
-	final static short CATEGORY_NO_COLLISION = 0x0000;
+	public final static short CATEGORY_NO_COLLISION = 0x0000;
 	
 	public ContactResolver contactResolver;
 	public Body body;
