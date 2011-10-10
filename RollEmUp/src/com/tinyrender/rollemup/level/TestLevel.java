@@ -3,8 +3,10 @@ package com.tinyrender.rollemup.level;
 import com.badlogic.gdx.Input.Keys;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject;
+import com.tinyrender.rollemup.GuiUpdater;
 import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.Settings;
+import com.tinyrender.rollemup.Timer;
 import com.tinyrender.rollemup.object.BoxSushi;
 import com.tinyrender.rollemup.object.CircleSushi;
 import com.tinyrender.rollemup.object.Ground;
@@ -13,6 +15,21 @@ import com.tinyrender.rollemup.object.Player;
 public class TestLevel extends Level {
 	Player player;
 	float newZoom = 1.0f;
+	
+	public TestLevel() {
+		levelTime = 3;
+		
+		guiController = new GuiUpdater() {
+			@Override
+			public void resetTimer(Timer timer) {
+				timer.enabled = true;
+				timer.reset(levelTime);
+			}
+
+			@Override
+			public void updateGoalMeter() {}
+		};
+	}
 	
 	@Override
 	public void create() {

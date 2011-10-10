@@ -10,7 +10,7 @@
   </class>  
   <class id="2" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.object.Player.PlayerSensor" 
     project="RollEmUp" file="/RollEmUp/src/com/tinyrender/rollemup/object/Player.java" binary="false">    
-    <position height="81" width="187" x="66" y="1526"/>    
+    <position height="81" width="187" x="78" y="1549"/>    
     <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
@@ -98,7 +98,7 @@
   </class>  
   <class id="21" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.controller.PlayerController" 
     project="RollEmUp" file="/RollEmUp/src/com/tinyrender/rollemup/controller/PlayerController.java" binary="false">    
-    <position height="-1" width="-1" x="155" y="1468"/>    
+    <position height="-1" width="-1" x="165" y="1437"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
@@ -106,12 +106,32 @@
   </class>  
   <class id="22" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.GameObjectRepresentation" 
     project="RollEmUp" file="/RollEmUp/src/com/tinyrender/rollemup/GameObjectRepresentation.java" binary="false">    
-    <position height="81" width="182" x="645" y="1227"/>    
+    <position height="81" width="182" x="108" y="1221"/>    
     <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
+  <class id="24" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.Gui" project="RollEmUp" 
+    file="/RollEmUp/src/com/tinyrender/rollemup/Gui.java" binary="false">    
+    <position height="-1" width="-1" x="116" y="685"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="25" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.level.TestLevel" project="RollEmUp" 
+    file="/RollEmUp/src/com/tinyrender/rollemup/level/TestLevel.java" binary="false">    
+    <position height="-1" width="-1" x="909" y="1316"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <generalization>    
+    <end type="SOURCE" nodeId="25"/>    
+    <end type="TARGET" nodeId="11"/>  
+  </generalization>  
   <association>    
     <end type="SOURCE" nodeId="20" navigable="false">      
       <attribute name="level"/>      
@@ -126,14 +146,6 @@
       <multiplicity minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" nodeId="10" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association>    
-    <end type="SOURCE" nodeId="11" navigable="false">      
-      <attribute name="objects"/>      
-      <multiplicity minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" nodeId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association>    
@@ -197,6 +209,14 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association>    
+    <end type="SOURCE" nodeId="25" navigable="false">      
+      <attribute name="player"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" nodeId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
     <end type="SOURCE" nodeId="22" navigable="false">      
       <attribute name="gameObject"/>      
       <multiplicity minimum="0" maximum="1"/>    
@@ -222,6 +242,14 @@
       <multiplicity minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" nodeId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <end type="SOURCE" nodeId="19" navigable="false">      
+      <attribute name="gui"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" nodeId="24" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association>    

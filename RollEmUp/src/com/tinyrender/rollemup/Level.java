@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
-public abstract class Level extends PhysicsWorld {
+public abstract class Level extends PhysicsWorld {	
 	public final static int PTM_RATIO = 64;
+	public int levelTime = 5;
+	public GuiUpdater guiController;
 	public OrthographicCamera cam;
 	public OrthographicCamera box2dcam;
 	

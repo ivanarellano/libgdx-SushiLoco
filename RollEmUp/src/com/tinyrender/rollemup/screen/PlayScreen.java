@@ -1,9 +1,7 @@
 package com.tinyrender.rollemup.screen;
 
 import com.badlogic.gdx.Input.Keys;
-import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameScreen;
-import com.tinyrender.rollemup.Gui;
 import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.LevelRenderer;
 import com.tinyrender.rollemup.RollEmUp;
@@ -24,23 +22,8 @@ public class PlayScreen extends GameScreen {
 		super(game);
 		level = new TestLevel();
 		levelRenderer = new LevelRenderer(this);
-		
+		level.guiController.resetTimer(gui.timer);
 		state = GAME_READY;
-		
-		gui.control = new Gui.GuiController() {
-			@Override
-			public void update() {
-				gui.timer.update();
-			}
-
-			@Override
-			public void render() {
-				Assets.droidsans.draw(Assets.batch,
-						Integer.toString(gui.timer.time), 
-						RollEmUp.TARGET_WIDTH - Assets.droidsans.getBounds(Integer.toString(gui.timer.time)).width - 20.0f,
-						RollEmUp.TARGET_HEIGHT - 20.0f);
-			}
-		};
 	}
 
 	@Override
@@ -60,9 +43,7 @@ public class PlayScreen extends GameScreen {
 
 	@Override
 	public void render(float deltaTime) {
-		level.update(deltaTime); 		// updates world physics and level logic
-		gui.control.update();
-		
+		level.update(deltaTime); 			// updates world physics and level logic
 		levelRenderer.render(deltaTime); 	// draws world and level
 		gui.render();
 	}

@@ -99,9 +99,9 @@ public class MainMenuScreen extends GameScreen {
 				setMoreText = false;
 				
 				if (Settings.debugEnabled)
-					droidFontCache.setText("2dDebug: On", 0.0f, 0.0f);
+					droidFontCache.setText("Debug: On", 0.0f, 0.0f);
 				else
-					droidFontCache.setText("2dDebug: Off", 0.0f, 0.0f);
+					droidFontCache.setText("Debug: Off", 0.0f, 0.0f);
 				
 				droidFontCache.setPosition(RollEmUp.SCREEN_HALF_WIDTH - droidFontCache.getBounds().width/2.0f,
 						  RollEmUp.SCREEN_HALF_HEIGHT - 200.0f);
