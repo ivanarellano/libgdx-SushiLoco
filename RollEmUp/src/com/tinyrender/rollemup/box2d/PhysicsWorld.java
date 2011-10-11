@@ -1,4 +1,4 @@
-package com.tinyrender.rollemup;
+package com.tinyrender.rollemup.box2d;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;

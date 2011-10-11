@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.tinyrender.rollemup.Controller;
 import com.tinyrender.rollemup.GameObject;
-import com.tinyrender.rollemup.JointFactory;
+import com.tinyrender.rollemup.box2d.JointFactory;
 import com.tinyrender.rollemup.object.Player;
 
 public class PlayerController extends Controller {

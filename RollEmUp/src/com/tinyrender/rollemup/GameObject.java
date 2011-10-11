@@ -1,6 +1,8 @@
 package com.tinyrender.rollemup;
 
 import com.badlogic.gdx.math.Vector2;
+import com.tinyrender.rollemup.box2d.PhysicsObject;
+import com.tinyrender.rollemup.box2d.PhysicsWorld;
 
 public abstract class GameObject extends PhysicsObject {
 	public enum GameType {

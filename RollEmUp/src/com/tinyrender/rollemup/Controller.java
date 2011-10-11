@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.tinyrender.rollemup.box2d.PhysicsObject;
 
 public class Controller {
 	public void jump(GameObject object, float velocity) {

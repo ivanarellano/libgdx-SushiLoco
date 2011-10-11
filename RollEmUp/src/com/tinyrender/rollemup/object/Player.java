@@ -8,13 +8,13 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.tinyrender.rollemup.Assets;
-import com.tinyrender.rollemup.BodyFactory;
 import com.tinyrender.rollemup.GameObject;
-import com.tinyrender.rollemup.JointFactory;
 import com.tinyrender.rollemup.Level;
-import com.tinyrender.rollemup.PhysicsObject;
-import com.tinyrender.rollemup.PhysicsWorld;
 import com.tinyrender.rollemup.Sensor;
+import com.tinyrender.rollemup.box2d.BodyFactory;
+import com.tinyrender.rollemup.box2d.JointFactory;
+import com.tinyrender.rollemup.box2d.PhysicsObject;
+import com.tinyrender.rollemup.box2d.PhysicsWorld;
 import com.tinyrender.rollemup.controller.PlayerController;
 
 public class Player extends GameObject {

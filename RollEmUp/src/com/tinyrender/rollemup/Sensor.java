@@ -1,6 +1,9 @@
 package com.tinyrender.rollemup;
 
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.tinyrender.rollemup.box2d.BodyFactory;
+import com.tinyrender.rollemup.box2d.PhysicsObject;
+import com.tinyrender.rollemup.box2d.PhysicsWorld;
 
 public class Sensor extends PhysicsObject {	
 	public Sensor(PhysicsWorld world) {

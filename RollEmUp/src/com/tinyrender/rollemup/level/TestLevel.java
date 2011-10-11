@@ -3,10 +3,8 @@ package com.tinyrender.rollemup.level;
 import com.badlogic.gdx.Input.Keys;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject;
-import com.tinyrender.rollemup.GuiUpdater;
 import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.Settings;
-import com.tinyrender.rollemup.Timer;
 import com.tinyrender.rollemup.object.BoxSushi;
 import com.tinyrender.rollemup.object.CircleSushi;
 import com.tinyrender.rollemup.object.Ground;
@@ -17,23 +15,15 @@ public class TestLevel extends Level {
 	float newZoom = 1.0f;
 	
 	public TestLevel() {
+		player = new Player(world);
 		levelTime = 3;
 		
-		guiController = new GuiUpdater() {
-			@Override
-			public void resetTimer(Timer timer) {
-				timer.enabled = true;
-				timer.reset(levelTime);
-			}
-
-			@Override
-			public void updateGoalMeter() {}
-		};
+		gui.timer.reset(levelTime);
+		gui.goalMeter.setTexture(player.objectRepresentation.texture);
 	}
 	
 	@Override
 	public void create() {
-		player = new Player(world);
 		objects.add(player);
 		
 		new Ground(0.0f, 0.0f,
@@ -61,7 +51,7 @@ public class TestLevel extends Level {
 	}
 	
 	@Override
-	public void update(float deltaTime) {
+	public void running(float deltaTime) {
 		cam.position.set(player.pos.x*Level.PTM_RATIO, (player.pos.y+1.25f)*Level.PTM_RATIO, 0);
 		cam.zoom = newZoom;
 		
@@ -72,8 +62,26 @@ public class TestLevel extends Level {
 		
 		for (GameObject obj : objects)
 			obj.update();
+				
+		gui.goalMeter.scale = player.size * 0.8f;
 		
 		physicsStep(deltaTime);
+	}
+
+	@Override
+	public void ready(float deltaTime) {		
+	}
+
+	@Override
+	public void paused(float deltaTime) {		
+	}
+
+	@Override
+	public void levelEnd(float deltaTime) {		
+	}
+
+	@Override
+	public void gameOver(float deltaTime) {		
 	}
 	
 	@Override

@@ -22,8 +22,10 @@ public class PlayScreen extends GameScreen {
 		super(game);
 		level = new TestLevel();
 		levelRenderer = new LevelRenderer(this);
-		level.guiController.resetTimer(gui.timer);
-		state = GAME_READY;
+		
+		gui = level.gui;
+		
+		state = GAME_RUNNING;
 	}
 
 	@Override
@@ -40,12 +42,49 @@ public class PlayScreen extends GameScreen {
 	@Override
 	public void pause() {
 	}
+	
+	public void update(float deltaTime) {
+		switch (state) {
+		case GAME_READY:
+			level.ready(deltaTime);
+			break;
+		case GAME_RUNNING:
+			level.running(deltaTime);
+			break;
+		case GAME_PAUSED:
+			level.paused(deltaTime);
+			break;
+		case GAME_LEVEL_END:
+			level.levelEnd(deltaTime);
+			break;
+		case GAME_OVER:
+			level.gameOver(deltaTime);
+			break;
+		}
+	}
 
 	@Override
 	public void render(float deltaTime) {
-		level.update(deltaTime); 			// updates world physics and level logic
-		levelRenderer.render(deltaTime); 	// draws world and level
-		gui.render();
+		update(deltaTime);
+		levelRenderer.render(deltaTime);
+		
+		switch (state) {
+		case GAME_READY:
+			gui.ready(deltaTime);
+			break;
+		case GAME_RUNNING:
+			gui.running(deltaTime);
+			break;
+		case GAME_PAUSED:
+			gui.paused(deltaTime);
+			break;
+		case GAME_LEVEL_END:
+			gui.levelEnd(deltaTime);
+			break;
+		case GAME_OVER:
+			gui.gameOver(deltaTime);
+			break;
+		}
 	}
 
 	@Override

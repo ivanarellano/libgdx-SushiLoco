@@ -2,10 +2,10 @@ package com.tinyrender.rollemup.object;
 
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.tinyrender.rollemup.Assets;
-import com.tinyrender.rollemup.BodyFactory;
 import com.tinyrender.rollemup.GameObject;
 import com.tinyrender.rollemup.Level;
-import com.tinyrender.rollemup.PhysicsWorld;
+import com.tinyrender.rollemup.box2d.BodyFactory;
+import com.tinyrender.rollemup.box2d.PhysicsWorld;
 
 public class CircleSushi extends GameObject {
 	public CircleSushi(PhysicsWorld world) {
