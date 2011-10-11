@@ -1,8 +1,8 @@
 package com.tinyrender.rollemup;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.tinyrender.rollemup.box2d.PhysicsObject;
-import com.tinyrender.rollemup.box2d.PhysicsWorld;
 
 public abstract class GameObject extends PhysicsObject {
 	public enum GameType {
@@ -18,7 +18,7 @@ public abstract class GameObject extends PhysicsObject {
 	public GameObjectRepresentation objectRepresentation;
 	public GameType gameType;
 	
-	public GameObject(PhysicsWorld world) {
+	public GameObject(World world) {
 		super(world);
 		objectRepresentation = new GameObjectRepresentation(this);
 	}

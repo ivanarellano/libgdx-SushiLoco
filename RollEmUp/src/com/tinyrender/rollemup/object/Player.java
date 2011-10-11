@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.World;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject;
 import com.tinyrender.rollemup.Level;
@@ -14,14 +15,13 @@ import com.tinyrender.rollemup.Sensor;
 import com.tinyrender.rollemup.box2d.BodyFactory;
 import com.tinyrender.rollemup.box2d.JointFactory;
 import com.tinyrender.rollemup.box2d.PhysicsObject;
-import com.tinyrender.rollemup.box2d.PhysicsWorld;
 import com.tinyrender.rollemup.controller.PlayerController;
 
 public class Player extends GameObject {
 	class PlayerSensor extends Sensor {
 		public boolean isGrounded = false;
 		
-		PlayerSensor(float x, float y, float radius, BodyType bodyType, PhysicsWorld world) {
+		PlayerSensor(float x, float y, float radius, BodyType bodyType, World world) {
 			super(x, y, radius, bodyType, world);
 			
 			contactResolver = new ContactResolver() {
@@ -52,18 +52,18 @@ public class Player extends GameObject {
 	public List<GameObject> objectsToRoll = new ArrayList<GameObject>();
 	public ArrayList<GameObject> objectsRolled = new ArrayList<GameObject>();
 	
-	public Player(PhysicsWorld world) {
+	public Player(World world) {
 		super(world);
 
 		float radius = (Assets.player.getRegionWidth()/2.0f)*0.7f /Level.PTM_RATIO;
 		
-		body = BodyFactory.createCircle(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius, 1.0f, 0.0f, 1.0f, false, BodyType.DynamicBody, world.b2world);
+		body = BodyFactory.createCircle(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius, 1.0f, 0.0f, 1.0f, false, BodyType.DynamicBody, world);
 		pos = body.getPosition();
 				
 		sensor = new PlayerSensor(pos.x, pos.y+(radius*-0.5f), radius/1.35f, BodyType.DynamicBody, world);
 		
 		// join sensor to player body
-		JointFactory.revolute(body, sensor.body, new Vector2(pos.x, pos.y), world.b2world);
+		JointFactory.revolute(body, sensor.body, new Vector2(pos.x, pos.y), world);
 		
 		controller = new PlayerController(this);
 		objectRepresentation.setTexture(Assets.player);

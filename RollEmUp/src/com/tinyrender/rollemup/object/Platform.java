@@ -1,17 +1,17 @@
 package com.tinyrender.rollemup.object;
 
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.World;
 import com.tinyrender.rollemup.GameObject;
 import com.tinyrender.rollemup.box2d.BodyFactory;
-import com.tinyrender.rollemup.box2d.PhysicsWorld;
 
 public class Platform extends GameObject {
 
-	public Platform(PhysicsWorld world) {
+	public Platform(World world) {
 		super(world);
 	}
 	
-	public Platform(float x, float y, float hx, float hy, float density, PhysicsWorld world) {
+	public Platform(float x, float y, float hx, float hy, float density, World world) {
 		super(world);
 		gameType = GameType.PLATFORM;
 		createBody(x, y, hx, hy, density);
@@ -19,7 +19,7 @@ public class Platform extends GameObject {
 	}
 	
 	public void createBody(float x, float y, float hx, float hy, float density) {
-		body = BodyFactory.createBox(x, y, hx, hy, density, BodyType.StaticBody, world.b2world);
+		body = BodyFactory.createBox(x, y, hx, hy, density, BodyType.StaticBody, world);
 	}
 	
 	@Override

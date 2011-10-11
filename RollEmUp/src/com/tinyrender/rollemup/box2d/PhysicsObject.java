@@ -1,6 +1,7 @@
 package com.tinyrender.rollemup.box2d;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
 
 
 public abstract class PhysicsObject {
@@ -14,10 +15,10 @@ public abstract class PhysicsObject {
 	
 	public ContactResolver contactResolver;
 	public Body body;
-	public PhysicsWorld world;
+	public World world;
 	public int numContacts;
 	
-	public PhysicsObject(PhysicsWorld world) {
+	public PhysicsObject(World world) {
 		this.world = world;
 		contactResolver = new ContactResolver() {
 			@Override public void enterContact(PhysicsObject collidesWith) {}

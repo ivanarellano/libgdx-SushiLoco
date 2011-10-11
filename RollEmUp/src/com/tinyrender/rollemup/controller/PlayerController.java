@@ -21,7 +21,7 @@ public class PlayerController extends Controller {
 		player.objectsRolled.add(other);
 		other.body.setAngularVelocity(0.0f);
 		
-		JointFactory.weld(player.body, other.body, new Vector2(player.pos.x, player.pos.y), player.world.b2world);
+		JointFactory.weld(player.body, other.body, new Vector2(player.pos.x, player.pos.y), player.world);
 		
 		Fixture otherFix = other.body.getFixtureList().get(0);
 		Filter filter = new Filter();

@@ -15,7 +15,7 @@ public class TestLevel extends Level {
 	float newZoom = 1.0f;
 	
 	public TestLevel() {
-		player = new Player(world);
+		player = new Player(b2world);
 		levelTime = 3;
 		
 		gui.timer.reset(levelTime);
@@ -28,25 +28,25 @@ public class TestLevel extends Level {
 		
 		new Ground(0.0f, 0.0f,
 				   (854.0f*2.0f)/Level.PTM_RATIO, 0.0f,
-				   0.4f, world);
+				   0.4f, b2world);
 		new Ground(0.0f, 0.0f,
 				   0.0f, 480.0f/Level.PTM_RATIO,
-				   0.4f, world);
+				   0.4f, b2world);
 		new Ground((854.0f*2.0f)/Level.PTM_RATIO, 0.0f, 
 				   (854.0f*2.0f)/Level.PTM_RATIO, 480.0f/Level.PTM_RATIO,
-				   0.4f, world);
+				   0.4f, b2world);
 		
 		// boxes
 		for (int i = 0; i < 10; i++) {
 			objects.add(new BoxSushi(((float)Math.random() * 120.0f + (float)Math.random() * 1100.0f)/Level.PTM_RATIO,
-											((float)Math.random() * 320.0f)/Level.PTM_RATIO, (Assets.boxSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO, world));
+											((float)Math.random() * 320.0f)/Level.PTM_RATIO, (Assets.boxSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO, b2world));
 		}
 		
 		// circles
 		for (int i = 0; i < 10; i++) {
 			objects.add(new CircleSushi(((float)Math.random() * 150f + (float)Math.random() * 1350f)/Level.PTM_RATIO, 
 										((float)Math.random() * 10 + 6)/Level.PTM_RATIO,
-										(Assets.circleSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO, (float)(Math.random() * 2 * Math.PI), world));
+										(Assets.circleSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO, (float)(Math.random() * 2 * Math.PI), b2world));
 		}
 	}
 	
