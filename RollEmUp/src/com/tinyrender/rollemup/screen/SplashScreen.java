@@ -42,8 +42,9 @@ public class SplashScreen extends GameScreen {
 			Assets.splashScreen.draw(Assets.batch, splashAlpha);
 		Assets.batch.end();
 		
-		if(!(totalScreenTime <= NEXT_SCREEN))
+		if(!(totalScreenTime <= NEXT_SCREEN) && Assets.manager.getProgress() == 1.0f) {
 			game.screenStack.add(new MainMenuScreen(game));
+		}
 		
 		totalScreenTime += deltaTime;
 	}

@@ -17,7 +17,7 @@ public class RollEmUp extends Game implements ApplicationListener {
 	public void create() {
 		Settings.load();
 		Assets.create();
-		Gdx.app.log("AssetManagerDiagnostics", "\n" + Assets.manager.getDiagonistics() + "\n" + Texture.getManagedStatus());
+		Gdx.app.log("AssetManagerDiagnostics", "\n" + Assets.manager.getDiagnostics() + "\n" + Texture.getManagedStatus());
 		
 		screenStack = new ScreenStack(this);
 		screenStack.add(new SplashScreen(this));
