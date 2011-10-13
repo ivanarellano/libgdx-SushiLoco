@@ -14,11 +14,12 @@ public class CircleSushi extends GameObject {
 	
 	public CircleSushi(float x, float y, float density, float angle, World world) {
 		super(world);
+		gameType = GameType.ROLLABLE;
 		objectRepresentation.setTexture(Assets.circleSushi);
-		float radius = objectRepresentation.pixelWidth / 2.0f / Level.PTM_RATIO;
-		size = radius;
-		gameType = GameType.SUSHI;
 		
+		float radius = objectRepresentation.pixelWidth / 2.0f / Level.PTM_RATIO;
+		
+		size = radius;
 		body = BodyFactory.createCircle(x, y, radius, density, angle, 0.0f, false, BodyType.DynamicBody, world);
 		body.setUserData(this);
 	}

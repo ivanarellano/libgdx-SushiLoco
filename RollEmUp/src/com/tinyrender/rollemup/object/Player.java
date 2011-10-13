@@ -57,7 +57,9 @@ public class Player extends GameObject {
 
 		float radius = (Assets.player.getRegionWidth()/2.0f)*0.7f /Level.PTM_RATIO;
 		
-		body = BodyFactory.createCircle(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius, 1.0f, 0.0f, 1.0f, false, BodyType.DynamicBody, world);
+		body = BodyFactory.createCircle(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius,
+										1.0f,
+										0.0f, 1.0f, false, BodyType.DynamicBody, world);
 		pos = body.getPosition();
 				
 		sensor = new PlayerSensor(pos.x, pos.y+(radius*-0.5f), radius/1.35f, BodyType.DynamicBody, world);
@@ -75,9 +77,10 @@ public class Player extends GameObject {
 			public void enterContact(PhysicsObject collidesWith) {
 				GameObject otherObject = (GameObject) collidesWith.body.getUserData();
 				numContacts++;
-				if (otherObject.getType().equals(GameType.SUSHI)) {
+				if (otherObject.getType().equals(GameType.ROLLABLE)) {
 					objectsToRoll.add(otherObject);
 					size += otherObject.size;
+					
 					//Gdx.app.log("player", "size: " + size);
 				}
 			}
@@ -98,7 +101,7 @@ public class Player extends GameObject {
 				if (scaleAmount >= 1.06f)
 					scaleAmount -= 0.028f;
 				
-				Gdx.app.log("scale", ": " + scaleAmount);
+				//Gdx.app.log("scale", ": " + scaleAmount);
 				
 				isGrowing = false;
 			}

@@ -145,18 +145,14 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <association>    
-    <end type="SOURCE" nodeId="20" navigable="false">      
-      <attribute name="level"/>      
-      <multiplicity minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" nodeId="11" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <generalization>    
-    <end type="SOURCE" nodeId="1"/>    
-    <end type="TARGET" nodeId="3"/>  
+    <end type="SOURCE" nodeId="25"/>    
+    <end type="TARGET" nodeId="11"/>  
   </generalization>  
+  <realization>    
+    <end type="SOURCE" nodeId="31"/>    
+    <end type="TARGET" nodeId="27"/>  
+  </realization>  
   <association>    
     <end type="SOURCE" nodeId="29" navigable="false">      
       <attribute name="contactResolver"/>      
@@ -170,21 +166,25 @@
     <end type="TARGET" nodeId="28"/>  
   </generalization>  
   <association>    
-    <end type="SOURCE" nodeId="25" navigable="false">      
-      <attribute name="player"/>      
+    <end type="SOURCE" nodeId="18" navigable="false">      
+      <attribute name="game"/>      
       <multiplicity minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" nodeId="1" navigable="true"/>    
+    <end type="TARGET" nodeId="13" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association>    
-    <end type="SOURCE" nodeId="19" navigable="false">      
-      <attribute name="gui"/>      
+    <end type="SOURCE" nodeId="20" navigable="false">      
+      <attribute name="levelRenderer"/>      
       <multiplicity minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" nodeId="28" navigable="true"/>    
+    <end type="TARGET" nodeId="10" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <generalization>    
+    <end type="SOURCE" nodeId="11"/>    
+    <end type="TARGET" nodeId="31"/>  
+  </generalization>  
   <association>    
     <end type="SOURCE" nodeId="13" navigable="false">      
       <attribute name="screenStack"/>      
@@ -194,17 +194,33 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association>    
-    <end type="SOURCE" nodeId="1" navigable="false">      
-      <attribute name="controller"/>      
+    <end type="SOURCE" nodeId="19" navigable="false">      
+      <attribute name="game"/>      
       <multiplicity minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" nodeId="21" navigable="true"/>    
+    <end type="TARGET" nodeId="13" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <generalization>    
     <end type="SOURCE" nodeId="3"/>    
     <end type="TARGET" nodeId="29"/>  
   </generalization>  
+  <association>    
+    <end type="SOURCE" nodeId="19" navigable="false">      
+      <attribute name="gui"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" nodeId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <end type="SOURCE" nodeId="3" navigable="false">      
+      <attribute name="objectRepresentation"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" nodeId="22" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <association>    
     <end type="SOURCE" nodeId="10" navigable="false">      
       <attribute name="level"/>      
@@ -214,19 +230,27 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <generalization>    
-    <end type="SOURCE" nodeId="25"/>    
-    <end type="TARGET" nodeId="11"/>  
-  </generalization>  
-  <generalization>    
     <end type="SOURCE" nodeId="20"/>    
     <end type="TARGET" nodeId="19"/>  
   </generalization>  
   <association>    
-    <end type="SOURCE" nodeId="20" navigable="false">      
-      <attribute name="levelRenderer"/>      
+    <end type="SOURCE" nodeId="25" navigable="false">      
+      <attribute name="player"/>      
       <multiplicity minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" nodeId="10" navigable="true"/>    
+    <end type="TARGET" nodeId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization>    
+    <end type="SOURCE" nodeId="1"/>    
+    <end type="TARGET" nodeId="3"/>  
+  </generalization>  
+  <association>    
+    <end type="SOURCE" nodeId="21" navigable="false">      
+      <attribute name="player"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" nodeId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association>    
@@ -245,62 +269,30 @@
     <end type="TARGET" nodeId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization>    
-    <end type="SOURCE" nodeId="31"/>    
-    <end type="TARGET" nodeId="27"/>  
-  </realization>  
   <association>    
-    <end type="SOURCE" nodeId="18" navigable="false">      
-      <attribute name="game"/>      
+    <end type="SOURCE" nodeId="20" navigable="false">      
+      <attribute name="level"/>      
       <multiplicity minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" nodeId="13" navigable="true"/>    
+    <end type="TARGET" nodeId="11" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <nesting>    
     <end type="SOURCE" nodeId="29"/>    
     <end type="TARGET" nodeId="30"/>  
   </nesting>  
-  <association>    
-    <end type="SOURCE" nodeId="19" navigable="false">      
-      <attribute name="game"/>      
-      <multiplicity minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" nodeId="13" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association>    
-    <end type="SOURCE" nodeId="29" navigable="false">      
-      <attribute name="world"/>      
-      <multiplicity minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" nodeId="31" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association>    
-    <end type="SOURCE" nodeId="21" navigable="false">      
-      <attribute name="player"/>      
-      <multiplicity minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" nodeId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <nesting>    
     <end type="SOURCE" nodeId="1"/>    
     <end type="TARGET" nodeId="2"/>  
   </nesting>  
   <association>    
-    <end type="SOURCE" nodeId="3" navigable="false">      
-      <attribute name="objectRepresentation"/>      
+    <end type="SOURCE" nodeId="1" navigable="false">      
+      <attribute name="controller"/>      
       <multiplicity minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" nodeId="22" navigable="true"/>    
+    <end type="TARGET" nodeId="21" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization>    
-    <end type="SOURCE" nodeId="11"/>    
-    <end type="TARGET" nodeId="31"/>  
-  </generalization>  
   <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true"/>    
     <operations public="true" package="true" protected="true" private="true"/>  

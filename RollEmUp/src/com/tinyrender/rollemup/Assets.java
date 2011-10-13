@@ -26,8 +26,9 @@ public class Assets {
 	public static Sprite start;
 	public static Sprite titleLogo;
 	public static TextureRegion player;
-	public static Sprite circleSushi;
+	public static TextureRegion circleSushi;
 	public static TextureRegion boxSushi;
+	public static TextureRegion soySauce;
 	public static Texture scratch;
 	public static BitmapFont droidsans;
 	
@@ -74,6 +75,7 @@ public class Assets {
     		player = manager.get("data/pack", TextureAtlas.class).findRegion("player");
     		circleSushi = manager.get("data/pack", TextureAtlas.class).createSprite("circlesushi");
     		boxSushi = manager.get("data/pack", TextureAtlas.class).findRegion("boxsushi");
+    		soySauce = manager.get("data/pack", TextureAtlas.class).findRegion("soy");
     		
         	if (manager.isLoaded("data/droidsans.fnt")) {
         		BitmapFontData bfd = new BitmapFontData(Gdx.files.internal("data/droidsans.fnt"), false);

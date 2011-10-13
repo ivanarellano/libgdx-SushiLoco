@@ -1,5 +1,6 @@
 package com.tinyrender.rollemup.box2d;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -19,12 +20,29 @@ public class BodyFactory {
 		return body;
 	}
 	
+	public static Body createPoly(float x, float y, float density, BodyType bodyType, World b2world, Vector2[]...vectorArray) {
+		Body body = createBody(x, y, bodyType, b2world);
+		
+		PolygonShape shape = new PolygonShape();
+		
+		for (Vector2[] vec : vectorArray) {
+			shape.set(vec);
+			body.createFixture(shape, density);
+		}
+		
+		body.resetMassData();
+		shape.dispose();
+		
+		return body;
+	}
+	
 	public static Body createBox(float x, float y, float hx, float hy, float density, BodyType bodyType, World b2world) {
 		Body body = createBody(x, y, bodyType, b2world);
 		
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(hx, hy);
 		body.createFixture(shape, density);
+		body.resetMassData();
 		shape.dispose();
 		
 		return body;
@@ -41,6 +59,7 @@ public class BodyFactory {
         fd.friction = friction;
         fd.shape = shape;
         body.createFixture(fd);
+        body.resetMassData();
         
         shape.dispose();
         
@@ -59,6 +78,7 @@ public class BodyFactory {
 		fd.isSensor = isSensor;
 		fd.shape = shape;
 		body.createFixture(fd);
+		body.resetMassData();
 		shape.dispose();
  
 		return body;

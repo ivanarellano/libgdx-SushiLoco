@@ -6,7 +6,7 @@ import com.tinyrender.rollemup.box2d.PhysicsObject;
 
 public abstract class GameObject extends PhysicsObject {
 	public enum GameType {
-		PLAYER, SUSHI, PLATFORM;
+		PLAYER, ROLLABLE, PLATFORM;
 	}
 	
 	public boolean isRolled = false;

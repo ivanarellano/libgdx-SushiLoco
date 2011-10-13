@@ -1,6 +1,7 @@
 package com.tinyrender.rollemup.level;
 
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject;
 import com.tinyrender.rollemup.Level;
@@ -9,6 +10,7 @@ import com.tinyrender.rollemup.object.BoxSushi;
 import com.tinyrender.rollemup.object.CircleSushi;
 import com.tinyrender.rollemup.object.Ground;
 import com.tinyrender.rollemup.object.Player;
+import com.tinyrender.rollemup.object.SoySauce;
 
 public class TestLevel extends Level {
 	Player player;
@@ -27,27 +29,39 @@ public class TestLevel extends Level {
 		objects.add(player);
 		
 		new Ground(0.0f, 0.0f,
-				   (854.0f*2.0f)/Level.PTM_RATIO, 0.0f,
+				   (854.0f*2.0f) / Level.PTM_RATIO, 0.0f,
 				   0.4f, b2world);
 		new Ground(0.0f, 0.0f,
-				   0.0f, 480.0f/Level.PTM_RATIO,
+				   0.0f, 480.0f / Level.PTM_RATIO,
 				   0.4f, b2world);
-		new Ground((854.0f*2.0f)/Level.PTM_RATIO, 0.0f, 
-				   (854.0f*2.0f)/Level.PTM_RATIO, 480.0f/Level.PTM_RATIO,
+		new Ground((854.0f*2.0f) / Level.PTM_RATIO, 0.0f,
+				   (854.0f*2.0f) / Level.PTM_RATIO, 480.0f / Level.PTM_RATIO,
 				   0.4f, b2world);
 		
 		// boxes
 		for (int i = 0; i < 10; i++) {
-			objects.add(new BoxSushi(((float)Math.random() * 120.0f + (float)Math.random() * 1100.0f)/Level.PTM_RATIO,
-											((float)Math.random() * 320.0f)/Level.PTM_RATIO, (Assets.boxSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO, b2world));
+			objects.add(new BoxSushi(((float)Math.random() * 120.0f + (float)Math.random() * 750.0f)/Level.PTM_RATIO,
+										((float)Math.random() * 320.0f)/Level.PTM_RATIO,
+										(Assets.boxSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO,
+										b2world));
 		}
+
 		
 		// circles
 		for (int i = 0; i < 10; i++) {
-			objects.add(new CircleSushi(((float)Math.random() * 150f + (float)Math.random() * 1350f)/Level.PTM_RATIO, 
+			objects.add(new CircleSushi(((float)Math.random() * 120f + (float)Math.random() * 750f)/Level.PTM_RATIO, 
 										((float)Math.random() * 10 + 6)/Level.PTM_RATIO,
-										(Assets.circleSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO, (float)(Math.random() * 2 * Math.PI), b2world));
+										(Assets.circleSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO,
+										(float)(Math.random() * 2 * Math.PI), b2world));
 		}
+		
+		
+		
+		objects.add(new SoySauce( ((float)Math.random() * 1050f + (float)Math.random() * 1350f) / Level.PTM_RATIO,
+									(Assets.soySauce.getRegionHeight()/2.0f) / Level.PTM_RATIO,
+									BodyType.DynamicBody,
+									b2world));
+		
 	}
 	
 	@Override
