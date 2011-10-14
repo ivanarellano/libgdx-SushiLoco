@@ -1,6 +1,7 @@
 package com.tinyrender.rollemup.screen;
 
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.Vector3;
 import com.tinyrender.rollemup.GameScreen;
 import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.LevelRenderer;
@@ -17,11 +18,13 @@ public class PlayScreen extends GameScreen {
 	int state;
 	public Level level;
 	public LevelRenderer levelRenderer;
+    public Vector3 touchPoint;
 
 	public PlayScreen(RollEmUp game) {
 		super(game);
 		level = new TestLevel();
 		levelRenderer = new LevelRenderer(this);
+		touchPoint = new Vector3();
 		
 		gui = level.gui;
 		
@@ -105,7 +108,13 @@ public class PlayScreen extends GameScreen {
 	
 	@Override
 	public boolean touchDown(int x, int y, int pointerId, int button) {
-		level.touchDown();
+		gui.cam.unproject(touchPoint.set(x, y, 0.0f));
+		
+		if (level.gui.quit.justHit(touchPoint))
+			game.screenStack.setPrevious();
+		else
+			level.touchDown();
+		
 		return false;
 	}
 	
@@ -117,12 +126,26 @@ public class PlayScreen extends GameScreen {
 	
 	@Override
 	public boolean keyDown(int keyCode) {
-		if (keyCode == Keys.BACK)
-			game.screenStack.setPrevious();
-		else if (keyCode == Keys.BACKSPACE)
-			game.screenStack.setPrevious();
-		else 
-			level.keyDown(keyCode);
+		
+		switch (state) {
+		case GAME_READY:
+		case GAME_RUNNING:
+			if (keyCode == Keys.MENU || keyCode == Keys.ESCAPE)
+				state = GAME_PAUSED;
+			else
+				level.keyDown(keyCode);
+			
+			break;
+		case GAME_PAUSED:
+			if (keyCode == Keys.MENU || keyCode == Keys.ESCAPE)
+				state = GAME_RUNNING;
+			
+			break;
+		case GAME_LEVEL_END:
+		case GAME_OVER:
+			break;
+		}
+
 		return false;
 	}
 	

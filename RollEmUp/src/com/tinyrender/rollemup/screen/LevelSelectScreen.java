@@ -25,15 +25,8 @@ public class LevelSelectScreen extends GameScreen {
 	public void pause() {		
 	}
 	
-	public void update() {
-		if (Gdx.input.justTouched())
-			game.screenStack.add(new PlayScreen(game));
-	}
-
 	@Override
-	public void render(float deltaTime) {
-		update();
-		
+	public void render(float deltaTime) {		
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
 		Assets.batch.begin();
@@ -60,6 +53,13 @@ public class LevelSelectScreen extends GameScreen {
 			game.screenStack.setPrevious();
 		else if (keyCode == Keys.BACKSPACE)
 			game.screenStack.setPrevious();
+		return false;
+	}
+	
+	@Override
+	public boolean touchDown(int x, int y, int pointerId, int button) {		
+		game.screenStack.add(new PlayScreen(game));
+		
 		return false;
 	}
 }

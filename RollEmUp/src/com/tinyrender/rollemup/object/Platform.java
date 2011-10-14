@@ -13,7 +13,7 @@ public class Platform extends GameObject {
 	
 	public Platform(float x, float y, float hx, float hy, float density, World world) {
 		super(world);
-		gameType = GameType.PLATFORM;
+		gameType = GameObjectType.PLATFORM;
 		createBody(x, y, hx, hy, density);
 		body.setUserData(this);
 	}

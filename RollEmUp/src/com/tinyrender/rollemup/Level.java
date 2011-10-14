@@ -1,9 +1,11 @@
 package com.tinyrender.rollemup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.tinyrender.rollemup.box2d.PhysicsWorld;
+import com.tinyrender.rollemup.gui.LevelGui;
 
 public abstract class Level extends PhysicsWorld implements LevelStateUpdater {
 	public final static int PTM_RATIO = 64;
@@ -12,7 +14,7 @@ public abstract class Level extends PhysicsWorld implements LevelStateUpdater {
 	public OrthographicCamera cam;
 	public OrthographicCamera box2dcam;
 	
-	public ArrayList<GameObject> objects = new ArrayList<GameObject>();
+	public List<GameObject> objects = new ArrayList<GameObject>();
 
 	public Level() {
 		cam = new OrthographicCamera((float)RollEmUp.TARGET_WIDTH, (float)RollEmUp.TARGET_HEIGHT);

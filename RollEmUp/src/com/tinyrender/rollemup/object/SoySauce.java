@@ -37,30 +37,14 @@ public class SoySauce extends GameObject {
 		new Vector2(-76.7f / Level.PTM_RATIO, -181.0f / Level.PTM_RATIO),	// 6
 		new Vector2(79.5f / Level.PTM_RATIO, -174.7f / Level.PTM_RATIO)		// 8
 	};
-	
-	/*
-	 	new Vector2(60.5f / Level.PTM_RATIO, 185.3f / Level.PTM_RATIO),		// 1
-		new Vector2(-73.2f / Level.PTM_RATIO, 186.0f / Level.PTM_RATIO),	// 2
-		new Vector2(-54.1f / Level.PTM_RATIO, 118.1f / Level.PTM_RATIO),	// 3
-		new Vector2(-54.1f / Level.PTM_RATIO, 0.0f / Level.PTM_RATIO),		// 4
-		new Vector2(-71.8f / Level.PTM_RATIO, -88.4f / Level.PTM_RATIO),	// 5
-		new Vector2(-76.7f / Level.PTM_RATIO, -181.0f / Level.PTM_RATIO),	// 6
-		new Vector2(0.4f / Level.PTM_RATIO, -186.7f / Level.PTM_RATIO),		// 7
-		new Vector2(79.5f / Level.PTM_RATIO, -174.7f / Level.PTM_RATIO),	// 8
-		new Vector2(70.4f / Level.PTM_RATIO, -86.3f / Level.PTM_RATIO),		// 9
-		new Vector2(54.8f / Level.PTM_RATIO, -1.4f / Level.PTM_RATIO),		// 10
-		new Vector2(54.1f / Level.PTM_RATIO, 116.7f / Level.PTM_RATIO)		// 11
-	 */
 
 	public SoySauce(float x, float y, BodyType bodyType, World world) {
 		super(world);
-		gameType = GameType.PLATFORM;
+		gameType = GameObjectType.PLATFORM;
 		objectRepresentation.setTexture(Assets.soySauce);
 		
-		size = (objectRepresentation.pixelWidth * objectRepresentation.pixelHeight) / Level.PTM_RATIO;
-		body = BodyFactory.createPoly(x, y,
-										1.0f,
-										bodyType, world, poly1, poly2, poly3, poly4);
+		size = (objectRepresentation.width * objectRepresentation.height) / Level.PTM_RATIO;
+		body = BodyFactory.createPoly(x, y, 1.0f, bodyType, world, poly1, poly2, poly3, poly4);
 		body.setUserData(this);
 	}
 

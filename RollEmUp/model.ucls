@@ -88,7 +88,7 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="24" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.LevelGui" project="RollEmUp" 
+  <class id="24" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.gui.LevelGui" project="RollEmUp" 
     file="/RollEmUp/src/com/tinyrender/rollemup/LevelGui.java" binary="false">    
     <position height="-1" width="-1" x="680" y="1000"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      

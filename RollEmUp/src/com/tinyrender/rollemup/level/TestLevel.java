@@ -29,18 +29,18 @@ public class TestLevel extends Level {
 		objects.add(player);
 		
 		new Ground(0.0f, 0.0f,
-				   (854.0f*2.0f) / Level.PTM_RATIO, 0.0f,
+				   (854.0f*3.0f) / Level.PTM_RATIO, 0.0f,
 				   0.4f, b2world);
 		new Ground(0.0f, 0.0f,
 				   0.0f, 480.0f / Level.PTM_RATIO,
 				   0.4f, b2world);
-		new Ground((854.0f*2.0f) / Level.PTM_RATIO, 0.0f,
-				   (854.0f*2.0f) / Level.PTM_RATIO, 480.0f / Level.PTM_RATIO,
+		new Ground((854.0f*3.0f) / Level.PTM_RATIO, 0.0f,
+				   (854.0f*3.0f) / Level.PTM_RATIO, 480.0f / Level.PTM_RATIO,
 				   0.4f, b2world);
 		
 		// boxes
 		for (int i = 0; i < 10; i++) {
-			objects.add(new BoxSushi(((float)Math.random() * 120.0f + (float)Math.random() * 750.0f)/Level.PTM_RATIO,
+			objects.add(new BoxSushi((100.0f + (float)Math.random() * 120.0f)/Level.PTM_RATIO,
 										((float)Math.random() * 320.0f)/Level.PTM_RATIO,
 										(Assets.boxSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO,
 										b2world));
@@ -48,8 +48,8 @@ public class TestLevel extends Level {
 
 		
 		// circles
-		for (int i = 0; i < 10; i++) {
-			objects.add(new CircleSushi(((float)Math.random() * 120f + (float)Math.random() * 750f)/Level.PTM_RATIO, 
+		for (int i = 0; i < 15; i++) {
+			objects.add(new CircleSushi((300.0f + (float)Math.random() * 320f)/Level.PTM_RATIO, 
 										((float)Math.random() * 10 + 6)/Level.PTM_RATIO,
 										(Assets.circleSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO,
 										(float)(Math.random() * 2 * Math.PI), b2world));
@@ -57,7 +57,7 @@ public class TestLevel extends Level {
 		
 		
 		
-		objects.add(new SoySauce( ((float)Math.random() * 1050f + (float)Math.random() * 1350f) / Level.PTM_RATIO,
+		objects.add(new SoySauce((950.0f + (float)Math.random() * 400.0f) / Level.PTM_RATIO,
 									(Assets.soySauce.getRegionHeight()/2.0f) / Level.PTM_RATIO,
 									BodyType.DynamicBody,
 									b2world));
@@ -77,7 +77,7 @@ public class TestLevel extends Level {
 		for (GameObject obj : objects)
 			obj.update();
 				
-		gui.goalMeter.scale = player.size * 0.8f;
+		gui.goalMeter.scale = player.size * 0.5f;
 		
 		physicsStep(deltaTime);
 	}
@@ -87,7 +87,7 @@ public class TestLevel extends Level {
 	}
 
 	@Override
-	public void paused(float deltaTime) {		
+	public void paused(float deltaTime) {	
 	}
 
 	@Override

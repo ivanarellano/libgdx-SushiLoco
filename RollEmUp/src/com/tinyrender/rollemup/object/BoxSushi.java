@@ -14,11 +14,11 @@ public class BoxSushi extends GameObject {
 	
 	public BoxSushi(float x, float y, float density, World world) {
 		super(world);
-		gameType = GameType.ROLLABLE;
+		gameType = GameObjectType.ROLLABLE;
 		objectRepresentation.setTexture(Assets.boxSushi);
 		
-		float hx = objectRepresentation.pixelWidth / 2.0f / Level.PTM_RATIO;
-		float hy = objectRepresentation.pixelHeight / 2.0f / Level.PTM_RATIO;
+		float hx = objectRepresentation.width / 2.0f / Level.PTM_RATIO;
+		float hy = objectRepresentation.height / 2.0f / Level.PTM_RATIO;
 		
 		size = hx;
 		body = BodyFactory.createBox(x, y, hx, hy, density, BodyType.DynamicBody, world);

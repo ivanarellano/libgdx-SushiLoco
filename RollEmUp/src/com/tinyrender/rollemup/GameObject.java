@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.tinyrender.rollemup.box2d.PhysicsObject;
 
 public abstract class GameObject extends PhysicsObject {
-	public enum GameType {
+	public enum GameObjectType {
 		PLAYER, ROLLABLE, PLATFORM;
 	}
 	
@@ -16,14 +16,14 @@ public abstract class GameObject extends PhysicsObject {
 	public Vector2 vel;
 	
 	public GameObjectRepresentation objectRepresentation;
-	public GameType gameType;
+	public GameObjectType gameType;
 	
 	public GameObject(World world) {
 		super(world);
 		objectRepresentation = new GameObjectRepresentation(this);
 	}
 	
-	public GameType getType() {
+	public GameObjectType getType() {
 		return gameType;
 	}
 }

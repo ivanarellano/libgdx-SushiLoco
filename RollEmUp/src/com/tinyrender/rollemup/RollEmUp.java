@@ -23,6 +23,7 @@ public class RollEmUp extends Game implements ApplicationListener {
 		screenStack.add(new SplashScreen(this));
 		
 		Gdx.input.setCatchBackKey(true);
+		Gdx.input.setCatchMenuKey(true);
 	}
 
 	@Override

@@ -50,7 +50,7 @@ public class Player extends GameObject {
 	public float scaleAmount = 1.13f;
 	
 	public List<GameObject> objectsToRoll = new ArrayList<GameObject>();
-	public ArrayList<GameObject> objectsRolled = new ArrayList<GameObject>();
+	public List<GameObject> objectsRolled = new ArrayList<GameObject>();
 	
 	public Player(World world) {
 		super(world);
@@ -69,7 +69,7 @@ public class Player extends GameObject {
 		
 		controller = new PlayerController(this);
 		objectRepresentation.setTexture(Assets.player);
-		gameType = GameType.PLAYER;
+		gameType = GameObjectType.PLAYER;
 		body.setUserData(this);
 		
 		contactResolver = new ContactResolver() {
@@ -77,7 +77,7 @@ public class Player extends GameObject {
 			public void enterContact(PhysicsObject collidesWith) {
 				GameObject otherObject = (GameObject) collidesWith.body.getUserData();
 				numContacts++;
-				if (otherObject.getType().equals(GameType.ROLLABLE)) {
+				if (otherObject.getType().equals(GameObjectType.ROLLABLE)) {
 					objectsToRoll.add(otherObject);
 					size += otherObject.size;
 					
