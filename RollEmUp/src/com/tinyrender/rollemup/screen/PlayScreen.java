@@ -48,21 +48,21 @@ public class PlayScreen extends GameScreen {
 	
 	public void update(float deltaTime) {
 		switch (state) {
-		case GAME_READY:
-			level.ready(deltaTime);
-			break;
-		case GAME_RUNNING:
-			level.running(deltaTime);
-			break;
-		case GAME_PAUSED:
-			level.paused(deltaTime);
-			break;
-		case GAME_LEVEL_END:
-			level.levelEnd(deltaTime);
-			break;
-		case GAME_OVER:
-			level.gameOver(deltaTime);
-			break;
+			case GAME_READY:
+				level.ready(deltaTime);
+				break;
+			case GAME_RUNNING:
+				level.running(deltaTime);
+				break;
+			case GAME_PAUSED:
+				level.paused(deltaTime);
+				break;
+			case GAME_LEVEL_END:
+				level.levelEnd(deltaTime);
+				break;
+			case GAME_OVER:
+				level.gameOver(deltaTime);
+				break;
 		}
 	}
 
@@ -72,21 +72,21 @@ public class PlayScreen extends GameScreen {
 		levelRenderer.render(deltaTime);
 		
 		switch (state) {
-		case GAME_READY:
-			gui.ready(deltaTime);
-			break;
-		case GAME_RUNNING:
-			gui.running(deltaTime);
-			break;
-		case GAME_PAUSED:
-			gui.paused(deltaTime);
-			break;
-		case GAME_LEVEL_END:
-			gui.levelEnd(deltaTime);
-			break;
-		case GAME_OVER:
-			gui.gameOver(deltaTime);
-			break;
+			case GAME_READY:
+				gui.ready(deltaTime);
+				break;
+			case GAME_RUNNING:
+				gui.running(deltaTime);
+				break;
+			case GAME_PAUSED:
+				gui.paused(deltaTime);
+				break;
+			case GAME_LEVEL_END:
+				gui.levelEnd(deltaTime);
+				break;
+			case GAME_OVER:
+				gui.gameOver(deltaTime);
+				break;
 		}
 	}
 
@@ -126,24 +126,25 @@ public class PlayScreen extends GameScreen {
 	
 	@Override
 	public boolean keyDown(int keyCode) {
-		
 		switch (state) {
-		case GAME_READY:
-		case GAME_RUNNING:
-			if (keyCode == Keys.MENU || keyCode == Keys.ESCAPE)
-				state = GAME_PAUSED;
-			else
-				level.keyDown(keyCode);
-			
-			break;
-		case GAME_PAUSED:
-			if (keyCode == Keys.MENU || keyCode == Keys.ESCAPE)
-				state = GAME_RUNNING;
-			
-			break;
-		case GAME_LEVEL_END:
-		case GAME_OVER:
-			break;
+			case GAME_READY:
+			case GAME_RUNNING:
+				if (keyCode == Keys.MENU || keyCode == Keys.BACK ||
+					keyCode == Keys.BACKSPACE || keyCode == Keys.ESCAPE)
+					state = GAME_PAUSED;
+				else
+					level.keyDown(keyCode);
+				
+				break;
+			case GAME_PAUSED:
+				if (keyCode == Keys.MENU || keyCode == Keys.BACK ||
+					keyCode == Keys.BACKSPACE || keyCode == Keys.ESCAPE)
+					state = GAME_RUNNING;
+				
+				break;
+			case GAME_LEVEL_END:
+			case GAME_OVER:
+				break;
 		}
 
 		return false;

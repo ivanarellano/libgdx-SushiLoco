@@ -4,10 +4,11 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject;
+import com.tinyrender.rollemup.GameObject.GameObjectType;
 import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.Settings;
-import com.tinyrender.rollemup.object.BoxSushi;
-import com.tinyrender.rollemup.object.CircleSushi;
+import com.tinyrender.rollemup.object.BoxObject;
+import com.tinyrender.rollemup.object.CircleObject;
 import com.tinyrender.rollemup.object.Ground;
 import com.tinyrender.rollemup.object.Player;
 import com.tinyrender.rollemup.object.SoySauce;
@@ -40,19 +41,24 @@ public class TestLevel extends Level {
 		
 		// boxes
 		for (int i = 0; i < 10; i++) {
-			objects.add(new BoxSushi((100.0f + (float)Math.random() * 120.0f)/Level.PTM_RATIO,
+			objects.add(new BoxObject((100.0f + (float)Math.random() * 120.0f)/Level.PTM_RATIO,
 										((float)Math.random() * 320.0f)/Level.PTM_RATIO,
 										(Assets.boxSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO,
+										GameObjectType.ROLLABLE,
+										Assets.boxSushi,
 										b2world));
 		}
 
 		
 		// circles
 		for (int i = 0; i < 15; i++) {
-			objects.add(new CircleSushi((300.0f + (float)Math.random() * 320f)/Level.PTM_RATIO, 
+			objects.add(new CircleObject((300.0f + (float)Math.random() * 320f)/Level.PTM_RATIO, 
 										((float)Math.random() * 10 + 6)/Level.PTM_RATIO,
 										(Assets.circleSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO,
-										(float)(Math.random() * 2 * Math.PI), b2world));
+										(float)(Math.random() * 2 * Math.PI),
+										GameObjectType.ROLLABLE,
+										Assets.circleSushi,
+										b2world));
 		}
 		
 		

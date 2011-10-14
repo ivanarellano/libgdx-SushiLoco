@@ -1,6 +1,5 @@
 package com.tinyrender.rollemup.box2d;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -17,22 +16,20 @@ public abstract class PhysicsWorld implements ContactListener {
 	public Vector2 gravity;
 	
 	public PhysicsWorld() {
-		gravity = new Vector2(0, -10.0f);
+		gravity = new Vector2(0, -11.2f);
 		b2world = new World(gravity, true);
 		b2world.setContactListener(this);
 	}
 
 	public void physicsStep(float deltaTime) {
-		b2world.step(Gdx.graphics.getDeltaTime(), 5, 2);
-		
 		timeAccumulator += deltaTime;
 		if (timeAccumulator > (MAX_CYCLES_PER_FRAME * UPDATE_INTERVAL)) {
-		    timeAccumulator = UPDATE_INTERVAL;
+		    timeAccumulator = UPDATE_INTERVAL;	// note: max frame time to avoid spiral of death
 		}
 
 		while (timeAccumulator >= UPDATE_INTERVAL) {
 		    timeAccumulator -= UPDATE_INTERVAL;
-		    b2world.step(UPDATE_INTERVAL, 5, 2);
+		    b2world.step(UPDATE_INTERVAL, 5, 3);
 		}
 	}
 	

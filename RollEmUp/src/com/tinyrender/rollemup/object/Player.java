@@ -41,7 +41,7 @@ public class Player extends GameObject {
 		}
 	}
 	
-	final static float MAX_VELOCITY = 4.0f;
+	final static float MAX_VELOCITY = 6.0f;
 
 	public PlayerSensor sensor;
 	public PlayerController controller;
@@ -54,7 +54,7 @@ public class Player extends GameObject {
 	
 	public Player(World world) {
 		super(world);
-
+		objectRepresentation.setTexture(Assets.player);
 		float radius = (Assets.player.getRegionWidth()/2.0f)*0.7f /Level.PTM_RATIO;
 		
 		body = BodyFactory.createCircle(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius,
@@ -68,7 +68,6 @@ public class Player extends GameObject {
 		JointFactory.revolute(body, sensor.body, new Vector2(pos.x, pos.y), world);
 		
 		controller = new PlayerController(this);
-		objectRepresentation.setTexture(Assets.player);
 		gameType = GameObjectType.PLAYER;
 		body.setUserData(this);
 		
@@ -112,37 +111,36 @@ public class Player extends GameObject {
 		rotation = body.getAngle()*180.0f/(float) Math.PI;
 		
 		if (Gdx.input.isKeyPressed(Keys.A))
-			body.applyForceToCenter(-25.0f * body.getMass(), 0);
+			body.applyForceToCenter(-40.0f * body.getMass(), 0);
 		else if (Gdx.input.isKeyPressed(Keys.D))
-			body.applyForceToCenter(25.0f * body.getMass(), 0);
+			body.applyForceToCenter(40.0f * body.getMass(), 0);
 				
-		// stick newly rolled objects
+		// Stick newly rolled objects
 		if (!objectsToRoll.isEmpty()) {
 			for (GameObject obj : objectsToRoll)
 				controller.rollObject(obj);
 			objectsToRoll.clear();
 		}
 
-		// terminal velocity on x	
+		// Set X velocity to MAX if we're going too fast
 		if (Math.abs(vel.x) > MAX_VELOCITY) {			
 			vel.x = Math.signum(vel.x) * MAX_VELOCITY;
 			body.setLinearVelocity(vel.x, vel.y);
 		}
- 
-		// apply force when tilted, otherwise
-		// dampen down acceleration to stop
-		if ((Gdx.input.getAccelerometerY() <= -0.2f && vel.x > -MAX_VELOCITY) ||
-				Gdx.input.getAccelerometerY() >= 0.2f && vel.x < MAX_VELOCITY) {
-			body.applyForceToCenter(Gdx.input.getAccelerometerY()*0.1f * body.getMass(), 0);
+		
+		// Apply force when tilted, otherwise dampen down acceleration to stop
+		if ((Gdx.input.getAccelerometerY() <= -0.35f && vel.x > -MAX_VELOCITY) ||
+				Gdx.input.getAccelerometerY() >= 0.35f && vel.x < MAX_VELOCITY) {
+			body.applyForceToCenter(Gdx.input.getAccelerometerY()*0.55f * body.getMass(), 0);
 		} else {
 			body.setLinearVelocity(vel.x * 0.9f, vel.y);
 		}
-
-		// regain momentum with small impulse
+		
+		// Regain momentum with small impulse
 		if (vel.x < MAX_VELOCITY/3 || vel.x > -MAX_VELOCITY/3)
 			body.applyLinearImpulse(Gdx.input.getAccelerometerY()*0.1f * body.getMass(), 0, pos.x, pos.y);
-		
-		// jump if grounded
+ 
+		// Jump
 		if (isJumping) {
 			isJumping = false;
 			if (sensor.isGrounded)
