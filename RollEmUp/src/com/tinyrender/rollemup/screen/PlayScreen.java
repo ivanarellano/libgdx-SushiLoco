@@ -39,7 +39,6 @@ public class PlayScreen extends GameScreen {
 
 	@Override
 	public void hide() {
-		inputMultiplexer.removeProcessor(this);
 	}
 
 	@Override
@@ -91,8 +90,7 @@ public class PlayScreen extends GameScreen {
 	}
 
 	@Override
-	public void resize(int width, int height) {
-	}
+	public void resize(int width, int height) { }
 
 	@Override
 	public void resume() {
@@ -102,7 +100,6 @@ public class PlayScreen extends GameScreen {
 
 	@Override
 	public void show() {
-		inputMultiplexer.addProcessor(this);
 		level.create();
 	}
 	
@@ -110,10 +107,18 @@ public class PlayScreen extends GameScreen {
 	public boolean touchDown(int x, int y, int pointerId, int button) {
 		gui.cam.unproject(touchPoint.set(x, y, 0.0f));
 		
-		if (level.gui.quit.justHit(touchPoint))
-			game.screenStack.setPrevious();
-		else
-			level.touchDown();
+		switch (state) {
+			case GAME_RUNNING:
+				level.touchDown();
+				break;
+			case GAME_PAUSED:
+				if (level.gui.quit.justHit(touchPoint))
+					game.screenStack.setPrevious();
+			case GAME_READY:
+			case GAME_LEVEL_END:
+			case GAME_OVER:
+				break;
+		}
 		
 		return false;
 	}
@@ -127,7 +132,6 @@ public class PlayScreen extends GameScreen {
 	@Override
 	public boolean keyDown(int keyCode) {
 		switch (state) {
-			case GAME_READY:
 			case GAME_RUNNING:
 				if (keyCode == Keys.MENU || keyCode == Keys.BACK ||
 					keyCode == Keys.BACKSPACE || keyCode == Keys.ESCAPE)
@@ -142,6 +146,7 @@ public class PlayScreen extends GameScreen {
 					state = GAME_RUNNING;
 				
 				break;
+			case GAME_READY:
 			case GAME_LEVEL_END:
 			case GAME_OVER:
 				break;

@@ -44,7 +44,6 @@ public class MainMenuScreen extends GameScreen {
 
 	@Override
 	public void hide() {
-		inputMultiplexer.removeProcessor(this);
 	}
 
 	@Override
@@ -127,8 +126,6 @@ public class MainMenuScreen extends GameScreen {
 
 	@Override
 	public void show() {
-		inputMultiplexer.addProcessor(this);
-		
 		Assets.batch.setProjectionMatrix(gui.cam.combined);
 		Assets.batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		

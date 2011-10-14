@@ -7,26 +7,30 @@ import com.badlogic.gdx.Screen;
 
 public class ScreenStack {
 	RollEmUp game;
-	public Stack<Screen> list = new Stack<Screen>();
+	public Stack<GameScreen> list = new Stack<GameScreen>();
 	
 	public ScreenStack(RollEmUp game) {
 		this.game = game;
 	}
 	
-	public void add(Screen screen) {
+	public void add(GameScreen screen) {
 		list.add(screen);
 		setScreen(screen);
 	}
 	
 	public void setPrevious() {
 		list.pop();
-		if (!(list.size() <= 0))
+		if (!(list.size() <= 0)) {
 			setScreen(list.peek());
-		else
+			Gdx.input.setInputProcessor(list.peek());
+		}
+		else {
 			Gdx.app.exit();
+		}
 	}
 	
-	private void setScreen(Screen screen) {
+	private void setScreen(GameScreen screen) {
 		game.setScreen(list.peek());
+		Gdx.input.setInputProcessor(screen);
 	}
 }
