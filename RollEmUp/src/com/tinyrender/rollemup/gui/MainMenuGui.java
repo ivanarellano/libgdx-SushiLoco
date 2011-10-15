@@ -3,6 +3,7 @@ package com.tinyrender.rollemup.gui;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.Gui;
 import com.tinyrender.rollemup.RollEmUp;
+import com.tinyrender.rollemup.Settings;
 
 public class MainMenuGui extends Gui {
 	public ImageButton start;
@@ -11,8 +12,16 @@ public class MainMenuGui extends Gui {
 	
 	public MainMenuGui() {
 		start = new ImageButton(Assets.start);
-		sound = new ImageButton(Assets.soundOn);
-		debug = new LabelButton(Assets.droidsans, "debug: on");
+		
+		if (Settings.soundEnabled)
+			sound = new ImageButton(Assets.soundOn);
+		else
+			sound = new ImageButton(Assets.soundOff);
+		
+		if (Settings.debugEnabled)
+			debug = new LabelButton(Assets.droidsans, "debug: on");
+		else
+			debug = new LabelButton(Assets.droidsans, "debug: off");
 		
 		start.setPosition(RollEmUp.SCREEN_HALF_WIDTH - start.width/2.0f, RollEmUp.SCREEN_HALF_HEIGHT - 115.0f);
 		sound.setPosition(50.0f, 50.0f);

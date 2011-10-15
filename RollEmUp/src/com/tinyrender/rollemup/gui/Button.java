@@ -6,7 +6,7 @@ import com.tinyrender.rollemup.Assets;
 
 public class Button {
 	public Rectangle bounds;
-	public float boundsMargin = 10.0f;
+	public float boundsMargin = 12.0f;
 	
 	public Button() {
 		bounds = new Rectangle();

@@ -74,13 +74,10 @@ public class MainMenuScreen extends GameScreen {
 		if (gui.debug.justHit(touchPoint)) {
 			Assets.playSound(Assets.hitSound);
 			Settings.debugEnabled = !Settings.debugEnabled;
-			if (Settings.debugEnabled) {
+			if (Settings.debugEnabled)
 				gui.debug.replaceText("debug: on");
-				Gdx.app.log("debugHit", "debug on");
-			} else {
+			else
 				gui.debug.replaceText("debug: off");
-				Gdx.app.log("debugHit", "debug off");
-			}
 		}
 		
 		return false;

@@ -89,7 +89,7 @@ public class Assets {
     	if (manager.isLoaded("data/music.mp3")) {
     		music = manager.get("data/music.mp3", Music.class);
     		music.setLooping(true);
-    		music.setVolume(0.5f);
+    		music.setVolume(0.25f);
     	}
     	
     	if (manager.isLoaded("data/click.ogg"))
