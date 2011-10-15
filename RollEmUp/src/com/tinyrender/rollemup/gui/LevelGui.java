@@ -17,10 +17,10 @@ public class LevelGui extends Gui {
     	goalMeter = new GoalMeter();
     	
     	paused = new Label(Assets.droidsans, "Paused");
-    	paused.setPositionAndBounds(RollEmUp.SCREEN_HALF_WIDTH-paused.bounds.width/2.0f, RollEmUp.SCREEN_HALF_HEIGHT+150.0f);
+    	paused.setPosition(RollEmUp.SCREEN_HALF_WIDTH-paused.bounds.width/2.0f, RollEmUp.SCREEN_HALF_HEIGHT+150.0f);
     	
     	quit = new Label(Assets.droidsans, "Quit");
-    	quit.setPositionAndBounds(RollEmUp.SCREEN_HALF_WIDTH-quit.bounds.width/2.0f, RollEmUp.SCREEN_HALF_HEIGHT+80.0f);
+    	quit.setPosition(RollEmUp.SCREEN_HALF_WIDTH-quit.bounds.width/2.0f, RollEmUp.SCREEN_HALF_HEIGHT+80.0f);
     }
     
 	@Override
