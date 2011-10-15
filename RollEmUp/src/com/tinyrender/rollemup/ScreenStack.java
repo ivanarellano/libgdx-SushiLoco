@@ -3,7 +3,6 @@ package com.tinyrender.rollemup;
 import java.util.Stack;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 
 public class ScreenStack {
 	RollEmUp game;

@@ -2,7 +2,7 @@ package com.tinyrender.rollemup;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
-public class Gui implements LevelStateUpdater {
+public class Gui {
     public OrthographicCamera cam;
     
     public Gui() {
@@ -11,24 +11,11 @@ public class Gui implements LevelStateUpdater {
 		cam.position.set(RollEmUp.SCREEN_HALF_WIDTH, RollEmUp.SCREEN_HALF_HEIGHT, 0);
     }
     
-	@Override
-	public void ready(float deltaTime) {		
+	public void render(Drawable...drawables) {
+		Assets.batch.setProjectionMatrix(cam.combined);
+		Assets.batch.begin();
+			for (Drawable obj : drawables)
+				obj.draw();
+		Assets.batch.end();
 	}
-
-	@Override
-	public void running(float deltaTime) {		
-	}
-
-	@Override
-	public void paused(float deltaTime) {		
-	}
-
-	@Override
-	public void levelEnd(float deltaTime) {		
-	}
-
-	@Override
-	public void gameOver(float deltaTime) {		
-	}
-
 }

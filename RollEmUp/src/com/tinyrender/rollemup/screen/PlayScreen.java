@@ -26,8 +26,6 @@ public class PlayScreen extends GameScreen {
 		levelRenderer = new LevelRenderer(this);
 		touchPoint = new Vector3();
 		
-		gui = level.gui;
-		
 		state = GAME_RUNNING;
 	}
 
@@ -72,19 +70,19 @@ public class PlayScreen extends GameScreen {
 		
 		switch (state) {
 			case GAME_READY:
-				gui.ready(deltaTime);
+				level.gui.ready(deltaTime);
 				break;
 			case GAME_RUNNING:
-				gui.running(deltaTime);
+				level.gui.running(deltaTime);
 				break;
 			case GAME_PAUSED:
-				gui.paused(deltaTime);
+				level.gui.paused(deltaTime);
 				break;
 			case GAME_LEVEL_END:
-				gui.levelEnd(deltaTime);
+				level.gui.levelEnd(deltaTime);
 				break;
 			case GAME_OVER:
-				gui.gameOver(deltaTime);
+				level.gui.gameOver(deltaTime);
 				break;
 		}
 	}
@@ -105,7 +103,7 @@ public class PlayScreen extends GameScreen {
 	
 	@Override
 	public boolean touchDown(int x, int y, int pointerId, int button) {
-		gui.cam.unproject(touchPoint.set(x, y, 0.0f));
+		level.gui.cam.unproject(touchPoint.set(x, y, 0.0f));
 		
 		switch (state) {
 			case GAME_RUNNING:

@@ -3,125 +3,33 @@ package com.tinyrender.rollemup.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL11;
-import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameScreen;
 import com.tinyrender.rollemup.RollEmUp;
 import com.tinyrender.rollemup.Settings;
+import com.tinyrender.rollemup.gui.MainMenuGui;
 
-public class MainMenuScreen extends GameScreen {	
-	Rectangle startBounds;
-	Rectangle soundBounds;
-	Rectangle debugBounds;
+public class MainMenuScreen extends GameScreen {
 	Vector3 touchPoint;
-	
-	BitmapFontCache droidFontCache;
-	boolean setMoreText = true;
+	MainMenuGui gui;
 	
 	public MainMenuScreen(RollEmUp game) {
 		super(game);
-		
-		Assets.titleLogo.setPosition(RollEmUp.SCREEN_HALF_WIDTH - Assets.titleLogo.getWidth()/2.0f, RollEmUp.SCREEN_HALF_HEIGHT + 75.0f);		
-		Assets.start.setPosition(RollEmUp.SCREEN_HALF_WIDTH - Assets.start.getWidth()/2.0f, RollEmUp.SCREEN_HALF_HEIGHT - 150.0f);
-		Assets.soundOff.setPosition(50.0f, 50.0f);
-		Assets.soundOn.setPosition(50.0f, 50.0f);
-		
-		startBounds = Assets.start.getBoundingRectangle();
-		soundBounds = Assets.soundOff.getBoundingRectangle();
 		touchPoint = new Vector3();
-		
-		debugBounds = new Rectangle();
-		debugBounds.set(0.0f, 0.0f, 0.0f, 0.0f);
-		
-    	droidFontCache = new BitmapFontCache(Assets.droidsans);
-	}
-	
-	@Override
-	public void dispose() {
-	}
-
-	@Override
-	public void hide() {
+		gui = new MainMenuGui();
 	}
 
 	@Override
 	public void pause() {
 		Settings.write();
 	}
-	
-	public void update() {
-		if (Gdx.input.justTouched()) {
-			gui.cam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0.0f));
-			
-			if (startBounds.contains(touchPoint.x, touchPoint.y)) {
-				Assets.playSound(Assets.hitSound);
-				game.screenStack.add(new LevelSelectScreen(game));
-				return;
-			}
-			
-			if (soundBounds.contains(touchPoint.x, touchPoint.y)) {
-				Assets.playSound(Assets.hitSound);
-				Settings.soundEnabled = !Settings.soundEnabled;
-				if (Settings.soundEnabled)
-					Assets.music.play();
-				else
-					Assets.music.pause();				
-			}
-
-			if (debugBounds.contains(touchPoint.x, touchPoint.y)) {
-				Assets.playSound(Assets.hitSound);
-				Settings.debugEnabled = !Settings.debugEnabled;
-				setMoreText = true;
-			}
-		}
-	}
 
 	@Override
-	public void render(float deltaTime) {
-		update();
-		
+	public void render(float deltaTime) {		
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		
-		Assets.batch.begin();
-			Assets.titleScreen.draw(Assets.batch);
-			Assets.titleLogo.draw(Assets.batch);
-			Assets.start.draw(Assets.batch);
-			
-			if (Settings.soundEnabled)
-				Assets.soundOn.draw(Assets.batch);
-			else
-				Assets.soundOff.draw(Assets.batch);
-			
-			if (setMoreText) {
-				setMoreText = false;
-				
-				if (Settings.debugEnabled)
-					droidFontCache.setText("debug: on", 0.0f, 0.0f);
-				else
-					droidFontCache.setText("debug: off", 0.0f, 0.0f);
-				
-				droidFontCache.setPosition(RollEmUp.SCREEN_HALF_WIDTH - droidFontCache.getBounds().width/2.0f,
-						  RollEmUp.SCREEN_HALF_HEIGHT - 200.0f);
-				
-				debugBounds.set(droidFontCache.getX(),
-						droidFontCache.getY()-droidFontCache.getBounds().height,
-						droidFontCache.getBounds().width,
-						droidFontCache.getBounds().height);
-			}
-			
-			droidFontCache.draw(Assets.batch);
-			
-		Assets.batch.end();		
-	}
-
-	@Override
-	public void resize(int width, int height) {
-	}
-
-	@Override
-	public void resume() {
+		gui.render();
 	}
 
 	@Override
@@ -141,4 +49,45 @@ public class MainMenuScreen extends GameScreen {
 			game.screenStack.setPrevious();
 		return false;
 	}
+	
+	@Override
+	public boolean touchDown(int x, int y, int pointerId, int button) {
+		gui.cam.unproject(touchPoint.set(x, y, 0.0f));
+		
+		if (gui.start.justHit(touchPoint)) {
+			Assets.playSound(Assets.hitSound);
+			game.screenStack.add(new LevelSelectScreen(game));
+		}
+		
+		if (gui.sound.justHit(touchPoint)) {
+			Assets.playSound(Assets.hitSound);
+			Settings.soundEnabled = !Settings.soundEnabled;
+			if (Settings.soundEnabled) {
+				Assets.music.play();
+				gui.sound.replaceTexture(Assets.soundOn);
+			} else {
+				Assets.music.pause();
+				gui.sound.replaceTexture(Assets.soundOff);
+			}
+		}
+		
+		if (gui.debug.justHit(touchPoint)) {
+			Assets.playSound(Assets.hitSound);
+			Settings.debugEnabled = !Settings.debugEnabled;
+			if (Settings.debugEnabled) {
+				gui.debug.replaceText("debug: on");
+				Gdx.app.log("debugHit", "debug on");
+			} else {
+				gui.debug.replaceText("debug: off");
+				Gdx.app.log("debugHit", "debug off");
+			}
+		}
+		
+		return false;
+	}
+	
+	@Override public void dispose() {}
+	@Override public void hide() {}
+	@Override public void resume() {}
+	@Override public void resize(int width, int height) {}
 }

@@ -29,7 +29,7 @@ public class LevelSelectScreen extends GameScreen {
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
 		Assets.batch.begin();
-			Assets.levelSelectMap.draw(Assets.batch);
+			Assets.batch.draw(Assets.levelSelectMap, 0.0f, 0.0f);
 		Assets.batch.end();
 	}
 

@@ -8,9 +8,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Assets {
@@ -18,13 +18,13 @@ public class Assets {
 	public static AssetErrorListener managerError;
 	
 	public static TextureAtlas atlas;
-	public static Sprite levelSelectMap;
-	public static Sprite soundOff;
-	public static Sprite soundOn;
-	public static Sprite splashScreen;
-	public static Sprite titleScreen;
-	public static Sprite start;
-	public static Sprite titleLogo;
+	public static TextureRegion levelSelectMap;
+	public static TextureRegion soundOff;
+	public static TextureRegion soundOn;
+	public static TextureRegion splashScreen;
+	public static TextureRegion titleScreen;
+	public static TextureRegion start;
+	public static TextureRegion titleLogo;
 	public static TextureRegion player;
 	public static TextureRegion circleSushi;
 	public static TextureRegion boxSushi;
@@ -65,15 +65,15 @@ public class Assets {
     	manager.finishLoading();
     	
     	if (manager.isLoaded("data/pack")) {
-    		levelSelectMap = manager.get("data/pack", TextureAtlas.class).createSprite("levelselect");
-    		soundOff = manager.get("data/pack", TextureAtlas.class).createSprite("soundoff");
-    		soundOn = manager.get("data/pack", TextureAtlas.class).createSprite("soundon");
-    		splashScreen = manager.get("data/pack", TextureAtlas.class).createSprite("tuna");
-    		titleScreen = manager.get("data/pack", TextureAtlas.class).createSprite("bgtitlescreen");
-    		start = manager.get("data/pack", TextureAtlas.class).createSprite("start");
-    		titleLogo = manager.get("data/pack", TextureAtlas.class).createSprite("titlelogo");
+    		levelSelectMap = manager.get("data/pack", TextureAtlas.class).findRegion("levelselect");
+    		soundOff = manager.get("data/pack", TextureAtlas.class).findRegion("soundoff");
+    		soundOn = manager.get("data/pack", TextureAtlas.class).findRegion("soundon");
+    		splashScreen = manager.get("data/pack", TextureAtlas.class).findRegion("tuna");
+    		titleScreen = manager.get("data/pack", TextureAtlas.class).findRegion("bgtitlescreen");
+    		start = manager.get("data/pack", TextureAtlas.class).findRegion("start");
+    		titleLogo = manager.get("data/pack", TextureAtlas.class).findRegion("titlelogo");
     		player = manager.get("data/pack", TextureAtlas.class).findRegion("player");
-    		circleSushi = manager.get("data/pack", TextureAtlas.class).createSprite("circlesushi");
+    		circleSushi = manager.get("data/pack", TextureAtlas.class).findRegion("circlesushi");
     		boxSushi = manager.get("data/pack", TextureAtlas.class).findRegion("boxsushi");
     		soySauce = manager.get("data/pack", TextureAtlas.class).findRegion("soy");
     		
