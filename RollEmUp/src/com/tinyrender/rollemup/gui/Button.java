@@ -3,9 +3,8 @@ package com.tinyrender.rollemup.gui;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.tinyrender.rollemup.Assets;
-import com.tinyrender.rollemup.Drawable;
 
-public class Button implements Drawable {
+public class Button {
 	public Rectangle bounds;
 	public float boundsMargin = 10.0f;
 	
@@ -33,9 +32,5 @@ public class Button implements Drawable {
 	
 	public void setBounds(float x, float y, float width, float height) {
 		bounds.set(x - boundsMargin, y - boundsMargin, width + boundsMargin*2.0f, height + boundsMargin*2.0f);
-	}
-
-	@Override
-	public void draw() {		
 	}
 }

@@ -3,8 +3,10 @@ package com.tinyrender.rollemup.gui;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.tinyrender.rollemup.Assets;
+import com.tinyrender.rollemup.Renderable;
 
-public class Label extends Button {
+public class Label extends Renderable {
+	public Button button;
 	public BitmapFontCache fontCache;
 	
 	public Label(BitmapFont font, String string) {
@@ -24,7 +26,7 @@ public class Label extends Button {
 	public void setPosition(float x, float y) {
 		fontCache.setPosition(x, y);
 		
-		setBounds(fontCache.getX(),
+		button.setBounds(fontCache.getX(),
 				  fontCache.getY() - fontCache.getBounds().height,
 				  fontCache.getBounds().width,
 				  fontCache.getBounds().height);
