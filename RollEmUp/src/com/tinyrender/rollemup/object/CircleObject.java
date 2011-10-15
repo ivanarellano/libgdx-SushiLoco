@@ -20,13 +20,13 @@ public class CircleObject extends GameObject {
 		float radius = objectRepresentation.width / 2.0f / Level.PTM_RATIO;
 		
 		size = radius;
-		body = BodyFactory.createCircle(x, y, radius, density, angle, 0.0f, false, BodyType.DynamicBody, world);
+		body = BodyFactory.createCircle(x, y, radius, density, angle, 1.0f, false, BodyType.DynamicBody, world);
 		body.setUserData(this);
 	}
 
 	@Override
 	public void update() {
 		pos = body.getPosition();
-		rotation = body.getAngle()*180.0f/(float) Math.PI;
+		rotation = body.getAngle() * 180.0f/(float) Math.PI;
 	}
 }

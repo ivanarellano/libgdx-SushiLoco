@@ -7,8 +7,8 @@ import com.tinyrender.rollemup.RollEmUp;
 import com.tinyrender.rollemup.Timer;
 
 public class LevelGui extends Gui {
-	public Button paused;
-	public Button quit;
+	public Label paused;
+	public Label quit;
 	public GoalMeter goalMeter;
     public Timer timer;
 
@@ -16,10 +16,10 @@ public class LevelGui extends Gui {
     	timer = new Timer();
     	goalMeter = new GoalMeter();
     	
-    	paused = new Button(Assets.droidsans, "Paused");
+    	paused = new Label(Assets.droidsans, "Paused");
     	paused.setPositionAndBounds(RollEmUp.SCREEN_HALF_WIDTH-paused.bounds.width/2.0f, RollEmUp.SCREEN_HALF_HEIGHT+150.0f);
     	
-    	quit = new Button(Assets.droidsans, "Quit");
+    	quit = new Label(Assets.droidsans, "Quit");
     	quit.setPositionAndBounds(RollEmUp.SCREEN_HALF_WIDTH-quit.bounds.width/2.0f, RollEmUp.SCREEN_HALF_HEIGHT+80.0f);
     }
     
