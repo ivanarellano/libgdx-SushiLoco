@@ -1,20 +1,25 @@
 package com.tinyrender.rollemup.gui;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.tinyrender.rollemup.Assets;
 
 public class Button {
+	public Sound hitSound;
+	private String soundSrc;
 	public Rectangle bounds;
 	public float boundsMargin = 12.0f;
 	
 	public Button() {
 		bounds = new Rectangle();
+		soundSrc = "";
 	}
 	
 	public boolean justHit(Vector3 touchPoint) {
 		if (bounds.contains(touchPoint.x, touchPoint.y)) {
-			Assets.playSound(Assets.hitSound);
+			if (Assets.manager.isLoaded(soundSrc))
+				Assets.playSound(hitSound);
 			return true;
 		}
 		return false;

@@ -1,6 +1,7 @@
 package com.tinyrender.rollemup.level;
 
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject;
@@ -14,10 +15,17 @@ import com.tinyrender.rollemup.object.Player;
 import com.tinyrender.rollemup.object.SoySauce;
 
 public class TestLevel extends Level {
-	Player player;
 	float newZoom = 1.0f;
+	Player player;
+	TextureRegion soySauceTex;
+	TextureRegion boxSushiTex;
+	TextureRegion circleSushiTex;
 	
 	public TestLevel() {
+		soySauceTex = Assets.atlas.findRegion("soy");
+		boxSushiTex = Assets.atlas.findRegion("boxsushi");
+		circleSushiTex = Assets.atlas.findRegion("circlesushi");
+		
 		player = new Player(b2world);
 		levelTime = 3;
 		
@@ -43,28 +51,28 @@ public class TestLevel extends Level {
 		for (int i = 0; i < 10; i++) {
 			objects.add(new BoxObject((100.0f + (float)Math.random() * 120.0f)/Level.PTM_RATIO,
 										((float)Math.random() * 320.0f)/Level.PTM_RATIO,
-										(Assets.boxSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO,
+										(boxSushiTex.getRegionWidth()/2.0f)/Level.PTM_RATIO,
 										GameObjectType.ROLLABLE,
-										Assets.boxSushi,
+										boxSushiTex,
 										b2world));
 		}
 
 		
 		// circles
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 25; i++) {
 			objects.add(new CircleObject((300.0f + (float)Math.random() * 320f)/Level.PTM_RATIO, 
 										((float)Math.random() * 10 + 6)/Level.PTM_RATIO,
-										(Assets.circleSushi.getRegionWidth()/2.0f)/Level.PTM_RATIO,
+										(circleSushiTex.getRegionWidth()/2.0f)/Level.PTM_RATIO,
 										(float)(Math.random() * 2 * Math.PI),
 										GameObjectType.ROLLABLE,
-										Assets.circleSushi,
+										circleSushiTex,
 										b2world));
 		}
 		
 		
 		
 		objects.add(new SoySauce((950.0f + (float)Math.random() * 400.0f) / Level.PTM_RATIO,
-									(Assets.soySauce.getRegionHeight()/2.0f) / Level.PTM_RATIO,
+									(soySauceTex.getRegionHeight()/2.0f) / Level.PTM_RATIO,
 									BodyType.DynamicBody,
 									b2world));
 		

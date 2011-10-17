@@ -41,10 +41,10 @@ public class SoySauce extends GameObject {
 	public SoySauce(float x, float y, BodyType bodyType, World world) {
 		super(world);
 		gameType = GameObjectType.PLATFORM;
-		objectRepresentation.setTexture(Assets.soySauce);
+		objectRepresentation.setTexture(Assets.atlas.findRegion("soy"));
 		
 		size = (objectRepresentation.width * objectRepresentation.height) / Level.PTM_RATIO;
-		body = BodyFactory.createPoly(x, y, 1.0f, bodyType, world, poly1, poly2, poly3, poly4);
+		body = BodyFactory.createPoly(x, y, 0.5f, 1.0f, bodyType, world, poly1, poly2, poly3, poly4);
 		body.setUserData(this);
 	}
 
@@ -53,5 +53,4 @@ public class SoySauce extends GameObject {
 		pos = body.getPosition();
 		rotation = body.getAngle() * 180.0f/(float) Math.PI;
 	}
-	
 }

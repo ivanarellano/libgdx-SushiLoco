@@ -54,8 +54,8 @@ public class Player extends GameObject {
 	
 	public Player(World world) {
 		super(world);
-		objectRepresentation.setTexture(Assets.player);
-		float radius = (Assets.player.getRegionWidth()/2.0f)*0.7f /Level.PTM_RATIO;
+		objectRepresentation.setTexture(Assets.atlas.findRegion("player"));
+		float radius = (objectRepresentation.texture.getRegionWidth()/2.0f)*0.7f /Level.PTM_RATIO;
 		
 		body = BodyFactory.createCircle(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius,
 										1.0f,

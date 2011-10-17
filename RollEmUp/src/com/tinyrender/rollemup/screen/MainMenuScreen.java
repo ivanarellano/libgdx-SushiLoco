@@ -2,6 +2,7 @@ package com.tinyrender.rollemup.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL11;
 import com.badlogic.gdx.math.Vector3;
 import com.tinyrender.rollemup.Assets;
@@ -11,6 +12,7 @@ import com.tinyrender.rollemup.Settings;
 import com.tinyrender.rollemup.gui.MainMenuGui;
 
 public class MainMenuScreen extends GameScreen {
+	Music music;
 	Vector3 touchPoint;
 	MainMenuGui gui;
 	
@@ -18,6 +20,12 @@ public class MainMenuScreen extends GameScreen {
 		super(game);
 		touchPoint = new Vector3();
 		gui = new MainMenuGui();
+		
+		if (Assets.manager.isLoaded("data/music.mp3")) {
+			music = Assets.getMusic("data/music.mp3");
+    		music.setLooping(true);
+    		music.setVolume(0.25f);
+		}
 	}
 
 	@Override
@@ -38,7 +46,7 @@ public class MainMenuScreen extends GameScreen {
 		Assets.batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		
 		if(Settings.soundEnabled) // FIXME: CHANGE TO musicEnabled WHEN READY
-            Assets.music.play();
+			music.play(); // Assets.music.play();
 	}
 	
 	@Override
@@ -55,24 +63,21 @@ public class MainMenuScreen extends GameScreen {
 		gui.cam.unproject(touchPoint.set(x, y, 0.0f));
 		
 		if (gui.start.justHit(touchPoint)) {
-			Assets.playSound(Assets.hitSound);
 			game.screenStack.add(new LevelSelectScreen(game));
 		}
 		
 		if (gui.sound.justHit(touchPoint)) {
-			Assets.playSound(Assets.hitSound);
 			Settings.soundEnabled = !Settings.soundEnabled;
 			if (Settings.soundEnabled) {
-				Assets.music.play();
-				gui.sound.replaceTexture(Assets.soundOn);
+				music.play();
+				gui.sound.replaceTexture(Assets.atlas.findRegion("soundon"));
 			} else {
-				Assets.music.pause();
-				gui.sound.replaceTexture(Assets.soundOff);
+				music.pause();
+				gui.sound.replaceTexture(Assets.atlas.findRegion("soundoff"));
 			}
 		}
 		
 		if (gui.debug.justHit(touchPoint)) {
-			Assets.playSound(Assets.hitSound);
 			Settings.debugEnabled = !Settings.debugEnabled;
 			if (Settings.debugEnabled)
 				gui.debug.replaceText("debug: on");

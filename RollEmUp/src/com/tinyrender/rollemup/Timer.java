@@ -1,14 +1,16 @@
 package com.tinyrender.rollemup;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 public class Timer implements Drawable {
     public int time = 0;
     public String timeString;
     public float accumulatedTime = 0.0f;
+    public BitmapFont font;
 
     public Timer() {
-    	
+    	font = Assets.getBitmapFont("data/droidsans.fnt", "droidsans");
     }
     
     public Timer(int levelTime) {
@@ -34,9 +36,9 @@ public class Timer implements Drawable {
     
     @Override
     public void draw() {
-		Assets.droidsans.draw(Assets.batch,
+		font.draw(Assets.batch,
 				timeString, 
-				RollEmUp.TARGET_WIDTH - Assets.droidsans.getBounds(timeString).width - 20.0f,
+				RollEmUp.TARGET_WIDTH - font.getBounds(timeString).width - 20.0f,
 				RollEmUp.TARGET_HEIGHT - 20.0f);
     }
 }

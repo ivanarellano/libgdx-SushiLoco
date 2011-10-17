@@ -1,5 +1,6 @@
 package com.tinyrender.rollemup.gui;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.Gui;
 import com.tinyrender.rollemup.LevelStateUpdater;
@@ -11,15 +12,17 @@ public class LevelGui extends Gui implements LevelStateUpdater {
 	public LabelButton quit;
 	public GoalMeter goalMeter;
     public Timer timer;
+    public BitmapFont droidSans;
 
     public LevelGui() {
+    	droidSans = Assets.getBitmapFont("data/droidsans.fnt", "droidsans");
     	timer = new Timer();
     	goalMeter = new GoalMeter();
     	
-    	paused = new LabelButton(Assets.droidsans, "Paused");
+    	paused = new LabelButton(droidSans, "Paused");
     	paused.setPosition(RollEmUp.SCREEN_HALF_WIDTH-paused.bounds.width/2.0f, RollEmUp.SCREEN_HALF_HEIGHT+150.0f);
     	
-    	quit = new LabelButton(Assets.droidsans, "Quit");
+    	quit = new LabelButton(droidSans, "Quit");
     	quit.setPosition(RollEmUp.SCREEN_HALF_WIDTH-quit.bounds.width/2.0f, RollEmUp.SCREEN_HALF_HEIGHT+80.0f);
     }
     

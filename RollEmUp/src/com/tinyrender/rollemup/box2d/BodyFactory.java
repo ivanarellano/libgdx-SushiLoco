@@ -20,14 +20,19 @@ public class BodyFactory {
 		return body;
 	}
 	
-	public static Body createPoly(float x, float y, float density, BodyType bodyType, World b2world, Vector2[]...vectorArray) {
+	public static Body createPoly(float x, float y, float density, float friction, BodyType bodyType, World b2world, Vector2[]...vectorArray) {
 		Body body = createBody(x, y, bodyType, b2world);
 		
 		PolygonShape shape = new PolygonShape();
+		FixtureDef fd = new FixtureDef();
+		
+		fd.density = density;
+		fd.friction = friction;
+		fd.shape = shape;
 		
 		for (Vector2[] vec : vectorArray) {
 			shape.set(vec);
-			body.createFixture(shape, density);
+			body.createFixture(fd);
 		}
 		
 		body.resetMassData();

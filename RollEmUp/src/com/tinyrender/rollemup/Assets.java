@@ -10,31 +10,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Assets {
 	public static AssetManager manager;
 	public static AssetErrorListener managerError;
-	
 	public static TextureAtlas atlas;
-	public static TextureRegion levelSelectMap;
-	public static TextureRegion soundOff;
-	public static TextureRegion soundOn;
-	public static TextureRegion splashScreen;
-	public static TextureRegion titleScreen;
-	public static TextureRegion start;
-	public static TextureRegion titleLogo;
-	public static TextureRegion player;
-	public static TextureRegion circleSushi;
-	public static TextureRegion boxSushi;
-	public static TextureRegion soySauce;
-	public static Texture scratch;
-	public static BitmapFont droidsans;
-	
-	public static Music music;
-	public static Sound hitSound;
-	
 	public static SpriteBatch batch;
     
     public static void create() {
@@ -47,53 +27,59 @@ public class Assets {
 		};
 		
     	manager.setErrorListener(managerError);
-    	load();
     	Texture.setAssetManager(manager);
+    	init();
     	
     	batch = new SpriteBatch();
     }
     
-    private static void load() {
+    private static void init() {
     	manager.load("data/pack", TextureAtlas.class);
-    	manager.load("data/assets1.png", Texture.class);
-    	manager.load("data/assets2.png", Texture.class);
-    	manager.load("data/scratch.png", Texture.class);
-    	manager.load("data/droidsans.fnt", BitmapFont.class);
-    	manager.load("data/music.mp3", Music.class);
-    	manager.load("data/click.ogg", Sound.class);
-    	
     	manager.finishLoading();
-    	
-    	if (manager.isLoaded("data/pack")) {
-    		levelSelectMap = manager.get("data/pack", TextureAtlas.class).findRegion("levelselect");
-    		soundOff = manager.get("data/pack", TextureAtlas.class).findRegion("soundoff");
-    		soundOn = manager.get("data/pack", TextureAtlas.class).findRegion("soundon");
-    		splashScreen = manager.get("data/pack", TextureAtlas.class).findRegion("tuna");
-    		titleScreen = manager.get("data/pack", TextureAtlas.class).findRegion("bgtitlescreen");
-    		start = manager.get("data/pack", TextureAtlas.class).findRegion("start");
-    		titleLogo = manager.get("data/pack", TextureAtlas.class).findRegion("titlelogo");
-    		player = manager.get("data/pack", TextureAtlas.class).findRegion("player");
-    		circleSushi = manager.get("data/pack", TextureAtlas.class).findRegion("circlesushi");
-    		boxSushi = manager.get("data/pack", TextureAtlas.class).findRegion("boxsushi");
-    		soySauce = manager.get("data/pack", TextureAtlas.class).findRegion("soy");
-    		
-        	if (manager.isLoaded("data/droidsans.fnt")) {
-        		BitmapFontData bfd = new BitmapFontData(Gdx.files.internal("data/droidsans.fnt"), false);
-        		droidsans = new BitmapFont(bfd, manager.get("data/pack", TextureAtlas.class).findRegion("droidsans"), false);
-        	}
-    	}
-    	
-    	if (manager.isLoaded("data/scratch.png"))
-    		scratch = manager.get("data/scratch.png", Texture.class);
-    	
-    	if (manager.isLoaded("data/music.mp3")) {
-    		music = manager.get("data/music.mp3", Music.class);
-    		music.setLooping(true);
-    		music.setVolume(0.25f);
-    	}
-    	
-    	if (manager.isLoaded("data/click.ogg"))
-    		hitSound = manager.get("data/click.ogg", Sound.class);
+    	atlas = manager.get("data/pack", TextureAtlas.class);
+    }
+    
+    public static void loadTexture(String...src) {
+        for (String file : src)
+           manager.load(file, Texture.class);
+    }
+    
+    public static void loadBitmapFont(String...src) {
+        for (String file : src)
+           manager.load(file, BitmapFont.class);
+    }
+    
+    public static void loadMusic(String...src) {
+        for (String file : src)
+           manager.load(file, Music.class);
+    }
+    
+    public static void loadSound(String...src) {
+        for (String file : src)
+           manager.load(file, Sound.class);
+    }
+    
+    public static Texture getTexture(String src) {
+        return manager.get(src, Texture.class);  
+    }
+    
+    public static BitmapFont getBitmapFont(String src, String fontRegion) {
+		BitmapFontData bfd = new BitmapFontData(Gdx.files.internal(src), false);
+		
+        return new BitmapFont(bfd, atlas.findRegion(fontRegion), false);  
+    }
+    
+    public static Music getMusic(String src) {
+    	return manager.get(src, Music.class);
+    }
+    
+    public static Sound getSound(String src) {
+    	return manager.get(src, Sound.class);
+    }
+    
+    public static void unload(String...toUnload) {
+    	for (String file : toUnload)
+    		manager.unload(file);
     }
     
     public static void playSound(Sound sound) {

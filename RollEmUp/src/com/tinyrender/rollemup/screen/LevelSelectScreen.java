@@ -3,13 +3,17 @@ package com.tinyrender.rollemup.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL11;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameScreen;
 import com.tinyrender.rollemup.RollEmUp;
 
 public class LevelSelectScreen extends GameScreen {
+	TextureRegion levelSelect;
+	
 	public LevelSelectScreen(RollEmUp game) {
 		super(game);
+		levelSelect = Assets.atlas.findRegion("levelselect");
 	}
 	
 	@Override
@@ -29,7 +33,7 @@ public class LevelSelectScreen extends GameScreen {
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
 		Assets.batch.begin();
-			Assets.batch.draw(Assets.levelSelectMap, 0.0f, 0.0f);
+			Assets.batch.draw(levelSelect, 0.0f, 0.0f);
 		Assets.batch.end();
 	}
 
