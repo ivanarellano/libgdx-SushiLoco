@@ -11,7 +11,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject;
 import com.tinyrender.rollemup.Level;
-import com.tinyrender.rollemup.Sensor;
 import com.tinyrender.rollemup.box2d.BodyFactory;
 import com.tinyrender.rollemup.box2d.JointFactory;
 import com.tinyrender.rollemup.box2d.PhysicsObject;

@@ -12,6 +12,7 @@ public abstract class PhysicsObject {
 	
 	// disable collision
 	public final static short CATEGORY_NO_COLLISION = 0x0000;
+	public final static short GROUP_ROLLABLE_OBJECT = -2;
 	
 	public ContactResolver contactResolver;
 	public Body body;
