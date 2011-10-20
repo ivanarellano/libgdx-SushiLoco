@@ -12,7 +12,7 @@ public class LevelRenderer {
 	public LevelRenderer(PlayScreen screen) {
 		level = screen.level;
 		renderer = new Box2DDebugRenderer();
-		Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	}
 	
 	public void render(float deltaTime) {
@@ -23,8 +23,12 @@ public class LevelRenderer {
 		
 		Assets.batch.setProjectionMatrix(level.cam.combined);
 		Assets.batch.begin();
-			for (GameObject obj : level.objects)
+			for (GameObject obj : level.objects) {
 				obj.objectRepresentation.draw();
+				for (GameObjectRepresentation subObj : obj.subObjects) {
+					subObj.draw();
+				}
+			}
 		Assets.batch.end();
 		
 		if (Settings.debugEnabled) {
@@ -39,7 +43,7 @@ public class LevelRenderer {
 	}
 	
 	public void resume() {
-		Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		if (null == renderer)
 			renderer = new Box2DDebugRenderer();
 	}

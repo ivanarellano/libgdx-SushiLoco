@@ -10,7 +10,7 @@ tuna
   orig: 854, 480
   offset: 0, 0
   index: -1
-bgtitlescreen
+levelselect
   rotate: false
   xy: 4, 488
   size: 854, 480
@@ -19,56 +19,70 @@ bgtitlescreen
   index: -1
 droidsans
   rotate: false
-  xy: 862, 4
-  size: 126, 289
+  xy: 862, 488
+  size: 128, 512
   orig: 128, 512
-  offset: 0, 223
+  offset: 0, 0
+  index: -1
+boatfront
+  rotate: false
+  xy: 862, 4
+  size: 151, 189
+  orig: 151, 189
+  offset: 0, 0
   index: -1
 titlelogo
   rotate: false
-  xy: 862, 297
-  size: 151, 116
+  xy: 862, 197
+  size: 151, 118
   orig: 151, 118
-  offset: 0, 1
+  offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 862, 417
+  xy: 862, 319
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 start
   rotate: false
-  xy: 4, 972
-  size: 97, 27
+  xy: 862, 387
+  size: 99, 30
   orig: 99, 30
-  offset: 2, 1
-  index: -1
-soundoff
-  rotate: false
-  xy: 105, 972
-  size: 110, 20
-  orig: 128, 22
-  offset: 2, 1
+  offset: 0, 0
   index: -1
 soundon
   rotate: false
-  xy: 105, 996
-  size: 105, 20
+  xy: 862, 421
+  size: 128, 22
   orig: 128, 22
-  offset: 2, 1
+  offset: 0, 0
+  index: -1
+soundoff
+  rotate: false
+  xy: 862, 447
+  size: 128, 22
+  orig: 128, 22
+  offset: 0, 0
+  index: -1
+boatbackbar
+  rotate: false
+  xy: 994, 488
+  size: 17, 86
+  orig: 17, 86
+  offset: 0, 0
   index: -1
 circlesushi
   rotate: false
-  xy: 930, 417
+  xy: 930, 319
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 boxsushi
   rotate: false
-  xy: 966, 417
+  xy: 966, 319
   size: 33, 17
   orig: 33, 17
   offset: 0, 0
@@ -78,17 +92,38 @@ assets2.png
 format: RGBA8888
 filter: MipMapLinearNearest,Nearest
 repeat: none
-levelselect
+bgtitlescreen
   rotate: false
   xy: 4, 4
   size: 854, 480
   orig: 854, 480
   offset: 0, 0
   index: -1
-soy
+boatbody
   rotate: false
   xy: 4, 488
+  size: 723, 116
+  orig: 723, 116
+  offset: 0, 0
+  index: -1
+boatnet
+  rotate: false
+  xy: 4, 608
+  size: 246, 378
+  orig: 246, 378
+  offset: 0, 0
+  index: -1
+soy
+  rotate: false
+  xy: 254, 608
   size: 169, 385
   orig: 169, 385
+  offset: 0, 0
+  index: -1
+boatflag
+  rotate: false
+  xy: 862, 4
+  size: 83, 290
+  orig: 83, 290
   offset: 0, 0
   index: -1

@@ -14,7 +14,7 @@
 					  android:anyDensity="true"
 					  android:normalScreens="true" />
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name="AcraActivity">
         <activity android:name="com.tinyrender.rollemup.RollEmUpActivity"
                   android:label="@string/app_name"
                   android:screenOrientation="landscape"

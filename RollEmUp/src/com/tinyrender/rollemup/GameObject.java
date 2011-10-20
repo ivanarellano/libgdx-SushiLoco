@@ -1,10 +1,13 @@
 package com.tinyrender.rollemup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.tinyrender.rollemup.box2d.PhysicsObject;
 
-public abstract class GameObject extends PhysicsObject {
+public class GameObject extends PhysicsObject {
 	public enum GameObjectType {
 		PLAYER, ROLLABLE, PLATFORM;
 	}
@@ -17,6 +20,7 @@ public abstract class GameObject extends PhysicsObject {
 	
 	public GameObjectRepresentation objectRepresentation;
 	public GameObjectType gameType;
+	public List<GameObjectRepresentation> subObjects = new ArrayList<GameObjectRepresentation>();
 	
 	public GameObject(World world) {
 		super(world);
@@ -26,4 +30,6 @@ public abstract class GameObject extends PhysicsObject {
 	public GameObjectType getType() {
 		return gameType;
 	}
+
+	@Override public void update() {}
 }

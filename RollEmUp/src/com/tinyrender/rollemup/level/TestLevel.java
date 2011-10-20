@@ -8,6 +8,7 @@ import com.tinyrender.rollemup.GameObject;
 import com.tinyrender.rollemup.GameObject.GameObjectType;
 import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.Settings;
+import com.tinyrender.rollemup.object.Boat;
 import com.tinyrender.rollemup.object.BoxObject;
 import com.tinyrender.rollemup.object.CircleObject;
 import com.tinyrender.rollemup.object.Ground;
@@ -17,11 +18,13 @@ import com.tinyrender.rollemup.object.SoySauce;
 public class TestLevel extends Level {
 	float newZoom = 1.0f;
 	Player player;
+	TextureRegion boatBodyTex;
 	TextureRegion soySauceTex;
 	TextureRegion boxSushiTex;
 	TextureRegion circleSushiTex;
 	
 	public TestLevel() {
+		boatBodyTex = Assets.atlas.findRegion("boatbody");
 		soySauceTex = Assets.atlas.findRegion("soy");
 		boxSushiTex = Assets.atlas.findRegion("boxsushi");
 		circleSushiTex = Assets.atlas.findRegion("circlesushi");
@@ -59,7 +62,7 @@ public class TestLevel extends Level {
 
 		
 		// circles
-		for (int i = 0; i < 25; i++) {
+		for (int i = 0; i < 10; i++) {
 			objects.add(new CircleObject((300.0f + (float)Math.random() * 320f)/Level.PTM_RATIO, 
 										((float)Math.random() * 10 + 6)/Level.PTM_RATIO,
 										(circleSushiTex.getRegionWidth()/2.0f)/Level.PTM_RATIO,
@@ -69,12 +72,15 @@ public class TestLevel extends Level {
 										b2world));
 		}
 		
-		
-		
-		objects.add(new SoySauce((950.0f + (float)Math.random() * 400.0f) / Level.PTM_RATIO,
+		objects.add(new SoySauce((850.0f + (float)Math.random() * 400.0f) / Level.PTM_RATIO,
 									(soySauceTex.getRegionHeight()/2.0f) / Level.PTM_RATIO,
 									BodyType.DynamicBody,
 									b2world));
+		
+		objects.add(new Boat((1350.0f + (float)Math.random() * 200.0f) / Level.PTM_RATIO,
+				(boatBodyTex.getRegionWidth()/2.0f) / Level.PTM_RATIO,
+				BodyType.DynamicBody,
+				b2world));
 		
 	}
 	
@@ -91,7 +97,7 @@ public class TestLevel extends Level {
 		for (GameObject obj : objects)
 			obj.update();
 				
-		gui.goalMeter.scale = player.size * 0.5f;
+		gui.goalMeter.scale = player.size * 0.12f;
 		
 		physicsStep(deltaTime);
 	}

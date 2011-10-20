@@ -1,5 +1,6 @@
 package com.tinyrender.rollemup;
 
+
 public class GameObjectRepresentation extends ObjectRepresentation {
 	public GameObject gameObject;
 	
