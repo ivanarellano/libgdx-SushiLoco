@@ -17,7 +17,6 @@ import com.tinyrender.rollemup.object.SoySauce;
 
 public class TestLevel extends Level {
 	float newZoom = 1.0f;
-	Player player;
 	TextureRegion boatBodyTex;
 	TextureRegion soySauceTex;
 	TextureRegion boxSushiTex;
@@ -37,22 +36,20 @@ public class TestLevel extends Level {
 	}
 	
 	@Override
-	public void create() {
-		objects.add(player);
-		
+	public void create() {		
 		new Ground(0.0f, 0.0f,
-				   (854.0f*3.0f) / Level.PTM_RATIO, 0.0f,
+				   (854.0f*4.5f) / Level.PTM_RATIO, 0.0f,
 				   0.4f, b2world);
 		new Ground(0.0f, 0.0f,
 				   0.0f, 480.0f / Level.PTM_RATIO,
 				   0.4f, b2world);
-		new Ground((854.0f*3.0f) / Level.PTM_RATIO, 0.0f,
-				   (854.0f*3.0f) / Level.PTM_RATIO, 480.0f / Level.PTM_RATIO,
+		new Ground((854.0f*4.5f) / Level.PTM_RATIO, 0.0f,
+				   (854.0f*4.5f) / Level.PTM_RATIO, 480.0f / Level.PTM_RATIO,
 				   0.4f, b2world);
 		
 		// boxes
-		for (int i = 0; i < 10; i++) {
-			objects.add(new BoxObject((100.0f + (float)Math.random() * 120.0f)/Level.PTM_RATIO,
+		for (int i = 0; i < 20; i++) {
+			objects.add(new BoxObject((700.0f + (float)Math.random() * 120.0f)/Level.PTM_RATIO,
 										((float)Math.random() * 320.0f)/Level.PTM_RATIO,
 										(boxSushiTex.getRegionWidth()/2.0f)/Level.PTM_RATIO,
 										GameObjectType.ROLLABLE,
@@ -62,8 +59,8 @@ public class TestLevel extends Level {
 
 		
 		// circles
-		for (int i = 0; i < 10; i++) {
-			objects.add(new CircleObject((300.0f + (float)Math.random() * 320f)/Level.PTM_RATIO, 
+		for (int i = 0; i < 20; i++) {
+			objects.add(new CircleObject((600.0f + (float)Math.random() * 320f)/Level.PTM_RATIO, 
 										((float)Math.random() * 10 + 6)/Level.PTM_RATIO,
 										(circleSushiTex.getRegionWidth()/2.0f)/Level.PTM_RATIO,
 										(float)(Math.random() * 2 * Math.PI),
@@ -72,7 +69,7 @@ public class TestLevel extends Level {
 										b2world));
 		}
 		
-		objects.add(new SoySauce((850.0f + (float)Math.random() * 400.0f) / Level.PTM_RATIO,
+		objects.add(new SoySauce((1050.0f + (float)Math.random() * 400.0f) / Level.PTM_RATIO,
 									(soySauceTex.getRegionHeight()/2.0f) / Level.PTM_RATIO,
 									BodyType.DynamicBody,
 									b2world));
@@ -95,6 +92,10 @@ public class TestLevel extends Level {
 		}
 		
 		for (GameObject obj : objects)
+			obj.update();
+		
+		player.update();
+		for (GameObject obj : player.subObjects)
 			obj.update();
 				
 		gui.goalMeter.scale = player.size * 0.12f;

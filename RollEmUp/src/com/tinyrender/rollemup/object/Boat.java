@@ -121,7 +121,7 @@ public class Boat extends GameObject {
 		boatFront.size = (boatFront.objectRepresentation.width * boatFront.objectRepresentation.height) / Level.PTM_RATIO;
 		boatFront.body.setUserData(boatFront);
 		boatFront.body.getFixtureList().get(0).setFilterData(filter);
-		subObjects.add(boatFront.objectRepresentation);
+		subObjects.add(boatFront);
 		JointFactory.weld(body, boatFront.body, body.getWorldCenter(), world);
 		
 		
@@ -132,7 +132,7 @@ public class Boat extends GameObject {
 		boatFlag.size = (boatFlag.objectRepresentation.width * boatFlag.objectRepresentation.height) / Level.PTM_RATIO;
 		boatFlag.body.setUserData(boatFlag);
 		boatFlag.body.getFixtureList().get(0).setFilterData(filter);
-		subObjects.add(boatFlag.objectRepresentation);
+		subObjects.add(boatFlag);
 		JointFactory.weld(body, boatFlag.body, body.getWorldCenter(), world);
 		
 		
@@ -143,7 +143,7 @@ public class Boat extends GameObject {
 		boatNet.size = (boatNet.objectRepresentation.width * boatNet.objectRepresentation.height) / Level.PTM_RATIO;
 		boatNet.body.setUserData(boatFlag);
 		boatNet.body.getFixtureList().get(0).setFilterData(filter);
-		subObjects.add(boatNet.objectRepresentation);
+		subObjects.add(boatNet);
 		JointFactory.weld(body, boatNet.body, body.getWorldCenter(), world);
 		
 		
@@ -154,7 +154,7 @@ public class Boat extends GameObject {
 		boatBackBar.size = (boatBackBar.objectRepresentation.width * boatBackBar.objectRepresentation.height) / Level.PTM_RATIO;
 		boatBackBar.body.setUserData(boatBackBar);
 		boatBackBar.body.getFixtureList().get(0).setFilterData(filter);
-		subObjects.add(boatBackBar.objectRepresentation);
+		subObjects.add(boatBackBar);
 		JointFactory.weld(body, boatBackBar.body, body.getWorldCenter(), world);
 	}
 

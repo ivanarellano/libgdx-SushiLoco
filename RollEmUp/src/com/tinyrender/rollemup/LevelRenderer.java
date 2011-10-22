@@ -23,12 +23,22 @@ public class LevelRenderer {
 		
 		Assets.batch.setProjectionMatrix(level.cam.combined);
 		Assets.batch.begin();
+		
 			for (GameObject obj : level.objects) {
 				obj.objectRepresentation.draw();
-				for (GameObjectRepresentation subObj : obj.subObjects) {
-					subObj.draw();
-				}
+				
+				for (GameObject subObj : obj.subObjects)
+					subObj.objectRepresentation.draw();
 			}
+			
+			level.player.objectRepresentation.draw();
+			for (GameObject playerObj : level.player.subObjects) {
+				playerObj.objectRepresentation.draw();
+				
+				for (GameObject subObj : playerObj.subObjects)
+					subObj.objectRepresentation.draw();
+			}
+			
 		Assets.batch.end();
 		
 		if (Settings.debugEnabled) {

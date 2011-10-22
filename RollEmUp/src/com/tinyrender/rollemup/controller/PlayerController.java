@@ -1,5 +1,6 @@
 package com.tinyrender.rollemup.controller;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -18,7 +19,7 @@ public class PlayerController extends Controller {
 	
 	public void rollObject(GameObject other) {
 		other.isRolled = true;
-		player.objectsRolled.add(other);
+		player.subObjects.add(other);
 		other.body.setAngularVelocity(0.0f);
 		
 		JointFactory.weld(player.body, other.body, new Vector2(player.pos.x, player.pos.y), player.world);
@@ -37,18 +38,22 @@ public class PlayerController extends Controller {
 	public void keyDown(int keyCode) {
 		if (keyCode == Keys.SPACE)
 			player.isJumping = true;
+		Gdx.app.log("keyDown", "in pc");
 	}
 	
 	public void keyUp(int keyCode) {
 		if (keyCode == Keys.SPACE)
 			player.isJumping = false;
+		Gdx.app.log("keyUp", "in pc");
 	}
 	
 	public void touchDown() {
 		player.isJumping = true;
+		Gdx.app.log("touchDown", "in pc");
 	}
 	
 	public void touchUp() {
 		player.isJumping = false;
+		Gdx.app.log("touchUp", "in pc");
 	}
 }

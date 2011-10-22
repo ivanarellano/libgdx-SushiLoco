@@ -64,6 +64,8 @@ public class RollEmUp extends Game implements ApplicationListener {
 
 	@Override
 	public void resume() {
+		Assets.manager.update();
+		Assets.manager.finishLoading();
 		getScreen().resume();
 	}
 }

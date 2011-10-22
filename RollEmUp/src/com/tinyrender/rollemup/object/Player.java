@@ -16,49 +16,24 @@ import com.tinyrender.rollemup.box2d.JointFactory;
 import com.tinyrender.rollemup.box2d.PhysicsObject;
 import com.tinyrender.rollemup.controller.PlayerController;
 
-public class Player extends GameObject {
-	class PlayerSensor extends Sensor {
-		public boolean isGrounded = false;
-		
-		PlayerSensor(float x, float y, float radius, BodyType bodyType, World world) {
-			super(x, y, radius, bodyType, world);
-			
-			contactResolver = new ContactResolver() {
-				@Override
-				public void enterContact(PhysicsObject collidesWith) {
-					numContacts++;
-					isGrounded = true;
-				}
-
-				@Override
-				public void leaveContact(PhysicsObject leftCollisionWith) {
-					numContacts--;
-					if (numContacts <= 0) 
-						isGrounded = false;
-				}
-			};
-		}
-	}
-	
+public class Player extends GameObject {	
 	final static float MAX_VELOCITY = 6.0f;
 
-	public PlayerSensor sensor;
-	public PlayerController controller;
 	public boolean isJumping = false;
 	public boolean isGrowing = false;
 	public float scaleAmount = 1.13f;
+	public PlayerSensor sensor;
+	public PlayerController controller;
 	
 	public List<GameObject> objectsToRoll = new ArrayList<GameObject>();
-	public List<GameObject> objectsRolled = new ArrayList<GameObject>();
 	
 	public Player(World world) {
 		super(world);
 		objectRepresentation.setTexture(Assets.atlas.findRegion("player"));
-		float radius = (objectRepresentation.texture.getRegionWidth()/2.0f)*0.7f /Level.PTM_RATIO;
+		float radius = (objectRepresentation.texture.getRegionWidth()/3.0f)*0.7f /Level.PTM_RATIO;
 		
 		body = BodyFactory.createCircle(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius,
-										1.0f,
-										0.0f, 1.0f, false, BodyType.DynamicBody, world);
+										1.0f, 0.0f, 1.0f, false, BodyType.DynamicBody, world);
 		pos = body.getPosition();
 				
 		sensor = new PlayerSensor(pos.x, pos.y+(radius*-0.5f), radius/1.35f, BodyType.DynamicBody, world);
@@ -78,8 +53,6 @@ public class Player extends GameObject {
 				if (otherObject.getType().equals(GameObjectType.ROLLABLE)) {
 					objectsToRoll.add(otherObject);
 					size += otherObject.size;
-					
-					//Gdx.app.log("player", "size: " + size);
 				}
 			}
 			
@@ -92,22 +65,20 @@ public class Player extends GameObject {
 	
 	@Override
 	public void update() {
+		vel = body.getLinearVelocity();
+		pos = body.getPosition();
+		rotation = body.getAngle()*180.0f/(float) Math.PI;
+		
 		if (isGrowing) {
-			if (objectsRolled.size() % 4 == 0) {
+			if (subObjects.size() % 4 == 0) {
 				grow();
 				
 				if (scaleAmount >= 1.06f)
 					scaleAmount -= 0.028f;
 				
-				//Gdx.app.log("scale", ": " + scaleAmount);
-				
 				isGrowing = false;
 			}
 		}
-		
-		vel = body.getLinearVelocity();
-		pos = body.getPosition();
-		rotation = body.getAngle()*180.0f/(float) Math.PI;
 		
 		if (Gdx.input.isKeyPressed(Keys.A))
 			body.applyForceToCenter(-40.0f * body.getMass(), 0);
@@ -143,7 +114,7 @@ public class Player extends GameObject {
 		if (isJumping) {
 			isJumping = false;
 			if (sensor.isGrounded)
-				controller.jump(this, 17.0f);
+				controller.jump(this, 16.0f);
 		}
 	}
 	
