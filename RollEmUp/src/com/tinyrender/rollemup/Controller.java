@@ -8,7 +8,7 @@ import com.tinyrender.rollemup.box2d.PhysicsObject;
 
 public class Controller {
 	public void jump(GameObject object, float velocity) {
-		object.body.applyLinearImpulse(0, velocity * object.body.getMass(), object.pos.x, object.pos.y);
+		object.body.applyLinearImpulse(0, velocity * object.body.getMass()*1.2f, object.pos.x, object.pos.y);
 	}
 	
 	public void scaleCircle(PhysicsObject object, float scale, Vector2 posOffset) {

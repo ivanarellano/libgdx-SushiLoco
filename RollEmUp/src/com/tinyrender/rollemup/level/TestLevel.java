@@ -38,19 +38,19 @@ public class TestLevel extends Level {
 	@Override
 	public void create() {		
 		new Ground(0.0f, 0.0f,
-				   (854.0f*4.5f) / Level.PTM_RATIO, 0.0f,
+				   (854.0f*9.0f) / Level.PTM_RATIO, 0.0f,
 				   0.4f, b2world);
 		new Ground(0.0f, 0.0f,
-				   0.0f, 480.0f / Level.PTM_RATIO,
+				   0.0f, (480.0f*2.0f) / Level.PTM_RATIO,
 				   0.4f, b2world);
-		new Ground((854.0f*4.5f) / Level.PTM_RATIO, 0.0f,
-				   (854.0f*4.5f) / Level.PTM_RATIO, 480.0f / Level.PTM_RATIO,
+		new Ground((854.0f*9.0f) / Level.PTM_RATIO, 0.0f,
+				   (854.0f*9.0f) / Level.PTM_RATIO, (480.0f*2.0f) / Level.PTM_RATIO,
 				   0.4f, b2world);
 		
 		// boxes
-		for (int i = 0; i < 20; i++) {
-			objects.add(new BoxObject((700.0f + (float)Math.random() * 120.0f)/Level.PTM_RATIO,
-										((float)Math.random() * 320.0f)/Level.PTM_RATIO,
+		for (int i = 0; i < 1; i++) {
+			objects.add(new BoxObject((1000.0f + (float)Math.random() * 120.0f)/Level.PTM_RATIO,
+										((float)Math.random() * 420.0f + 65.0f)/Level.PTM_RATIO,
 										(boxSushiTex.getRegionWidth()/2.0f)/Level.PTM_RATIO,
 										GameObjectType.ROLLABLE,
 										boxSushiTex,
@@ -59,26 +59,26 @@ public class TestLevel extends Level {
 
 		
 		// circles
-		for (int i = 0; i < 20; i++) {
-			objects.add(new CircleObject((600.0f + (float)Math.random() * 320f)/Level.PTM_RATIO, 
-										((float)Math.random() * 10 + 6)/Level.PTM_RATIO,
+		for (int i = 0; i < 125; i++) {
+			objects.add(new CircleObject((1100.0f + (float)Math.random() * 320f)/Level.PTM_RATIO, 
+										((float)Math.random() * 10.0f + 65.0f)/Level.PTM_RATIO,
 										(circleSushiTex.getRegionWidth()/2.0f)/Level.PTM_RATIO,
-										(float)(Math.random() * 2 * Math.PI),
+										(float)(Math.random() * 2.0f * Math.PI),
 										GameObjectType.ROLLABLE,
 										circleSushiTex,
 										b2world));
 		}
-		
-		objects.add(new SoySauce((1050.0f + (float)Math.random() * 400.0f) / Level.PTM_RATIO,
+		/*
+		objects.add(new SoySauce((2650.0f + (float)Math.random() * 400.0f) / Level.PTM_RATIO,
 									(soySauceTex.getRegionHeight()/2.0f) / Level.PTM_RATIO,
 									BodyType.DynamicBody,
 									b2world));
 		
-		objects.add(new Boat((1350.0f + (float)Math.random() * 200.0f) / Level.PTM_RATIO,
+		objects.add(new Boat((1750.0f + (float)Math.random() * 200.0f) / Level.PTM_RATIO,
 				(boatBodyTex.getRegionWidth()/2.0f) / Level.PTM_RATIO,
 				BodyType.DynamicBody,
 				b2world));
-		
+		*/
 	}
 	
 	@Override
@@ -98,7 +98,7 @@ public class TestLevel extends Level {
 		for (GameObject obj : player.subObjects)
 			obj.update();
 				
-		gui.goalMeter.scale = player.size * 0.12f;
+		gui.goalMeter.scale = player.mass * 0.15f;
 		
 		physicsStep(deltaTime);
 	}

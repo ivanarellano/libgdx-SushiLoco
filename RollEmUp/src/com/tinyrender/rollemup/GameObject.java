@@ -13,7 +13,6 @@ public class GameObject extends PhysicsObject {
 	}
 	
 	public boolean isRolled = false;
-	public float size = 0.0f;
 	public float rotation = 0.0f;
 	public Vector2 pos;
 	public Vector2 vel;

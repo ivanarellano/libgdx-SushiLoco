@@ -7,6 +7,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject;
@@ -21,8 +23,10 @@ public class Player extends GameObject {
 
 	public boolean isJumping = false;
 	public boolean isGrowing = false;
+	public float mass;
 	public float scaleAmount = 1.13f;
-	public PlayerSensor sensor;
+	CircleShape playerShape;
+	PlayerSensor sensor;
 	public PlayerController controller;
 	
 	public List<GameObject> objectsToRoll = new ArrayList<GameObject>();
@@ -30,20 +34,28 @@ public class Player extends GameObject {
 	public Player(World world) {
 		super(world);
 		objectRepresentation.setTexture(Assets.atlas.findRegion("player"));
-		float radius = (objectRepresentation.texture.getRegionWidth()/3.0f)*0.7f /Level.PTM_RATIO;
-		
+		float radius = (objectRepresentation.texture.getRegionWidth()/2.0f)*0.7f / Level.PTM_RATIO;
+
 		body = BodyFactory.createCircle(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius,
 										1.0f, 0.0f, 1.0f, false, BodyType.DynamicBody, world);
 		pos = body.getPosition();
-				
-		sensor = new PlayerSensor(pos.x, pos.y+(radius*-0.5f), radius/1.35f, BodyType.DynamicBody, world);
+		gameType = GameObjectType.PLAYER;
+		playerShape = (CircleShape) body.getFixtureList().get(0).getShape();
+		mass = body.getMass();
+		body.setUserData(this);
 		
-		// join sensor to player body
+		Filter filter = new Filter();
+		filter.categoryBits = CATEGORY_PLAYER;
+		filter.maskBits = MASK_COLLIDE_ALL;
+		body.getFixtureList().get(0).setFilterData(filter);
+		
+		// Gdx.app.log("initPlayer", ""+ mass);
+		
+		// Add sensor to player body
+		sensor = new PlayerSensor(pos.x, pos.y-(radius/3.0f), radius/1.35f, BodyType.DynamicBody, world);
 		JointFactory.revolute(body, sensor.body, new Vector2(pos.x, pos.y), world);
 		
 		controller = new PlayerController(this);
-		gameType = GameObjectType.PLAYER;
-		body.setUserData(this);
 		
 		contactResolver = new ContactResolver() {
 			@Override
@@ -52,7 +64,9 @@ public class Player extends GameObject {
 				numContacts++;
 				if (otherObject.getType().equals(GameObjectType.ROLLABLE)) {
 					objectsToRoll.add(otherObject);
-					size += otherObject.size;
+					mass += otherObject.body.getMass();
+					
+					// Gdx.app.log("playerSize", "new: "+ mass + "  other: " + otherObject.body.getMass());
 				}
 			}
 			
@@ -114,12 +128,13 @@ public class Player extends GameObject {
 		if (isJumping) {
 			isJumping = false;
 			if (sensor.isGrounded)
-				controller.jump(this, 16.0f);
+				controller.jump(this, 13.0f);
 		}
 	}
 	
 	public void grow() {
+		float sensorYOffset = -(playerShape.getRadius() / 3.0f) * scaleAmount;
 		controller.scaleCircle(this, scaleAmount, new Vector2(0.0f,0.0f));
-		controller.scaleCircle(sensor, scaleAmount, new Vector2(0.0f, scaleAmount*-0.1f));
+		controller.scaleCircle(sensor, scaleAmount, new Vector2(0.0f, sensorYOffset));
 	}
 }

@@ -1,5 +1,6 @@
 package com.tinyrender.rollemup.object;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
@@ -40,12 +41,12 @@ public class SoySauce extends GameObject {
 
 	public SoySauce(float x, float y, BodyType bodyType, World world) {
 		super(world);
-		gameType = GameObjectType.PLATFORM;
+		gameType = GameObjectType.ROLLABLE;
 		objectRepresentation.setTexture(Assets.atlas.findRegion("soy"));
 		
-		size = (objectRepresentation.width * objectRepresentation.height) / Level.PTM_RATIO;
 		body = BodyFactory.createPoly(x, y, 0.5f, 1.0f, bodyType, world, poly1, poly2, poly3, poly4);
 		body.setUserData(this);
+		Gdx.app.log("soyMass", "" + body.getMass());
 	}
 
 	@Override

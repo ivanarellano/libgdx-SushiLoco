@@ -38,44 +38,51 @@ titlelogo
   orig: 151, 118
   offset: 0, 0
   index: -1
-start
+player
   rotate: false
   xy: 862, 319
+  size: 128, 117
+  orig: 128, 117
+  offset: 0, 0
+  index: -1
+start
+  rotate: false
+  xy: 862, 440
   size: 99, 30
   orig: 99, 30
   offset: 0, 0
   index: -1
 soundon
   rotate: false
-  xy: 862, 353
+  xy: 4, 972
   size: 128, 22
   orig: 128, 22
   offset: 0, 0
   index: -1
 soundoff
   rotate: false
-  xy: 862, 379
+  xy: 4, 998
   size: 128, 22
   orig: 128, 22
   offset: 0, 0
   index: -1
 boatbackbar
   rotate: false
-  xy: 994, 488
+  xy: 994, 319
   size: 17, 86
   orig: 17, 86
   offset: 0, 0
   index: -1
 circlesushi
   rotate: false
-  xy: 862, 405
+  xy: 965, 440
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 boxsushi
   rotate: false
-  xy: 965, 319
+  xy: 136, 972
   size: 33, 17
   orig: 33, 17
   offset: 0, 0
@@ -99,23 +106,16 @@ boatbody
   orig: 723, 116
   offset: 0, 0
   index: -1
-player
-  rotate: false
-  xy: 4, 608
-  size: 256, 235
-  orig: 256, 235
-  offset: 0, 0
-  index: -1
 boatnet
   rotate: false
-  xy: 264, 608
+  xy: 4, 608
   size: 246, 378
   orig: 246, 378
   offset: 0, 0
   index: -1
 soy
   rotate: false
-  xy: 514, 608
+  xy: 254, 608
   size: 169, 385
   orig: 169, 385
   offset: 0, 0

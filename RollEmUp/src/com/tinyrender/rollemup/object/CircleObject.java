@@ -19,7 +19,6 @@ public class CircleObject extends GameObject {
 		
 		float radius = objectRepresentation.width / 2.0f / Level.PTM_RATIO;
 		
-		size = radius;
 		body = BodyFactory.createCircle(x, y, radius, density, angle, 1.0f, false, BodyType.DynamicBody, world);
 		body.setUserData(this);
 	}

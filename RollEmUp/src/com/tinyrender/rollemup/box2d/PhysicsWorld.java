@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 
-public abstract class PhysicsWorld implements ContactListener {	
+public abstract class PhysicsWorld implements ContactListener {
 	final static float UPDATE_INTERVAL = 1.0f / 60.0f;
 	final static float MAX_CYCLES_PER_FRAME = 5.0f;
 	static float timeAccumulator = 0.0f;

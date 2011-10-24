@@ -20,7 +20,6 @@ public class BoxObject extends GameObject {
 		float hx = objectRepresentation.width / 2.0f / Level.PTM_RATIO;
 		float hy = objectRepresentation.height / 2.0f / Level.PTM_RATIO;
 		
-		size = hx;
 		body = BodyFactory.createBox(x, y, hx, hy, density, BodyType.DynamicBody, world);
 		body.setUserData(this);
 	}

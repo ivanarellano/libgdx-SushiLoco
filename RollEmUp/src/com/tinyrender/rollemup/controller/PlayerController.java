@@ -1,6 +1,5 @@
 package com.tinyrender.rollemup.controller;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -24,11 +23,12 @@ public class PlayerController extends Controller {
 		
 		JointFactory.weld(player.body, other.body, new Vector2(player.pos.x, player.pos.y), player.world);
 		
-		Fixture otherFix = other.body.getFixtureList().get(0);
 		Filter filter = new Filter();
-		filter.maskBits = GameObject.CATEGORY_NO_COLLISION;
-		otherFix.setSensor(true);
-		otherFix.setFilterData(filter);
+		filter.maskBits = GameObject.MASK_NO_COLLISION;
+		for (Fixture otherFix : other.body.getFixtureList()) {
+			otherFix.setSensor(true);
+			otherFix.setFilterData(filter);
+		}
 		
 		player.body.resetMassData();
 		
@@ -38,22 +38,18 @@ public class PlayerController extends Controller {
 	public void keyDown(int keyCode) {
 		if (keyCode == Keys.SPACE)
 			player.isJumping = true;
-		Gdx.app.log("keyDown", "in pc");
 	}
 	
 	public void keyUp(int keyCode) {
 		if (keyCode == Keys.SPACE)
 			player.isJumping = false;
-		Gdx.app.log("keyUp", "in pc");
 	}
 	
 	public void touchDown() {
 		player.isJumping = true;
-		Gdx.app.log("touchDown", "in pc");
 	}
 	
 	public void touchUp() {
 		player.isJumping = false;
-		Gdx.app.log("touchUp", "in pc");
 	}
 }
