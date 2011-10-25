@@ -14,7 +14,7 @@ public class LevelGui extends Gui implements LevelStateUpdater {
     public Timer timer;
     public BitmapFont droidSans;
 
-    public LevelGui() {
+    public LevelGui() {    	
     	droidSans = Assets.getBitmapFont("data/droidsans.fnt", "droidsans");
     	timer = new Timer();
     	goalMeter = new GoalMeter();
@@ -34,12 +34,20 @@ public class LevelGui extends Gui implements LevelStateUpdater {
 	public void running(float deltaTime) {
 		timer.update();
 		
-		render(timer, goalMeter);
+		Assets.batch.setProjectionMatrix(cam.combined);
+		Assets.batch.begin();
+			timer.draw();
+			goalMeter.draw();
+		Assets.batch.end();
 	}
 
 	@Override
 	public void paused(float deltaTime) {
-		render(paused, quit);
+		Assets.batch.setProjectionMatrix(cam.combined);
+		Assets.batch.begin();
+			paused.draw();
+			quit.draw();
+		Assets.batch.end();
 	}
 
 	@Override

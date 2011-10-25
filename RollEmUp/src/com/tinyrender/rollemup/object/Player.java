@@ -1,8 +1,5 @@
 package com.tinyrender.rollemup.object;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
@@ -10,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject;
 import com.tinyrender.rollemup.Level;
@@ -25,11 +23,12 @@ public class Player extends GameObject {
 	public boolean isGrowing = false;
 	public float mass;
 	public float scaleAmount = 1.13f;
+	public float itemsRolled;
 	CircleShape playerShape;
 	PlayerSensor sensor;
 	public PlayerController controller;
 	
-	public List<GameObject> objectsToRoll = new ArrayList<GameObject>();
+	public Array<GameObject> objectsToRoll = new Array<GameObject>(2);
 	
 	public Player(World world) {
 		super(world);
@@ -63,6 +62,7 @@ public class Player extends GameObject {
 				GameObject otherObject = (GameObject) collidesWith.body.getUserData();
 				numContacts++;
 				if (otherObject.getType().equals(GameObjectType.ROLLABLE)) {
+					itemsRolled++;
 					objectsToRoll.add(otherObject);
 					mass += otherObject.body.getMass();
 					
@@ -84,7 +84,7 @@ public class Player extends GameObject {
 		rotation = body.getAngle()*180.0f/(float) Math.PI;
 		
 		if (isGrowing) {
-			if (subObjects.size() % 4 == 0) {
+			if (itemsRolled % 4 == 0) {
 				grow();
 				
 				if (scaleAmount >= 1.06f)
@@ -100,12 +100,9 @@ public class Player extends GameObject {
 			body.applyForceToCenter(40.0f * body.getMass(), 0);
 				
 		// Stick newly rolled objects
-		if (!objectsToRoll.isEmpty()) {
-			for (GameObject obj : objectsToRoll)
-				controller.rollObject(obj);
-			objectsToRoll.clear();
-		}
-
+		for (int i = 0; i < objectsToRoll.size; i++)
+			controller.rollObject(objectsToRoll.pop());
+		
 		// Set X velocity to MAX if we're going too fast
 		if (Math.abs(vel.x) > MAX_VELOCITY) {			
 			vel.x = Math.signum(vel.x) * MAX_VELOCITY;
