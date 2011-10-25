@@ -17,18 +17,19 @@ import com.tinyrender.rollemup.box2d.PhysicsObject;
 import com.tinyrender.rollemup.controller.PlayerController;
 
 public class Player extends GameObject {	
-	final static float MAX_VELOCITY = 6.0f;
+	final static float MAX_VELOCITY = 7.0f;
 
 	public boolean isJumping = false;
 	public boolean isGrowing = false;
 	public float mass;
-	public float scaleAmount = 1.13f;
-	public float itemsRolled;
+	public float growthGoal;
+	public float growthScale;
 	CircleShape playerShape;
 	PlayerSensor sensor;
 	public PlayerController controller;
 	
 	public Array<GameObject> objectsToRoll = new Array<GameObject>(2);
+	public int stuffTillGrowth = 0;
 	
 	public Player(World world) {
 		super(world);
@@ -48,11 +49,14 @@ public class Player extends GameObject {
 		filter.maskBits = MASK_COLLIDE_ALL;
 		body.getFixtureList().get(0).setFilterData(filter);
 		
-		// Gdx.app.log("initPlayer", ""+ mass);
-		
 		// Add sensor to player body
 		sensor = new PlayerSensor(pos.x, pos.y-(radius/3.0f), radius/1.35f, BodyType.DynamicBody, world);
 		JointFactory.revolute(body, sensor.body, new Vector2(pos.x, pos.y), world);
+		
+		growthScale = 1.27f;
+		growthGoal = mass * growthScale;
+		
+		Gdx.app.log("initPlayer", "mass: " + Float.toString(mass) + " _growthGoal: " + Float.toString(growthGoal));
 		
 		controller = new PlayerController(this);
 		
@@ -61,12 +65,15 @@ public class Player extends GameObject {
 			public void enterContact(PhysicsObject collidesWith) {
 				GameObject otherObject = (GameObject) collidesWith.body.getUserData();
 				numContacts++;
-				if (otherObject.getType().equals(GameObjectType.ROLLABLE)) {
-					itemsRolled++;
+
+				if (isRollable(otherObject)) {
+					stuffTillGrowth++;
+					
 					objectsToRoll.add(otherObject);
 					mass += otherObject.body.getMass();
 					
-					// Gdx.app.log("playerSize", "new: "+ mass + "  other: " + otherObject.body.getMass());
+					Gdx.app.log("stuffTillGrowth", Integer.toString(stuffTillGrowth));
+					//Gdx.app.log("playerSize", "new: "+ mass + "  other: " + otherObject.body.getMass());
 				}
 			}
 			
@@ -84,16 +91,24 @@ public class Player extends GameObject {
 		rotation = body.getAngle()*180.0f/(float) Math.PI;
 		
 		if (isGrowing) {
-			if (itemsRolled % 4 == 0) {
+			if (mass >= growthGoal) {
+				stuffTillGrowth = 0;
 				grow();
+				growthGoal = mass * growthScale;
 				
-				if (scaleAmount >= 1.06f)
-					scaleAmount -= 0.028f;
+				Gdx.app.log("grow!", "scale: "+ Float.toString(growthScale) + " _mass: " + Float.toString(mass)
+								+ " _goal: " + Float.toString(growthGoal));
 				
+				if (growthScale <= 1.0f)
+					growthScale = 1.27f;
+				
+				growthScale /= 1.01f;
+
 				isGrowing = false;
 			}
 		}
 		
+		// Desktop player controls
 		if (Gdx.input.isKeyPressed(Keys.A))
 			body.applyForceToCenter(-40.0f * body.getMass(), 0);
 		else if (Gdx.input.isKeyPressed(Keys.D))
@@ -112,26 +127,34 @@ public class Player extends GameObject {
 		// Apply force when tilted, otherwise dampen down acceleration to stop
 		if ((Gdx.input.getAccelerometerY() <= -0.35f && vel.x > -MAX_VELOCITY) ||
 				Gdx.input.getAccelerometerY() >= 0.35f && vel.x < MAX_VELOCITY) {
-			body.applyForceToCenter(Gdx.input.getAccelerometerY()*0.55f * body.getMass(), 0);
+			body.applyForceToCenter(Gdx.input.getAccelerometerY()*0.55f * body.getMass(), 0.0f);
 		} else {
 			body.setLinearVelocity(vel.x * 0.9f, vel.y);
 		}
 		
 		// Regain momentum with small impulse
-		if (vel.x < MAX_VELOCITY/3 || vel.x > -MAX_VELOCITY/3)
-			body.applyLinearImpulse(Gdx.input.getAccelerometerY()*0.1f * body.getMass(), 0, pos.x, pos.y);
+		if (vel.x < MAX_VELOCITY/4.0f || vel.x > -MAX_VELOCITY/4.0f)
+			body.applyLinearImpulse(Gdx.input.getAccelerometerY()*0.1f * body.getMass(), 0.0f, pos.x, pos.y);
  
 		// Jump
 		if (isJumping) {
 			isJumping = false;
 			if (sensor.isGrounded)
-				controller.jump(this, 13.0f);
+				controller.jump(this, 10.0f);
 		}
 	}
 	
 	public void grow() {
-		float sensorYOffset = -(playerShape.getRadius() / 3.0f) * scaleAmount;
-		controller.scaleCircle(this, scaleAmount, new Vector2(0.0f,0.0f));
-		controller.scaleCircle(sensor, scaleAmount, new Vector2(0.0f, sensorYOffset));
+		float sensorYOffset = -(playerShape.getRadius() / 3.0f) * growthScale;
+		controller.scaleCircle(this, growthScale, new Vector2(0.0f, 0.0f));
+		controller.scaleCircle(sensor, growthScale, new Vector2(0.0f, sensorYOffset));
+	}
+	
+	public boolean isRollable(GameObject obj) {
+		if (obj.getType().equals(GameObjectType.ROLLABLE))
+			if (obj.body.getMass() < mass)
+				return true;
+		
+		return false;
 	}
 }

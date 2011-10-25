@@ -26,7 +26,7 @@ public class LevelRenderer {
 		
 			for (int i = 0; i < level.objects.size; i++) {
 				level.objects.get(i).objectRepresentation.draw();
-				
+
 				for (int j = 0; j < level.objects.get(i).subObjects.size; j++)
 					level.objects.get(i).subObjects.get(j).objectRepresentation.draw();
 			}

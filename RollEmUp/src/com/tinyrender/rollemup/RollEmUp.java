@@ -17,7 +17,7 @@ public class RollEmUp extends Game implements ApplicationListener {
 	
 	@Override
 	public void create() {
-		Gdx.app.log("libGdx ver", " "+ Gdx.app.getVersion());
+		Gdx.app.log("libGdx ver", Integer.toString(Gdx.app.getVersion()));
 		Settings.load();
 		Assets.create();
 		

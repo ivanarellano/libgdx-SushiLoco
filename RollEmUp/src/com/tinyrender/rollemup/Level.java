@@ -7,7 +7,6 @@ import com.tinyrender.rollemup.gui.LevelGui;
 import com.tinyrender.rollemup.object.Player;
 
 public abstract class Level extends PhysicsWorld implements LevelStateUpdater {
-	public final static int PTM_RATIO = 64;
 	public int levelTime = 5;
 	public LevelGui gui;
 	public Player player;

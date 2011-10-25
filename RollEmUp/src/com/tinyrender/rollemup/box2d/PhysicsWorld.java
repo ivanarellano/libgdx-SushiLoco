@@ -8,29 +8,38 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 
 public abstract class PhysicsWorld implements ContactListener {
+	public final static int PTM_RATIO = 64;
 	final static float UPDATE_INTERVAL = 1.0f / 60.0f;
-	final static float MAX_CYCLES_PER_FRAME = 5.0f;
-	static float timeAccumulator = 0.0f;
+	final static float MINIMUM_TIMESTEP = UPDATE_INTERVAL / 2.0f;
+	final static int MAX_CYCLES_PER_FRAME = 25;
 	
 	public World b2world;
 	public Vector2 gravity;
 	
 	public PhysicsWorld() {
-		gravity = new Vector2(0, -11.2f);
+		gravity = new Vector2(0, -12.0f);
 		b2world = new World(gravity, true);
 		b2world.setContactListener(this);
 	}
 
 	public void physicsStep(float deltaTime) {
-		timeAccumulator += deltaTime;
-		if (timeAccumulator > (MAX_CYCLES_PER_FRAME * UPDATE_INTERVAL)) {
-		    timeAccumulator = UPDATE_INTERVAL;	// note: max frame time to avoid spiral of death
+		float frameTime = deltaTime;
+		int stepsPerformed = 0;
+		
+		while (frameTime > 0.0f && stepsPerformed < MAX_CYCLES_PER_FRAME) {
+			float dt = Math.min(frameTime, UPDATE_INTERVAL);
+			frameTime -= dt;
+			
+			if (frameTime < MINIMUM_TIMESTEP) {
+				dt += frameTime;
+				frameTime = 0.0f;
+			}
+			
+			b2world.step(dt, 5, 3);
+			stepsPerformed++;
 		}
-
-		while (timeAccumulator >= UPDATE_INTERVAL) {
-		    timeAccumulator -= UPDATE_INTERVAL;
-		    b2world.step(UPDATE_INTERVAL, 5, 3);
-		}
+		
+		b2world.clearForces();
 	}
 	
 	public void resumeWorld() {

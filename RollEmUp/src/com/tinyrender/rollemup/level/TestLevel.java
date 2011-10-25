@@ -48,20 +48,19 @@ public class TestLevel extends Level {
 				   0.4f, b2world);
 		
 		// boxes
-		for (int i = 0; i < 1; i++) {
-			objects.add(new BoxObject((1000.0f + (float)Math.random() * 120.0f)/Level.PTM_RATIO,
-										((float)Math.random() * 420.0f + 65.0f)/Level.PTM_RATIO,
+		for (int i = 0; i < 62; i++) {
+			objects.add(new BoxObject((1000.0f + (float)Math.random() * 2220.0f)/Level.PTM_RATIO,
+										((float)Math.random() * 100.0f + 80.0f)/Level.PTM_RATIO,
 										(boxSushiTex.getRegionWidth()/2.0f)/Level.PTM_RATIO,
 										GameObjectType.ROLLABLE,
 										boxSushiTex,
 										b2world));
 		}
 
-		
 		// circles
-		for (int i = 0; i < 125; i++) {
-			objects.add(new CircleObject((1100.0f + (float)Math.random() * 320f)/Level.PTM_RATIO, 
-										((float)Math.random() * 10.0f + 65.0f)/Level.PTM_RATIO,
+		for (int i = 0; i < 63; i++) {
+			objects.add(new CircleObject((1000.0f + (float)Math.random() * 2220f)/Level.PTM_RATIO, 
+										((float)Math.random() * 100.0f + 80.0f)/Level.PTM_RATIO,
 										(circleSushiTex.getRegionWidth()/2.0f)/Level.PTM_RATIO,
 										(float)(Math.random() * 2.0f * Math.PI),
 										GameObjectType.ROLLABLE,
@@ -91,14 +90,14 @@ public class TestLevel extends Level {
 			box2dcam.zoom = newZoom;
 		}
 		
-		for (GameObject obj : objects)
-			obj.update();
+		for (int i = 0; i < objects.size; i++)
+			objects.get(i).update();
 		
 		player.update();
-		for (GameObject obj : player.subObjects)
-			obj.update();
+		for (int i = 0; i < player.subObjects.size; i++)
+			player.subObjects.get(i);
 				
-		gui.goalMeter.scale = player.mass * 0.15f;
+		gui.goalMeter.scale = player.mass * 0.12f;
 		
 		physicsStep(deltaTime);
 	}
