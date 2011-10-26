@@ -16,6 +16,8 @@ public class Assets {
 	public static AssetErrorListener managerError;
 	public static TextureAtlas atlas;
 	public static SpriteBatch batch;
+	
+	public static BitmapFont droidSansFont;
     
     public static void create() {
     	manager = new AssetManager();

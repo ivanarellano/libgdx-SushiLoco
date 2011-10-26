@@ -2,7 +2,6 @@ package com.tinyrender.rollemup.object;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -51,12 +50,12 @@ public class Player extends GameObject {
 		
 		// Add sensor to player body
 		sensor = new PlayerSensor(pos.x, pos.y-(radius/3.0f), radius/1.35f, BodyType.DynamicBody, world);
-		JointFactory.revolute(body, sensor.body, new Vector2(pos.x, pos.y), world);
+		JointFactory.revolute(body, sensor.body, pos.x, pos.y, world);
 		
 		growthScale = 1.27f;
 		growthGoal = mass * growthScale;
 		
-		Gdx.app.log("initPlayer", "mass: " + Float.toString(mass) + " _growthGoal: " + Float.toString(growthGoal));
+		//Gdx.app.log("initPlayer", "mass: " + Float.toString(mass) + " _growthGoal: " + Float.toString(growthGoal));
 		
 		controller = new PlayerController(this);
 		
@@ -72,7 +71,7 @@ public class Player extends GameObject {
 					objectsToRoll.add(otherObject);
 					mass += otherObject.body.getMass();
 					
-					Gdx.app.log("stuffTillGrowth", Integer.toString(stuffTillGrowth));
+					//Gdx.app.log("stuffTillGrowth", Integer.toString(stuffTillGrowth));
 					//Gdx.app.log("playerSize", "new: "+ mass + "  other: " + otherObject.body.getMass());
 				}
 			}
@@ -96,8 +95,8 @@ public class Player extends GameObject {
 				grow();
 				growthGoal = mass * growthScale;
 				
-				Gdx.app.log("grow!", "scale: "+ Float.toString(growthScale) + " _mass: " + Float.toString(mass)
-								+ " _goal: " + Float.toString(growthGoal));
+				//Gdx.app.log("grow!", "scale: "+ Float.toString(growthScale) + " _mass: " + Float.toString(mass)
+				//				+ " _goal: " + Float.toString(growthGoal));
 				
 				if (growthScale <= 1.0f)
 					growthScale = 1.27f;
@@ -135,7 +134,7 @@ public class Player extends GameObject {
 		// Regain momentum with small impulse
 		if (vel.x < MAX_VELOCITY/4.0f || vel.x > -MAX_VELOCITY/4.0f)
 			body.applyLinearImpulse(Gdx.input.getAccelerometerY()*0.1f * body.getMass(), 0.0f, pos.x, pos.y);
- 
+ 		
 		// Jump
 		if (isJumping) {
 			isJumping = false;
@@ -146,8 +145,8 @@ public class Player extends GameObject {
 	
 	public void grow() {
 		float sensorYOffset = -(playerShape.getRadius() / 3.0f) * growthScale;
-		controller.scaleCircle(this, growthScale, new Vector2(0.0f, 0.0f));
-		controller.scaleCircle(sensor, growthScale, new Vector2(0.0f, sensorYOffset));
+		controller.scaleCircle(this, growthScale, 0.0f, 0.0f);
+		controller.scaleCircle(sensor, growthScale, 0.0f, sensorYOffset);
 	}
 	
 	public boolean isRollable(GameObject obj) {

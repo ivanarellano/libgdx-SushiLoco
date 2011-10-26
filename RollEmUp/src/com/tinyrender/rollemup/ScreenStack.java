@@ -18,7 +18,9 @@ public class ScreenStack {
 	}
 	
 	public void setPrevious() {
-		list.pop();
+		if (!list.empty())
+			list.pop();
+		
 		if (!(list.size() <= 1)) {
 			setScreen(list.peek());
 			Gdx.input.setInputProcessor(list.peek());

@@ -3,7 +3,6 @@ package com.tinyrender.rollemup;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.tinyrender.rollemup.screen.SplashScreen;
 
 public class RollEmUp extends Game implements ApplicationListener {
@@ -13,7 +12,7 @@ public class RollEmUp extends Game implements ApplicationListener {
 	public final static int SCREEN_HALF_HEIGHT = (int) Math.ceil(TARGET_HEIGHT /2);
 	public boolean finishedLoading = false;
 	public ScreenStack screenStack;
-	public BitmapFont font;
+	public Gui gui;
 	
 	@Override
 	public void create() {
@@ -26,6 +25,9 @@ public class RollEmUp extends Game implements ApplicationListener {
 		
 		Gdx.input.setCatchBackKey(true);
 		Gdx.input.setCatchMenuKey(true);
+		
+		gui = new Gui();
+		
 	}
 
 	@Override
@@ -48,13 +50,12 @@ public class RollEmUp extends Game implements ApplicationListener {
 			String fps = Integer.toString(Gdx.graphics.getFramesPerSecond());
 			Assets.batch.getProjectionMatrix().setToOrtho2D(0.0f, 0.0f, RollEmUp.TARGET_WIDTH, RollEmUp.TARGET_HEIGHT);
 			Assets.batch.begin();
-				font.draw(Assets.batch,
-									  fps, 
-									  RollEmUp.TARGET_WIDTH - font.getBounds(fps).width - 20.0f,
-									  font.getBounds(fps).height + 20.0f);
+				Assets.droidSansFont.draw(Assets.batch,
+										  fps, 
+										  RollEmUp.TARGET_WIDTH - Assets.droidSansFont.getBounds(fps).width - 20.0f,
+										  Assets.droidSansFont.getBounds(fps).height + 20.0f);
 			Assets.batch.end();
 		}
-		
 	}
 
 	@Override

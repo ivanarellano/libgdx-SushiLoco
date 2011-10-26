@@ -2,18 +2,14 @@ package com.tinyrender.rollemup.level;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.tinyrender.rollemup.Assets;
-import com.tinyrender.rollemup.GameObject;
 import com.tinyrender.rollemup.GameObject.GameObjectType;
 import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.Settings;
-import com.tinyrender.rollemup.object.Boat;
 import com.tinyrender.rollemup.object.BoxObject;
 import com.tinyrender.rollemup.object.CircleObject;
 import com.tinyrender.rollemup.object.Ground;
 import com.tinyrender.rollemup.object.Player;
-import com.tinyrender.rollemup.object.SoySauce;
 
 public class TestLevel extends Level {
 	float newZoom = 1.0f;
@@ -49,8 +45,8 @@ public class TestLevel extends Level {
 		
 		// boxes
 		for (int i = 0; i < 62; i++) {
-			objects.add(new BoxObject((1000.0f + (float)Math.random() * 2220.0f)/Level.PTM_RATIO,
-										((float)Math.random() * 100.0f + 80.0f)/Level.PTM_RATIO,
+			objects.add(new BoxObject((700.0f + (float)Math.random() * 6000.0f)/Level.PTM_RATIO,
+										((float)Math.random() * 100.0f + 100.0f)/Level.PTM_RATIO,
 										(boxSushiTex.getRegionWidth()/2.0f)/Level.PTM_RATIO,
 										GameObjectType.ROLLABLE,
 										boxSushiTex,
@@ -59,8 +55,8 @@ public class TestLevel extends Level {
 
 		// circles
 		for (int i = 0; i < 63; i++) {
-			objects.add(new CircleObject((1000.0f + (float)Math.random() * 2220f)/Level.PTM_RATIO, 
-										((float)Math.random() * 100.0f + 80.0f)/Level.PTM_RATIO,
+			objects.add(new CircleObject((700.0f + (float)Math.random() * 6000f)/Level.PTM_RATIO, 
+										((float)Math.random() * 100.0f + 100.0f)/Level.PTM_RATIO,
 										(circleSushiTex.getRegionWidth()/2.0f)/Level.PTM_RATIO,
 										(float)(Math.random() * 2.0f * Math.PI),
 										GameObjectType.ROLLABLE,

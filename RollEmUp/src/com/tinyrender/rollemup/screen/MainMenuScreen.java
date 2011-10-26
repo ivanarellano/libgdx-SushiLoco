@@ -41,19 +41,14 @@ public class MainMenuScreen extends GameScreen {
 	}
 
 	@Override
-	public void show() {
-		Assets.batch.setProjectionMatrix(gui.cam.combined);
-		Assets.batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		
-		if(Settings.soundEnabled) // FIXME: CHANGE TO musicEnabled WHEN READY
-			music.play(); // Assets.music.play();
+	public void show() {		
+		if(Settings.soundEnabled) // FIXME: CHANGE TO "musicEnabled" WHEN READY
+			music.play();
 	}
 	
 	@Override
 	public boolean keyDown(int keyCode) {
-		if (keyCode == Keys.BACK)
-			game.screenStack.setPrevious();
-		else if (keyCode == Keys.BACKSPACE)
+		if (keyCode == Keys.BACK || keyCode == Keys.BACKSPACE)
 			game.screenStack.setPrevious();
 		return false;
 	}

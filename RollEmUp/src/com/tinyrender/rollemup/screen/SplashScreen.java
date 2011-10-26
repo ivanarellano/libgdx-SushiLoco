@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameScreen;
-import com.tinyrender.rollemup.Gui;
 import com.tinyrender.rollemup.RollEmUp;
 
 public class SplashScreen extends GameScreen {
@@ -15,12 +14,10 @@ public class SplashScreen extends GameScreen {
 	float splashAlpha = 1.0f;
 	boolean diagnosed = false;
 	
-	public Gui gui;
 	public TextureRegion splashScreen;
 		
 	public SplashScreen(RollEmUp game) {
 		super(game);
-		gui = new Gui();
 		
 		Assets.loadTexture("data/scratch.png");
 		Assets.loadBitmapFont("data/droidsans.fnt");
@@ -41,7 +38,7 @@ public class SplashScreen extends GameScreen {
 			Gdx.app.log("AssetManagerDiagnostics", "\n" + Assets.manager.getDiagnostics() + "\n" + Texture.getManagedStatus());
 			
 			splashScreen = Assets.atlas.findRegion("tuna");
-			game.font = Assets.getBitmapFont("data/droidsans.fnt", "droidsans");
+			Assets.droidSansFont = Assets.getBitmapFont("data/droidsans.fnt", "droidsans");
 		}
 		
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
@@ -58,16 +55,17 @@ public class SplashScreen extends GameScreen {
 				Assets.batch.draw(splashScreen, 0.0f, 0.0f);
 			Assets.batch.end();
 			
-			if(!(totalScreenTime <= NEXT_SCREEN))
+			if(!(totalScreenTime <= NEXT_SCREEN)) {
 				game.screenStack.add(new MainMenuScreen(game));
+				Assets.batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+			}
 			
 			totalScreenTime += deltaTime;
 		}
 	}
 
 	@Override
-	public void show() {		
-		Assets.batch.setProjectionMatrix(gui.cam.combined);
+	public void show() {
 	}
 	
 	@Override public void dispose() {}

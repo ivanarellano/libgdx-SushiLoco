@@ -14,9 +14,16 @@ import com.tinyrender.rollemup.object.Player;
 
 public class PlayerController implements Controller {
 	Player player;
+	Filter filter;
+	Fixture fixture;
+	Shape.Type shapeType;
+	Vector2 vecOffset;
 	
 	public PlayerController(Player player) {
 		this.player = player;
+		filter = new Filter();
+		filter.maskBits = GameObject.MASK_NO_COLLISION;
+		vecOffset = new Vector2();
 	}
 	
 	public void rollObject(GameObject other) {
@@ -24,13 +31,11 @@ public class PlayerController implements Controller {
 		player.subObjects.add(other);
 		other.body.setAngularVelocity(0.0f);
 		
-		JointFactory.weld(player.body, other.body, new Vector2(player.pos.x, player.pos.y), player.world);
+		JointFactory.weld(player.body, other.body, player.pos.x, player.pos.y, player.world);
 		
-		Filter filter = new Filter();
-		filter.maskBits = GameObject.MASK_NO_COLLISION;
-		for (Fixture otherFix : other.body.getFixtureList()) {
-			otherFix.setSensor(true);
-			otherFix.setFilterData(filter);
+		for (int i = 0; i < other.body.getFixtureList().size(); i++) {
+			other.body.getFixtureList().get(i).setSensor(true);
+			other.body.getFixtureList().get(i).setFilterData(filter);
 		}
 		
 		player.body.resetMassData();
@@ -43,16 +48,17 @@ public class PlayerController implements Controller {
 		object.body.applyLinearImpulse(0, velocity * object.body.getMass()*1.2f, object.pos.x, object.pos.y);
 	}
 	
-	public void scaleCircle(PhysicsObject object, float scale, Vector2 posOffset) {
-		Fixture fixture = object.body.getFixtureList().get(0);
-		Shape.Type shapeType = fixture.getType();
+	public void scaleCircle(PhysicsObject object, float scale, float offsetX, float offsetY) {
+		fixture = object.body.getFixtureList().get(0);
+		shapeType = fixture.getType();
 		
 		if (shapeType == Shape.Type.Circle) {
 			CircleShape shape = (CircleShape) fixture.getShape();
 			float radius = shape.getRadius();
 			
+			vecOffset.set(offsetX, offsetY);
 			radius *= scale;
-			shape.setPosition(posOffset);
+			shape.setPosition(vecOffset);
 			shape.setRadius(radius);
 		}
 	}
