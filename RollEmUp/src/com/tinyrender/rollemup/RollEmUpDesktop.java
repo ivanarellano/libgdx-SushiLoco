@@ -1,6 +1,6 @@
 package com.tinyrender.rollemup;
 
-import com.badlogic.gdx.backends.jogl.JoglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.tools.imagepacker.TexturePacker;
 import com.badlogic.gdx.tools.imagepacker.TexturePacker.Settings;
 
@@ -14,6 +14,6 @@ public class RollEmUpDesktop {
         settings.pot = true;
         TexturePacker.process(settings, "assets", "data");
         
-		new JoglApplication(new RollEmUp(), "Roll 'Em Up", 854, 480, false);
+		new LwjglApplication(new RollEmUp(), "Roll 'Em Up", 854, 480, false);
 	}
 }
