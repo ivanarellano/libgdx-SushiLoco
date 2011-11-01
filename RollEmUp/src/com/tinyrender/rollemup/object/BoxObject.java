@@ -12,7 +12,7 @@ public class BoxObject extends GameObject {
 		super(world);
 	}
 	
-	public BoxObject(float x, float y, float density, GameObjectType gameObjectType, TextureRegion texture, World world) {
+	public BoxObject(TextureRegion texture, float x, float y, float density, GameObjectType gameObjectType, World world) {
 		super(world);
 		gameType = gameObjectType;
 		objectRepresentation.setTexture(texture);
@@ -22,11 +22,5 @@ public class BoxObject extends GameObject {
 		
 		body = BodyFactory.createBox(x, y, hx, hy, density, BodyType.DynamicBody, world);
 		body.setUserData(this);
-	}
-	
-	@Override
-	public void update() {
-		pos = body.getPosition();
-		rotation = body.getAngle() * 180.0f/(float) Math.PI;
 	}
 }

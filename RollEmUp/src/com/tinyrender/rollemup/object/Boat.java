@@ -1,18 +1,22 @@
 package com.tinyrender.rollemup.object;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject;
+import com.tinyrender.rollemup.GameObject.GameObjectType;
 import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.box2d.BodyFactory;
 import com.tinyrender.rollemup.box2d.JointFactory;
+import com.tinyrender.rollemup.box2d.PhysicsObject;
 
-public class Boat extends GameObject {
+public class Boat implements ObjectFactory {
 	Vector2 boatbodyVec1[] = {
 		new Vector2(359.2f / Level.PTM_RATIO, 52.3f / Level.PTM_RATIO),		// 1
 		new Vector2(192.3f / Level.PTM_RATIO, 55.2f / Level.PTM_RATIO),		// 2
@@ -93,100 +97,105 @@ public class Boat extends GameObject {
 		new Vector2(21.2f / Level.PTM_RATIO, -153.8f / Level.PTM_RATIO)		// 10
 	};
 	
-	GameObject boatFront;
-	GameObject boatFlag;
-	GameObject boatNet;
-	GameObject boatBackBar;
+	Array<Vector2[]> verts;
+	TextureRegion boatTex;
+	TextureRegion boatFrontTex;
+	TextureRegion boatFlagTex;
+	TextureRegion boatBackBarTex;
+	Filter filter;
+	MassData massData;
 	
-	public Boat(float x, float y, BodyType bodyType, World world) {
-		super(world);
+	public Boat() {
+		verts = new Array<Vector2[]>();
+		filter = new Filter();
+		massData = new MassData();
 		
-		boatFront = new GameObject(world);
-		boatFlag = new GameObject(world);
-		boatNet = new GameObject(world);
-		boatBackBar = new GameObject(world);
-		
-		Filter filter = new Filter();
-		MassData massData = new MassData();
-		
-		filter.categoryBits = CATEGORY_OBJECT;
-		filter.maskBits = MASK_OBJECT;
-		
-		body = BodyFactory.createPoly(x, y, 0.65f, 1.0f, bodyType, world, boatbodyVec1, boatbodyVec2, boatbodyVec3, boatbodyVec4);
-		gameType = GameObjectType.PLATFORM;
-		objectRepresentation.setTexture(Assets.atlas.findRegion("boatbody"));
-		body.getFixtureList().get(0).setFilterData(filter);
-		body.setUserData(this);
-		
-		
-		filter.categoryBits = CATEGORY_SUB_OBJECT;
-		filter.categoryBits = MASK_SUB_OBJECT;
-		
-		boatFront.body = BodyFactory.createPoly(x-(381.0f/Level.PTM_RATIO), y+(48.0f/Level.PTM_RATIO),
-												0.25f, 1.0f, bodyType, world, boatfrontVec);
-		subObjects.add(boatFront);
-		boatFront.gameType = GameObjectType.PLATFORM;
-		boatFront.objectRepresentation.setTexture(Assets.atlas.findRegion("boatfront"));
-		boatFront.body.setUserData(boatFront);
-		boatFront.body.getFixtureList().get(0).setFilterData(filter);
-		JointFactory.weld(body, boatFront.body, body.getWorldCenter(), world);	
-		massData.mass = boatFront.body.getMass() + body.getMass();
-		body.setMassData(massData);
-		
-		
-		boatFlag.body = BodyFactory.createPoly(x+(237.0f/Level.PTM_RATIO), y+(185.0f/Level.PTM_RATIO),
-												0.25f, 1.0f, bodyType, world, boatflagVec1, boatflagVec2);
-		subObjects.add(boatFlag);
-		boatFlag.gameType = GameObjectType.PLATFORM;
-		boatFlag.objectRepresentation.setTexture(Assets.atlas.findRegion("boatflag"));
-		boatFlag.body.setUserData(boatFlag);
-		boatFlag.body.getFixtureList().get(0).setFilterData(filter);
-		JointFactory.weld(body, boatFlag.body, body.getWorldCenter(), world);		
-		massData.mass = boatFlag.body.getMass() + body.getMass();
-		body.setMassData(massData);
-		
-		/*
-		boatNet.body = BodyFactory.createPoly(x-(277.0f/Level.PTM_RATIO), y+(185.0f/Level.PTM_RATIO),
-												0.25f, 1.0f, bodyType, world, boatnetVec1, boatnetVec2, boatnetVec3, boatnetVec4);
-		subObjects.add(boatNet);
-		boatNet.gameType = GameObjectType.PLATFORM;
-		boatNet.objectRepresentation.setTexture(Assets.atlas.findRegion("boatnet"));
-		boatNet.body.setUserData(boatFlag);
-		boatNet.body.getFixtureList().get(0).setFilterData(filter);
-		JointFactory.weld(body, boatNet.body, body.getWorldCenter(), world);		
-		massData.mass = boatNet.body.getMass() + body.getMass();
-		body.setMassData(massData);
-		*/
-		
-		boatBackBar.body = BodyFactory.createBox(x+(304.0f/Level.PTM_RATIO), y+(86.0f/Level.PTM_RATIO),
-													8.0f/Level.PTM_RATIO, 43.0f/Level.PTM_RATIO, 0.15f, bodyType, world);
-		subObjects.add(boatBackBar);
-		boatBackBar.gameType = GameObjectType.PLATFORM;
-		boatBackBar.objectRepresentation.setTexture(Assets.atlas.findRegion("boatbackbar"));
-		boatBackBar.body.setUserData(boatBackBar);
-		boatBackBar.body.getFixtureList().get(0).setFilterData(filter);
-		JointFactory.weld(body, boatBackBar.body, body.getWorldCenter(), world);
-		massData.mass = boatBackBar.body.getMass() + body.getMass();
-		body.setMassData(massData);
-
-		Gdx.app.log("totalBoatMass", "" + body.getMass());
+		boatTex = Assets.atlas.findRegion("boatbody");
+		boatFrontTex = Assets.atlas.findRegion("boatfront");
+		boatFlagTex = Assets.atlas.findRegion("boatflag");
+		boatBackBarTex = Assets.atlas.findRegion("boatbackbar");
 	}
 
 	@Override
-	public void update() {
-		pos = body.getPosition();
-		rotation = body.getAngle() * 180.0f/(float) Math.PI;
+	public GameObject build(float x, float y, World world) {
+		GameObject boatObj = new GameObject(world);
 		
-		boatFront.pos = boatFront.body.getPosition();
-		boatFront.rotation = boatFront.body.getAngle() * 180.0f/(float) Math.PI;
+		filter.categoryBits = PhysicsObject.CATEGORY_OBJECT;
+		filter.maskBits = PhysicsObject.MASK_OBJECT;
 		
-		boatFlag.pos = boatFlag.body.getPosition();
-		boatFlag.rotation = boatFlag.body.getAngle() * 180.0f/(float) Math.PI;
+		boatObj.gameType = GameObjectType.PLATFORM;
+		boatObj.objectRepresentation.setTexture(boatTex);
+		y += boatObj.objectRepresentation.texture.getRegionHeight() / 2.0f / Level.PTM_RATIO;
 		
-		//boatNet.pos = boatNet.body.getPosition();
-		//boatNet.rotation = boatNet.body.getAngle() * 180.0f/(float) Math.PI;
+		int largestDimension = boatObj.objectRepresentation.getLargestDimension();
 		
-		boatBackBar.pos = boatBackBar.body.getPosition();
-		boatBackBar.rotation = boatBackBar.body.getAngle() * 180.0f/(float) Math.PI;
+		// Boat body
+		verts.clear();
+		verts.add(boatbodyVec1); verts.add(boatbodyVec2);
+		verts.add(boatbodyVec3); verts.add(boatbodyVec4);
+		
+		boatObj.body = BodyFactory.createPoly(verts, x, y, largestDimension / 2.0f / Level.PTM_RATIO, 1.0f, BodyType.DynamicBody, world);
+		boatObj.body.getFixtureList().get(0).setFilterData(filter);
+		boatObj.body.setUserData(boatObj);
+				
+		/*
+		 *  Start creation of boat sub objects 
+		 */
+		GameObject boatFrontObj = new GameObject(world);
+		GameObject boatFlagObj = new GameObject(world);
+		GameObject boatBackBarObj = new GameObject(world);
+		
+		// Create box2d bodies
+		verts.clear();
+		verts.add(boatfrontVec);
+		boatFrontObj.body = BodyFactory.createPoly(verts, x-(381.0f/Level.PTM_RATIO), y+(48.0f/Level.PTM_RATIO),
+				0.25f, 1.0f, BodyType.DynamicBody, world);
+		
+		verts.clear();
+		verts.add(boatflagVec1); verts.add(boatflagVec2);
+		boatFlagObj.body = BodyFactory.createPoly(verts, x+(237.0f/Level.PTM_RATIO), y+(185.0f/Level.PTM_RATIO),
+				0.25f, 1.0f, BodyType.DynamicBody, world);
+		
+		boatBackBarObj.body = BodyFactory.createBox(x+(304.0f/Level.PTM_RATIO), y+(86.0f/Level.PTM_RATIO),
+				8.0f/Level.PTM_RATIO, 43.0f/Level.PTM_RATIO,
+				0.15f, BodyType.DynamicBody, world);
+		
+		/* 
+		// Boat Net
+		verts.add(boatnetVec1); verts.add(boatnetVec2);
+		verts.add(boatnetVec3); verts.add(boatnetVec4);
+		*/
+		
+		// Set textures
+		boatFrontObj.objectRepresentation.setTexture(boatFrontTex);
+		boatFlagObj.objectRepresentation.setTexture(boatFlagTex);
+		boatBackBarObj.objectRepresentation.setTexture(boatBackBarTex);
+		
+		filter.categoryBits = PhysicsObject.CATEGORY_SUB_OBJECT;
+		filter.maskBits = PhysicsObject.MASK_SUB_OBJECT;
+		
+		boatObj.subObjects.add(boatFrontObj);
+		boatObj.subObjects.add(boatFlagObj);
+		boatObj.subObjects.add(boatBackBarObj);
+		
+		// Set GameObjectType, collision data, user data
+		for (int i = 0; i < boatObj.subObjects.size; i++) {
+			GameObject subObj = boatObj.subObjects.get(i);
+			subObj.gameType = GameObjectType.ROLLABLE;
+			subObj.body.getFixtureList().get(0).setFilterData(filter);
+			subObj.body.setUserData(subObj);
+			
+			JointFactory.weld(boatObj.body, subObj.body, boatObj.body.getWorldCenter(), world);
+			massData.mass = subObj.body.getMass() + boatObj.body.getMass();
+			boatObj.body.setMassData(massData);
+		}
+		
+		Gdx.app.log("boatMass", Float.toString(boatObj.body.getMass()));
+		
+		return boatObj;
+	}
+	
+	public void buildSubObjects() {
+		
 	}
 }

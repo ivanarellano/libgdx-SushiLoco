@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 public class BodyFactory {
 	public static Body createBody(float x, float y, BodyType bodyType, World b2world) {
@@ -20,7 +21,7 @@ public class BodyFactory {
 		return body;
 	}
 	
-	public static Body createPoly(float x, float y, float density, float friction, BodyType bodyType, World b2world, Vector2[]...vectorArray) {
+	public static Body createPoly(Array<Vector2[]> vertices, float x, float y, float density, float friction, BodyType bodyType, World b2world) {
 		Body body = createBody(x, y, bodyType, b2world);
 		
 		PolygonShape shape = new PolygonShape();
@@ -30,8 +31,8 @@ public class BodyFactory {
 		fd.friction = friction;
 		fd.shape = shape;
 		
-		for (Vector2[] vec : vectorArray) {
-			shape.set(vec);
+		for (int i = 0; i < vertices.size; i++) {
+			shape.set(vertices.get(i));
 			body.createFixture(fd);
 		}
 		

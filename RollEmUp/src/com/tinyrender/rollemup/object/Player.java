@@ -2,6 +2,7 @@ package com.tinyrender.rollemup.object;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -28,7 +29,7 @@ public class Player extends GameObject {
 	public PlayerController controller;
 	
 	public Array<GameObject> objectsToRoll = new Array<GameObject>(2);
-	public int stuffTillGrowth = 0;
+	//public int stuffTillGrowth = 0;
 	
 	public Player(World world) {
 		super(world);
@@ -36,7 +37,7 @@ public class Player extends GameObject {
 		float radius = (objectRepresentation.texture.getRegionWidth()/2.0f)*0.7f / Level.PTM_RATIO;
 
 		body = BodyFactory.createCircle(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius,
-										1.0f, 0.0f, 1.0f, false, BodyType.DynamicBody, world);
+										2.0f, 0.0f, 1.0f, false, BodyType.DynamicBody, world);
 		pos = body.getPosition();
 		gameType = GameObjectType.PLAYER;
 		playerShape = (CircleShape) body.getFixtureList().get(0).getShape();
@@ -66,13 +67,13 @@ public class Player extends GameObject {
 				numContacts++;
 
 				if (isRollable(otherObject)) {
-					stuffTillGrowth++;
+					//stuffTillGrowth++;
 					
 					objectsToRoll.add(otherObject);
 					mass += otherObject.body.getMass();
 					
 					//Gdx.app.log("stuffTillGrowth", Integer.toString(stuffTillGrowth));
-					//Gdx.app.log("playerSize", "new: "+ mass + "  other: " + otherObject.body.getMass());
+					Gdx.app.log("playerSize", "new: "+ mass + "  other: " + otherObject.body.getMass());
 				}
 			}
 			
@@ -87,11 +88,11 @@ public class Player extends GameObject {
 	public void update() {
 		vel = body.getLinearVelocity();
 		pos = body.getPosition();
-		rotation = body.getAngle()*180.0f/(float) Math.PI;
+		rotation = body.getAngle() * MathUtils.radiansToDegrees;
 		
 		if (isGrowing) {
 			if (mass >= growthGoal) {
-				stuffTillGrowth = 0;
+				//stuffTillGrowth = 0;
 				grow();
 				growthGoal = mass * growthScale;
 				
@@ -139,7 +140,7 @@ public class Player extends GameObject {
 		if (isJumping) {
 			isJumping = false;
 			if (sensor.isGrounded)
-				controller.jump(this, 10.0f);
+				controller.jump(this, 8.5f);
 		}
 	}
 	

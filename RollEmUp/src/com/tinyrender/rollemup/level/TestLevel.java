@@ -6,74 +6,80 @@ import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject.GameObjectType;
 import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.Settings;
+import com.tinyrender.rollemup.object.Boat;
 import com.tinyrender.rollemup.object.BoxObject;
 import com.tinyrender.rollemup.object.CircleObject;
 import com.tinyrender.rollemup.object.Ground;
 import com.tinyrender.rollemup.object.Player;
+import com.tinyrender.rollemup.object.SoySauce;
 
 public class TestLevel extends Level {
 	float newZoom = 1.0f;
-	TextureRegion boatBodyTex;
-	TextureRegion soySauceTex;
 	TextureRegion boxSushiTex;
 	TextureRegion circleSushiTex;
+	SoySauce soySauce;
+	Boat boat;
 	
 	public TestLevel() {
-		boatBodyTex = Assets.atlas.findRegion("boatbody");
-		soySauceTex = Assets.atlas.findRegion("soy");
+		player = new Player(b2world);
+		
+		levelTime = 3;
+		gui.timer.reset(levelTime);
+		gui.goalMeter.setTexture(player.objectRepresentation.texture);
+		
 		boxSushiTex = Assets.atlas.findRegion("boxsushi");
 		circleSushiTex = Assets.atlas.findRegion("circlesushi");
 		
-		player = new Player(b2world);
-		levelTime = 3;
-		
-		gui.timer.reset(levelTime);
-		gui.goalMeter.setTexture(player.objectRepresentation.texture);
+		soySauce = new SoySauce();
+		boat = new Boat();
 	}
 	
 	@Override
-	public void create() {		
+	public void create() {
 		new Ground(0.0f, 0.0f,
-				   (854.0f*9.0f) / Level.PTM_RATIO, 0.0f,
+				   (854.0f*11.0f) / Level.PTM_RATIO, 0.0f,
 				   0.4f, b2world);
 		new Ground(0.0f, 0.0f,
 				   0.0f, (480.0f*2.0f) / Level.PTM_RATIO,
 				   0.4f, b2world);
-		new Ground((854.0f*9.0f) / Level.PTM_RATIO, 0.0f,
-				   (854.0f*9.0f) / Level.PTM_RATIO, (480.0f*2.0f) / Level.PTM_RATIO,
+		new Ground((854.0f*11.0f) / Level.PTM_RATIO, 0.0f,
+				   (854.0f*11.0f) / Level.PTM_RATIO, (480.0f*2.0f) / Level.PTM_RATIO,
 				   0.4f, b2world);
-		
+				
 		// boxes
-		for (int i = 0; i < 62; i++) {
-			objects.add(new BoxObject((700.0f + (float)Math.random() * 6000.0f)/Level.PTM_RATIO,
-										((float)Math.random() * 100.0f + 100.0f)/Level.PTM_RATIO,
-										(boxSushiTex.getRegionWidth()/2.0f)/Level.PTM_RATIO,
-										GameObjectType.ROLLABLE,
-										boxSushiTex,
-										b2world));
+		for (int i = 0; i < 50; i++) {
+			objects.add(new BoxObject(boxSushiTex,
+									 ((float) Math.random() * 4000.0f + 700.0f) / Level.PTM_RATIO,
+									 ((float) Math.random() * 100.0f + 50.0f) / Level.PTM_RATIO,
+									 boxSushiTex.getRegionWidth()/2.0f / Level.PTM_RATIO,
+									 GameObjectType.ROLLABLE,
+									 b2world));
 		}
 
 		// circles
-		for (int i = 0; i < 63; i++) {
-			objects.add(new CircleObject((700.0f + (float)Math.random() * 6000f)/Level.PTM_RATIO, 
-										((float)Math.random() * 100.0f + 100.0f)/Level.PTM_RATIO,
-										(circleSushiTex.getRegionWidth()/2.0f)/Level.PTM_RATIO,
-										(float)(Math.random() * 2.0f * Math.PI),
+		for (int i = 0; i < 80; i++) {
+			objects.add(new CircleObject(circleSushiTex,
+										((float) Math.random() * 4000.0f + 700.0f) / Level.PTM_RATIO, 
+										((float) Math.random() * 100.0f + 50.0f) / Level.PTM_RATIO,
+										circleSushiTex.getRegionWidth()/2.0f / Level.PTM_RATIO,
+										(float) (Math.random() * 2.0f * Math.PI),
 										GameObjectType.ROLLABLE,
-										circleSushiTex,
 										b2world));
 		}
-		/*
-		objects.add(new SoySauce((2650.0f + (float)Math.random() * 400.0f) / Level.PTM_RATIO,
-									(soySauceTex.getRegionHeight()/2.0f) / Level.PTM_RATIO,
-									BodyType.DynamicBody,
-									b2world));
 		
-		objects.add(new Boat((1750.0f + (float)Math.random() * 200.0f) / Level.PTM_RATIO,
-				(boatBodyTex.getRegionWidth()/2.0f) / Level.PTM_RATIO,
-				BodyType.DynamicBody,
-				b2world));
-		*/
+		// soy bottles
+		float offsetX = 5500.0f;
+		for (int i = 0; i < 3; i++) {
+			objects.add(soySauce.build(offsetX / Level.PTM_RATIO, 0.0f, b2world));
+			offsetX += 250.0f;
+		}
+		
+		// boat
+		offsetX += 700.0f;
+		for (int i = 0; i < 2; i++) {
+			objects.add(boat.build(offsetX / Level.PTM_RATIO, 0.0f, b2world));
+			offsetX += 850.0f;
+		}
 	}
 	
 	@Override

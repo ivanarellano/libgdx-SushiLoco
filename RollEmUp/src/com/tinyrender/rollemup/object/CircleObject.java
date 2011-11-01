@@ -12,7 +12,7 @@ public class CircleObject extends GameObject {
 		super(world);
 	}
 	
-	public CircleObject(float x, float y, float density, float angle, GameObjectType gameObjectType, TextureRegion texture, World world) {
+	public CircleObject(TextureRegion texture, float x, float y, float density, float angle, GameObjectType gameObjectType, World world) {
 		super(world);
 		gameType = gameObjectType;
 		objectRepresentation.setTexture(texture);
@@ -21,11 +21,5 @@ public class CircleObject extends GameObject {
 		
 		body = BodyFactory.createCircle(x, y, radius, density, angle, 1.0f, false, BodyType.DynamicBody, world);
 		body.setUserData(this);
-	}
-
-	@Override
-	public void update() {
-		pos = body.getPosition();
-		rotation = body.getAngle() * 180.0f/(float) Math.PI;
 	}
 }
