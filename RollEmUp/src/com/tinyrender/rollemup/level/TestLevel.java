@@ -51,17 +51,17 @@ public class TestLevel extends Level {
 			objects.add(new BoxObject(boxSushiTex,
 									 ((float) Math.random() * 4000.0f + 700.0f) / Level.PTM_RATIO,
 									 ((float) Math.random() * 100.0f + 50.0f) / Level.PTM_RATIO,
-									 boxSushiTex.getRegionWidth()/2.0f / Level.PTM_RATIO,
+									 0.5f,
 									 GameObjectType.ROLLABLE,
 									 b2world));
 		}
 
 		// circles
-		for (int i = 0; i < 80; i++) {
+		for (int i = 0; i < 120; i++) {
 			objects.add(new CircleObject(circleSushiTex,
 										((float) Math.random() * 4000.0f + 700.0f) / Level.PTM_RATIO, 
 										((float) Math.random() * 100.0f + 50.0f) / Level.PTM_RATIO,
-										circleSushiTex.getRegionWidth()/2.0f / Level.PTM_RATIO,
+										0.3f,
 										(float) (Math.random() * 2.0f * Math.PI),
 										GameObjectType.ROLLABLE,
 										b2world));
