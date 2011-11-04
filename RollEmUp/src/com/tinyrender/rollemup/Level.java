@@ -8,6 +8,7 @@ import com.tinyrender.rollemup.object.Player;
 
 public abstract class Level extends PhysicsWorld implements LevelStateUpdater {
 	public int levelTime = 5;
+	public float newZoom = 1.0f;
 	public LevelGui gui;
 	public Player player;
 	public OrthographicCamera cam;

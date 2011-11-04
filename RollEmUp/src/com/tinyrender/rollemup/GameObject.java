@@ -11,18 +11,18 @@ public class GameObject extends PhysicsObject {
 		PLAYER, ROLLABLE, PLATFORM;
 	}
 	
-	public boolean isRolled = false;
-	public float rotation = 0.0f;
+	public float rotation;
 	public Vector2 pos;
 	public Vector2 vel;
 	
 	public GameObjectType gameType;
 	public GameObjectRepresentation objectRepresentation;
-	public Array<GameObject> subObjects = new Array<GameObject>();
+	public Array<GameObject> subObjects;
 	
 	public GameObject(World world) {
 		super(world);
 		objectRepresentation = new GameObjectRepresentation(this);
+		subObjects = new Array<GameObject>();
 		subObjects.shrink();
 	}
 	

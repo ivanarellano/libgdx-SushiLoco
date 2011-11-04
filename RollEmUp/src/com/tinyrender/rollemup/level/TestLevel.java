@@ -14,14 +14,13 @@ import com.tinyrender.rollemup.object.Player;
 import com.tinyrender.rollemup.object.SoySauce;
 
 public class TestLevel extends Level {
-	float newZoom = 1.0f;
 	TextureRegion boxSushiTex;
 	TextureRegion circleSushiTex;
 	SoySauce soySauce;
 	Boat boat;
 	
 	public TestLevel() {
-		player = new Player(b2world);
+		player = new Player(this, b2world); // ew
 		
 		levelTime = 3;
 		gui.timer.reset(levelTime);
@@ -38,47 +37,49 @@ public class TestLevel extends Level {
 	public void create() {
 		new Ground(0.0f, 0.0f,
 				   (854.0f*11.0f) / Level.PTM_RATIO, 0.0f,
-				   0.4f, b2world);
+				   1.0f, b2world);
 		new Ground(0.0f, 0.0f,
 				   0.0f, (480.0f*2.0f) / Level.PTM_RATIO,
-				   0.4f, b2world);
+				   1.0f, b2world);
 		new Ground((854.0f*11.0f) / Level.PTM_RATIO, 0.0f,
 				   (854.0f*11.0f) / Level.PTM_RATIO, (480.0f*2.0f) / Level.PTM_RATIO,
-				   0.4f, b2world);
-				
+				   1.0f, b2world);
+		
+		float offsetX = 0;
+		
+		// boat
+		offsetX += 1400.0f;
+		for (int i = 0; i < 2; i++) {
+			objects.add(boat.build(offsetX / Level.PTM_RATIO, 0.0f, b2world));
+			offsetX += 3400.0f;
+		}
+		
+		// soy bottles
+		offsetX = 2500.0f;
+		for (int i = 0; i < 4; i++) {
+			objects.add(soySauce.build(offsetX / Level.PTM_RATIO, 0.0f, b2world));
+			offsetX += 500.0f + (float) Math.random() * 2500.0f;
+		}
+		
 		// boxes
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 40; i++) {
 			objects.add(new BoxObject(boxSushiTex,
-									 ((float) Math.random() * 4000.0f + 700.0f) / Level.PTM_RATIO,
-									 ((float) Math.random() * 100.0f + 50.0f) / Level.PTM_RATIO,
-									 0.5f,
+									 ((float) Math.random() * 4200.0f + 600.0f) / Level.PTM_RATIO,
+									 ((float) Math.random() * 100.0f + 200.0f) / Level.PTM_RATIO,
+									 0.4f,
 									 GameObjectType.ROLLABLE,
 									 b2world));
 		}
 
 		// circles
-		for (int i = 0; i < 120; i++) {
+		for (int i = 0; i < 100; i++) {
 			objects.add(new CircleObject(circleSushiTex,
-										((float) Math.random() * 4000.0f + 700.0f) / Level.PTM_RATIO, 
-										((float) Math.random() * 100.0f + 50.0f) / Level.PTM_RATIO,
-										0.3f,
+										((float) Math.random() * 4200.0f + 600.0f) / Level.PTM_RATIO, 
+										((float) Math.random() * 100.0f + 200.0f) / Level.PTM_RATIO,
+										0.4f,
 										(float) (Math.random() * 2.0f * Math.PI),
 										GameObjectType.ROLLABLE,
 										b2world));
-		}
-		
-		// soy bottles
-		float offsetX = 5500.0f;
-		for (int i = 0; i < 3; i++) {
-			objects.add(soySauce.build(offsetX / Level.PTM_RATIO, 0.0f, b2world));
-			offsetX += 250.0f;
-		}
-		
-		// boat
-		offsetX += 700.0f;
-		for (int i = 0; i < 2; i++) {
-			objects.add(boat.build(offsetX / Level.PTM_RATIO, 0.0f, b2world));
-			offsetX += 850.0f;
 		}
 	}
 	
@@ -97,9 +98,9 @@ public class TestLevel extends Level {
 		
 		player.update();
 		for (int i = 0; i < player.subObjects.size; i++)
-			player.subObjects.get(i);
+			player.subObjects.get(i).update();
 				
-		gui.goalMeter.scale = player.mass * 0.12f;
+		gui.goalMeter.scale = player.mass * 0.01f;
 		
 		physicsStep(deltaTime);
 	}

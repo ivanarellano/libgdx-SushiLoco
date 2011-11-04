@@ -24,6 +24,7 @@ public class LevelRenderer {
 		Assets.batch.setProjectionMatrix(level.cam.combined);
 		Assets.batch.begin();
 		
+			// Draw level objects and their sub-objects.
 			for (int i = 0; i < level.objects.size; i++) {
 				level.objects.get(i).objectRepresentation.draw();
 
@@ -31,9 +32,15 @@ public class LevelRenderer {
 					level.objects.get(i).subObjects.get(j).objectRepresentation.draw();
 			}
 			
+			// Draw Player with attached objects and sub-objects.
 			level.player.objectRepresentation.draw();
-			for (int i = 0; i < level.player.subObjects.size; i++)
+			for (int i = 0; i < level.player.subObjects.size; i++) {
 				level.player.subObjects.get(i).objectRepresentation.draw();
+				
+				for (int j = 0; j < level.player.subObjects.get(i).subObjects.size; j++)
+					level.player.subObjects.get(i).subObjects.get(j).objectRepresentation.draw();
+			
+			}
 			
 		Assets.batch.end();
 		
