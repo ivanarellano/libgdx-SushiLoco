@@ -23,21 +23,20 @@ public class Player extends GameObject {
 	public boolean isGrowing = false;
 	public float mass;
 	float growthGoal;
-	float growthScale;
+	float growthScale = 1.27f;
 	float forceYOffset;
-	float timesGrown;
+	
+	public Level level;
 	CircleShape playerShape;
 	PlayerSensor sensor;
-	public PlayerController controller;
-	public Level level; // ew
 	
-	Array<GameObject> objectsToRoll;
-	public int numContacts;
-	//public int stuffTillGrowth = 0;
+	public PlayerController controller = new PlayerController(this);
+	Array<GameObject> objectsToRoll = new Array<GameObject>(2);
 	
 	public Player(Level level, World world) {
 		super(world);
 		this.level = level;
+		
 		objectRepresentation.setTexture(Assets.atlas.findRegion("player"));
 		float radius = (objectRepresentation.texture.getRegionWidth()/2.0f)*0.7f / Level.PTM_RATIO;
 
@@ -46,9 +45,9 @@ public class Player extends GameObject {
 		pos = body.getPosition();
 		gameType = GameObjectType.PLAYER;
 		playerShape = (CircleShape) body.getFixtureList().get(0).getShape();
-		mass = body.getMass();
 		body.setUserData(this);
 		
+		// Set collision attributes
 		Filter filter = new Filter();
 		filter.categoryBits = CATEGORY_PLAYER;
 		filter.maskBits = MASK_COLLIDE_ALL;
@@ -58,36 +57,19 @@ public class Player extends GameObject {
 		sensor = new PlayerSensor(pos.x, pos.y-(radius/3.0f), radius/1.35f, BodyType.DynamicBody, world);
 		JointFactory.revolute(body, sensor.body, pos.x, pos.y, world);
 		
-		growthScale = 1.27f;
-		growthGoal = mass * growthScale;
 		forceYOffset = -(playerShape.getRadius() / 3.0f) * growthScale;
-				
-		controller = new PlayerController(this);
-		objectsToRoll = new Array<GameObject>(2);
-		
+						
 		contactResolver = new ContactResolver() {
 			@Override
 			public void enterContact(PhysicsObject collidesWith) {
-				numContacts++;
 				GameObject otherObject = (GameObject) collidesWith.body.getUserData();
 				
-				//Gdx.app.log("contEnter", Integer.toString(numContacts));
-				if (isRollable(otherObject)) {
-					//stuffTillGrowth++;
-					
+				if (isRollable(otherObject)) {					
 					objectsToRoll.add(otherObject);
-					mass += otherObject.body.getMass();
-					
-					//Gdx.app.log("stuffTillGrowth", Integer.toString(stuffTillGrowth));
-					Gdx.app.log("otherMass", Float.toString(otherObject.body.getMass()));
 				}
 			}
 			
-			@Override
-			public void leaveContact(PhysicsObject leftCollisionWith) {
-				numContacts--;
-				//Gdx.app.log("contLeave", Integer.toString(numContacts));
-			}
+			@Override public void leaveContact(PhysicsObject leftCollisionWith) { }
 		};
 	}
 	
@@ -99,22 +81,7 @@ public class Player extends GameObject {
 		
 		if (isGrowing) {
 			if (mass >= growthGoal) {
-				//stuffTillGrowth = 0;
 				grow();
-				timesGrown++;
-				growthGoal = mass * growthScale;
-				
-				Gdx.app.log("grow!", "scale: "+ Float.toString(growthScale) + " _mass: " + Float.toString(mass) + " _goal: " + Float.toString(growthGoal));
-				
-				if (growthScale <= 1.0f)
-					growthScale = 1.27f;
-				
-				growthScale /= 1.01f;
-				
-				if (timesGrown % 3 == 0) {
-					level.newZoom += 0.375f;
-					Gdx.app.log("zoom", Float.toString(level.newZoom));
-				}
 				
 				isGrowing = false;
 			}
@@ -152,7 +119,7 @@ public class Player extends GameObject {
 		if (isJumping) {
 			isJumping = false;
 			if (sensor.isGrounded)
-				controller.jump(this, (mass*15.0f));
+				controller.jump(this, 10.0f);
 		}
 	}
 	

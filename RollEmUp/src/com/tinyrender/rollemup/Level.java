@@ -9,21 +9,17 @@ import com.tinyrender.rollemup.object.Player;
 public abstract class Level extends PhysicsWorld implements LevelStateUpdater {
 	public int levelTime = 5;
 	public float newZoom = 1.0f;
-	public LevelGui gui;
-	public Player player;
-	public OrthographicCamera cam;
-	public OrthographicCamera box2dcam;
-	
+	public LevelGui gui = new LevelGui();
+	public OrthographicCamera cam = new OrthographicCamera((float) RollEmUp.TARGET_WIDTH,
+														   (float) RollEmUp.TARGET_HEIGHT);
+	public OrthographicCamera box2dcam = new OrthographicCamera((float) RollEmUp.TARGET_WIDTH/Level.PTM_RATIO,
+																(float) RollEmUp.TARGET_HEIGHT/Level.PTM_RATIO);
 	public Array<GameObject> objects = new Array<GameObject>(150);
+	public Player player;
 
 	public Level() {
-		cam = new OrthographicCamera((float)RollEmUp.TARGET_WIDTH, (float)RollEmUp.TARGET_HEIGHT);
-		cam.setToOrtho(false, (float)RollEmUp.TARGET_WIDTH, (float)RollEmUp.TARGET_HEIGHT);
-		
-		box2dcam = new OrthographicCamera((float)RollEmUp.TARGET_WIDTH/Level.PTM_RATIO, (float)RollEmUp.TARGET_HEIGHT/Level.PTM_RATIO);
-		box2dcam.setToOrtho(false, (float)RollEmUp.TARGET_WIDTH/Level.PTM_RATIO, (float)RollEmUp.TARGET_HEIGHT/Level.PTM_RATIO);
-		
-		gui = new LevelGui();
+		cam.setToOrtho(false, (float) RollEmUp.TARGET_WIDTH, (float) RollEmUp.TARGET_HEIGHT);		
+		box2dcam.setToOrtho(false, (float) RollEmUp.TARGET_WIDTH/Level.PTM_RATIO, (float) RollEmUp.TARGET_HEIGHT/Level.PTM_RATIO);		
 	}
 	
 	public abstract void create();

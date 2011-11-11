@@ -16,17 +16,14 @@ import com.tinyrender.rollemup.object.Player;
 
 public class PlayerController implements Controller {
 	Player player;
-	Filter filter;
 	Fixture fixture;
 	Shape.Type shapeType;
-	Vector2 vecPosOffset;
-	MassData massData;
+	Filter filter = new Filter();
+	Vector2 vecPosOffset = new Vector2();
+	MassData massData = new MassData();
 	
 	public PlayerController(Player player) {
 		this.player = player;
-		vecPosOffset = new Vector2();
-		massData = new MassData();
-		filter = new Filter();
 		filter.maskBits = GameObject.MASK_NO_COLLISION;
 	}
 	
@@ -34,8 +31,6 @@ public class PlayerController implements Controller {
 		player.level.objects.removeValue(other, true);
 		player.subObjects.add(other);
 		
-		//other.body.setAngularVelocity(0.0f);
-
 		if (other.joint != null)
 			world.destroyJoint(other.joint);
 		

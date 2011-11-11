@@ -7,11 +7,10 @@ import com.tinyrender.rollemup.screen.PlayScreen;
 
 public class LevelRenderer {
 	public Level level;
-	public Box2DDebugRenderer renderer;
+	public Box2DDebugRenderer renderer = new Box2DDebugRenderer();
 	
 	public LevelRenderer(PlayScreen screen) {
 		level = screen.level;
-		renderer = new Box2DDebugRenderer();
 		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	}
 	
