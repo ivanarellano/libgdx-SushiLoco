@@ -1,6 +1,5 @@
 package com.tinyrender.rollemup.object;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -96,34 +95,26 @@ public class Boat implements ObjectFactory {
 		new Vector2(21.2f / Level.PTM_RATIO, -153.8f / Level.PTM_RATIO)		// 10
 	};
 	
-	Array<Vector2[]> verts;
-	TextureRegion boatTex;
-	TextureRegion boatFrontTex;
-	TextureRegion boatFlagTex;
-	TextureRegion boatBackBarTex;
-	Filter filter;
-	//MassData massData;
 	float totalMass = 0.0f;
 	
-	public Boat() {
-		verts = new Array<Vector2[]>();
-		filter = new Filter();
-		//massData = new MassData();
-		
-		boatTex = Assets.atlas.findRegion("boatbody");
-		boatFrontTex = Assets.atlas.findRegion("boatfront");
-		boatFlagTex = Assets.atlas.findRegion("boatflag");
-		boatBackBarTex = Assets.atlas.findRegion("boatbackbar");
-	}
-
+	Array<Vector2[]> verts = new Array<Vector2[]>();
+	Filter filter = new Filter();
+	
+	TextureRegion boatTex = Assets.atlas.findRegion("boatbody");
+	TextureRegion boatFrontTex = Assets.atlas.findRegion("boatfront");
+	TextureRegion boatFlagTex = Assets.atlas.findRegion("boatflag");
+	TextureRegion boatBackBarTex = Assets.atlas.findRegion("boatbackbar");
+	
 	@Override
 	public GameObject build(float x, float y, World world) {
 		GameObject boatObj = new GameObject(world);
 		
+		boatObj.size = 4;
+		
 		filter.categoryBits = PhysicsObject.CATEGORY_OBJECT;
 		filter.maskBits = PhysicsObject.MASK_OBJECT;
 		
-		boatObj.gameType = GameObjectType.ROLLABLE;
+		boatObj.gameObjType = GameObjectType.ROLLABLE;
 		boatObj.objectRepresentation.setTexture(boatTex);
 		y += boatObj.objectRepresentation.texture.getRegionHeight() / 2.0f / Level.PTM_RATIO;
 				
@@ -179,16 +170,18 @@ public class Boat implements ObjectFactory {
 		// Set GameObjectType, collision data, user data
 		for (int i = 0; i < boatObj.subObjects.size; i++) {
 			GameObject subObj = boatObj.subObjects.get(i);
-			subObj.gameType = GameObjectType.ROLLABLE;
+			
+			subObj.size = 2;
+			subObj.gameObjType = GameObjectType.ROLLABLE;
 			subObj.body.getFixtureList().get(0).setFilterData(filter);
 			subObj.body.setUserData(subObj);
 			
 			subObj.joint = JointFactory.weld(boatObj.body, subObj.body, boatObj.body.getWorldCenter(), world);
-			totalMass += subObj.body.getMass() + boatObj.body.getMass();
-			//boatObj.body.setMassData(massData);
+			
+			totalMass += subObj.body.getMass() + boatObj.body.getMass(); // TODO: convert box2d mass to game score
 		}
 		
-		Gdx.app.log("boatMass", Float.toString(boatObj.body.getMass()));
+		//Gdx.app.log("boatMass", Float.toString(boatObj.body.getMass()));
 		
 		return boatObj;
 	}

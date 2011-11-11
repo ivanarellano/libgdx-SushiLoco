@@ -11,32 +11,33 @@ public class GameObject extends PhysicsObject {
 		PLAYER, ROLLABLE, PLATFORM;
 	}
 	
-	public float rotation;
+	public int score;
+	public int size;
+	public float rot;
 	public Vector2 pos;
 	public Vector2 vel;
 	
-	public GameObjectType gameType;
-	public GameObjectRepresentation objectRepresentation;
-	public Array<GameObject> subObjects;
+	public GameObjectType gameObjType;
+	public GameObjectRepresentation objectRepresentation = new GameObjectRepresentation(this);
+	public Array<GameObject> subObjects = new Array<GameObject>();
 	
 	public GameObject(World world) {
 		super(world);
-		objectRepresentation = new GameObjectRepresentation(this);
-		subObjects = new Array<GameObject>();
 		subObjects.shrink();
 	}
 	
 	public GameObjectType getType() {
-		return gameType;
+		return gameObjType;
 	}
 
-	@Override public void update() {
+	@Override
+	public void update() {
 		pos = body.getPosition();
-		rotation = body.getAngle() * MathUtils.radiansToDegrees;
+		rot = body.getAngle() * MathUtils.radiansToDegrees;
 		
 		for (int i = 0; i < subObjects.size; i++) {
 			subObjects.get(i).pos = subObjects.get(i).body.getPosition();
-			subObjects.get(i).rotation = subObjects.get(i).body.getAngle() * MathUtils.radiansToDegrees;
+			subObjects.get(i).rot = subObjects.get(i).body.getAngle() * MathUtils.radiansToDegrees;
 		}
 	}
 }

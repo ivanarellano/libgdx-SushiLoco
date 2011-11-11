@@ -19,9 +19,8 @@ import com.tinyrender.rollemup.controller.PlayerController;
 public class Player extends GameObject {	
 	final static float MAX_VELOCITY = 7.0f;
 
-	public boolean isJumping = false;
-	public boolean isGrowing = false;
-	public float mass;
+	public boolean isJumping;
+	public boolean isGrowing;
 	float growthGoal;
 	float growthScale = 1.27f;
 	float forceYOffset;
@@ -36,14 +35,15 @@ public class Player extends GameObject {
 	public Player(Level level, World world) {
 		super(world);
 		this.level = level;
-		
+		size = 1;
+				
 		objectRepresentation.setTexture(Assets.atlas.findRegion("player"));
 		float radius = (objectRepresentation.texture.getRegionWidth()/2.0f)*0.7f / Level.PTM_RATIO;
 
 		body = BodyFactory.createCircle(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius,
 										0.8f, 0.0f, 1.0f, false, BodyType.DynamicBody, world);
 		pos = body.getPosition();
-		gameType = GameObjectType.PLAYER;
+		gameObjType = GameObjectType.PLAYER;
 		playerShape = (CircleShape) body.getFixtureList().get(0).getShape();
 		body.setUserData(this);
 		
@@ -75,27 +75,29 @@ public class Player extends GameObject {
 	
 	@Override
 	public void update() {
-		vel = body.getLinearVelocity();
 		pos = body.getPosition();
-		rotation = body.getAngle() * MathUtils.radiansToDegrees;
-		
+		vel = body.getLinearVelocity();
+		rot = body.getAngle() * MathUtils.radiansToDegrees;
+		/*
 		if (isGrowing) {
-			if (mass >= growthGoal) {
+			if (score >= growthGoal) {
 				grow();
 				
 				isGrowing = false;
 			}
 		}
-		
+		*/
 		// Desktop player controls
 		if (Gdx.input.isKeyPressed(Keys.A))
-			body.applyForceToCenter(-40.0f * body.getMass(), forceYOffset);
+			body.applyForceToCenter(-40.0f, forceYOffset);
 		else if (Gdx.input.isKeyPressed(Keys.D))
-			body.applyForceToCenter(40.0f * body.getMass(), forceYOffset);
+			body.applyForceToCenter(40.0f, forceYOffset);
 				
 		// Stick newly rolled objects
-		for (int i = 0; i < objectsToRoll.size; i++)
+		for (int i = 0; i < objectsToRoll.size; i++) {
+			isGrowing = true;
 			controller.rollObject(objectsToRoll.pop(), world);
+		}
 		
 		// Set X velocity to MAX if we're going too fast
 		if (Math.abs(vel.x) > MAX_VELOCITY) {			
@@ -106,14 +108,14 @@ public class Player extends GameObject {
 		// Apply force when tilted, otherwise dampen down acceleration to stop
 		if ((Gdx.input.getAccelerometerY() <= -0.35f && vel.x > -MAX_VELOCITY) ||
 				Gdx.input.getAccelerometerY() >= 0.35f && vel.x < MAX_VELOCITY) {
-			body.applyForceToCenter(Gdx.input.getAccelerometerY()*0.55f * mass, forceYOffset);
+			body.applyForceToCenter(Gdx.input.getAccelerometerY()*0.55f, forceYOffset);
 		} else {
 			body.setLinearVelocity(vel.x * 0.9f, vel.y);
 		}
 		
 		// Regain momentum with small impulse
 		if (vel.x < MAX_VELOCITY/4.0f || vel.x > -MAX_VELOCITY/4.0f)
-			body.applyLinearImpulse(Gdx.input.getAccelerometerY()*0.1f * mass, 0.0f, pos.x, pos.y);
+			body.applyLinearImpulse(Gdx.input.getAccelerometerY()*0.1f, 0.0f, pos.x, pos.y);
  		
 		// Jump
 		if (isJumping) {
@@ -130,11 +132,10 @@ public class Player extends GameObject {
 		controller.scaleCircle(sensor, growthScale, 0.0f, sensorYOffset);
 	}
 	
-	public boolean isRollable(GameObject obj) {
-		if (obj.getType().equals(GameObjectType.ROLLABLE))
-			if (obj.body.getMass() < mass)
+	public boolean isRollable(GameObject otherObj) {
+		if (otherObj.getType().equals(GameObjectType.ROLLABLE))
+			if (otherObj.size <= this.size)
 				return true;
-		
 		return false;
 	}
 }

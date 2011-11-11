@@ -2,6 +2,7 @@ package com.tinyrender.rollemup.level;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject.GameObjectType;
 import com.tinyrender.rollemup.Level;
@@ -59,7 +60,7 @@ public class TestLevel extends Level {
 			objects.add(new BoxObject(boxSushiTex,
 									 ((float) Math.random() * 4200.0f + 600.0f) / Level.PTM_RATIO,
 									 ((float) Math.random() * 100.0f + 200.0f) / Level.PTM_RATIO,
-									 0.4f,
+									 0.4f, 1, 1,
 									 GameObjectType.ROLLABLE,
 									 b2world));
 		}
@@ -69,8 +70,9 @@ public class TestLevel extends Level {
 			objects.add(new CircleObject(circleSushiTex,
 										((float) Math.random() * 4200.0f + 600.0f) / Level.PTM_RATIO, 
 										((float) Math.random() * 100.0f + 200.0f) / Level.PTM_RATIO,
+										(float) (Math.random() * 2.0f * MathUtils.PI),
 										0.4f,
-										(float) (Math.random() * 2.0f * Math.PI),
+										1, 1,
 										GameObjectType.ROLLABLE,
 										b2world));
 		}
@@ -93,7 +95,7 @@ public class TestLevel extends Level {
 		for (int i = 0; i < player.subObjects.size; i++)
 			player.subObjects.get(i).update();
 				
-		gui.goalMeter.scale = player.mass * 0.01f;
+		gui.goalMeter.scale = player.score * 0.5f;
 		
 		physicsStep(deltaTime);
 	}

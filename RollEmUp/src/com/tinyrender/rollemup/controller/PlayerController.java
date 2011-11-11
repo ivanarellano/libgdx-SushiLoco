@@ -51,8 +51,6 @@ public class PlayerController implements Controller {
 		}
 
 		player.body.resetMassData();
-		
-		player.isGrowing = true;
 	}
 
 	@Override
