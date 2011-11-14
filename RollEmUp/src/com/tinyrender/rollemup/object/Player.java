@@ -3,6 +3,7 @@ package com.tinyrender.rollemup.object;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -25,32 +26,37 @@ public class Player extends GameObject {
 	float growthScale = 1.27f;
 	float forceYOffset;
 	
+	public Vector2 vel = new Vector2();
+	
 	public Level level;
 	CircleShape playerShape;
 	PlayerSensor sensor;
 	
 	public PlayerController controller = new PlayerController(this);
-	Array<GameObject> objectsToRoll = new Array<GameObject>(2);
+	public Array<GameObject> objectsToRoll = new Array<GameObject>(2);
+	public Array<GameObject> objectsRolled = new Array<GameObject>();
 	
 	public Player(Level level, World world) {
 		super(world);
 		this.level = level;
+		
 		size = 1;
-				
-		objectRepresentation.setTexture(Assets.atlas.findRegion("player"));
-		float radius = (objectRepresentation.texture.getRegionWidth()/2.0f)*0.7f / Level.PTM_RATIO;
+		gameObjType = GameObjectType.PLAYER;
+		
+		objRep.setTexture(Assets.atlas.findRegion("player"));
+		float radius = (objRep.width/2.0f) * 0.7f / Level.PTM_RATIO;
 
 		body = BodyFactory.createCircle(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius,
 										0.8f, 0.0f, 1.0f, false, BodyType.DynamicBody, world);
+		
 		pos = body.getPosition();
-		gameObjType = GameObjectType.PLAYER;
 		playerShape = (CircleShape) body.getFixtureList().get(0).getShape();
 		body.setUserData(this);
 		
 		// Set collision attributes
 		Filter filter = new Filter();
-		filter.categoryBits = CATEGORY_PLAYER;
-		filter.maskBits = MASK_COLLIDE_ALL;
+		filter.categoryBits = PhysicsObject.CATEGORY_PLAYER;
+		filter.maskBits = PhysicsObject.MASK_COLLIDE_ALL;
 		body.getFixtureList().get(0).setFilterData(filter);
 		
 		// Add sensor to player body
@@ -64,9 +70,8 @@ public class Player extends GameObject {
 			public void enterContact(PhysicsObject collidesWith) {
 				GameObject otherObject = (GameObject) collidesWith.body.getUserData();
 				
-				if (isRollable(otherObject)) {					
+				if (isRollable(otherObject))			
 					objectsToRoll.add(otherObject);
-				}
 			}
 			
 			@Override public void leaveContact(PhysicsObject leftCollisionWith) { }
@@ -75,9 +80,10 @@ public class Player extends GameObject {
 	
 	@Override
 	public void update() {
-		pos = body.getPosition();
 		vel = body.getLinearVelocity();
+		pos = body.getPosition();
 		rot = body.getAngle() * MathUtils.radiansToDegrees;
+		
 		/*
 		if (isGrowing) {
 			if (score >= growthGoal) {
@@ -87,12 +93,13 @@ public class Player extends GameObject {
 			}
 		}
 		*/
+		
 		// Desktop player controls
 		if (Gdx.input.isKeyPressed(Keys.A))
 			body.applyForceToCenter(-40.0f, forceYOffset);
 		else if (Gdx.input.isKeyPressed(Keys.D))
 			body.applyForceToCenter(40.0f, forceYOffset);
-				
+
 		// Stick newly rolled objects
 		for (int i = 0; i < objectsToRoll.size; i++) {
 			isGrowing = true;
@@ -115,13 +122,13 @@ public class Player extends GameObject {
 		
 		// Regain momentum with small impulse
 		if (vel.x < MAX_VELOCITY/4.0f || vel.x > -MAX_VELOCITY/4.0f)
-			body.applyLinearImpulse(Gdx.input.getAccelerometerY()*0.1f, 0.0f, pos.x, pos.y);
+			body.applyLinearImpulse(Gdx.input.getAccelerometerY() * 0.1f, 0.0f, pos.x, pos.y);
  		
 		// Jump
 		if (isJumping) {
 			isJumping = false;
 			if (sensor.isGrounded)
-				controller.jump(this, 10.0f);
+				controller.jump(this, 15.0f);
 		}
 	}
 	

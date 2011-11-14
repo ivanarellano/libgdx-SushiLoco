@@ -17,9 +17,9 @@ public class CircleObject extends GameObject {
 		super(world);
 		
 		this.gameObjType = gameObjType;
-		objectRepresentation.setTexture(texture);
+		objRep.setTexture(texture);
 		
-		float radius = objectRepresentation.width / 2.0f / Level.PTM_RATIO;
+		float radius = objRep.width / 2.0f / Level.PTM_RATIO;
 		
 		body = BodyFactory.createCircle(x, y, radius, density, angle, 1.0f, false, BodyType.DynamicBody, world);
 		body.setUserData(this);

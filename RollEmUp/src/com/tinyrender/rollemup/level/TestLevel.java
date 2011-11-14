@@ -15,16 +15,16 @@ import com.tinyrender.rollemup.object.Player;
 import com.tinyrender.rollemup.object.SoySauce;
 
 public class TestLevel extends Level {
+	Boat boat = new Boat();
+	SoySauce soySauce = new SoySauce();
 	TextureRegion boxSushiTex = Assets.atlas.findRegion("boxsushi");
 	TextureRegion circleSushiTex = Assets.atlas.findRegion("circlesushi");
-	SoySauce soySauce = new SoySauce();
-	Boat boat = new Boat();
 	
 	public TestLevel() {
 		player = new Player(this, b2world);
 		levelTime = 3;
 		gui.timer.reset(levelTime);
-		gui.goalMeter.setTexture(player.objectRepresentation.texture);
+		gui.goalMeter.setTexture(player.objRep.texture);
 	}
 	
 	@Override
@@ -92,8 +92,8 @@ public class TestLevel extends Level {
 			objects.get(i).update();
 		
 		player.update();
-		for (int i = 0; i < player.subObjects.size; i++)
-			player.subObjects.get(i).update();
+		for (int i = 0; i < player.subObj.size; i++)
+			player.subObj.get(i).update();
 				
 		gui.goalMeter.scale = player.score * 0.5f;
 		

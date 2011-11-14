@@ -8,36 +8,46 @@ import com.tinyrender.rollemup.box2d.PhysicsObject;
 
 public class GameObject extends PhysicsObject {
 	public enum GameObjectType {
-		PLAYER, ROLLABLE, PLATFORM;
+		PLAYER, ROLLABLE, STATIC;
 	}
 	
+	public boolean rolled;
 	public int score;
 	public int size;
-	public float rot;
-	public Vector2 pos;
-	public Vector2 vel;
-	
 	public GameObjectType gameObjType;
-	public GameObjectRepresentation objectRepresentation = new GameObjectRepresentation(this);
-	public Array<GameObject> subObjects = new Array<GameObject>();
+	public GameObjectRepresentation objRep = new GameObjectRepresentation(this);
+	public float rot;
+	public Vector2 pos = new Vector2();
+	
+	public Array<GameObject> subObj = new Array<GameObject>();
 	
 	public GameObject(World world) {
 		super(world);
-		subObjects.shrink();
+		subObj.shrink();
 	}
 	
 	public GameObjectType getType() {
 		return gameObjType;
 	}
 
-	@Override
 	public void update() {
-		pos = body.getPosition();
-		rot = body.getAngle() * MathUtils.radiansToDegrees;
-		
-		for (int i = 0; i < subObjects.size; i++) {
-			subObjects.get(i).pos = subObjects.get(i).body.getPosition();
-			subObjects.get(i).rot = subObjects.get(i).body.getAngle() * MathUtils.radiansToDegrees;
+		if (rolled) {			
+			pos = body.getPosition();
+			rot = body.getAngle() * MathUtils.radiansToDegrees;
+				
+			for (int i = 0; i < subObj.size; i++) {
+				subObj.get(i).pos = subObj.get(i).body.getPosition();
+				subObj.get(i).rot = subObj.get(i).body.getAngle() * MathUtils.radiansToDegrees;
+			}
+			
+		} else {
+			pos = body.getPosition();
+			rot = body.getAngle() * MathUtils.radiansToDegrees;
+				
+			for (int i = 0; i < subObj.size; i++) {
+				subObj.get(i).pos = subObj.get(i).body.getPosition();
+				subObj.get(i).rot = subObj.get(i).body.getAngle() * MathUtils.radiansToDegrees;
+			}
 		}
 	}
 }

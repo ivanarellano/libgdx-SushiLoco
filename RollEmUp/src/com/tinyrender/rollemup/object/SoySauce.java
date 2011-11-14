@@ -60,11 +60,12 @@ public class SoySauce implements ObjectFactory {
 		GameObject soyObj = new GameObject(world);
 		
 		soyObj.gameObjType = GameObjectType.ROLLABLE;
-		soyObj.objectRepresentation.setTexture(texture);
+		soyObj.objRep.setTexture(texture);
 		
-		y += soyObj.objectRepresentation.texture.getRegionHeight() / 2.0f / Level.PTM_RATIO;
+		y += soyObj.objRep.texture.getRegionHeight() / 2.0f / Level.PTM_RATIO;
 				
-		soyObj.body = BodyFactory.createPoly(verts, x, y, 1.5f, 1.0f, BodyType.DynamicBody, soyObj.world);
+		soyObj.body = BodyFactory.createPoly(verts, x, y,
+				1.5f, 1.0f, BodyType.DynamicBody, soyObj.world);
 		soyObj.body.setUserData(soyObj);
 		
 		//Gdx.app.log("soyMass", Float.toString(soyObj.body.getMass()));

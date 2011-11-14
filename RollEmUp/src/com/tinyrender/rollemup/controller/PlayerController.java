@@ -24,32 +24,28 @@ public class PlayerController implements Controller {
 	
 	public PlayerController(Player player) {
 		this.player = player;
-		filter.maskBits = GameObject.MASK_NO_COLLISION;
+		filter.maskBits = PhysicsObject.MASK_NO_COLLISION;
 	}
 	
 	public void rollObject(GameObject other, World world) {
-		player.level.objects.removeValue(other, true);
-		player.subObjects.add(other);
+		// Move rolled object from level's list to player's
+		player.level.objects.removeValue(other, true); // TODO: O(N) linear
+		player.subObj.add(other);
 		
+		// Destroy rolled object's joint
 		if (other.joint != null)
 			world.destroyJoint(other.joint);
 		
-		other.joint = JointFactory.weld(player.body, other.body, player.pos.x, player.pos.y, player.world);
+		// Connect rolled object with player
+		other.joint = JointFactory.weld(player.body, other.body, 
+				player.pos.x, player.pos.y, player.world);
 		
+		// Set rolled object's collision detection to none
 		for (int i = 0; i < other.body.getFixtureList().size(); i++)
 			other.body.getFixtureList().get(i).setFilterData(filter);
-		
-		for (int i = 0; i < other.subObjects.size; i++) {
-			if (other.subObjects.get(i).joint != null)
-				world.destroyJoint(other.subObjects.get(i).joint);
-			
-			other.subObjects.get(i).joint = JointFactory.weld(player.body, other.subObjects.get(i).body,
-					player.pos.x, player.pos.y, player.world);
-			
-			for (int j = 0; j < other.subObjects.get(i).body.getFixtureList().size(); j++)
-				other.subObjects.get(i).body.getFixtureList().get(j).setFilterData(filter);
-		}
 
+		other.rolled = true;
+		
 		player.body.resetMassData();
 	}
 

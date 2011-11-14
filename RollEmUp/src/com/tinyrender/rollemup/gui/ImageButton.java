@@ -10,18 +10,18 @@ public class ImageButton extends ObjectRepresentation {
 	public ImageButton(TextureRegion texture) {
 		button = new Button();
 		setTexture(texture);
-		x = y = 0.0f;
+		pos.x = pos.y = 0.0f;
 	}
 	
 	public void setPosition(float x, float y) {
-		this.x = x;
-		this.y = y;
+		this.pos.x = x;
+		this.pos.y = y;
 		button.setBounds(x, y, this.width, this.height);
 	}
 	
 	public void replaceTexture(TextureRegion texture) {
 		setTexture(texture);
-		setPosition(this.x, this.y);
+		setPosition(this.pos.x, this.pos.y);
 	}
 	
 	public boolean justHit(Vector3 touchPoint) {

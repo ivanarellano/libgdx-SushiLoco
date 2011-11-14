@@ -115,8 +115,8 @@ public class Boat implements ObjectFactory {
 		filter.maskBits = PhysicsObject.MASK_OBJECT;
 		
 		boatObj.gameObjType = GameObjectType.ROLLABLE;
-		boatObj.objectRepresentation.setTexture(boatTex);
-		y += boatObj.objectRepresentation.texture.getRegionHeight() / 2.0f / Level.PTM_RATIO;
+		boatObj.objRep.setTexture(boatTex);
+		y += boatObj.objRep.texture.getRegionHeight() / 2.0f / Level.PTM_RATIO;
 				
 		// Boat body
 		verts.clear();
@@ -137,13 +137,13 @@ public class Boat implements ObjectFactory {
 		// Create box2d bodies
 		verts.clear();
 		verts.add(boatfrontVec);
-		boatFrontObj.body = BodyFactory.createPoly(verts, x-(381.0f/Level.PTM_RATIO), y+(48.0f/Level.PTM_RATIO),
-				1.1f, 1.0f, BodyType.DynamicBody, world);
+		boatFrontObj.body = BodyFactory.createPoly(verts,
+				x-(381.0f/Level.PTM_RATIO), y+(48.0f/Level.PTM_RATIO), 1.1f, 1.0f, BodyType.DynamicBody, world);
 		
 		verts.clear();
 		verts.add(boatflagVec1); verts.add(boatflagVec2);
-		boatFlagObj.body = BodyFactory.createPoly(verts, x+(237.0f/Level.PTM_RATIO), y+(185.0f/Level.PTM_RATIO),
-				1.1f, 1.0f, BodyType.DynamicBody, world);
+		boatFlagObj.body = BodyFactory.createPoly(verts,
+				x+(237.0f/Level.PTM_RATIO), y+(185.0f/Level.PTM_RATIO), 1.1f, 1.0f, BodyType.DynamicBody, world);
 		
 		boatBackBarObj.body = BodyFactory.createBox(x+(304.0f/Level.PTM_RATIO), y+(86.0f/Level.PTM_RATIO),
 				8.0f/Level.PTM_RATIO, 43.0f/Level.PTM_RATIO,
@@ -156,27 +156,28 @@ public class Boat implements ObjectFactory {
 		*/
 		
 		// Set textures
-		boatFrontObj.objectRepresentation.setTexture(boatFrontTex);
-		boatFlagObj.objectRepresentation.setTexture(boatFlagTex);
-		boatBackBarObj.objectRepresentation.setTexture(boatBackBarTex);
+		boatFrontObj.objRep.setTexture(boatFrontTex);
+		boatFlagObj.objRep.setTexture(boatFlagTex);
+		boatBackBarObj.objRep.setTexture(boatBackBarTex);
 		
 		filter.categoryBits = PhysicsObject.CATEGORY_SUB_OBJECT;
 		filter.maskBits = PhysicsObject.MASK_SUB_OBJECT;
 		
-		boatObj.subObjects.add(boatFrontObj);
-		boatObj.subObjects.add(boatFlagObj);
-		boatObj.subObjects.add(boatBackBarObj);
+		boatObj.subObj.add(boatFrontObj);
+		boatObj.subObj.add(boatFlagObj);
+		boatObj.subObj.add(boatBackBarObj);
 		
 		// Set GameObjectType, collision data, user data
-		for (int i = 0; i < boatObj.subObjects.size; i++) {
-			GameObject subObj = boatObj.subObjects.get(i);
+		for (int i = 0; i < boatObj.subObj.size; i++) {
+			GameObject subObj = boatObj.subObj.get(i);
 			
 			subObj.size = 2;
 			subObj.gameObjType = GameObjectType.ROLLABLE;
 			subObj.body.getFixtureList().get(0).setFilterData(filter);
 			subObj.body.setUserData(subObj);
 			
-			subObj.joint = JointFactory.weld(boatObj.body, subObj.body, boatObj.body.getWorldCenter(), world);
+			subObj.joint = JointFactory.weld(boatObj.body, subObj.body,
+					boatObj.body.getWorldCenter(), world);
 			
 			totalMass += subObj.body.getMass() + boatObj.body.getMass(); // TODO: convert box2d mass to game score
 		}

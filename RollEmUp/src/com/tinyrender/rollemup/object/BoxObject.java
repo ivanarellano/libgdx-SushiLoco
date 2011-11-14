@@ -17,10 +17,10 @@ public class BoxObject extends GameObject {
 		super(world);
 		
 		this.gameObjType = gameObjType;
-		objectRepresentation.setTexture(texture);
+		objRep.setTexture(texture);
 		
-		float hx = objectRepresentation.width / 2.0f / Level.PTM_RATIO;
-		float hy = objectRepresentation.height / 2.0f / Level.PTM_RATIO;
+		float hx = objRep.width / 2.0f / Level.PTM_RATIO;
+		float hy = objRep.height / 2.0f / Level.PTM_RATIO;
 		
 		body = BodyFactory.createBox(x, y, hx, hy, density, BodyType.DynamicBody, world);
 		body.setUserData(this);

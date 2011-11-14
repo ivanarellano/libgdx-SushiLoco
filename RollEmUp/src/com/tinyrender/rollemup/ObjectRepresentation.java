@@ -18,7 +18,7 @@ public class ObjectRepresentation extends Renderable {
 	@Override
 	public void draw() {
 		// SpriteBatch.draw(textureRegion, x, y, width, height)
-		Assets.batch.draw(texture, x, y, width, height);
+		Assets.batch.draw(texture, pos.x, pos.y, width, height);
 	}
 	
 	public int getLargestDimension() {
