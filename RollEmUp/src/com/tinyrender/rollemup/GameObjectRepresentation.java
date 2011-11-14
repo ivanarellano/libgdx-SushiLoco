@@ -12,17 +12,17 @@ public class GameObjectRepresentation extends ObjectRepresentation {
 		// SpriteBatch.draw(textureRegion, x, y, originX, originY, width, height, scaleX, scaleY, rotation)
 		if (gameObj.rolled) {
 			Assets.batch.draw(texture, 
-					gameObj.pos.x * Level.PTM_RATIO,
-					gameObj.pos.y * Level.PTM_RATIO,
-					width/2.0f, height/2.0f,
+					gameObj.pos.x - halfWidth,
+					gameObj.pos.y - halfHeight,
+					halfWidth, halfHeight,
 					width, height,
 					1.0f, 1.0f,
 					gameObj.rot);
 		} else {
 			Assets.batch.draw(texture,
-					(gameObj.pos.x - (width/2.0f/Level.PTM_RATIO)) * Level.PTM_RATIO,
-					(gameObj.pos.y - (height/2.0f/Level.PTM_RATIO)) * Level.PTM_RATIO,
-					width/2.0f, height/2.0f,
+					(gameObj.pos.x - (halfWidth / Level.PTM_RATIO)) * Level.PTM_RATIO,
+					(gameObj.pos.y - (halfHeight / Level.PTM_RATIO)) * Level.PTM_RATIO,
+					halfWidth, halfHeight,
 					width, height,
 					1.0f, 1.0f,
 					gameObj.rot);

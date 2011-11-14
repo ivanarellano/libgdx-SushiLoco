@@ -31,16 +31,7 @@ public class GameObject extends PhysicsObject {
 	}
 
 	public void update() {
-		if (rolled) {			
-			pos = body.getPosition();
-			rot = body.getAngle() * MathUtils.radiansToDegrees;
-				
-			for (int i = 0; i < subObj.size; i++) {
-				subObj.get(i).pos = subObj.get(i).body.getPosition();
-				subObj.get(i).rot = subObj.get(i).body.getAngle() * MathUtils.radiansToDegrees;
-			}
-			
-		} else {
+		if (!rolled) {
 			pos = body.getPosition();
 			rot = body.getAngle() * MathUtils.radiansToDegrees;
 				
