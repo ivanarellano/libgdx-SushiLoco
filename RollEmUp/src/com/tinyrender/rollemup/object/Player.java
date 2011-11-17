@@ -36,13 +36,14 @@ public class Player extends GameObject {
 	float forceYOffset;
 	
 	public Vector2 vel = new Vector2();
+	float tmpSubX;
+	float tmpSubY;
 	
-	CircleShape playerShape;
+	public CircleShape shape;
 	PlayerSensor sensor;
 	
 	public PlayerController controller = new PlayerController(this);
 	public Array<GameObject> objectsToRoll = new Array<GameObject>(2);
-	public Array<GameObject> objectsRolled = new Array<GameObject>();
 	
 	public Level level;
 	
@@ -52,15 +53,15 @@ public class Player extends GameObject {
 		
 		size = 1;
 		gameObjType = GameObjectType.PLAYER;
-		
 		objRep.setTexture(Assets.atlas.findRegion("player"));
+		
 		float radius = (objRep.width/2.0f) * 0.7f / Level.PTM_RATIO;
 
 		body = BodyFactory.createCircle(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius,
 										0.8f, 0.0f, 1.0f, false, BodyType.DynamicBody, world);
 		
 		pos = body.getPosition();
-		playerShape = (CircleShape) body.getFixtureList().get(0).getShape();
+		shape = (CircleShape) body.getFixtureList().get(0).getShape();
 		body.setUserData(this);
 		
 		// Set collision attributes
@@ -73,7 +74,7 @@ public class Player extends GameObject {
 		sensor = new PlayerSensor(pos.x, pos.y-(radius/3.0f), radius/1.35f, BodyType.DynamicBody, world);
 		JointFactory.revolute(body, sensor.body, pos.x, pos.y, world);
 		
-		forceYOffset = -(playerShape.getRadius() / 3.0f) * growthScale;
+		forceYOffset = -(shape.getRadius() / 3.0f) * growthScale;
 						
 		contactResolver = new ContactResolver() {
 			@Override
@@ -95,9 +96,9 @@ public class Player extends GameObject {
 		rot = body.getAngle() * MathUtils.radiansToDegrees;
 		
 		// Find the current moving direction
-		if (vel.x < -0.3f)
+		if (vel.x <= -0.1f)
 			direction = DIRECTION_LEFT;
-		else if (vel.x > 0.3f)
+		else if (vel.x >= 0.1f)
 			direction = DIRECTION_RIGHT;
 		else
 			direction = DIRECTION_NONE;
@@ -147,16 +148,18 @@ public class Player extends GameObject {
 			body.setLinearVelocity(vel.x * 0.9f, vel.y);
 		}
 		
-		// Regain momentum with small impulse
+		// Apply small impulse at low speeds to regain momentum
 		if (vel.x < MAX_VELOCITY/4.0f || vel.x > -MAX_VELOCITY/4.0f)
 			body.applyLinearImpulse(Gdx.input.getAccelerometerY() * 0.1f, 0.0f, pos.x, pos.y);
 		
-		Gdx.app.log("state", Integer.toString(state) + " _ grounded? " + Boolean.toString(isGrounded())
-				+ " _ vel(x/y): " + Float.toString(vel.x) + " - " + Float.toString(vel.y));
+		for (int i = 0; i < subObj.size; i++) {
+			subObj.get(i).rot = this.rot;
+			subObj.get(i).pos.set(this.pos.x * Level.PTM_RATIO, this.pos.y * Level.PTM_RATIO);
+		}
 	}
 	
 	public void grow() {
-		float sensorYOffset = -(playerShape.getRadius() / 3.0f) * growthScale;
+		float sensorYOffset = -(shape.getRadius() / 3.0f) * growthScale;
 		forceYOffset = sensorYOffset;
 		controller.scaleCircle(this, growthScale, 0.0f, 0.0f);
 		controller.scaleCircle(sensor, growthScale, 0.0f, sensorYOffset);

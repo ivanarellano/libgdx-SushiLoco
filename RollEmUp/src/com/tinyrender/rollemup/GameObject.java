@@ -12,11 +12,13 @@ public class GameObject extends PhysicsObject {
 	}
 	
 	public boolean rolled;
+	public float orbitRadius;
+	
 	public int score;
 	public int size;
 	public float rot;
 	public Vector2 pos = new Vector2();
-	public GameObject parent;
+	
 	public GameObjectType gameObjType;
 	public GameObjectRepresentation objRep = new GameObjectRepresentation(this);
 	public Array<GameObject> subObj = new Array<GameObject>();
@@ -40,5 +42,7 @@ public class GameObject extends PhysicsObject {
 				subObj.get(i).rot = subObj.get(i).body.getAngle() * MathUtils.radiansToDegrees;
 			}
 		}
+		
 	}
+	
 }

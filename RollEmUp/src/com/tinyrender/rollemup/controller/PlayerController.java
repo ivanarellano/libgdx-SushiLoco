@@ -41,9 +41,11 @@ public class PlayerController implements Controller {
 		// Convert object position from box2d space to screen space
 		other.pos.mul(Level.PTM_RATIO);
 		
-		other.parent = player;		
+		other.orbitRadius = player.shape.getRadius() * Level.PTM_RATIO;
+		
+		//Gdx.app.log("otherRadius", Float.toString(other.orbitRadius));
 	}
-
+	
 	@Override
 	public void jump(GameObject object, float velocity) {
 		object.body.applyLinearImpulse(0, velocity, object.pos.x, object.pos.y);
@@ -67,7 +69,7 @@ public class PlayerController implements Controller {
 	public void keyDown(int keyCode) {
 		if (keyCode == Keys.SPACE) {
 			if (player.state != Player.STATE_JUMPING && player.state != Player.STATE_FALLING)
-				jump(player, 15.0f);
+				jump(player, 25.0f);
 		}
 	}
 	
@@ -76,7 +78,7 @@ public class PlayerController implements Controller {
 	
 	public void touchDown() {
 		if (player.state != Player.STATE_JUMPING && player.state != Player.STATE_FALLING)
-			jump(player, 15.0f);
+			jump(player, 25.0f);
 	}
 	
 	public void touchUp() {

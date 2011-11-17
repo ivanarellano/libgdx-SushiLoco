@@ -49,14 +49,14 @@ public class TestLevel extends Level {
 		}
 		
 		// soy bottles
-		offsetX = 2500.0f;
-		for (int i = 0; i < 4; i++) {
+		offsetX = 1500.0f;
+		for (int i = 0; i < 6; i++) {
 			objects.add(soySauce.build(offsetX / Level.PTM_RATIO, 0.0f, b2world));
 			offsetX += 500.0f + (float) Math.random() * 2500.0f;
 		}
 		
 		// boxes
-		for (int i = 0; i < 40; i++) {
+		for (int i = 0; i < 100; i++) {
 			objects.add(new BoxObject(boxSushiTex,
 									 ((float) Math.random() * 4200.0f + 600.0f) / Level.PTM_RATIO,
 									 ((float) Math.random() * 100.0f + 200.0f) / Level.PTM_RATIO,
@@ -66,7 +66,7 @@ public class TestLevel extends Level {
 		}
 
 		// circles
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 120; i++) {
 			objects.add(new CircleObject(circleSushiTex,
 										((float) Math.random() * 4200.0f + 600.0f) / Level.PTM_RATIO, 
 										((float) Math.random() * 100.0f + 200.0f) / Level.PTM_RATIO,
