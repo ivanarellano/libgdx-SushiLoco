@@ -14,11 +14,11 @@ public class GameObject extends PhysicsObject {
 	public boolean rolled;
 	public int score;
 	public int size;
-	public GameObjectType gameObjType;
-	public GameObjectRepresentation objRep = new GameObjectRepresentation(this);
 	public float rot;
 	public Vector2 pos = new Vector2();
-	
+	public GameObject parent;
+	public GameObjectType gameObjType;
+	public GameObjectRepresentation objRep = new GameObjectRepresentation(this);
 	public Array<GameObject> subObj = new Array<GameObject>();
 	
 	public GameObject(World world) {

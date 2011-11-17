@@ -4,7 +4,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.tinyrender.rollemup.Controller;
@@ -16,15 +15,17 @@ import com.tinyrender.rollemup.object.Player;
 public class PlayerController implements Controller {
 	Player player;
 	Fixture fixture;
+	
 	Shape.Type shapeType;
 	Vector2 vecPosOffset = new Vector2();
-	MassData massData = new MassData();
 	
 	public PlayerController(Player player) {
 		this.player = player;
 	}
 	
 	public void rollObject(GameObject other, World world) {
+		Player.IS_GROWING = true;
+		
 		// Move object from level's list to player's
 		player.level.objects.removeValue(other, true); // TODO: O(N) linear
 		player.subObj.add(other);
@@ -40,7 +41,7 @@ public class PlayerController implements Controller {
 		// Convert object position from box2d space to screen space
 		other.pos.mul(Level.PTM_RATIO);
 		
-		player.body.resetMassData();
+		other.parent = player;		
 	}
 
 	@Override
@@ -64,20 +65,20 @@ public class PlayerController implements Controller {
 	}
 	
 	public void keyDown(int keyCode) {
-		if (keyCode == Keys.SPACE)
-			player.isJumping = true;
+		if (keyCode == Keys.SPACE) {
+			if (player.state != Player.STATE_JUMPING && player.state != Player.STATE_FALLING)
+				jump(player, 15.0f);
+		}
 	}
 	
 	public void keyUp(int keyCode) {
-		if (keyCode == Keys.SPACE)
-			player.isJumping = false;
 	}
 	
 	public void touchDown() {
-		player.isJumping = true;
+		if (player.state != Player.STATE_JUMPING && player.state != Player.STATE_FALLING)
+			jump(player, 15.0f);
 	}
 	
 	public void touchUp() {
-		player.isJumping = false;
 	}
 }

@@ -19,22 +19,32 @@ import com.tinyrender.rollemup.controller.PlayerController;
 
 public class Player extends GameObject {	
 	final static float MAX_VELOCITY = 7.0f;
-
-	public boolean isJumping;
-	public boolean isGrowing;
+	public static boolean IS_GROWING;
+	public final static int STATE_IDLE = 0;
+	public final static int STATE_FALLING = 1;
+	public final static int STATE_JUMPING = 2;
+	public final static int STATE_ROLLING = 3;
+	public final static int DIRECTION_NONE = 0;
+	public final static int DIRECTION_LEFT = 1;
+	public final static int DIRECTION_RIGHT = 2;
+	
+	public int state;
+	public int direction;
+	
 	float growthGoal;
-	float growthScale = 1.27f;
+	float growthScale = 1.0f;
 	float forceYOffset;
 	
 	public Vector2 vel = new Vector2();
 	
-	public Level level;
 	CircleShape playerShape;
 	PlayerSensor sensor;
 	
 	public PlayerController controller = new PlayerController(this);
 	public Array<GameObject> objectsToRoll = new Array<GameObject>(2);
 	public Array<GameObject> objectsRolled = new Array<GameObject>();
+	
+	public Level level;
 	
 	public Player(Level level, World world) {
 		super(world);
@@ -84,12 +94,30 @@ public class Player extends GameObject {
 		pos = body.getPosition();
 		rot = body.getAngle() * MathUtils.radiansToDegrees;
 		
+		// Find the current moving direction
+		if (vel.x < -0.3f)
+			direction = DIRECTION_LEFT;
+		else if (vel.x > 0.3f)
+			direction = DIRECTION_RIGHT;
+		else
+			direction = DIRECTION_NONE;
+		
+		// Find the current player state between: idle, jumping, falling, rolling
+		if (vel.y < 0.0f && !isGrounded())
+			state = STATE_FALLING;
+		else if (vel.y > 0.1f)
+			state = STATE_JUMPING;
+		else if ((direction == DIRECTION_LEFT || direction == DIRECTION_RIGHT) && isGrounded())
+			state = STATE_ROLLING;
+		else if (isGrounded())
+			state = STATE_IDLE;
+		
 		/*
-		if (isGrowing) {
+		if (IS_GROWING) {
 			if (score >= growthGoal) {
 				grow();
 				
-				isGrowing = false;
+				IS_GROWING = false;
 			}
 		}
 		*/
@@ -102,7 +130,6 @@ public class Player extends GameObject {
 
 		// Stick newly rolled objects
 		for (int i = 0; i < objectsToRoll.size; i++) {
-			isGrowing = true;
 			controller.rollObject(objectsToRoll.pop(), world);
 		}
 		
@@ -123,13 +150,9 @@ public class Player extends GameObject {
 		// Regain momentum with small impulse
 		if (vel.x < MAX_VELOCITY/4.0f || vel.x > -MAX_VELOCITY/4.0f)
 			body.applyLinearImpulse(Gdx.input.getAccelerometerY() * 0.1f, 0.0f, pos.x, pos.y);
- 		
-		// Jump
-		if (isJumping) {
-			isJumping = false;
-			if (sensor.isGrounded)
-				controller.jump(this, 15.0f);
-		}
+		
+		Gdx.app.log("state", Integer.toString(state) + " _ grounded? " + Boolean.toString(isGrounded())
+				+ " _ vel(x/y): " + Float.toString(vel.x) + " - " + Float.toString(vel.y));
 	}
 	
 	public void grow() {
@@ -143,6 +166,12 @@ public class Player extends GameObject {
 		if (otherObj.getType().equals(GameObjectType.ROLLABLE))
 			if (otherObj.size <= this.size)
 				return true;
+		return false;
+	}
+	
+	public boolean isGrounded() {
+		if (sensor.numContacts > 0)
+			return true;
 		return false;
 	}
 }
