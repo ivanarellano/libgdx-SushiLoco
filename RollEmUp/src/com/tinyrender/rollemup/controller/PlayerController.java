@@ -36,14 +36,22 @@ public class PlayerController implements Controller {
 		if (other.body != null)
 			world.destroyBody(other.body);
 
-		other.rolled = true;
+		other.isRolled = true;
 		
+		// Store current position
+		Vector2 otherWorldCenter = other.body.getWorldCenter().sub(player.pos);
+		
+		// Offset object position based off the rolling direction
+		Vector2 newOffset = player.body.getLocalVector(otherWorldCenter);
+		
+		// Re-adjust position to half graphic's rep
+		newOffset.sub(other.objRep.halfWidth/Level.PTM_RATIO, other.objRep.halfHeight/Level.PTM_RATIO);
+		
+		other.rolledPos.set(newOffset);
+				
 		// Convert object position from box2d space to screen space
 		other.pos.mul(Level.PTM_RATIO);
-		
-		other.orbitRadius = player.shape.getRadius() * Level.PTM_RATIO;
-		
-		//Gdx.app.log("otherRadius", Float.toString(other.orbitRadius));
+		other.rolledPos.mul(Level.PTM_RATIO);	
 	}
 	
 	@Override

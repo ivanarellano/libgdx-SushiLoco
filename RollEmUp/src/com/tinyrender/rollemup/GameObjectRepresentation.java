@@ -9,11 +9,11 @@ public class GameObjectRepresentation extends ObjectRepresentation {
 
 	@Override
 	public void draw() {
-		if (gameObj.rolled) {
+		if (gameObj.isRolled) {
 			Assets.batch.draw(texture, 
-					gameObj.pos.x - halfWidth + gameObj.orbitRadius,
-					gameObj.pos.y - halfHeight + gameObj.orbitRadius,
-					halfWidth - gameObj.orbitRadius, halfHeight - gameObj.orbitRadius,
+					gameObj.pos.x + gameObj.rolledPos.x,
+					gameObj.pos.y + gameObj.rolledPos.y,
+					-gameObj.rolledPos.x, -gameObj.rolledPos.y,
 					width, height,
 					1.0f, 1.0f,
 					gameObj.rot);

@@ -11,16 +11,18 @@ public class GameObject extends PhysicsObject {
 		PLAYER, ROLLABLE, STATIC;
 	}
 	
-	public boolean rolled;
-	public float orbitRadius;
+	public boolean isRolled;
 	
 	public int score;
 	public int size;
+	
 	public float rot;
 	public Vector2 pos = new Vector2();
+	public Vector2 rolledPos = new Vector2();
 	
 	public GameObjectType gameObjType;
 	public GameObjectRepresentation objRep = new GameObjectRepresentation(this);
+	
 	public Array<GameObject> subObj = new Array<GameObject>();
 	
 	public GameObject(World world) {
@@ -33,7 +35,7 @@ public class GameObject extends PhysicsObject {
 	}
 
 	public void update() {
-		if (!rolled) {
+		if (!isRolled) {
 			pos = body.getPosition();
 			rot = body.getAngle() * MathUtils.radiansToDegrees;
 				

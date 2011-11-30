@@ -43,7 +43,7 @@ public class Player extends GameObject {
 	PlayerSensor sensor;
 	
 	public PlayerController controller = new PlayerController(this);
-	public Array<GameObject> objectsToRoll = new Array<GameObject>(2);
+	public Array<GameObject> objectsToRoll = new Array<GameObject>();
 	
 	public Level level;
 	
