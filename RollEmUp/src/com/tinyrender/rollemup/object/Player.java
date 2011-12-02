@@ -40,7 +40,7 @@ public class Player extends GameObject {
 	float tmpSubY;
 	
 	public CircleShape shape;
-	PlayerSensor sensor;
+	public PlayerSensor sensor;
 	
 	public PlayerController controller = new PlayerController(this);
 	public Array<GameObject> objectsToRoll = new Array<GameObject>();
@@ -71,7 +71,7 @@ public class Player extends GameObject {
 		body.getFixtureList().get(0).setFilterData(filter);
 		
 		// Add sensor to player body
-		sensor = new PlayerSensor(pos.x, pos.y-(radius/3.0f), radius/1.35f, BodyType.DynamicBody, world);
+		sensor = new PlayerSensor(pos.x, pos.y-(radius/3.0f), radius/1.35f, this, BodyType.DynamicBody, world);
 		JointFactory.revolute(body, sensor.body, pos.x, pos.y, world);
 		
 		forceYOffset = -(shape.getRadius() / 3.0f) * growthScale;
@@ -112,7 +112,7 @@ public class Player extends GameObject {
 			state = STATE_ROLLING;
 		else if (isGrounded())
 			state = STATE_IDLE;
-		
+				
 		/*
 		if (IS_GROWING) {
 			if (score >= growthGoal) {
@@ -132,6 +132,7 @@ public class Player extends GameObject {
 		// Stick newly rolled objects
 		for (int i = 0; i < objectsToRoll.size; i++) {
 			controller.rollObject(objectsToRoll.pop(), world);
+			
 		}
 		
 		// Set X velocity to MAX if we're going too fast
