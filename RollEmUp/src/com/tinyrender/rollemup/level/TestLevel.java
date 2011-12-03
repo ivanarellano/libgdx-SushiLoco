@@ -22,8 +22,8 @@ public class TestLevel extends Level {
 	
 	public TestLevel() {
 		player = new Player(this, b2world);
-		levelTime = 3;
-		gui.timer.reset(levelTime);
+		time = 3;
+		gui.timer.reset(time);
 		gui.goalMeter.setTexture(player.objRep.texture);
 	}
 	
@@ -81,11 +81,11 @@ public class TestLevel extends Level {
 	@Override
 	public void running(float deltaTime) {
 		cam.position.set(player.pos.x*Level.PTM_RATIO, (player.pos.y+1.25f)*Level.PTM_RATIO, 0);
-		cam.zoom = newZoom;
+		cam.zoom = zoom;
 		
 		if (Settings.debugEnabled) {
 			box2dcam.position.set(player.pos.x, (player.pos.y+1.25f), 0);
-			box2dcam.zoom = newZoom;
+			box2dcam.zoom = zoom;
 		}
 		
 		for (int i = 0; i < objects.size; i++)
@@ -100,21 +100,10 @@ public class TestLevel extends Level {
 		physicsStep(deltaTime);
 	}
 
-	@Override
-	public void ready(float deltaTime) {		
-	}
-
-	@Override
-	public void paused(float deltaTime) {	
-	}
-
-	@Override
-	public void levelEnd(float deltaTime) {		
-	}
-
-	@Override
-	public void gameOver(float deltaTime) {		
-	}
+	@Override public void ready(float deltaTime) { }
+	@Override public void paused(float deltaTime) { }
+	@Override public void levelEnd(float deltaTime) { }
+	@Override public void gameOver(float deltaTime) { }
 	
 	@Override
 	public void touchDown() {
@@ -131,9 +120,9 @@ public class TestLevel extends Level {
 		player.controller.keyDown(keyCode);
 		
 		if (keyCode == Keys.DOWN)
-			newZoom += 0.1f;
+			zoom += 0.1f;
 		else if (keyCode == Keys.UP)
-			newZoom -= 0.1f;
+			zoom -= 0.1f;
 		return false;
 	}
 	

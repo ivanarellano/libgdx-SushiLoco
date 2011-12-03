@@ -38,7 +38,7 @@ public class PlayerController implements Controller {
 
 		other.isRolled = true;
 		
-		// Store current position
+		// Store object pos relative to player's pos
 		Vector2 otherWorldCenter = other.body.getWorldCenter().sub(player.pos);
 		
 		// Offset object position based off the rolling direction
