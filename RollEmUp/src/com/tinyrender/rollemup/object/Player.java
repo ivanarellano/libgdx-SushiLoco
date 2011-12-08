@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.tinyrender.rollemup.Assets;
+import com.tinyrender.rollemup.PlayerXP;
 import com.tinyrender.rollemup.GameObject;
 import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.box2d.BodyFactory;
@@ -19,7 +20,6 @@ import com.tinyrender.rollemup.controller.PlayerController;
 
 public class Player extends GameObject {	
 	final static float MAX_VELOCITY = 7.0f;
-	public static boolean IS_GROWING;
 	public final static int STATE_IDLE = 0;
 	public final static int STATE_FALLING = 1;
 	public final static int STATE_JUMPING = 2;
@@ -27,29 +27,27 @@ public class Player extends GameObject {
 	public final static int DIRECTION_NONE = 0;
 	public final static int DIRECTION_LEFT = 1;
 	public final static int DIRECTION_RIGHT = 2;
+	public static boolean IS_GROWING;
 	
 	public int state;
 	public int direction;
 	
-	float growthGoal;
-	float growthScale = 1.0f;
+	float growthScale = 1.15f;
 	float forceYOffset;
 	
 	public Vector2 vel = new Vector2();
-	float tmpSubX;
-	float tmpSubY;
 	
 	public CircleShape shape;
 	public PlayerSensor sensor;
-	
+	public PlayerXP xp = new PlayerXP();
 	public PlayerController controller = new PlayerController(this);
 	public Array<GameObject> objectsToRoll = new Array<GameObject>();
 	
-	public Level level;
+	public Level worldLevel;
 	
-	public Player(Level level, World world) {
+	public Player(Level worldLevel, World world) {
 		super(world);
-		this.level = level;
+		this.worldLevel = worldLevel;
 		
 		size = 1;
 		gameObjType = GameObjectType.PLAYER;
@@ -112,16 +110,17 @@ public class Player extends GameObject {
 			state = STATE_ROLLING;
 		else if (isGrounded())
 			state = STATE_IDLE;
-				
-		/*
+		
+		// Level up
 		if (IS_GROWING) {
-			if (score >= growthGoal) {
+			if (score <= PlayerXP.MAX_SCORE && score >= xp.nextLevel.score) {
 				grow();
-				
-				IS_GROWING = false;
+				xp.levelUp();
+				Gdx.app.log("levelup", ""+xp.currentLevel.tag);
 			}
+			
+			IS_GROWING = false;
 		}
-		*/
 		
 		// Desktop player controls
 		if (Gdx.input.isKeyPressed(Keys.A))
@@ -131,8 +130,8 @@ public class Player extends GameObject {
 
 		// Stick newly rolled objects
 		for (int i = 0; i < objectsToRoll.size; i++) {
+			score += objectsToRoll.get(i).score;
 			controller.rollObject(objectsToRoll.pop(), world);
-			
 		}
 		
 		// Set X velocity to MAX if we're going too fast

@@ -29,6 +29,12 @@ public class TestLevel extends Level {
 	
 	@Override
 	public void create() {
+		player.xp.populate(player.xp.new Level(1, 0),
+						   player.xp.new Level(2, 25),
+						   player.xp.new Level(3, 50),
+						   player.xp.new Level(4, 100));
+		player.xp.levelUp();
+		
 		new Ground(0.0f, 0.0f,
 				   (854.0f*11.0f) / Level.PTM_RATIO, 0.0f,
 				   1.0f, b2world);
@@ -92,10 +98,8 @@ public class TestLevel extends Level {
 			objects.get(i).update();
 		
 		player.update();
-		for (int i = 0; i < player.subObj.size; i++)
-			player.subObj.get(i).update();
 				
-		gui.goalMeter.scale = player.score * 0.5f;
+		gui.goalMeter.scale = player.score * 0.01f;
 		
 		physicsStep(deltaTime);
 	}

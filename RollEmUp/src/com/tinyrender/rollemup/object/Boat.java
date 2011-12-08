@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject;
+import com.tinyrender.rollemup.ObjectFactory;
 import com.tinyrender.rollemup.GameObject.GameObjectType;
 import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.box2d.BodyFactory;
