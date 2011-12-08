@@ -16,6 +16,8 @@ public class BoxObject extends GameObject {
 			int score, GameObjectType gameObjType, World world) {
 		super(world);
 		
+		this.score = score;
+		this.size = size;
 		this.gameObjType = gameObjType;
 		objRep.setTexture(texture);
 		
@@ -24,8 +26,5 @@ public class BoxObject extends GameObject {
 		
 		body = BodyFactory.createBox(x, y, hx, hy, density, BodyType.DynamicBody, world);
 		body.setUserData(this);
-		
-		this.size = size;
-		this.score = score;
 	}
 }

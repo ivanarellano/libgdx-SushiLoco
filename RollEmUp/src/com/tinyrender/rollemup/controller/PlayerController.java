@@ -1,5 +1,6 @@
 package com.tinyrender.rollemup.controller;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -27,7 +28,7 @@ public class PlayerController implements Controller {
 		Player.IS_GROWING = true;
 		
 		// Move object from level's list to player's
-		player.level.objects.removeValue(other, true); // TODO: O(N) linear
+		player.worldLevel.objects.removeValue(other, true); // TODO: O(N) linear
 		player.subObj.add(other);
 		
 		// Destroy object's joint then body
@@ -38,7 +39,7 @@ public class PlayerController implements Controller {
 
 		other.isRolled = true;
 		
-		// Store current position
+		// Store object pos relative to player's pos
 		Vector2 otherWorldCenter = other.body.getWorldCenter().sub(player.pos);
 		
 		// Offset object position based off the rolling direction
@@ -51,7 +52,9 @@ public class PlayerController implements Controller {
 				
 		// Convert object position from box2d space to screen space
 		other.pos.mul(Level.PTM_RATIO);
-		other.rolledPos.mul(Level.PTM_RATIO);	
+		other.rolledPos.mul(Level.PTM_RATIO);
+		
+		Gdx.app.log("score", ""+player.score);
 	}
 	
 	@Override

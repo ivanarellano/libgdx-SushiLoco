@@ -22,13 +22,19 @@ public class TestLevel extends Level {
 	
 	public TestLevel() {
 		player = new Player(this, b2world);
-		levelTime = 3;
-		gui.timer.reset(levelTime);
+		time = 3;
+		gui.timer.reset(time);
 		gui.goalMeter.setTexture(player.objRep.texture);
 	}
 	
 	@Override
 	public void create() {
+		player.xp.populate(player.xp.new Level(1, 0),
+						   player.xp.new Level(2, 25),
+						   player.xp.new Level(3, 50),
+						   player.xp.new Level(4, 100));
+		player.xp.levelUp();
+		
 		new Ground(0.0f, 0.0f,
 				   (854.0f*11.0f) / Level.PTM_RATIO, 0.0f,
 				   1.0f, b2world);
@@ -81,40 +87,27 @@ public class TestLevel extends Level {
 	@Override
 	public void running(float deltaTime) {
 		cam.position.set(player.pos.x*Level.PTM_RATIO, (player.pos.y+1.25f)*Level.PTM_RATIO, 0);
-		cam.zoom = newZoom;
+		cam.zoom = zoom;
 		
 		if (Settings.debugEnabled) {
 			box2dcam.position.set(player.pos.x, (player.pos.y+1.25f), 0);
-			box2dcam.zoom = newZoom;
+			box2dcam.zoom = zoom;
 		}
 		
 		for (int i = 0; i < objects.size; i++)
 			objects.get(i).update();
 		
 		player.update();
-		for (int i = 0; i < player.subObj.size; i++)
-			player.subObj.get(i).update();
 				
-		gui.goalMeter.scale = player.score * 0.5f;
+		gui.goalMeter.scale = player.score * 0.01f;
 		
 		physicsStep(deltaTime);
 	}
 
-	@Override
-	public void ready(float deltaTime) {		
-	}
-
-	@Override
-	public void paused(float deltaTime) {	
-	}
-
-	@Override
-	public void levelEnd(float deltaTime) {		
-	}
-
-	@Override
-	public void gameOver(float deltaTime) {		
-	}
+	@Override public void ready(float deltaTime) { }
+	@Override public void paused(float deltaTime) { }
+	@Override public void levelEnd(float deltaTime) { }
+	@Override public void gameOver(float deltaTime) { }
 	
 	@Override
 	public void touchDown() {
@@ -131,9 +124,9 @@ public class TestLevel extends Level {
 		player.controller.keyDown(keyCode);
 		
 		if (keyCode == Keys.DOWN)
-			newZoom += 0.1f;
+			zoom += 0.1f;
 		else if (keyCode == Keys.UP)
-			newZoom -= 0.1f;
+			zoom -= 0.1f;
 		return false;
 	}
 	
