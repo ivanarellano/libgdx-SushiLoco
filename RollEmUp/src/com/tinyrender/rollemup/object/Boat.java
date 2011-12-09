@@ -95,9 +95,6 @@ public class Boat implements ObjectFactory {
 		new Vector2(15.6f / Level.PTM_RATIO, -163.7f / Level.PTM_RATIO),	// 9
 		new Vector2(21.2f / Level.PTM_RATIO, -153.8f / Level.PTM_RATIO)		// 10
 	};
-	
-	float totalMass = 0.0f;
-	
 	Array<Vector2[]> verts = new Array<Vector2[]>();
 	Filter filter = new Filter();
 	
@@ -180,11 +177,7 @@ public class Boat implements ObjectFactory {
 			subObj.joint = JointFactory.weld(boatObj.body, subObj.body,
 					boatObj.body.getWorldCenter(), world);
 			
-			totalMass += subObj.body.getMass() + boatObj.body.getMass(); // TODO: convert box2d mass to game score
 		}
-		
-		//Gdx.app.log("boatMass", Float.toString(boatObj.body.getMass()));
-		
 		return boatObj;
 	}
 }
