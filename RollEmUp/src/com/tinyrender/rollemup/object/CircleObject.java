@@ -13,11 +13,11 @@ public class CircleObject extends GameObject {
 	}
 	
 	public CircleObject(TextureRegion texture, float x, float y, float angle, float density, 
-			int size, int score, GameObjectType gameObjType, World world) {
+			int level, int score, GameObjectType gameObjType, World world) {
 		super(world);
 		
 		this.score = score;
-		this.size = size;
+		this.level = level;
 		this.gameObjType = gameObjType;
 		objRep.setTexture(texture);
 		

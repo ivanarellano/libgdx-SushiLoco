@@ -60,6 +60,7 @@ public class SoySauce implements ObjectFactory {
 	public GameObject build(float x, float y, World world) {
 		GameObject soyObj = new GameObject(world);
 		
+		soyObj.level = 3;
 		soyObj.gameObjType = GameObjectType.ROLLABLE;
 		soyObj.objRep.setTexture(texture);
 		

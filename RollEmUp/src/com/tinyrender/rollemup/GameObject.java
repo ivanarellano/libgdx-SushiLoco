@@ -14,7 +14,7 @@ public class GameObject extends PhysicsObject {
 	public boolean isRolled;
 	
 	public int score;
-	public int size;
+	public int level;
 	
 	public float rot;
 	public Vector2 pos = new Vector2();

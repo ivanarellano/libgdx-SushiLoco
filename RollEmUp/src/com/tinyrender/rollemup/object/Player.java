@@ -49,7 +49,7 @@ public class Player extends GameObject {
 		super(world);
 		this.worldLevel = worldLevel;
 		
-		size = 1;
+		level = 1;
 		gameObjType = GameObjectType.PLAYER;
 		objRep.setTexture(Assets.atlas.findRegion("player"));
 		
@@ -167,7 +167,8 @@ public class Player extends GameObject {
 	
 	public boolean isRollable(GameObject otherObj) {
 		if (otherObj.getType().equals(GameObjectType.ROLLABLE))
-			if (otherObj.size <= this.size)
+			if (otherObj.level <= xp.currentLevel.tag && 
+					otherObj.subObj.size == 0)
 				return true;
 		return false;
 	}

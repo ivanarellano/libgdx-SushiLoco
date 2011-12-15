@@ -107,7 +107,7 @@ public class Boat implements ObjectFactory {
 	public GameObject build(float x, float y, World world) {
 		GameObject boatObj = new GameObject(world);
 		
-		boatObj.size = 4;
+		boatObj.level = 4;
 		
 		filter.categoryBits = PhysicsObject.CATEGORY_OBJECT;
 		filter.maskBits = PhysicsObject.MASK_OBJECT;
@@ -169,7 +169,7 @@ public class Boat implements ObjectFactory {
 		for (int i = 0; i < boatObj.subObj.size; i++) {
 			GameObject subObj = boatObj.subObj.get(i);
 			
-			subObj.size = 2;
+			subObj.level = 2;
 			subObj.gameObjType = GameObjectType.ROLLABLE;
 			subObj.body.getFixtureList().get(0).setFilterData(filter);
 			subObj.body.setUserData(subObj);

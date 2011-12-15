@@ -12,12 +12,12 @@ public class BoxObject extends GameObject {
 		super(world);
 	}
 	
-	public BoxObject(TextureRegion texture, float x, float y, float density, int size,
+	public BoxObject(TextureRegion texture, float x, float y, float density, int level,
 			int score, GameObjectType gameObjType, World world) {
 		super(world);
 		
 		this.score = score;
-		this.size = size;
+		this.level = level;
 		this.gameObjType = gameObjType;
 		objRep.setTexture(texture);
 		
