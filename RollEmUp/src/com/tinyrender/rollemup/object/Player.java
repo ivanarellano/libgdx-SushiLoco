@@ -152,9 +152,9 @@ public class Player extends GameObject {
 		if (vel.x < MAX_VELOCITY/4.0f || vel.x > -MAX_VELOCITY/4.0f)
 			body.applyLinearImpulse(Gdx.input.getAccelerometerY() * 0.1f, 0.0f, pos.x, pos.y);
 		
-		for (int i = 0; i < subObj.size; i++) {
-			subObj.get(i).rot = this.rot;
-			subObj.get(i).pos.set(this.pos.x * Level.PTM_RATIO, this.pos.y * Level.PTM_RATIO);
+		for (int i = 0; i < childObj.size; i++) {
+			childObj.get(i).rot = this.rot;
+			childObj.get(i).pos.set(this.pos.x * Level.PTM_RATIO, this.pos.y * Level.PTM_RATIO);
 		}
 	}
 	

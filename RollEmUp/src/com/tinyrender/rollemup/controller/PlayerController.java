@@ -29,8 +29,8 @@ public class PlayerController implements Controller {
 		
 		// Move object from level's list to player's
 		player.worldLevel.objects.removeValue(other, true); // TODO: O(N) linear
-		player.subObj.add(other);
-		
+		player.childObj.add(other);
+				
 		// Destroy object's joint then body
 		if (other.joint != null)
 			world.destroyJoint(other.joint);

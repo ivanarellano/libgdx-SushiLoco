@@ -27,17 +27,17 @@ public class LevelRenderer {
 			for (int i = 0; i < level.objects.size; i++) {
 				level.objects.get(i).objRep.draw();
 
-				for (int j = 0; j < level.objects.get(i).subObj.size; j++)
-					level.objects.get(i).subObj.get(j).objRep.draw();
+				for (int j = 0; j < level.objects.get(i).childObj.size; j++)
+					level.objects.get(i).childObj.get(j).objRep.draw();
 			}
 			
 			// Draw Player with attached objects and sub-objects.
 			level.player.objRep.draw();
-			for (int i = 0; i < level.player.subObj.size; i++) {
-				level.player.subObj.get(i).objRep.draw();
+			for (int i = 0; i < level.player.childObj.size; i++) {
+				level.player.childObj.get(i).objRep.draw();
 				
-				for (int j = 0; j < level.player.subObj.get(i).subObj.size; j++)
-					level.player.subObj.get(i).subObj.get(j).objRep.draw();
+				for (int j = 0; j < level.player.childObj.get(i).childObj.size; j++)
+					level.player.childObj.get(i).childObj.get(j).objRep.draw();
 			}
 			
 		Assets.batch.end();

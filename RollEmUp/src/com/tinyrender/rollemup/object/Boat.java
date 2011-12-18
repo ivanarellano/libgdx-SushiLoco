@@ -161,13 +161,13 @@ public class Boat implements ObjectFactory {
 		filter.categoryBits = PhysicsObject.CATEGORY_SUB_OBJECT;
 		filter.maskBits = PhysicsObject.MASK_SUB_OBJECT;
 		
-		boatObj.subObj.add(boatFrontObj);
-		boatObj.subObj.add(boatFlagObj);
-		boatObj.subObj.add(boatBackBarObj);
+		boatObj.childObj.add(boatFrontObj);
+		boatObj.childObj.add(boatFlagObj);
+		boatObj.childObj.add(boatBackBarObj);
 		
-		// Set GameObjectType, collision data, user data
-		for (int i = 0; i < boatObj.subObj.size; i++) {
-			GameObject subObj = boatObj.subObj.get(i);
+		// Set joint, GameObjectType, collision data, user data
+		for (int i = 0; i < boatObj.childObj.size; i++) {
+			GameObject subObj = boatObj.childObj.get(i);
 			
 			subObj.level = 2;
 			subObj.gameObjType = GameObjectType.ROLLABLE;
