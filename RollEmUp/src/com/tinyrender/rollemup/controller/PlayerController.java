@@ -34,8 +34,8 @@ public class PlayerController implements Controller {
 		// Destroy object's joint then body
 		if (other.joint != null)
 			world.destroyJoint(other.joint);
-		if (other.body != null)
 			world.destroyBody(other.body);
+			if (other.body.getUserData() != null)
 
 		other.isRolled = true;
 		
