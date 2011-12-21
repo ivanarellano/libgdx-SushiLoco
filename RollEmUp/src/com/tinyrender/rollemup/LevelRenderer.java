@@ -2,12 +2,15 @@ package com.tinyrender.rollemup;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL11;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.tinyrender.rollemup.screen.PlayScreen;
 
 public class LevelRenderer {
 	public Level level;
 	public Box2DDebugRenderer renderer = new Box2DDebugRenderer();
+	public ShapeRenderer shapeRenderer = new ShapeRenderer();
 	
 	public LevelRenderer(PlayScreen screen) {
 		level = screen.level;
@@ -45,6 +48,15 @@ public class LevelRenderer {
 		if (Settings.debugEnabled) {
 			level.box2dcam.update();
 			renderer.render(level.b2world, level.box2dcam.combined);
+			
+			shapeRenderer.setProjectionMatrix(level.cam.combined);
+			shapeRenderer.begin(ShapeType.Rectangle);
+			shapeRenderer.setColor(1.0f, 1.0f, 0.0f, 1.0f);
+			shapeRenderer.rect(level.player.groundSensor.rect.x * Level.PTM_RATIO,
+							   level.player.groundSensor.rect.y * Level.PTM_RATIO,
+							   level.player.groundSensor.rect.width * Level.PTM_RATIO,
+							   level.player.groundSensor.rect.height * Level.PTM_RATIO);
+			shapeRenderer.end();
 		}
 	}
 	
