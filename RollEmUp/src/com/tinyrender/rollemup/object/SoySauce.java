@@ -61,6 +61,7 @@ public class SoySauce implements ObjectFactory {
 		GameObject soyObj = new GameObject(world);
 		
 		soyObj.level = 3;
+		soyObj.score = 9;
 		soyObj.gameObjType = GameObjectType.ROLLABLE;
 		soyObj.objRep.setTexture(texture);
 		

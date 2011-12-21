@@ -21,7 +21,8 @@ public class BodyFactory {
 		return body;
 	}
 	
-	public static Body createPoly(Array<Vector2[]> vertices, float x, float y, float density, float friction, BodyType bodyType, World b2world) {
+	public static Body createPoly(Array<Vector2[]> vertices, float x, float y, float density,
+			float friction, BodyType bodyType, World b2world) {
 		Body body = createBody(x, y, bodyType, b2world);
 		
 		PolygonShape shape = new PolygonShape();
@@ -42,7 +43,8 @@ public class BodyFactory {
 		return body;
 	}
 	
-	public static Body createBox(float x, float y, float hx, float hy, float density, BodyType bodyType, World b2world) {
+	public static Body createBox(float x, float y, float hx, float hy, float density,
+			BodyType bodyType, World b2world) {
 		Body body = createBody(x, y, bodyType, b2world);
 		
 		PolygonShape shape = new PolygonShape();
@@ -66,13 +68,13 @@ public class BodyFactory {
         fd.shape = shape;
         body.createFixture(fd);
         body.resetMassData();
-        
         shape.dispose();
         
 		return body;
 	}
 	
-	public static Body createCircle(float x, float y, float radius, float density, float angle, float friction, boolean isSensor, BodyType bodyType, World b2world) {
+	public static Body createCircle(float x, float y, float radius, float density, float angle,
+			float friction, boolean isSensor, BodyType bodyType, World b2world) {
 		Body body = createBody(x, y, bodyType, b2world);
  
 		CircleShape shape = new CircleShape();

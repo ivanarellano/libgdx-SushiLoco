@@ -28,7 +28,7 @@ public class GameObject extends PhysicsObject {
 	
 	public GameObject(World world) {
 		super(world);
-		parentObj = new GameObject(world);
+		parentObj = null;
 		childObj.shrink();
 	}
 	

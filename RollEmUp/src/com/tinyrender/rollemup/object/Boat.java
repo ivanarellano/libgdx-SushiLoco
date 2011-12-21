@@ -95,6 +95,7 @@ public class Boat implements ObjectFactory {
 		new Vector2(15.6f / Level.PTM_RATIO, -163.7f / Level.PTM_RATIO),	// 9
 		new Vector2(21.2f / Level.PTM_RATIO, -153.8f / Level.PTM_RATIO)		// 10
 	};
+		
 	Array<Vector2[]> verts = new Array<Vector2[]>();
 	Filter filter = new Filter();
 	
@@ -108,6 +109,7 @@ public class Boat implements ObjectFactory {
 		GameObject boatObj = new GameObject(world);
 		
 		boatObj.level = 4;
+		boatObj.score = 10;
 		
 		filter.categoryBits = PhysicsObject.CATEGORY_OBJECT;
 		filter.maskBits = PhysicsObject.MASK_OBJECT;
@@ -139,7 +141,8 @@ public class Boat implements ObjectFactory {
 				x-(381.0f/Level.PTM_RATIO), y+(48.0f/Level.PTM_RATIO), 1.1f, 1.0f, BodyType.DynamicBody, world);
 		
 		verts.clear();
-		verts.add(boatflagVec1); verts.add(boatflagVec2);
+		verts.add(boatflagVec1);
+		verts.add(boatflagVec2);
 		boatFlagObj.body = BodyFactory.createPoly(verts,
 				x+(237.0f/Level.PTM_RATIO), y+(185.0f/Level.PTM_RATIO), 1.1f, 1.0f, BodyType.DynamicBody, world);
 		
@@ -167,17 +170,19 @@ public class Boat implements ObjectFactory {
 		
 		// Set joint, GameObjectType, collision data, user data
 		for (int i = 0; i < boatObj.childObj.size; i++) {
-			GameObject subObj = boatObj.childObj.get(i);
+			GameObject child = boatObj.childObj.get(i);
 			
-			subObj.level = 2;
-			subObj.gameObjType = GameObjectType.ROLLABLE;
-			subObj.body.getFixtureList().get(0).setFilterData(filter);
-			subObj.body.setUserData(subObj);
+			child.level = 2;
+			child.score = 4;
+			child.gameObjType = GameObjectType.ROLLABLE;
 			
-			subObj.joint = JointFactory.weld(boatObj.body, subObj.body,
-					boatObj.body.getWorldCenter(), world);
+			child.body.getFixtureList().get(0).setFilterData(filter);
+			child.joint = JointFactory.weld(boatObj.body, child.body, boatObj.body.getWorldCenter(), world);
 			
+			child.parentObj = boatObj;
+			child.body.setUserData(child);
 		}
+				
 		return boatObj;
 	}
 }
