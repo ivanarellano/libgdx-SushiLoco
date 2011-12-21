@@ -30,39 +30,40 @@ public class TestLevel extends Level {
 	@Override
 	public void create() {
 		player.xp.populate(player.xp.new Level(1, 0),
-						   player.xp.new Level(2, 25),
-						   player.xp.new Level(3, 50),
+						   player.xp.new Level(2, 15),
+						   player.xp.new Level(3, 30),
 						   player.xp.new Level(4, 100));
-		player.xp.levelUp();
+		
+		player.xp.printCurrentLevel();
 		
 		new Ground(0.0f, 0.0f,
-				   (854.0f*11.0f) / Level.PTM_RATIO, 0.0f,
+				   (854.0f*9.0f) / Level.PTM_RATIO, 0.0f,
 				   1.0f, b2world);
 		new Ground(0.0f, 0.0f,
 				   0.0f, (480.0f*2.0f) / Level.PTM_RATIO,
 				   1.0f, b2world);
-		new Ground((854.0f*11.0f) / Level.PTM_RATIO, 0.0f,
-				   (854.0f*11.0f) / Level.PTM_RATIO, (480.0f*2.0f) / Level.PTM_RATIO,
+		new Ground((854.0f*9.0f) / Level.PTM_RATIO, 0.0f,
+				   (854.0f*9.0f) / Level.PTM_RATIO, (480.0f*2.0f) / Level.PTM_RATIO,
 				   1.0f, b2world);
 		
 		float offsetX = 0;
 		
 		// boat
-		offsetX += 1400.0f;
-		for (int i = 0; i < 2; i++) {
+		offsetX += 1100.0f;
+		for (int i = 0; i < 10; i++) {
 			objects.add(boat.build(offsetX / Level.PTM_RATIO, 0.0f, b2world));
-			offsetX += 3400.0f;
+			offsetX += 900.0f + (float) Math.random() * 100.0f;
 		}
 		
 		// soy bottles
 		offsetX = 1500.0f;
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 10; i++) {
 			objects.add(soySauce.build(offsetX / Level.PTM_RATIO, 0.0f, b2world));
-			offsetX += 500.0f + (float) Math.random() * 2500.0f;
+			offsetX += 550.0f + (float) Math.random() * 1500.0f;
 		}
 		
 		// boxes
-		for (int i = 0; i < 60; i++) {
+		for (int i = 0; i < 40; i++) {
 			objects.add(new BoxObject(boxSushiTex,
 									 ((float) Math.random() * 4200.0f + 600.0f) / Level.PTM_RATIO,
 									 ((float) Math.random() * 100.0f + 200.0f) / Level.PTM_RATIO,
@@ -72,7 +73,7 @@ public class TestLevel extends Level {
 		}
 
 		// circles
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 60; i++) {
 			objects.add(new CircleObject(circleSushiTex,
 										((float) Math.random() * 4200.0f + 600.0f) / Level.PTM_RATIO, 
 										((float) Math.random() * 100.0f + 200.0f) / Level.PTM_RATIO,
