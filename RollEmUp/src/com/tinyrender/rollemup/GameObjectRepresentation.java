@@ -1,22 +1,30 @@
 package com.tinyrender.rollemup;
 
-
 public class GameObjectRepresentation extends ObjectRepresentation {
-	public GameObject gameObject;
+	public GameObject gameObj;
 	
-	public GameObjectRepresentation(GameObject gameObject) {
-		this.gameObject = gameObject;
+	public GameObjectRepresentation(GameObject gameObj) {
+		this.gameObj = gameObj;
 	}
 
 	@Override
 	public void draw() {
-		// SpriteBatch.draw(textureRegion, x, y, originX, originY, width, height, scaleX, scaleY, rotation)
-		Assets.batch.draw(texture,
-					(gameObject.pos.x - (width/2.0f/Level.PTM_RATIO)) * Level.PTM_RATIO,
-					(gameObject.pos.y - (height/2.0f/Level.PTM_RATIO)) * Level.PTM_RATIO,
-					width/2.0f, height/2.0f,
+		if (gameObj.isRolled) {
+			Assets.batch.draw(texture, 
+					gameObj.pos.x + gameObj.rolledPos.x,
+					gameObj.pos.y + gameObj.rolledPos.y,
+					-gameObj.rolledPos.x, -gameObj.rolledPos.y,
 					width, height,
 					1.0f, 1.0f,
-					gameObject.rotation);
+					gameObj.rot);
+		} else {
+			Assets.batch.draw(texture,
+					(gameObj.pos.x - (halfWidth / Level.PTM_RATIO)) * Level.PTM_RATIO,
+					(gameObj.pos.y - (halfHeight / Level.PTM_RATIO)) * Level.PTM_RATIO,
+					halfWidth, halfHeight,
+					width, height,
+					1.0f, 1.0f,
+					gameObj.rot);
+		}
 	}
 }

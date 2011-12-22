@@ -28,7 +28,6 @@ public class RollEmUp extends Game implements ApplicationListener {
 		Gdx.input.setCatchMenuKey(true);
 		
 		gui = new Gui();
-		
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 
-
 public abstract class PhysicsObject {
 	public final static short CATEGORY_PLAYER		= 0x0001;
 	public final static short CATEGORY_OBJECT		= 0x0002;

@@ -12,13 +12,17 @@ public class BoxObject extends GameObject {
 		super(world);
 	}
 	
-	public BoxObject(TextureRegion texture, float x, float y, float density, GameObjectType gameObjectType, World world) {
+	public BoxObject(TextureRegion texture, float x, float y, float density, int level,
+			int score, GameObjectType gameObjType, World world) {
 		super(world);
-		gameType = gameObjectType;
-		objectRepresentation.setTexture(texture);
 		
-		float hx = objectRepresentation.width / 2.0f / Level.PTM_RATIO;
-		float hy = objectRepresentation.height / 2.0f / Level.PTM_RATIO;
+		this.score = score;
+		this.level = level;
+		this.gameObjType = gameObjType;
+		objRep.setTexture(texture);
+		
+		float hx = objRep.width / 2.0f / Level.PTM_RATIO;
+		float hy = objRep.height / 2.0f / Level.PTM_RATIO;
 		
 		body = BodyFactory.createBox(x, y, hx, hy, density, BodyType.DynamicBody, world);
 		body.setUserData(this);

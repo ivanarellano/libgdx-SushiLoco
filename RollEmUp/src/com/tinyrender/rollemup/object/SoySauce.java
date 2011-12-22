@@ -1,6 +1,5 @@
 package com.tinyrender.rollemup.object;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -8,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject;
+import com.tinyrender.rollemup.ObjectFactory;
 import com.tinyrender.rollemup.GameObject.GameObjectType;
 import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.box2d.BodyFactory;
@@ -46,33 +46,32 @@ public class SoySauce implements ObjectFactory {
 	};
 	*/
 	
-	public Array<Vector2[]> verts;
-	public TextureRegion texture;
+	public Array<Vector2[]> verts = new Array<Vector2[]>(2);
+	public TextureRegion texture = Assets.atlas.findRegion("soy");
 	
-	public SoySauce() {
-		verts = new Array<Vector2[]>(4);
-		
+	public SoySauce() {		
 		verts.add(poly1);
 		//verts.add(poly2);
 		verts.add(poly3);
-		//verts.add(poly4);
-		
-		texture = Assets.atlas.findRegion("soy");
+		//verts.add(poly4);		
 	}
 
 	@Override
 	public GameObject build(float x, float y, World world) {
 		GameObject soyObj = new GameObject(world);
 		
-		soyObj.gameType = GameObjectType.ROLLABLE;
-		soyObj.objectRepresentation.setTexture(texture);
+		soyObj.level = 3;
+		soyObj.score = 9;
+		soyObj.gameObjType = GameObjectType.ROLLABLE;
+		soyObj.objRep.setTexture(texture);
 		
-		y += soyObj.objectRepresentation.texture.getRegionHeight() / 2.0f / Level.PTM_RATIO;
+		y += soyObj.objRep.texture.getRegionHeight() / 2.0f / Level.PTM_RATIO;
 				
-		soyObj.body = BodyFactory.createPoly(verts, x, y, 1.5f, 1.0f, BodyType.DynamicBody, soyObj.world);
+		soyObj.body = BodyFactory.createPoly(verts, x, y,
+				1.5f, 1.0f, BodyType.DynamicBody, soyObj.world);
 		soyObj.body.setUserData(soyObj);
 		
-		Gdx.app.log("soyMass", Float.toString(soyObj.body.getMass()));
+		//Gdx.app.log("soyMass", Float.toString(soyObj.body.getMass()));
 		
 		return soyObj;
 	}

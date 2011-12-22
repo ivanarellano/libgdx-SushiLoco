@@ -3,63 +3,68 @@ package com.tinyrender.rollemup.controller;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.Shape;
-import com.badlogic.gdx.physics.box2d.World;
 import com.tinyrender.rollemup.Controller;
 import com.tinyrender.rollemup.GameObject;
-import com.tinyrender.rollemup.box2d.JointFactory;
+import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.box2d.PhysicsObject;
 import com.tinyrender.rollemup.object.Player;
 
 public class PlayerController implements Controller {
 	Player player;
-	Filter filter;
 	Fixture fixture;
+	
 	Shape.Type shapeType;
-	Vector2 vecPosOffset;
-	MassData massData;
+	Vector2 vecPosOffset = new Vector2();
 	
 	public PlayerController(Player player) {
 		this.player = player;
-		vecPosOffset = new Vector2();
-		massData = new MassData();
-		filter = new Filter();
-		filter.maskBits = GameObject.MASK_NO_COLLISION;
 	}
 	
-	public void rollObject(GameObject other, World world) {
-		player.level.objects.removeValue(other, true);
-		player.subObjects.add(other);
+	public boolean rollObject(GameObject other) {
+		Player.IS_GROWING = true;
 		
-		//other.body.setAngularVelocity(0.0f);
+		// Remove object from any existing parent
+		if (null != other.parentObj)
+			other.parentObj.childObj.removeValue(other, true);
+		
+		if (other.childObj.size == 0) {
+			// Remove object from rendering list
+			player.worldLevel.objects.removeValue(other, true); // TODO: O(N) linear
+			
+			// Add object to player rendering list
+			player.childObj.add(other);
+			
+			// Destroy object's joint then body
+			if (other.joint != null)
+				player.world.destroyJoint(other.joint);
+			if (other.body.getUserData() != null)
+				player.world.destroyBody(other.body);
 
-		if (other.joint != null)
-			world.destroyJoint(other.joint);
+			other.isRolled = true;
 		
-		other.joint = JointFactory.weld(player.body, other.body, player.pos.x, player.pos.y, player.world);
+			// Store object pos relative to player's pos
+			Vector2 otherWorldCenter = other.body.getWorldCenter().sub(player.pos);
 		
-		for (int i = 0; i < other.body.getFixtureList().size(); i++)
-			other.body.getFixtureList().get(i).setFilterData(filter);
+			// Offset object position based off the rolling direction
+			Vector2 newOffset = player.body.getLocalVector(otherWorldCenter);
 		
-		for (int i = 0; i < other.subObjects.size; i++) {
-			if (other.subObjects.get(i).joint != null)
-				world.destroyJoint(other.subObjects.get(i).joint);
+			// Re-adjust position to half graphic's rep
+			newOffset.sub(other.objRep.halfWidth/Level.PTM_RATIO, other.objRep.halfHeight/Level.PTM_RATIO);
+		
+			other.rolledPos.set(newOffset);
+				
+			// Convert object position from box2d space to screen space
+			other.pos.mul(Level.PTM_RATIO);
+			other.rolledPos.mul(Level.PTM_RATIO);
 			
-			other.subObjects.get(i).joint = JointFactory.weld(player.body, other.subObjects.get(i).body,
-					player.pos.x, player.pos.y, player.world);
-			
-			for (int j = 0; j < other.subObjects.get(i).body.getFixtureList().size(); j++)
-				other.subObjects.get(i).body.getFixtureList().get(j).setFilterData(filter);
+			return true;
 		}
-
-		player.body.resetMassData();
 		
-		player.isGrowing = true;
+		return false;
 	}
-
+	
 	@Override
 	public void jump(GameObject object, float velocity) {
 		object.body.applyLinearImpulse(0, velocity, object.pos.x, object.pos.y);
@@ -81,20 +86,20 @@ public class PlayerController implements Controller {
 	}
 	
 	public void keyDown(int keyCode) {
-		if (keyCode == Keys.SPACE)
-			player.isJumping = true;
+		if (keyCode == Keys.SPACE) {
+			if (player.state != Player.STATE_JUMPING && player.state != Player.STATE_FALLING)
+				jump(player, Player.MAX_JUMP);
+		}
 	}
 	
 	public void keyUp(int keyCode) {
-		if (keyCode == Keys.SPACE)
-			player.isJumping = false;
 	}
 	
 	public void touchDown() {
-		player.isJumping = true;
+		if (player.state != Player.STATE_JUMPING && player.state != Player.STATE_FALLING)
+			jump(player, Player.MAX_JUMP);
 	}
 	
 	public void touchUp() {
-		player.isJumping = false;
 	}
 }

@@ -2,6 +2,7 @@ package com.tinyrender.rollemup.level;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject.GameObjectType;
 import com.tinyrender.rollemup.Level;
@@ -14,51 +15,51 @@ import com.tinyrender.rollemup.object.Player;
 import com.tinyrender.rollemup.object.SoySauce;
 
 public class TestLevel extends Level {
-	TextureRegion boxSushiTex;
-	TextureRegion circleSushiTex;
-	SoySauce soySauce;
-	Boat boat;
+	Boat boat = new Boat();
+	SoySauce soySauce = new SoySauce();
+	TextureRegion boxSushiTex = Assets.atlas.findRegion("boxsushi");
+	TextureRegion circleSushiTex = Assets.atlas.findRegion("circlesushi");
 	
 	public TestLevel() {
-		player = new Player(this, b2world); // ew
-		
-		levelTime = 3;
-		gui.timer.reset(levelTime);
-		gui.goalMeter.setTexture(player.objectRepresentation.texture);
-		
-		boxSushiTex = Assets.atlas.findRegion("boxsushi");
-		circleSushiTex = Assets.atlas.findRegion("circlesushi");
-		
-		soySauce = new SoySauce();
-		boat = new Boat();
+		player = new Player(this, b2world);
+		time = 3;
+		gui.timer.reset(time);
+		gui.goalMeter.setTexture(player.objRep.texture);
 	}
 	
 	@Override
 	public void create() {
+		player.xp.populate(player.xp.new Level(1, 0),
+						   player.xp.new Level(2, 15),
+						   player.xp.new Level(3, 30),
+						   player.xp.new Level(4, 100));
+		
+		player.xp.printCurrentLevel();
+		
 		new Ground(0.0f, 0.0f,
-				   (854.0f*11.0f) / Level.PTM_RATIO, 0.0f,
+				   (854.0f*9.0f) / Level.PTM_RATIO, 0.0f,
 				   1.0f, b2world);
 		new Ground(0.0f, 0.0f,
 				   0.0f, (480.0f*2.0f) / Level.PTM_RATIO,
 				   1.0f, b2world);
-		new Ground((854.0f*11.0f) / Level.PTM_RATIO, 0.0f,
-				   (854.0f*11.0f) / Level.PTM_RATIO, (480.0f*2.0f) / Level.PTM_RATIO,
+		new Ground((854.0f*9.0f) / Level.PTM_RATIO, 0.0f,
+				   (854.0f*9.0f) / Level.PTM_RATIO, (480.0f*2.0f) / Level.PTM_RATIO,
 				   1.0f, b2world);
 		
 		float offsetX = 0;
 		
 		// boat
-		offsetX += 1400.0f;
-		for (int i = 0; i < 2; i++) {
+		offsetX += 1100.0f;
+		for (int i = 0; i < 10; i++) {
 			objects.add(boat.build(offsetX / Level.PTM_RATIO, 0.0f, b2world));
-			offsetX += 3400.0f;
+			offsetX += 900.0f + (float) Math.random() * 100.0f;
 		}
 		
 		// soy bottles
-		offsetX = 2500.0f;
-		for (int i = 0; i < 4; i++) {
+		offsetX = 1500.0f;
+		for (int i = 0; i < 10; i++) {
 			objects.add(soySauce.build(offsetX / Level.PTM_RATIO, 0.0f, b2world));
-			offsetX += 500.0f + (float) Math.random() * 2500.0f;
+			offsetX += 550.0f + (float) Math.random() * 1500.0f;
 		}
 		
 		// boxes
@@ -66,18 +67,19 @@ public class TestLevel extends Level {
 			objects.add(new BoxObject(boxSushiTex,
 									 ((float) Math.random() * 4200.0f + 600.0f) / Level.PTM_RATIO,
 									 ((float) Math.random() * 100.0f + 200.0f) / Level.PTM_RATIO,
-									 0.4f,
+									 0.4f, 1, 1,
 									 GameObjectType.ROLLABLE,
 									 b2world));
 		}
 
 		// circles
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 60; i++) {
 			objects.add(new CircleObject(circleSushiTex,
 										((float) Math.random() * 4200.0f + 600.0f) / Level.PTM_RATIO, 
 										((float) Math.random() * 100.0f + 200.0f) / Level.PTM_RATIO,
+										(float) (Math.random() * 2.0f * MathUtils.PI),
 										0.4f,
-										(float) (Math.random() * 2.0f * Math.PI),
+										1, 1,
 										GameObjectType.ROLLABLE,
 										b2world));
 		}
@@ -86,40 +88,27 @@ public class TestLevel extends Level {
 	@Override
 	public void running(float deltaTime) {
 		cam.position.set(player.pos.x*Level.PTM_RATIO, (player.pos.y+1.25f)*Level.PTM_RATIO, 0);
-		cam.zoom = newZoom;
+		cam.zoom = zoom;
 		
 		if (Settings.debugEnabled) {
 			box2dcam.position.set(player.pos.x, (player.pos.y+1.25f), 0);
-			box2dcam.zoom = newZoom;
+			box2dcam.zoom = zoom;
 		}
 		
 		for (int i = 0; i < objects.size; i++)
 			objects.get(i).update();
 		
 		player.update();
-		for (int i = 0; i < player.subObjects.size; i++)
-			player.subObjects.get(i).update();
 				
-		gui.goalMeter.scale = player.mass * 0.01f;
+		gui.goalMeter.scale = player.score * 0.01f;
 		
 		physicsStep(deltaTime);
 	}
 
-	@Override
-	public void ready(float deltaTime) {		
-	}
-
-	@Override
-	public void paused(float deltaTime) {	
-	}
-
-	@Override
-	public void levelEnd(float deltaTime) {		
-	}
-
-	@Override
-	public void gameOver(float deltaTime) {		
-	}
+	@Override public void ready(float deltaTime) { }
+	@Override public void paused(float deltaTime) { }
+	@Override public void levelEnd(float deltaTime) { }
+	@Override public void gameOver(float deltaTime) { }
 	
 	@Override
 	public void touchDown() {
@@ -136,9 +125,9 @@ public class TestLevel extends Level {
 		player.controller.keyDown(keyCode);
 		
 		if (keyCode == Keys.DOWN)
-			newZoom += 0.1f;
+			zoom += 0.1f;
 		else if (keyCode == Keys.UP)
-			newZoom -= 0.1f;
+			zoom -= 0.1f;
 		return false;
 	}
 	
