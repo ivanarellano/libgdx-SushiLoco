@@ -1,12 +1,10 @@
 package com.tinyrender.rollemup.controller;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Shape;
-import com.badlogic.gdx.physics.box2d.World;
 import com.tinyrender.rollemup.Controller;
 import com.tinyrender.rollemup.GameObject;
 import com.tinyrender.rollemup.Level;
@@ -24,37 +22,47 @@ public class PlayerController implements Controller {
 		this.player = player;
 	}
 	
-	public void rollObject(GameObject other, World world) {
+	public boolean rollObject(GameObject other) {
 		Player.IS_GROWING = true;
 		
-		// Move object from level's list to player's
-		player.worldLevel.objects.removeValue(other, true); // TODO: O(N) linear
-		player.childObj.add(other);
-				
-		// Destroy object's joint then body
-		if (other.joint != null)
-			world.destroyJoint(other.joint);
-			world.destroyBody(other.body);
+		// Remove object from any existing parent
+		if (null != other.parentObj)
+			other.parentObj.childObj.removeValue(other, true);
+		
+		if (other.childObj.size == 0) {
+			// Remove object from rendering list
+			player.worldLevel.objects.removeValue(other, true); // TODO: O(N) linear
+			
+			// Add object to player rendering list
+			player.childObj.add(other);
+			
+			// Destroy object's joint then body
+			if (other.joint != null)
+				player.world.destroyJoint(other.joint);
 			if (other.body.getUserData() != null)
+				player.world.destroyBody(other.body);
 
-		other.isRolled = true;
+			other.isRolled = true;
 		
-		// Store object pos relative to player's pos
-		Vector2 otherWorldCenter = other.body.getWorldCenter().sub(player.pos);
+			// Store object pos relative to player's pos
+			Vector2 otherWorldCenter = other.body.getWorldCenter().sub(player.pos);
 		
-		// Offset object position based off the rolling direction
-		Vector2 newOffset = player.body.getLocalVector(otherWorldCenter);
+			// Offset object position based off the rolling direction
+			Vector2 newOffset = player.body.getLocalVector(otherWorldCenter);
 		
-		// Re-adjust position to half graphic's rep
-		newOffset.sub(other.objRep.halfWidth/Level.PTM_RATIO, other.objRep.halfHeight/Level.PTM_RATIO);
+			// Re-adjust position to half graphic's rep
+			newOffset.sub(other.objRep.halfWidth/Level.PTM_RATIO, other.objRep.halfHeight/Level.PTM_RATIO);
 		
-		other.rolledPos.set(newOffset);
+			other.rolledPos.set(newOffset);
 				
-		// Convert object position from box2d space to screen space
-		other.pos.mul(Level.PTM_RATIO);
-		other.rolledPos.mul(Level.PTM_RATIO);
+			// Convert object position from box2d space to screen space
+			other.pos.mul(Level.PTM_RATIO);
+			other.rolledPos.mul(Level.PTM_RATIO);
+			
+			return true;
+		}
 		
-		Gdx.app.log("score", ""+player.score);
+		return false;
 	}
 	
 	@Override
@@ -80,7 +88,7 @@ public class PlayerController implements Controller {
 	public void keyDown(int keyCode) {
 		if (keyCode == Keys.SPACE) {
 			if (player.state != Player.STATE_JUMPING && player.state != Player.STATE_FALLING)
-				jump(player, 25.0f);
+				jump(player, Player.MAX_JUMP);
 		}
 	}
 	
@@ -89,7 +97,7 @@ public class PlayerController implements Controller {
 	
 	public void touchDown() {
 		if (player.state != Player.STATE_JUMPING && player.state != Player.STATE_FALLING)
-			jump(player, 25.0f);
+			jump(player, Player.MAX_JUMP);
 	}
 	
 	public void touchUp() {
