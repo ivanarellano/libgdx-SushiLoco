@@ -46,7 +46,8 @@ public class Player extends GameObject {
 		}
 	}
 	
-	final static float MAX_VELOCITY = 7.0f;
+	public final static float MAX_VELOCITY = 7.0f;
+	public final static float MAX_JUMP = 12.0f;
 	public final static int STATE_IDLE = 0;
 	public final static int STATE_FALLING = 1;
 	public final static int STATE_JUMPING = 2;
