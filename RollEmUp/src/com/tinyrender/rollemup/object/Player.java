@@ -161,9 +161,8 @@ public class Player extends GameObject {
 			rolledObj = objectsToRoll.pop();
 			
 			// Update if object is rolled
-			if (controller.rollObject(rolledObj)) {
+			if (controller.rollObject(rolledObj))
 				score += rolledObj.score;
-			}
 		}
 			
 		// Set X velocity to MAX if we're going too fast
@@ -195,6 +194,7 @@ public class Player extends GameObject {
 	public void grow() {
 		forceYOffset = -(shape.getRadius() / 4.5f) * growthScale;
 		controller.scaleCircle(this, growthScale, 0.0f, 0.0f);
+		worldLevel.zoom += 0.375f;
 	}
 	
 	public boolean isRollable(GameObject otherObj) {
