@@ -44,13 +44,11 @@ public abstract class PhysicsWorld implements ContactListener {
 	final static float MINIMUM_TIMESTEP = UPDATE_INTERVAL / 2.0f;
 	final static int MAX_CYCLES_PER_FRAME = 25;
 	
-	public World b2world;
 	public ObjectCulling culling = new ObjectCulling();
-	public Vector2 gravity;
+	public Vector2 gravity = new Vector2(0, -12.0f);
+	public World b2world = new World(gravity, true);
 	
 	public PhysicsWorld() {
-		gravity = new Vector2(0, -12.0f);
-		b2world = new World(gravity, true);
 		b2world.setContactListener(this);
 	}
 
