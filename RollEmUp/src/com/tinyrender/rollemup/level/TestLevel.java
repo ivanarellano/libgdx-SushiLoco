@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.tinyrender.rollemup.Assets;
+import com.tinyrender.rollemup.GameObject;
 import com.tinyrender.rollemup.GameObject.GameObjectType;
 import com.tinyrender.rollemup.Level;
 import com.tinyrender.rollemup.Settings;
@@ -37,51 +38,48 @@ public class TestLevel extends Level {
 		player.xp.printCurrentLevel();
 		
 		new Ground(0.0f, 0.0f,
-				   (854.0f*9.0f) / Level.PTM_RATIO, 0.0f,
+				   (854.0f*8.0f) / Level.PTM_RATIO, 0.0f,
 				   1.0f, b2world);
 		new Ground(0.0f, 0.0f,
 				   0.0f, (480.0f*2.0f) / Level.PTM_RATIO,
 				   1.0f, b2world);
-		new Ground((854.0f*9.0f) / Level.PTM_RATIO, 0.0f,
-				   (854.0f*9.0f) / Level.PTM_RATIO, (480.0f*2.0f) / Level.PTM_RATIO,
+		new Ground((854.0f*8.0f) / Level.PTM_RATIO, 0.0f,
+				   (854.0f*8.0f) / Level.PTM_RATIO, (480.0f*2.0f) / Level.PTM_RATIO,
 				   1.0f, b2world);
 		
 		float offsetX = 0;
 		
 		// boat
 		offsetX += 1100.0f;
-		for (int i = 0; i < 10; i++) {
-			objects.add(boat.build(offsetX / Level.PTM_RATIO, 0.0f, b2world));
-			offsetX += 900.0f + (float) Math.random() * 100.0f;
+		for (int i = 0; i < 7; i++) {
+			boat.build(offsetX / Level.PTM_RATIO, 0.0f, b2world);
+			offsetX += 825.0f + (float) Math.random() * 100.0f;
 		}
 		
 		// soy bottles
 		offsetX = 1500.0f;
-		for (int i = 0; i < 10; i++) {
-			objects.add(soySauce.build(offsetX / Level.PTM_RATIO, 0.0f, b2world));
-			offsetX += 550.0f + (float) Math.random() * 1500.0f;
+		for (int i = 0; i < 5; i++) {
+			soySauce.build(offsetX / Level.PTM_RATIO, 0.0f, b2world);
+			offsetX += 350.0f + (float) Math.random() * 1000.0f;
 		}
 		
 		// boxes
 		for (int i = 0; i < 40; i++) {
-			objects.add(new BoxObject(boxSushiTex,
-									 ((float) Math.random() * 4200.0f + 600.0f) / Level.PTM_RATIO,
-									 ((float) Math.random() * 100.0f + 200.0f) / Level.PTM_RATIO,
-									 0.4f, 1, 1,
-									 GameObjectType.ROLLABLE,
-									 b2world));
+			new BoxObject(boxSushiTex, 
+					((float) Math.random() * 4200.0f + 600.0f) / Level.PTM_RATIO,
+					((float) Math.random() * 100.0f + 200.0f) / Level.PTM_RATIO,
+					0.4f, 1, 1,
+					GameObjectType.ROLLABLE, b2world);
 		}
 
 		// circles
 		for (int i = 0; i < 60; i++) {
-			objects.add(new CircleObject(circleSushiTex,
-										((float) Math.random() * 4200.0f + 600.0f) / Level.PTM_RATIO, 
-										((float) Math.random() * 100.0f + 200.0f) / Level.PTM_RATIO,
-										(float) (Math.random() * 2.0f * MathUtils.PI),
-										0.4f,
-										1, 1,
-										GameObjectType.ROLLABLE,
-										b2world));
+			new CircleObject(circleSushiTex, 
+					((float) Math.random() * 4200.0f + 600.0f) / Level.PTM_RATIO, 
+					((float) Math.random() * 100.0f + 200.0f) / Level.PTM_RATIO,
+					(float) (Math.random() * 2.0f * MathUtils.PI),
+					0.4f, 1, 1,
+					GameObjectType.ROLLABLE, b2world);
 		}
 	}
 	
@@ -94,9 +92,13 @@ public class TestLevel extends Level {
 			box2dcam.position.set(player.pos.x, (player.pos.y+1.25f), 0);
 			box2dcam.zoom = zoom;
 		}
-		
-		for (int i = 0; i < objects.size; i++)
-			objects.get(i).update();
+
+		bodiesList = b2world.getBodies();
+		while (bodiesList.hasNext()) {
+			tmpGameObject = (GameObject) bodiesList.next().getUserData();
+			if (!tmpGameObject.gameObjType.equals(GameObjectType.PLAYER))
+				tmpGameObject.update();
+		}
 		
 		player.update();
 				

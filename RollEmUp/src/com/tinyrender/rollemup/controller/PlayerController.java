@@ -30,9 +30,6 @@ public class PlayerController implements Controller {
 			other.parentObj.childObj.removeValue(other, true);
 		
 		if (other.childObj.size == 0) {
-			// Remove object from rendering list
-			player.worldLevel.objects.removeValue(other, true); // TODO: O(N) linear
-			
 			// Add object to player rendering list
 			player.childObj.add(other);
 			

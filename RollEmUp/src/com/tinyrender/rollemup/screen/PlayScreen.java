@@ -68,6 +68,7 @@ public class PlayScreen extends GameScreen {
 		update(deltaTime);
 		levelRenderer.render(deltaTime);
 		
+		// Render GUI
 		switch (state) {
 			case GAME_READY:
 				level.gui.ready(deltaTime);

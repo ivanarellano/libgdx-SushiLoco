@@ -26,12 +26,18 @@ public class LevelRenderer {
 		Assets.batch.setProjectionMatrix(level.cam.combined);
 		Assets.batch.begin();
 		
-			// Draw level objects and their sub-objects.
-			for (int i = 0; i < level.objects.size; i++) {
-				level.objects.get(i).objRep.draw();
-
-				for (int j = 0; j < level.objects.get(i).childObj.size; j++)
-					level.objects.get(i).childObj.get(j).objRep.draw();
+			level.bodiesList = level.b2world.getBodies();
+			while (level.bodiesList.hasNext()) {
+				level.tmpGameObject = (GameObject) level.bodiesList.next().getUserData();
+				
+				if (level.tmpGameObject.objRep.texture != null)
+						level.tmpGameObject.objRep.draw();
+				
+				for (int i = 0; i < level.tmpGameObject.childObj.size; i++) {
+					if (level.tmpGameObject.childObj.get(i).objRep.texture != null)
+						level.tmpGameObject.childObj.get(i).objRep.draw();
+				}
+				
 			}
 			
 			// Draw Player with attached objects and sub-objects.
