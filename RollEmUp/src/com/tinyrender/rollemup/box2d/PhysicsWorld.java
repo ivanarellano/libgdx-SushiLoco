@@ -1,19 +1,51 @@
 package com.tinyrender.rollemup.box2d;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.World;
 
 public abstract class PhysicsWorld implements ContactListener {
+	class ObjectCulling {
+		Rectangle leftHalfScreen = new Rectangle();
+		Rectangle rightHalfScreen = new Rectangle();
+		
+		QueryCallback callback = new QueryCallback() {
+			@Override
+			public boolean reportFixture(Fixture fixture) {
+				
+				return true;
+			}
+		};
+		
+		ObjectCulling() {
+			leftHalfScreen.set(0, 0, 0, 0);
+			rightHalfScreen.set(0, 0, 0, 0);
+		}
+		
+		public void update() {			
+			b2world.QueryAABB(callback, 
+					leftHalfScreen.x, leftHalfScreen.y, 
+					leftHalfScreen.width, leftHalfScreen.height);
+			
+			b2world.QueryAABB(callback, 
+					rightHalfScreen.x, rightHalfScreen.y, 
+					rightHalfScreen.width, rightHalfScreen.height);
+		}
+	}
+	
 	public final static int PTM_RATIO = 64;
 	final static float UPDATE_INTERVAL = 1.0f / 60.0f;
 	final static float MINIMUM_TIMESTEP = UPDATE_INTERVAL / 2.0f;
 	final static int MAX_CYCLES_PER_FRAME = 25;
 	
 	public World b2world;
+	public ObjectCulling culling = new ObjectCulling();
 	public Vector2 gravity;
 	
 	public PhysicsWorld() {
