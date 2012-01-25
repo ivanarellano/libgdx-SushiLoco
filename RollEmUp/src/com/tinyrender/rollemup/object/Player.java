@@ -183,9 +183,9 @@ public class Player extends GameObject {
 		if (vel.x < MAX_VELOCITY/4.0f || vel.x > -MAX_VELOCITY/4.0f)
 			body.applyLinearImpulse(Gdx.input.getAccelerometerY() * 0.1f, 0.0f, pos.x, pos.y);
 		
-		for (int i = 0; i < childObj.size; i++) {
-			childObj.get(i).rot = this.rot;
-			childObj.get(i).pos.set(this.pos.x * Level.PTM_RATIO, this.pos.y * Level.PTM_RATIO);
+		for (int i = 0; i < children.size; i++) {
+			children.get(i).rot = this.rot;
+			children.get(i).pos.set(this.pos.x * Level.PTM_RATIO, this.pos.y * Level.PTM_RATIO);
 		}
 
 		groundSensor.update();
@@ -198,8 +198,8 @@ public class Player extends GameObject {
 	}
 	
 	public boolean isRollable(GameObject otherObj) {
-		if (otherObj.getType().equals(GameObjectType.ROLLABLE) && otherObj.childObj.size == 0)
-			if (otherObj.level <= xp.currentLevel.tag)
+		if (otherObj.gameObjType == GameObjectType.ROLLABLE && otherObj.children.size == 0)
+			if (otherObj.level <= xp.getLevelTag())
 				return true;
 		return false;
 	}

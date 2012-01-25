@@ -9,8 +9,8 @@ import com.tinyrender.rollemup.screen.PlayScreen;
 
 public class LevelRenderer {
 	public Level level;
-	public Box2DDebugRenderer renderer = new Box2DDebugRenderer();
-	public ShapeRenderer shapeRenderer = new ShapeRenderer();
+	Box2DDebugRenderer renderer = new Box2DDebugRenderer();
+	ShapeRenderer shapeRenderer = new ShapeRenderer();
 	
 	public LevelRenderer(PlayScreen screen) {
 		level = screen.level;
@@ -20,42 +20,42 @@ public class LevelRenderer {
 	public void render(float deltaTime) {
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		
-		level.cam.update();
-		level.cam.apply(Gdx.gl11);
+		level.getLevelCamera().update();
+		level.getLevelCamera().apply(Gdx.gl11);
 		
-		Assets.batch.setProjectionMatrix(level.cam.combined);
+		Assets.batch.setProjectionMatrix(level.getLevelCamera().combined);
 		Assets.batch.begin();
 		
-			level.bodiesList = level.b2world.getBodies();
+			level.bodiesList = level.getWorldBodies();
 			while (level.bodiesList.hasNext()) {
-				level.tmpGameObject = (GameObject) level.bodiesList.next().getUserData();
+				level.nextWorldGameObj = (GameObject) level.bodiesList.next().getUserData();
 				
-				if (level.tmpGameObject.objRep.texture != null)
-						level.tmpGameObject.objRep.draw();
+				if (level.nextWorldGameObj.objRep.texture != null)
+						level.nextWorldGameObj.objRep.draw();
 				
-				for (int i = 0; i < level.tmpGameObject.childObj.size; i++) {
-					if (level.tmpGameObject.childObj.get(i).objRep.texture != null)
-						level.tmpGameObject.childObj.get(i).objRep.draw();
+				for (int i = 0; i < level.nextWorldGameObj.children.size; i++) {
+					if (level.nextWorldGameObj.children.get(i).objRep.texture != null)
+						level.nextWorldGameObj.children.get(i).objRep.draw();
 				}
 				
 			}
 			
 			// Draw Player with attached objects and sub-objects.
 			level.player.objRep.draw();
-			for (int i = 0; i < level.player.childObj.size; i++) {
-				level.player.childObj.get(i).objRep.draw();
+			for (int i = 0; i < level.player.children.size; i++) {
+				level.player.children.get(i).objRep.draw();
 				
-				for (int j = 0; j < level.player.childObj.get(i).childObj.size; j++)
-					level.player.childObj.get(i).childObj.get(j).objRep.draw();
+				for (int j = 0; j < level.player.children.get(i).children.size; j++)
+					level.player.children.get(i).children.get(j).objRep.draw();
 			}
 			
 		Assets.batch.end();
 		
 		if (Settings.debugEnabled) {
-			level.box2dcam.update();
-			renderer.render(level.b2world, level.box2dcam.combined);
+			level.getBox2dCamera().update();
+			renderer.render(level.b2world, level.getBox2dCamera().combined);
 			
-			shapeRenderer.setProjectionMatrix(level.cam.combined);
+			shapeRenderer.setProjectionMatrix(level.getLevelCamera().combined);
 			shapeRenderer.begin(ShapeType.Rectangle);
 			shapeRenderer.setColor(1.0f, 1.0f, 0.0f, 1.0f);
 			shapeRenderer.rect(level.player.groundSensor.rect.x * Level.PTM_RATIO,

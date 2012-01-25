@@ -13,7 +13,7 @@ public class GameObject extends PhysicsObject {
 	
 	public boolean isRolled;
 	
-	public int score;
+	public int points;
 	public int level;
 	
 	public float rot;
@@ -23,13 +23,13 @@ public class GameObject extends PhysicsObject {
 	public GameObjectType gameObjType;
 	public GameObjectRepresentation objRep = new GameObjectRepresentation(this);
 	
-	public GameObject parentObj;
-	public Array<GameObject> childObj = new Array<GameObject>();
+	public GameObject parent;
+	public Array<GameObject> children = new Array<GameObject>();
 	
 	public GameObject(World world) {
 		super(world);
-		parentObj = null;
-		childObj.shrink();
+		parent = null;
+		children.shrink();
 	}
 	
 	public GameObjectType getType() {
@@ -41,9 +41,9 @@ public class GameObject extends PhysicsObject {
 			pos = body.getPosition();
 			rot = body.getAngle() * MathUtils.radiansToDegrees;
 				
-			for (int i = 0; i < childObj.size; i++) {
-				childObj.get(i).pos = childObj.get(i).body.getPosition();
-				childObj.get(i).rot = childObj.get(i).body.getAngle() * MathUtils.radiansToDegrees;
+			for (int i = 0; i < children.size; i++) {
+				children.get(i).pos = children.get(i).body.getPosition();
+				children.get(i).rot = children.get(i).body.getAngle() * MathUtils.radiansToDegrees;
 			}
 		}
 		

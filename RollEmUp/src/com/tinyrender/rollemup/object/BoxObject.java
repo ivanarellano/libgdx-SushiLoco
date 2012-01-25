@@ -13,10 +13,10 @@ public class BoxObject extends GameObject {
 	}
 	
 	public BoxObject(TextureRegion texture, float x, float y, float density, int level,
-			int score, GameObjectType gameObjType, World world) {
+			int points, boolean isSensor, boolean doUpdate, GameObjectType gameObjType, World world) {
 		super(world);
 		
-		this.score = score;
+		this.points = points;
 		this.level = level;
 		this.gameObjType = gameObjType;
 		objRep.setTexture(texture);

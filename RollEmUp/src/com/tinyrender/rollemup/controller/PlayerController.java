@@ -26,12 +26,12 @@ public class PlayerController implements Controller {
 		Player.IS_GROWING = true;
 		
 		// Remove object from any existing parent
-		if (null != other.parentObj)
-			other.parentObj.childObj.removeValue(other, true);
+		if (null != other.parent)
+			other.parent.children.removeValue(other, true);
 		
-		if (other.childObj.size == 0) {
+		if (other.children.size == 0) {
 			// Add object to player rendering list
-			player.childObj.add(other);
+			player.children.add(other);
 			
 			// Destroy object's joint then body
 			if (other.joint != null)

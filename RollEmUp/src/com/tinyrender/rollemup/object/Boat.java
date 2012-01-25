@@ -109,7 +109,7 @@ public class Boat implements ObjectFactory {
 		GameObject boatObj = new GameObject(world);
 		
 		boatObj.level = 4;
-		boatObj.score = 10;
+		boatObj.points = 10;
 		
 		filter.categoryBits = PhysicsObject.CATEGORY_OBJECT;
 		filter.maskBits = PhysicsObject.MASK_OBJECT;
@@ -164,22 +164,22 @@ public class Boat implements ObjectFactory {
 		filter.categoryBits = PhysicsObject.CATEGORY_SUB_OBJECT;
 		filter.maskBits = PhysicsObject.MASK_SUB_OBJECT;
 		
-		boatObj.childObj.add(boatFrontObj);
-		boatObj.childObj.add(boatFlagObj);
-		boatObj.childObj.add(boatBackBarObj);
+		boatObj.children.add(boatFrontObj);
+		boatObj.children.add(boatFlagObj);
+		boatObj.children.add(boatBackBarObj);
 		
 		// Set joint, GameObjectType, collision data, user data
-		for (int i = 0; i < boatObj.childObj.size; i++) {
-			GameObject child = boatObj.childObj.get(i);
+		for (int i = 0; i < boatObj.children.size; i++) {
+			GameObject child = boatObj.children.get(i);
 			
-			child.level = 2;
-			child.score = 4;
+			child.level = 3;
+			child.points = 4;
 			child.gameObjType = GameObjectType.ROLLABLE;
 			
 			child.body.getFixtureList().get(0).setFilterData(filter);
 			child.joint = JointFactory.weld(boatObj.body, child.body, boatObj.body.getWorldCenter(), world);
 			
-			child.parentObj = boatObj;
+			child.parent = boatObj;
 			child.body.setUserData(child);
 		}
 				
