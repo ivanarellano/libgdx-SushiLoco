@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.Array;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject;
 import com.tinyrender.rollemup.Level;
-import com.tinyrender.rollemup.PlayerXP;
+import com.tinyrender.rollemup.ExperienceChain;
 import com.tinyrender.rollemup.box2d.BodyFactory;
 import com.tinyrender.rollemup.box2d.PhysicsObject;
 import com.tinyrender.rollemup.controller.PlayerController;
@@ -55,42 +55,42 @@ public class Player extends GameObject {
 	public final static int DIRECTION_NONE = 0;
 	public final static int DIRECTION_LEFT = 1;
 	public final static int DIRECTION_RIGHT = 2;
-	public static boolean IS_GROWING;
 	
 	public int state;
 	public int direction;
 	
-	float growthScale = 1.3f;
-	float forceYOffset;
+	public float growthScale = 1.3f;
+	public float forceYOffset;
 	
 	public Vector2 vel = new Vector2();
 	
 	public CircleShape shape;
 	public GroundSensor groundSensor = new GroundSensor();
-	public PlayerXP xp = new PlayerXP();
+	public ExperienceChain xp = new ExperienceChain();
 	public PlayerController controller = new PlayerController(this);
-	private GameObject rolledObj;
 	public Array<GameObject> objectsToRoll = new Array<GameObject>();
 	
 	public Level worldLevel;
+	GameObject rolledObj;
 	
 	public Player(Level worldLevel, World world) {
 		super(world);
 		this.worldLevel = worldLevel;
 		rolledObj = new GameObject(world);
 		
-		level = 1;
-		gameObjType = GameObjectType.PLAYER;
+		this.level = 1;
+		this.gameObjType = GameObjectType.PLAYER;
+		this.doUpdate = true;
+		
 		objRep.setTexture(Assets.atlas.findRegion("player"));
 		
 		float radius = (objRep.halfWidth) * 0.7f / Level.PTM_RATIO;
-
+		
 		body = BodyFactory.createCircle(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius,
 										0.8f, 0.0f, 1.0f, false, BodyType.DynamicBody, world);
 		
 		pos = body.getPosition();
 		shape = (CircleShape) body.getFixtureList().get(0).getShape();
-		body.setUserData(this);
 		
 		// Set collision attributes
 		Filter filter = new Filter();
@@ -114,6 +114,8 @@ public class Player extends GameObject {
 			
 			@Override public void leaveContact(PhysicsObject leftCollisionWith) { }
 		};
+		
+		body.setUserData(this);
 	}
 	
 	@Override
@@ -140,15 +142,8 @@ public class Player extends GameObject {
 		else if (isGrounded())
 			state = STATE_IDLE;
 		
-		if (IS_GROWING) {
-			// Level up
-			if (xp.currentLevel.tag != PlayerXP.MAX_LEVEL.tag && score >= xp.nextLevel.score) {
-				grow();
-				xp.levelUp();
-			}
-			
-			IS_GROWING = false;
-		}
+		if (xp.justLeveledUp())
+			levelUp();
 				
 		// Desktop player controls
 		if (Gdx.input.isKeyPressed(Keys.A))
@@ -162,7 +157,7 @@ public class Player extends GameObject {
 			
 			// Update if object is rolled
 			if (controller.rollObject(rolledObj))
-				score += rolledObj.score;
+				xp.addPoints(rolledObj.points);
 		}
 			
 		// Set X velocity to MAX if we're going too fast
@@ -191,10 +186,9 @@ public class Player extends GameObject {
 		groundSensor.update();
 	}
 	
-	public void grow() {
-		forceYOffset = -(shape.getRadius() / 4.5f) * growthScale;
-		controller.scaleCircle(this, growthScale, 0.0f, 0.0f);
-		worldLevel.zoom += 0.375f;
+	public void levelUp() {
+		xp.levelUp();
+		controller.grow();		
 	}
 	
 	public boolean isRollable(GameObject otherObj) {

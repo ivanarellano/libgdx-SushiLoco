@@ -19,6 +19,7 @@ public class CircleObject extends GameObject {
 		this.points = points;
 		this.level = level;
 		this.gameObjType = gameObjType;
+		this.doUpdate = doUpdate;
 		objRep.setTexture(texture);
 		
 		float radius = objRep.width / 2.0f / Level.PTM_RATIO;

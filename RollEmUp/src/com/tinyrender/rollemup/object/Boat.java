@@ -110,6 +110,7 @@ public class Boat implements ObjectFactory {
 		
 		boatObj.level = 4;
 		boatObj.points = 10;
+		boatObj.doUpdate = true;
 		
 		filter.categoryBits = PhysicsObject.CATEGORY_OBJECT;
 		filter.maskBits = PhysicsObject.MASK_OBJECT;
@@ -148,7 +149,7 @@ public class Boat implements ObjectFactory {
 		
 		boatBackBarObj.body = BodyFactory.createBox(x+(304.0f/Level.PTM_RATIO), y+(86.0f/Level.PTM_RATIO),
 				8.0f/Level.PTM_RATIO, 43.0f/Level.PTM_RATIO,
-				1.1f, BodyType.DynamicBody, world);
+				1.1f, false, BodyType.DynamicBody, world);
 		
 		/* 
 		// Boat Net
@@ -175,6 +176,7 @@ public class Boat implements ObjectFactory {
 			child.level = 3;
 			child.points = 4;
 			child.gameObjType = GameObjectType.ROLLABLE;
+			child.doUpdate = true;
 			
 			child.body.getFixtureList().get(0).setFilterData(filter);
 			child.joint = JointFactory.weld(boatObj.body, child.body, boatObj.body.getWorldCenter(), world);

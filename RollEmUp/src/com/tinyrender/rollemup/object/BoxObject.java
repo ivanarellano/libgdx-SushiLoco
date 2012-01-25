@@ -19,12 +19,13 @@ public class BoxObject extends GameObject {
 		this.points = points;
 		this.level = level;
 		this.gameObjType = gameObjType;
+		this.doUpdate = doUpdate;
 		objRep.setTexture(texture);
 		
 		float hx = objRep.width / 2.0f / Level.PTM_RATIO;
 		float hy = objRep.height / 2.0f / Level.PTM_RATIO;
 		
-		body = BodyFactory.createBox(x, y, hx, hy, density, BodyType.DynamicBody, world);
+		body = BodyFactory.createBox(x, y, hx, hy, density, isSensor, BodyType.DynamicBody, world);
 		body.setUserData(this);
 	}
 }

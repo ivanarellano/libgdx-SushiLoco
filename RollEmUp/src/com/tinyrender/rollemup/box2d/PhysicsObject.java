@@ -19,6 +19,7 @@ public abstract class PhysicsObject {
 		public void leaveContact(PhysicsObject leftCollisionWith);
 	}
 	
+	public boolean doUpdate;
 	public ContactResolver contactResolver;
 	public Body body;
 	public Joint joint;

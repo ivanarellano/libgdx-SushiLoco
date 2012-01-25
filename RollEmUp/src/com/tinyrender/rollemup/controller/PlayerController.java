@@ -23,13 +23,13 @@ public class PlayerController implements Controller {
 	}
 	
 	public boolean rollObject(GameObject other) {
-		Player.IS_GROWING = true;
-		
 		// Remove object from any existing parent
 		if (null != other.parent)
 			other.parent.children.removeValue(other, true);
 		
 		if (other.children.size == 0) {
+			other.doUpdate = false;
+			
 			// Add object to player rendering list
 			player.children.add(other);
 			
@@ -67,7 +67,12 @@ public class PlayerController implements Controller {
 		object.body.applyLinearImpulse(0, velocity, object.pos.x, object.pos.y);
 	}
 	
-	public void scaleCircle(PhysicsObject object, float scale, float offsetX, float offsetY) {
+	public void grow() {
+		player.forceYOffset = -(player.shape.getRadius() / 4.5f) * player.growthScale;
+		scaleCircle(player, player.growthScale, 0.0f, 0.0f);
+	}
+	
+	void scaleCircle(PhysicsObject object, float scale, float offsetX, float offsetY) {
 		fixture = object.body.getFixtureList().get(0);
 		shapeType = fixture.getType();
 		

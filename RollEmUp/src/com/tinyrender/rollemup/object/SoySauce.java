@@ -63,6 +63,7 @@ public class SoySauce implements ObjectFactory {
 		soyObj.level = 3;
 		soyObj.points = 9;
 		soyObj.gameObjType = GameObjectType.ROLLABLE;
+		soyObj.doUpdate = true;
 		soyObj.objRep.setTexture(texture);
 		
 		y += soyObj.objRep.texture.getRegionHeight() / 2.0f / Level.PTM_RATIO;

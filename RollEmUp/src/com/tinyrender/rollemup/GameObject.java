@@ -37,7 +37,7 @@ public class GameObject extends PhysicsObject {
 	}
 
 	public void update() {
-		if (!isRolled) {
+		if (!isRolled || body.isActive()) {
 			pos = body.getPosition();
 			rot = body.getAngle() * MathUtils.radiansToDegrees;
 				
