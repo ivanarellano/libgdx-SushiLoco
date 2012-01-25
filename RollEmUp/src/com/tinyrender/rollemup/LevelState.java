@@ -1,6 +1,6 @@
 package com.tinyrender.rollemup;
 
-public interface LevelStateUpdater {
+public interface LevelState {	
 	public void ready(float deltaTime);
 	public void running(float deltaTime);
 	public void paused(float deltaTime);
