@@ -1,4 +1,5 @@
-Online Applet
--------------
+# Roll
+A gyro-controlled platformer featuring a possessed sushi roll bent on rescuing sushi.
 
-Always updated to the latest commit. http://ivanarellano.com/nightlies/applet
+## Online Applet
+http://ivanarellano.com/nightlies/applet
