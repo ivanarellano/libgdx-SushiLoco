@@ -1,5 +1,6 @@
 package com.tinyrender.rollemup.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector3;
 import com.tinyrender.rollemup.GameScreen;
@@ -22,6 +23,7 @@ public class PlayScreen extends GameScreen {
 
 	public PlayScreen(RollEmUp game) {
 		super(game);
+		Gdx.app.log("PlayScreen", "CONSTRUCTOR");
 		level = new TestLevel();
 		levelRenderer = new LevelRenderer(this);
 		touchPoint = new Vector3();
@@ -31,16 +33,21 @@ public class PlayScreen extends GameScreen {
 
 	@Override
 	public void dispose() {
+		Gdx.app.log("PlayScreen", "DISPOSE");
 		level.disposeWorld();
 		levelRenderer.dispose();
 	}
 
 	@Override
 	public void hide() {
+		Gdx.app.log("PlayScreen", "HIDE");
+		level.disposeWorld();
+		levelRenderer.dispose();
 	}
 
 	@Override
 	public void pause() {
+		Gdx.app.log("PlayScreen", "PAUSE");
 	}
 	
 	public void update(int state, float deltaTime) {
@@ -61,12 +68,14 @@ public class PlayScreen extends GameScreen {
 
 	@Override
 	public void resume() {
+		Gdx.app.log("PlayScreen", "RESUME");
 		level.resumeWorld();
 		levelRenderer.resume();
 	}
 
 	@Override
 	public void show() {
+		Gdx.app.log("PlayScreen", "SHOW");
 		level.createWorld();
 	}
 	

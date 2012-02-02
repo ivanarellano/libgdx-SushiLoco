@@ -27,9 +27,7 @@ public class PlayerController implements Controller {
 		if (null != other.parent)
 			other.parent.children.removeValue(other, true);
 		
-		if (other.children.size == 0) {
-			other.doUpdate = false;
-			
+		if (other.children.size == 0) {			
 			// Add object to player rendering list
 			player.children.add(other);
 			

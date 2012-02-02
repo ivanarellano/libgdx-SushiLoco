@@ -4,22 +4,32 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 
-public abstract class PhysicsObject {
-	public final static short CATEGORY_PLAYER		= 0x0001;
-	public final static short CATEGORY_OBJECT		= 0x0002;
-	public final static short CATEGORY_SUB_OBJECT	= 0x0004;
-	public final static short MASK_NO_COLLISION		= 0;
-	public final static short MASK_COLLIDE_ALL		= -1;
-	public final static short MASK_PLAYER			= CATEGORY_OBJECT | CATEGORY_SUB_OBJECT;
-	public final static short MASK_OBJECT			= MASK_COLLIDE_ALL & ~CATEGORY_SUB_OBJECT;
-	public final static short MASK_SUB_OBJECT		= CATEGORY_PLAYER | CATEGORY_OBJECT;
+public class PhysicsObject {
+	public static enum Type {
+		PLAYER, ROLLABLE, STATIC, FRUSTRUM;
+	}
+	
+	public static class Category {
+		public final static short PLAYER			= 0x0001;
+		public final static short OBJECT			= 0x0002;
+		public final static short SUB_OBJECT		= 0x0004;
+		public final static short FRUSTRUM			= 0x0006;
+	}
+	
+	public static class Mask {
+		public final static short COLLIDE_NONE		= 0;
+		public final static short COLLIDE_ALL		= -1;
+		public final static short PLAYER			= Category.OBJECT | Category.SUB_OBJECT;
+		public final static short OBJECT			= Mask.COLLIDE_ALL & ~Category.SUB_OBJECT;
+		public final static short SUB_OBJECT		= Category.PLAYER | Category.OBJECT;
+	}
 	
 	public interface ContactResolver {
 		public void enterContact(PhysicsObject collidesWith);
 		public void leaveContact(PhysicsObject leftCollisionWith);
 	}
 	
-	public boolean doUpdate;
+	public Type type;
 	public ContactResolver contactResolver;
 	public Body body;
 	public Joint joint;
@@ -33,5 +43,5 @@ public abstract class PhysicsObject {
 		};
 	}
 	
-	public abstract void update();
+	public void update() {};
 }

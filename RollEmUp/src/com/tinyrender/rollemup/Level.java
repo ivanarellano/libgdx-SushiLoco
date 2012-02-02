@@ -1,10 +1,6 @@
 package com.tinyrender.rollemup;
 
-import java.util.Iterator;
-
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.tinyrender.rollemup.box2d.PhysicsObject;
 import com.tinyrender.rollemup.box2d.PhysicsWorld;
 import com.tinyrender.rollemup.gui.LevelGui;
 import com.tinyrender.rollemup.object.Player;
@@ -15,33 +11,16 @@ public abstract class Level extends PhysicsWorld implements LevelState {
 	public LevelGui gui;
 	public Player player;
 	
-	GameObject objectCulling = new GameObject(b2world);
+	OrthographicCamera levelCam = new OrthographicCamera(RollEmUp.TARGET_WIDTH, RollEmUp.TARGET_HEIGHT);
+	OrthographicCamera box2dCam = new OrthographicCamera(RollEmUp.TARGET_WIDTH/Level.PTM_RATIO, RollEmUp.TARGET_HEIGHT/Level.PTM_RATIO);
 	
-	public float camZoom = 1.0f;
-	OrthographicCamera levelCam = new OrthographicCamera(
-			(float) RollEmUp.TARGET_WIDTH,
-			(float) RollEmUp.TARGET_HEIGHT);
-	OrthographicCamera box2dCam = new OrthographicCamera(
-			(float) RollEmUp.TARGET_WIDTH/Level.PTM_RATIO,
-			(float) RollEmUp.TARGET_HEIGHT/Level.PTM_RATIO);
-	
-	public Iterator<Body> bodiesList;
-	public Body nextWorldBody;
 	public GameObject nextWorldGameObj;
-	public PhysicsObject nextWorldPhysicsObj;
-
+	
 	public Level() {
 		gui = new LevelGui(this);
 		
-		levelCam.setToOrtho(false, (float) RollEmUp.TARGET_WIDTH, (float) RollEmUp.TARGET_HEIGHT);		
-		box2dCam.setToOrtho(false, (float) RollEmUp.TARGET_WIDTH/Level.PTM_RATIO, (float) RollEmUp.TARGET_HEIGHT/Level.PTM_RATIO);
-		/*
-		objectCulling.body = BodyFactory.createBox(0, 0, 
-				RollEmUp.TARGET_WIDTH / Level.PTM_RATIO, 
-				RollEmUp.TARGET_HEIGHT / Level.PTM_RATIO,
-				0, true, BodyType.KinematicBody, b2world);
-		objectCulling.body.setUserData(objectCulling);
-		*/
+		levelCam.setToOrtho(false, RollEmUp.TARGET_WIDTH, RollEmUp.TARGET_HEIGHT);		
+		box2dCam.setToOrtho(false, RollEmUp.TARGET_WIDTH/Level.PTM_RATIO, RollEmUp.TARGET_HEIGHT/Level.PTM_RATIO);		
 	}
 	
 	public void update(int state, float deltaTime) {
@@ -64,27 +43,26 @@ public abstract class Level extends PhysicsWorld implements LevelState {
 		}
 	}
 	
-	protected void updateBodies() {
-		bodiesList = getWorldBodies();
+	public void setCameraPosition(float x, float y) {
+		levelCam.position.set(x * Level.PTM_RATIO, y * Level.PTM_RATIO, 0.0f);
+		frustrumCulling.setPosition(x, y);
 		
-		while (bodiesList.hasNext()) {
-			nextWorldBody = bodiesList.next();
-			
-			if (null != nextWorldBody) {
-				nextWorldPhysicsObj = (PhysicsObject) nextWorldBody.getUserData();
-				
-				if (nextWorldPhysicsObj.doUpdate)
-					nextWorldPhysicsObj.update();
-			}
-		}
+		if (Settings.debugEnabled)
+			box2dCam.position.set(x, y, 0.0f);
 	}
 	
-	public OrthographicCamera getLevelCamera() {
-		return levelCam;
+	public void zoomCamera(float zoom) {
+		levelCam.zoom += zoom;
+		box2dCam.zoom += zoom;
+		frustrumCulling.scale(zoom);
 	}
 	
 	public OrthographicCamera getBox2dCamera() {
 		return box2dCam;
+	}
+	
+	public OrthographicCamera getLevelCamera() {
+		return levelCam;
 	}
 	
 	public abstract void createWorld();

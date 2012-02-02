@@ -17,6 +17,7 @@ public class BodyFactory {
 		bd.position.set(x, y);
 		bd.type = bodyType;
 		Body body = b2world.createBody(bd);
+		body.setActive(false);
 		
 		return body;
 	}
@@ -74,6 +75,7 @@ public class BodyFactory {
         body.createFixture(fd);
         body.resetMassData();
         shape.dispose();
+        body.setActive(true);
         
 		return body;
 	}

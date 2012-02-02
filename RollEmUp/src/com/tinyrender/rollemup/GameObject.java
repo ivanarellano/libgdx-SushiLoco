@@ -7,10 +7,6 @@ import com.badlogic.gdx.utils.Array;
 import com.tinyrender.rollemup.box2d.PhysicsObject;
 
 public class GameObject extends PhysicsObject {
-	public enum GameObjectType {
-		PLAYER, ROLLABLE, STATIC;
-	}
-	
 	public boolean isRolled;
 	
 	public int points;
@@ -20,7 +16,6 @@ public class GameObject extends PhysicsObject {
 	public Vector2 pos = new Vector2();
 	public Vector2 rolledPos = new Vector2();
 	
-	public GameObjectType gameObjType;
 	public GameObjectRepresentation objRep = new GameObjectRepresentation(this);
 	
 	public GameObject parent;
@@ -28,16 +23,13 @@ public class GameObject extends PhysicsObject {
 	
 	public GameObject(World world) {
 		super(world);
+		
 		parent = null;
 		children.shrink();
 	}
-	
-	public GameObjectType getType() {
-		return gameObjType;
-	}
 
 	public void update() {
-		if (!isRolled || body.isActive()) {
+		if (!isRolled && body.isActive()) {
 			pos = body.getPosition();
 			rot = body.getAngle() * MathUtils.radiansToDegrees;
 				

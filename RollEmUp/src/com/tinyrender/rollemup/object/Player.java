@@ -15,9 +15,9 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.tinyrender.rollemup.Assets;
+import com.tinyrender.rollemup.ExperienceChain;
 import com.tinyrender.rollemup.GameObject;
 import com.tinyrender.rollemup.Level;
-import com.tinyrender.rollemup.ExperienceChain;
 import com.tinyrender.rollemup.box2d.BodyFactory;
 import com.tinyrender.rollemup.box2d.PhysicsObject;
 import com.tinyrender.rollemup.controller.PlayerController;
@@ -79,8 +79,7 @@ public class Player extends GameObject {
 		rolledObj = new GameObject(world);
 		
 		this.level = 1;
-		this.gameObjType = GameObjectType.PLAYER;
-		this.doUpdate = true;
+		this.type = Type.PLAYER;
 		
 		objRep.setTexture(Assets.atlas.findRegion("player"));
 		
@@ -88,28 +87,31 @@ public class Player extends GameObject {
 		
 		body = BodyFactory.createCircle(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius,
 										0.8f, 0.0f, 1.0f, false, BodyType.DynamicBody, world);
+		body.setActive(true);
 		
 		pos = body.getPosition();
 		shape = (CircleShape) body.getFixtureList().get(0).getShape();
 		
 		// Set collision attributes
 		Filter filter = new Filter();
-		filter.categoryBits = PhysicsObject.CATEGORY_PLAYER;
-		filter.maskBits = PhysicsObject.MASK_COLLIDE_ALL;
+		filter.categoryBits = PhysicsObject.Category.PLAYER;
+		filter.maskBits = PhysicsObject.Mask.COLLIDE_ALL;
 		body.getFixtureList().get(0).setFilterData(filter);
 		
-		groundSensor.rect.width = radius;
-		groundSensor.rect.height = 15.0f / Level.PTM_RATIO;
+		groundSensor.rect.width = 15.0f / Level.PTM_RATIO + radius;
+		groundSensor.rect.height = 25.0f / Level.PTM_RATIO;
 		
 		forceYOffset = -(shape.getRadius() / 3.0f) * growthScale;
 						
 		contactResolver = new ContactResolver() {
 			@Override
 			public void enterContact(PhysicsObject collidesWith) {
-				GameObject otherObject = (GameObject) collidesWith.body.getUserData();
-				
-				if (isRollable(otherObject))			
-					objectsToRoll.add(otherObject);
+				if (collidesWith.type == Type.ROLLABLE) {
+					GameObject otherObject = (GameObject) collidesWith.body.getUserData();
+					
+					if (isRollable(otherObject))			
+						objectsToRoll.add(otherObject);
+				}
 			}
 			
 			@Override public void leaveContact(PhysicsObject leftCollisionWith) { }
@@ -192,13 +194,14 @@ public class Player extends GameObject {
 	}
 	
 	public boolean isRollable(GameObject otherObj) {
-		if (otherObj.gameObjType == GameObjectType.ROLLABLE && otherObj.children.size == 0)
+		if (otherObj.type == Type.ROLLABLE && otherObj.children.size == 0)
 			if (otherObj.level <= xp.getLevelTag())
 				return true;
 		return false;
 	}
 	
 	public boolean isGrounded() {
+		//Gdx.app.log("#", ""+groundSensor.foundBodies.size());
 		if (groundSensor.foundBodies.size() > 1)
 			return true;
 		return false;

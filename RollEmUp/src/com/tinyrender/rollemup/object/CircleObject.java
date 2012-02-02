@@ -13,13 +13,13 @@ public class CircleObject extends GameObject {
 	}
 	
 	public CircleObject(TextureRegion texture, float x, float y, float angle, float density, 
-			int level, int points, boolean isSensor, boolean doUpdate, GameObjectType gameObjType, World world) {
+			int level, int points, boolean isSensor, boolean doUpdate, Type type, World world) {
 		super(world);
 		
 		this.points = points;
 		this.level = level;
-		this.gameObjType = gameObjType;
-		this.doUpdate = doUpdate;
+		this.type = type;
+
 		objRep.setTexture(texture);
 		
 		float radius = objRep.width / 2.0f / Level.PTM_RATIO;
