@@ -3,13 +3,18 @@ package com.tinyrender.rollemup;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.tinyrender.rollemup.gui.Gui;
 import com.tinyrender.rollemup.screen.SplashScreen;
 
 public class RollEmUp extends Game implements ApplicationListener {
-	public final static int TARGET_WIDTH = 854;
-	public final static int TARGET_HEIGHT = 480;
-	public final static int SCREEN_HALF_WIDTH = (int) Math.ceil(TARGET_WIDTH / 2);
-	public final static int SCREEN_HALF_HEIGHT = (int) Math.ceil(TARGET_HEIGHT /2);
+	public final static float TARGET_WIDTH = 854.0f;
+	public final static float TARGET_HEIGHT = 480.0f;
+	public final static float TARGET_HALF_WIDTH = (float) Math.ceil(TARGET_WIDTH / 2);
+	public final static float TARGET_HALF_HEIGHT = (float) Math.ceil(TARGET_HEIGHT /2);
+	public final static float TARGET_WIDTH_BOX2D = TARGET_WIDTH / Level.PTM_RATIO;
+	public final static float TARGET_HEIGHT_BOX2D = TARGET_HEIGHT / Level.PTM_RATIO;
+	public final static float TARGET_HALF_WIDTH_BOX2D = TARGET_HALF_WIDTH / Level.PTM_RATIO;
+	public final static float TARGET_HALF_HEIGHT_BOX2D = TARGET_HALF_HEIGHT / Level.PTM_RATIO;
 	public boolean finishedLoading = false;
 	public ScreenStack screenStack;
 	public Gui gui;
@@ -26,6 +31,8 @@ public class RollEmUp extends Game implements ApplicationListener {
 		Gdx.graphics.setVSync(true);
 		Gdx.input.setCatchBackKey(true);
 		Gdx.input.setCatchMenuKey(true);
+		
+		//Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		
 		gui = new Gui();
 	}

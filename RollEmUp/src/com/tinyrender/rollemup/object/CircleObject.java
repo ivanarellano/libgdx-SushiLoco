@@ -13,17 +13,18 @@ public class CircleObject extends GameObject {
 	}
 	
 	public CircleObject(TextureRegion texture, float x, float y, float angle, float density, 
-			int level, int score, GameObjectType gameObjType, World world) {
+			int level, int points, boolean isSensor, boolean doUpdate, Type type, World world) {
 		super(world);
 		
-		this.score = score;
+		this.points = points;
 		this.level = level;
-		this.gameObjType = gameObjType;
+		this.type = type;
+
 		objRep.setTexture(texture);
 		
 		float radius = objRep.width / 2.0f / Level.PTM_RATIO;
 		
-		body = BodyFactory.createCircle(x, y, radius, density, angle, 1.0f, false, BodyType.DynamicBody, world);
+		body = BodyFactory.createCircle(x, y, radius, density, angle, 1.0f, isSensor, BodyType.DynamicBody, world);
 		body.setUserData(this);
 	}
 }

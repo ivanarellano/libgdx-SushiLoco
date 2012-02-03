@@ -5,12 +5,15 @@ import com.badlogic.gdx.graphics.GL11;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.tinyrender.rollemup.box2d.PhysicsObject;
+import com.tinyrender.rollemup.box2d.PhysicsObject.Type;
+import com.tinyrender.rollemup.box2d.PhysicsWorld;
 import com.tinyrender.rollemup.screen.PlayScreen;
 
 public class LevelRenderer {
 	public Level level;
-	public Box2DDebugRenderer renderer = new Box2DDebugRenderer();
-	public ShapeRenderer shapeRenderer = new ShapeRenderer();
+	Box2DDebugRenderer renderer = new Box2DDebugRenderer(false, false, true);
+	ShapeRenderer shapeRenderer = new ShapeRenderer();
 	
 	public LevelRenderer(PlayScreen screen) {
 		level = screen.level;
@@ -20,42 +23,66 @@ public class LevelRenderer {
 	public void render(float deltaTime) {
 		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
 		
-		level.cam.update();
-		level.cam.apply(Gdx.gl11);
+		level.getLevelCamera().update();
+		level.getLevelCamera().apply(Gdx.gl11);
 		
-		Assets.batch.setProjectionMatrix(level.cam.combined);
+		Assets.batch.setProjectionMatrix(level.getLevelCamera().combined);
 		Assets.batch.begin();
 		
-			// Draw level objects and their sub-objects.
-			for (int i = 0; i < level.objects.size; i++) {
-				level.objects.get(i).objRep.draw();
-
-				for (int j = 0; j < level.objects.get(i).childObj.size; j++)
-					level.objects.get(i).childObj.get(j).objRep.draw();
+			// Draw level objects and their sub-objects
+			PhysicsWorld.bodiesList = PhysicsWorld.getWorldBodies();
+			while (PhysicsWorld.bodiesList.hasNext()) {
+				level.nextWorldPhysicsObj = (PhysicsObject) PhysicsWorld.bodiesList.next().getUserData();
+				
+				if (level.nextWorldPhysicsObj.type == Type.ROLLABLE && level.nextWorldPhysicsObj.body.isActive()) {
+					level.nextWorldGameObj = (GameObject) level.nextWorldPhysicsObj;
+					
+					if (level.nextWorldGameObj.objRep.texture != null)
+							level.nextWorldGameObj.objRep.draw();
+					
+					for (int i = 0; i < level.nextWorldGameObj.children.size; i++) {
+						if (level.nextWorldGameObj.children.get(i).objRep.texture != null)
+							level.nextWorldGameObj.children.get(i).objRep.draw();
+					}
+				}
+				
 			}
 			
-			// Draw Player with attached objects and sub-objects.
+			// Draw player
 			level.player.objRep.draw();
-			for (int i = 0; i < level.player.childObj.size; i++) {
-				level.player.childObj.get(i).objRep.draw();
+			
+			// Draw player attached objects and their sub-objects
+			for (int i = 0; i < level.player.children.size; i++) {
+				level.player.children.get(i).objRep.draw();
 				
-				for (int j = 0; j < level.player.childObj.get(i).childObj.size; j++)
-					level.player.childObj.get(i).childObj.get(j).objRep.draw();
+				for (int j = 0; j < level.player.children.get(i).children.size; j++)
+					level.player.children.get(i).children.get(j).objRep.draw();
 			}
 			
 		Assets.batch.end();
 		
 		if (Settings.debugEnabled) {
-			level.box2dcam.update();
-			renderer.render(level.b2world, level.box2dcam.combined);
+			level.getBox2dCamera().update();
+			renderer.render(PhysicsWorld.b2world, level.getBox2dCamera().combined);
 			
-			shapeRenderer.setProjectionMatrix(level.cam.combined);
+			shapeRenderer.setProjectionMatrix(level.getLevelCamera().combined);
+			
+			// Render player grounding sensor
 			shapeRenderer.begin(ShapeType.Rectangle);
 			shapeRenderer.setColor(1.0f, 1.0f, 0.0f, 1.0f);
 			shapeRenderer.rect(level.player.groundSensor.rect.x * Level.PTM_RATIO,
 							   level.player.groundSensor.rect.y * Level.PTM_RATIO,
 							   level.player.groundSensor.rect.width * Level.PTM_RATIO,
 							   level.player.groundSensor.rect.height * Level.PTM_RATIO);
+			shapeRenderer.end();
+			
+			// Render culling sensor
+			shapeRenderer.begin(ShapeType.Rectangle);
+			shapeRenderer.setColor(1.0f, 0.0f, 0.5f, 1.0f);
+			shapeRenderer.rect(level.getFrustrumCulling().getBounds().x * Level.PTM_RATIO,
+							   level.getFrustrumCulling().getBounds().y * Level.PTM_RATIO,
+							   level.getFrustrumCulling().getBounds().width * Level.PTM_RATIO,
+							   level.getFrustrumCulling().getBounds().height * Level.PTM_RATIO);
 			shapeRenderer.end();
 		}
 	}

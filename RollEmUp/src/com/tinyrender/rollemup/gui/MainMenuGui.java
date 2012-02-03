@@ -2,7 +2,6 @@ package com.tinyrender.rollemup.gui;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.tinyrender.rollemup.Assets;
-import com.tinyrender.rollemup.Gui;
 import com.tinyrender.rollemup.RollEmUp;
 import com.tinyrender.rollemup.Settings;
 
@@ -28,16 +27,16 @@ public class MainMenuGui extends Gui {
 		else
 			debug = new LabelButton(Assets.droidSansFont, "debug: off");
 		
-		start.setPosition(RollEmUp.SCREEN_HALF_WIDTH - start.width/2.0f, RollEmUp.SCREEN_HALF_HEIGHT - 115.0f);
+		start.setPosition(RollEmUp.TARGET_HALF_WIDTH - start.width/2.0f, RollEmUp.TARGET_HALF_HEIGHT - 115.0f);
 		sound.setPosition(50.0f, 50.0f);
 		
-		debug.setPosition(RollEmUp.SCREEN_HALF_WIDTH - debug.fontCache.getBounds().width/2.0f, RollEmUp.SCREEN_HALF_HEIGHT - 190.0f);
+		debug.setPosition(RollEmUp.TARGET_HALF_WIDTH - debug.fontCache.getBounds().width/2.0f, RollEmUp.TARGET_HALF_HEIGHT - 190.0f);
 	}
 
 	public void render() {
 		Assets.batch.begin();
 			Assets.batch.draw(titleScreen, 0.0f, 0.0f);
-			Assets.batch.draw(titleLogo, RollEmUp.SCREEN_HALF_WIDTH - titleLogo.getRegionWidth()/2.0f, RollEmUp.SCREEN_HALF_HEIGHT + 75.0f);
+			Assets.batch.draw(titleLogo, RollEmUp.TARGET_HALF_WIDTH - titleLogo.getRegionWidth()/2.0f, RollEmUp.TARGET_HALF_HEIGHT + 75.0f);
 			
 			start.draw();
 			sound.draw();

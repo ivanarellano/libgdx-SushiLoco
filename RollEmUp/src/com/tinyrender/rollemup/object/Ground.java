@@ -13,7 +13,7 @@ public class Ground extends GameObject {
 	public Ground(float x1, float y1, float x2, float y2, float friction, World world) {
 		super(world);
 		
-		gameObjType = GameObjectType.STATIC;
+		this.type = Type.STATIC;
 		
 		body = BodyFactory.createEdge(x1, y1, x2, y2, friction, world);
 		body.setUserData(this);

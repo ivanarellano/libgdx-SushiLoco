@@ -1,38 +1,30 @@
-<class-diagram version="1.0.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+<class-diagram version="1.0.6" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true">  
   <class id="1" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.object.Player" project="RollEmUp" 
     file="/RollEmUp/src/com/tinyrender/rollemup/object/Player.java" binary="false">    
-    <position height="-1" width="-1" x="446" y="1550"/>    
+    <position height="-1" width="-1" x="499" y="1754"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="2" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.object.Player.PlayerSensor" 
-    project="RollEmUp" file="/RollEmUp/src/com/tinyrender/rollemup/object/Player.java" binary="false">    
-    <position height="81" width="187" x="61" y="1544"/>    
-    <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true"/>      
-      <operations public="true" package="true" protected="true" private="true"/>    
-    </display>  
-  </class>  
-  <class id="3" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.GameObject" project="RollEmUp" 
+  <class id="2" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.GameObject" project="RollEmUp" 
     file="/RollEmUp/src/com/tinyrender/rollemup/GameObject.java" binary="false">    
-    <position height="-1" width="-1" x="448" y="1288"/>    
+    <position height="-1" width="-1" x="544" y="1350"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="10" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.LevelRenderer" project="RollEmUp" 
+  <class id="3" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.LevelRenderer" project="RollEmUp" 
     file="/RollEmUp/src/com/tinyrender/rollemup/LevelRenderer.java" binary="false">    
-    <position height="-1" width="-1" x="1192" y="840"/>    
+    <position height="-1" width="-1" x="1246" y="806"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="11" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.Level" project="RollEmUp" 
+  <class id="4" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.Level" project="RollEmUp" 
     file="/RollEmUp/src/com/tinyrender/rollemup/Level.java" binary="false">    
     <position height="-1" width="-1" x="896" y="1002"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
@@ -40,7 +32,7 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="13" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.RollEmUp" project="RollEmUp" 
+  <class id="5" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.RollEmUp" project="RollEmUp" 
     file="/RollEmUp/src/com/tinyrender/rollemup/RollEmUp.java" binary="false">    
     <position height="-1" width="-1" x="293" y="513"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
@@ -48,7 +40,7 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="18" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.ScreenStack" project="RollEmUp" 
+  <class id="6" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.ScreenStack" project="RollEmUp" 
     file="/RollEmUp/src/com/tinyrender/rollemup/ScreenStack.java" binary="false">    
     <position height="-1" width="-1" x="570" y="506"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
@@ -56,7 +48,7 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="19" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.GameScreen" project="RollEmUp" 
+  <class id="7" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.GameScreen" project="RollEmUp" 
     file="/RollEmUp/src/com/tinyrender/rollemup/GameScreen.java" binary="false">    
     <position height="-1" width="-1" x="296" y="727"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
@@ -64,23 +56,23 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="20" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.screen.PlayScreen" 
+  <class id="8" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.screen.PlayScreen" 
     project="RollEmUp" file="/RollEmUp/src/com/tinyrender/rollemup/screen/PlayScreen.java" binary="false">    
-    <position height="-1" width="-1" x="895" y="655"/>    
+    <position height="-1" width="-1" x="903" y="609"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="21" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.controller.PlayerController" 
+  <class id="9" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.controller.PlayerController" 
     project="RollEmUp" file="/RollEmUp/src/com/tinyrender/rollemup/controller/PlayerController.java" binary="false">    
-    <position height="-1" width="-1" x="165" y="1437"/>    
+    <position height="-1" width="-1" x="159" y="1725"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="22" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.GameObjectRepresentation" 
+  <class id="10" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.GameObjectRepresentation" 
     project="RollEmUp" file="/RollEmUp/src/com/tinyrender/rollemup/GameObjectRepresentation.java" binary="false">    
     <position height="81" width="182" x="66" y="1224"/>    
     <display autosize="false" package="true" initial-value="false" signature="true" visibility="true">      
@@ -88,47 +80,47 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="24" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.gui.LevelGui" project="RollEmUp" 
-    file="/RollEmUp/src/com/tinyrender/rollemup/LevelGui.java" binary="false">    
-    <position height="-1" width="-1" x="680" y="1000"/>    
+  <class id="11" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.gui.LevelGui" project="RollEmUp" 
+    file="/RollEmUp/src/com/tinyrender/rollemup/gui/LevelGui.java" binary="false">    
+    <position height="-1" width="-1" x="665" y="933"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="25" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.level.TestLevel" project="RollEmUp" 
+  <class id="12" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.level.TestLevel" project="RollEmUp" 
     file="/RollEmUp/src/com/tinyrender/rollemup/level/TestLevel.java" binary="false">    
-    <position height="-1" width="-1" x="897" y="1325"/>    
+    <position height="-1" width="-1" x="891" y="1359"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <interface id="27" corner="BOTTOM_RIGHT" language="java" name="com.badlogic.gdx.physics.box2d.ContactListener" 
+  <interface id="13" corner="BOTTOM_RIGHT" language="java" name="com.badlogic.gdx.physics.box2d.ContactListener" 
     project="RollEmUp" file="/RollEmUp/libs/gdx.jar" binary="true">    
-    <position height="-1" width="-1" x="1187" y="1404"/>    
+    <position height="-1" width="-1" x="1196" y="1428"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </interface>  
-  <class id="28" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.Gui" project="RollEmUp" 
-    file="/RollEmUp/src/com/tinyrender/rollemup/Gui.java" binary="false">    
-    <position height="-1" width="-1" x="295" y="896"/>    
+  <class id="14" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.gui.Gui" project="RollEmUp" 
+    file="/RollEmUp/src/com/tinyrender/rollemup/gui/Gui.java" binary="false">    
+    <position height="-1" width="-1" x="251" y="853"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="29" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.box2d.PhysicsObject" 
+  <class id="15" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.box2d.PhysicsObject" 
     project="RollEmUp" file="/RollEmUp/src/com/tinyrender/rollemup/box2d/PhysicsObject.java" binary="false">    
-    <position height="-1" width="-1" x="450" y="1090"/>    
+    <position height="-1" width="-1" x="446" y="1051"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <interface id="30" corner="BOTTOM_RIGHT" language="java" 
+  <interface id="16" corner="BOTTOM_RIGHT" language="java" 
     name="com.tinyrender.rollemup.box2d.PhysicsObject.ContactResolver" project="RollEmUp" 
     file="/RollEmUp/src/com/tinyrender/rollemup/box2d/PhysicsObject.java" binary="false">    
     <position height="-1" width="-1" x="159" y="1086"/>    
@@ -137,7 +129,7 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </interface>  
-  <class id="31" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.box2d.PhysicsWorld" 
+  <class id="17" corner="BOTTOM_RIGHT" language="java" name="com.tinyrender.rollemup.box2d.PhysicsWorld" 
     project="RollEmUp" file="/RollEmUp/src/com/tinyrender/rollemup/box2d/PhysicsWorld.java" binary="false">    
     <position height="-1" width="-1" x="1193" y="1193"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
@@ -145,152 +137,116 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <generalization>    
-    <end type="SOURCE" nodeId="25"/>    
-    <end type="TARGET" nodeId="11"/>  
-  </generalization>  
-  <realization>    
-    <end type="SOURCE" nodeId="31"/>    
-    <end type="TARGET" nodeId="27"/>  
+  <realization id="18">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="13"/>  
   </realization>  
-  <association>    
-    <end type="SOURCE" nodeId="29" navigable="false">      
-      <attribute name="contactResolver"/>      
-      <multiplicity minimum="0" maximum="1"/>    
+  <association id="19">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="20" name="player"/>      
+      <multiplicity id="21" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" nodeId="30" navigable="true"/>    
+    <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization>    
-    <end type="SOURCE" nodeId="24"/>    
-    <end type="TARGET" nodeId="28"/>  
+  <association id="22">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="23" name="levelRenderer"/>      
+      <multiplicity id="24" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="25">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="26" name="contactResolver"/>      
+      <multiplicity id="27" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="28">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="29" name="level"/>      
+      <multiplicity id="30" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="31">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="32" name="controller"/>      
+      <multiplicity id="33" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="34">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="2"/>  
   </generalization>  
-  <association>    
-    <end type="SOURCE" nodeId="18" navigable="false">      
-      <attribute name="game"/>      
-      <multiplicity minimum="0" maximum="1"/>    
+  <association id="35">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="36" name="screenStack"/>      
+      <multiplicity id="37" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" nodeId="13" navigable="true"/>    
+    <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association>    
-    <end type="SOURCE" nodeId="20" navigable="false">      
-      <attribute name="levelRenderer"/>      
-      <multiplicity minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" nodeId="10" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization>    
-    <end type="SOURCE" nodeId="11"/>    
-    <end type="TARGET" nodeId="31"/>  
+  <generalization id="38">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="15"/>  
   </generalization>  
-  <association>    
-    <end type="SOURCE" nodeId="13" navigable="false">      
-      <attribute name="screenStack"/>      
-      <multiplicity minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" nodeId="18" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association>    
-    <end type="SOURCE" nodeId="19" navigable="false">      
-      <attribute name="game"/>      
-      <multiplicity minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" nodeId="13" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization>    
-    <end type="SOURCE" nodeId="3"/>    
-    <end type="TARGET" nodeId="29"/>  
+  <generalization id="39">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="4"/>  
   </generalization>  
-  <association>    
-    <end type="SOURCE" nodeId="19" navigable="false">      
-      <attribute name="gui"/>      
-      <multiplicity minimum="0" maximum="1"/>    
+  <association id="40">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="41" name="gui"/>      
+      <multiplicity id="42" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" nodeId="28" navigable="true"/>    
+    <end type="TARGET" refId="11" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association>    
-    <end type="SOURCE" nodeId="3" navigable="false">      
-      <attribute name="objectRepresentation"/>      
-      <multiplicity minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" nodeId="22" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association>    
-    <end type="SOURCE" nodeId="10" navigable="false">      
-      <attribute name="level"/>      
-      <multiplicity minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" nodeId="11" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization>    
-    <end type="SOURCE" nodeId="20"/>    
-    <end type="TARGET" nodeId="19"/>  
-  </generalization>  
-  <association>    
-    <end type="SOURCE" nodeId="25" navigable="false">      
-      <attribute name="player"/>      
-      <multiplicity minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" nodeId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization>    
-    <end type="SOURCE" nodeId="1"/>    
-    <end type="TARGET" nodeId="3"/>  
-  </generalization>  
-  <association>    
-    <end type="SOURCE" nodeId="21" navigable="false">      
-      <attribute name="player"/>      
-      <multiplicity minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" nodeId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association>    
-    <end type="SOURCE" nodeId="11" navigable="false">      
-      <attribute name="gui"/>      
-      <multiplicity minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" nodeId="24" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association>    
-    <end type="SOURCE" nodeId="22" navigable="false">      
-      <attribute name="gameObject"/>      
-      <multiplicity minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" nodeId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association>    
-    <end type="SOURCE" nodeId="20" navigable="false">      
-      <attribute name="level"/>      
-      <multiplicity minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" nodeId="11" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting>    
-    <end type="SOURCE" nodeId="29"/>    
-    <end type="TARGET" nodeId="30"/>  
+  <nesting id="43">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="16"/>  
   </nesting>  
-  <nesting>    
-    <end type="SOURCE" nodeId="1"/>    
-    <end type="TARGET" nodeId="2"/>  
-  </nesting>  
-  <association>    
-    <end type="SOURCE" nodeId="1" navigable="false">      
-      <attribute name="controller"/>      
-      <multiplicity minimum="0" maximum="1"/>    
+  <generalization id="44">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="17"/>  
+  </generalization>  
+  <association id="45">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="46" name="level"/>      
+      <multiplicity id="47" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" nodeId="21" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="48">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="49" name="game"/>      
+      <multiplicity id="50" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="51">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="14"/>  
+  </generalization>  
+  <generalization id="52">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <association id="53">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="54" name="game"/>      
+      <multiplicity id="55" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    

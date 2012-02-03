@@ -17,6 +17,7 @@ public class BodyFactory {
 		bd.position.set(x, y);
 		bd.type = bodyType;
 		Body body = b2world.createBody(bd);
+		body.setActive(false);
 		
 		return body;
 	}
@@ -44,12 +45,17 @@ public class BodyFactory {
 	}
 	
 	public static Body createBox(float x, float y, float hx, float hy, float density,
-			BodyType bodyType, World b2world) {
+			boolean isSensor, BodyType bodyType, World b2world) {
 		Body body = createBody(x, y, bodyType, b2world);
 		
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(hx, hy);
-		body.createFixture(shape, density);
+		
+		FixtureDef fd = new FixtureDef();
+		fd.density = density;
+		fd.isSensor = isSensor;
+		fd.shape = shape;
+		body.createFixture(fd);
 		body.resetMassData();
 		shape.dispose();
 		
@@ -69,6 +75,7 @@ public class BodyFactory {
         body.createFixture(fd);
         body.resetMassData();
         shape.dispose();
+        body.setActive(true);
         
 		return body;
 	}

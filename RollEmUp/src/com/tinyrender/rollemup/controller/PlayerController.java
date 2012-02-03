@@ -22,47 +22,31 @@ public class PlayerController implements Controller {
 		this.player = player;
 	}
 	
-	public boolean rollObject(GameObject other) {
-		Player.IS_GROWING = true;
-		
+	public void rollObject(GameObject other) {
 		// Remove object from any existing parent
-		if (null != other.parentObj)
-			other.parentObj.childObj.removeValue(other, true);
-		
-		if (other.childObj.size == 0) {
-			// Remove object from rendering list
-			player.worldLevel.objects.removeValue(other, true); // TODO: O(N) linear
-			
-			// Add object to player rendering list
-			player.childObj.add(other);
-			
-			// Destroy object's joint then body
-			if (other.joint != null)
-				player.world.destroyJoint(other.joint);
-			if (other.body.getUserData() != null)
-				player.world.destroyBody(other.body);
-
-			other.isRolled = true;
-		
-			// Store object pos relative to player's pos
-			Vector2 otherWorldCenter = other.body.getWorldCenter().sub(player.pos);
-		
-			// Offset object position based off the rolling direction
-			Vector2 newOffset = player.body.getLocalVector(otherWorldCenter);
-		
-			// Re-adjust position to half graphic's rep
-			newOffset.sub(other.objRep.halfWidth/Level.PTM_RATIO, other.objRep.halfHeight/Level.PTM_RATIO);
-		
-			other.rolledPos.set(newOffset);
+		if (null != other.parent)
+			other.parent.children.removeValue(other, true);
 				
-			// Convert object position from box2d space to screen space
-			other.pos.mul(Level.PTM_RATIO);
-			other.rolledPos.mul(Level.PTM_RATIO);
-			
-			return true;
-		}
+		// Add object to player rendering list
+		player.children.add(other);
 		
-		return false;
+		other.isDead = true;
+		other.body.setActive(false);
+			
+		// Store object pos relative to player's pos
+		Vector2 otherWorldCenter = other.body.getWorldCenter().sub(player.pos);
+		
+		// Offset object position based off the rolling direction
+		Vector2 newOffset = player.body.getLocalVector(otherWorldCenter);
+		
+		// Re-adjust position to half graphic's rep
+		newOffset.sub(other.objRep.halfWidth/Level.PTM_RATIO, other.objRep.halfHeight/Level.PTM_RATIO);
+		
+		other.rolledPos.set(newOffset);
+				
+		// Convert object position from box2d space to screen space
+		other.pos.mul(Level.PTM_RATIO);
+		other.rolledPos.mul(Level.PTM_RATIO);
 	}
 	
 	@Override
@@ -70,7 +54,12 @@ public class PlayerController implements Controller {
 		object.body.applyLinearImpulse(0, velocity, object.pos.x, object.pos.y);
 	}
 	
-	public void scaleCircle(PhysicsObject object, float scale, float offsetX, float offsetY) {
+	public void grow() {
+		player.forceYOffset = -(player.shape.getRadius() / 4.5f) * player.growthScale;
+		scaleCircle(player, player.growthScale, 0.0f, 0.0f);
+	}
+	
+	void scaleCircle(PhysicsObject object, float scale, float offsetX, float offsetY) {
 		fixture = object.body.getFixtureList().get(0);
 		shapeType = fixture.getType();
 		
