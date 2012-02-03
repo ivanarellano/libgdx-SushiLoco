@@ -2,17 +2,17 @@ package com.tinyrender.rollemup;
 
 public class GameObjectRepresentation extends ObjectRepresentation {
 	public GameObject gameObj;
-	
+
 	public GameObjectRepresentation(GameObject gameObj) {
 		this.gameObj = gameObj;
 	}
 
 	@Override
 	public void draw() {
-		if (gameObj.isRolled) {
+		if (gameObj.isDead) {
 			Assets.batch.draw(texture, 
-					gameObj.pos.x + gameObj.rolledPos.x,
-					gameObj.pos.y + gameObj.rolledPos.y,
+					(gameObj.pos.x * Level.PTM_RATIO) + gameObj.rolledPos.x,
+					(gameObj.pos.y * Level.PTM_RATIO) + gameObj.rolledPos.y,
 					-gameObj.rolledPos.x, -gameObj.rolledPos.y,
 					width, height,
 					1.0f, 1.0f,

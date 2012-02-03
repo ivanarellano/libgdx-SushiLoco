@@ -157,12 +157,11 @@ public class Player extends GameObject {
 		for (int i = 0; i < objectsToRoll.size; i++) {
 			rolledObj = objectsToRoll.pop();
 			
-			// Update if object is rolled
-			if (controller.rollObject(rolledObj))
-				xp.addPoints(rolledObj.points);
+			controller.rollObject(rolledObj);
+			xp.addPoints(rolledObj.points);
 		}
 			
-		// Set X velocity to MAX if we're going too fast
+		// Keep X velocity within maximum
 		if (Math.abs(vel.x) > MAX_VELOCITY) {			
 			vel.x = Math.signum(vel.x) * MAX_VELOCITY;
 			body.setLinearVelocity(vel.x, vel.y);
@@ -182,7 +181,7 @@ public class Player extends GameObject {
 		
 		for (int i = 0; i < children.size; i++) {
 			children.get(i).rot = this.rot;
-			children.get(i).pos.set(this.pos.x * Level.PTM_RATIO, this.pos.y * Level.PTM_RATIO);
+			children.get(i).pos.set(this.pos.x, this.pos.y);
 		}
 
 		groundSensor.update();
@@ -201,7 +200,6 @@ public class Player extends GameObject {
 	}
 	
 	public boolean isGrounded() {
-		//Gdx.app.log("#", ""+groundSensor.foundBodies.size());
 		if (groundSensor.foundBodies.size() > 1)
 			return true;
 		return false;

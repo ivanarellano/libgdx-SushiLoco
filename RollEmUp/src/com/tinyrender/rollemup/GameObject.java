@@ -7,8 +7,6 @@ import com.badlogic.gdx.utils.Array;
 import com.tinyrender.rollemup.box2d.PhysicsObject;
 
 public class GameObject extends PhysicsObject {
-	public boolean isRolled;
-	
 	public int points;
 	public int level;
 	
@@ -29,7 +27,7 @@ public class GameObject extends PhysicsObject {
 	}
 
 	public void update() {
-		if (!isRolled && body.isActive()) {
+		if (!isDead && body.isActive()) {
 			pos = body.getPosition();
 			rot = body.getAngle() * MathUtils.radiansToDegrees;
 				

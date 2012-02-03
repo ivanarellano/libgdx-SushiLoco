@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class PhysicsObject {
 	public static enum Type {
-		PLAYER, ROLLABLE, STATIC, FRUSTRUM;
+		PLAYER, ROLLABLE, STATIC;
 	}
 	
 	public static class Category {
@@ -34,6 +34,7 @@ public class PhysicsObject {
 	public Body body;
 	public Joint joint;
 	public World world;
+	public boolean isDead;
 	
 	public PhysicsObject(World world) {
 		this.world = world;

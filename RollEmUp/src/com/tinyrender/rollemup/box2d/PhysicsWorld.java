@@ -60,20 +60,32 @@ public abstract class PhysicsWorld implements ContactListener {
 			if (null != nextWorldBody) {
 				nextWorldPhysicsObj = (PhysicsObject) nextWorldBody.getUserData();
 				
-				// Culling
-				if (nextWorldPhysicsObj.type == Type.ROLLABLE)
-					if (frustrumCulling.isInFrustrum(nextWorldBody)) {
-						if (!nextWorldBody.isActive())
-							nextWorldBody.setActive(true);
-					} else {
-						nextWorldBody.setActive(false);
-					}
-						
+				if (nextWorldPhysicsObj.isDead) {
+					removeDeadObject(nextWorldPhysicsObj);
+				} else {
+					// Culling
+					if (nextWorldPhysicsObj.type == Type.ROLLABLE)
+						if (frustrumCulling.isInFrustrum(nextWorldBody)) {
+							if (!nextWorldBody.isActive())
+								nextWorldBody.setActive(true);
+						} else {
+							nextWorldBody.setActive(false);
+						}
+							
+					
+					if (nextWorldPhysicsObj.body.isActive())
+						nextWorldPhysicsObj.update();
+				}
 				
-				if (nextWorldPhysicsObj.body.isActive())
-					nextWorldPhysicsObj.update();
 			}
 		}
+	}
+	
+	protected void removeDeadObject(PhysicsObject object) {
+		if (object.joint != null)
+			b2world.destroyJoint(object.joint);
+		if (object.body.getUserData() != null)
+			b2world.destroyBody(object.body);
 	}
 	
 	public static Iterator<Body> getWorldBodies() {

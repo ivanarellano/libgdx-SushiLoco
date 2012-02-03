@@ -67,6 +67,7 @@ public class LevelRenderer {
 			
 			shapeRenderer.setProjectionMatrix(level.getLevelCamera().combined);
 			
+			// Render player grounding sensor
 			shapeRenderer.begin(ShapeType.Rectangle);
 			shapeRenderer.setColor(1.0f, 1.0f, 0.0f, 1.0f);
 			shapeRenderer.rect(level.player.groundSensor.rect.x * Level.PTM_RATIO,
@@ -75,6 +76,7 @@ public class LevelRenderer {
 							   level.player.groundSensor.rect.height * Level.PTM_RATIO);
 			shapeRenderer.end();
 			
+			// Render culling sensor
 			shapeRenderer.begin(ShapeType.Rectangle);
 			shapeRenderer.setColor(1.0f, 0.0f, 0.5f, 1.0f);
 			shapeRenderer.rect(level.getFrustrumCulling().getBounds().x * Level.PTM_RATIO,
