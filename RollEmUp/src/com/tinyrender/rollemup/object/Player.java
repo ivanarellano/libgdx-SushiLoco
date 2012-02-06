@@ -76,6 +76,7 @@ public class Player extends GameObject {
 	public Player(Level worldLevel, World world) {
 		super(world);
 		this.worldLevel = worldLevel;
+		children.ensureCapacity(80);
 		rolledObj = new GameObject(world);
 		
 		this.level = 1;

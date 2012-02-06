@@ -23,15 +23,15 @@ public class PlayerController implements Controller {
 	}
 	
 	public void rollObject(GameObject other) {
+		other.body.setActive(false);
+		other.isDead = true;
+		
 		// Remove object from any existing parent
 		if (null != other.parent)
 			other.parent.children.removeValue(other, true);
 				
 		// Add object to player rendering list
 		player.children.add(other);
-		
-		other.isDead = true;
-		other.body.setActive(false);
 			
 		// Store object pos relative to player's pos
 		Vector2 otherWorldCenter = other.body.getWorldCenter().sub(player.pos);
