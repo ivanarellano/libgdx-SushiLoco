@@ -15,9 +15,9 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.tinyrender.rollemup.Assets;
+import com.tinyrender.rollemup.ExperienceChain;
 import com.tinyrender.rollemup.GameObject;
 import com.tinyrender.rollemup.Level;
-import com.tinyrender.rollemup.PlayerXP;
 import com.tinyrender.rollemup.box2d.BodyFactory;
 import com.tinyrender.rollemup.box2d.PhysicsObject;
 import com.tinyrender.rollemup.controller.PlayerController;
@@ -55,65 +55,70 @@ public class Player extends GameObject {
 	public final static int DIRECTION_NONE = 0;
 	public final static int DIRECTION_LEFT = 1;
 	public final static int DIRECTION_RIGHT = 2;
-	public static boolean IS_GROWING;
 	
 	public int state;
 	public int direction;
 	
-	float growthScale = 1.3f;
-	float forceYOffset;
+	public float growthScale = 1.3f;
+	public float forceYOffset;
 	
 	public Vector2 vel = new Vector2();
 	
 	public CircleShape shape;
 	public GroundSensor groundSensor = new GroundSensor();
-	public PlayerXP xp = new PlayerXP();
+	public ExperienceChain xp = new ExperienceChain();
 	public PlayerController controller = new PlayerController(this);
-	private GameObject rolledObj;
 	public Array<GameObject> objectsToRoll = new Array<GameObject>();
 	
 	public Level worldLevel;
+	GameObject rolledObj;
 	
 	public Player(Level worldLevel, World world) {
 		super(world);
 		this.worldLevel = worldLevel;
+		children.ensureCapacity(80);
 		rolledObj = new GameObject(world);
 		
-		level = 1;
-		gameObjType = GameObjectType.PLAYER;
+		this.level = 1;
+		this.type = Type.PLAYER;
+		
 		objRep.setTexture(Assets.atlas.findRegion("player"));
 		
 		float radius = (objRep.halfWidth) * 0.7f / Level.PTM_RATIO;
-
+		
 		body = BodyFactory.createCircle(427.0f/Level.PTM_RATIO, 64.0f/Level.PTM_RATIO, radius,
 										0.8f, 0.0f, 1.0f, false, BodyType.DynamicBody, world);
+		body.setActive(true);
 		
 		pos = body.getPosition();
 		shape = (CircleShape) body.getFixtureList().get(0).getShape();
-		body.setUserData(this);
 		
 		// Set collision attributes
 		Filter filter = new Filter();
-		filter.categoryBits = PhysicsObject.CATEGORY_PLAYER;
-		filter.maskBits = PhysicsObject.MASK_COLLIDE_ALL;
+		filter.categoryBits = PhysicsObject.Category.PLAYER;
+		filter.maskBits = PhysicsObject.Mask.COLLIDE_ALL;
 		body.getFixtureList().get(0).setFilterData(filter);
 		
-		groundSensor.rect.width = radius;
-		groundSensor.rect.height = 15.0f / Level.PTM_RATIO;
+		groundSensor.rect.width = 15.0f / Level.PTM_RATIO + radius;
+		groundSensor.rect.height = 25.0f / Level.PTM_RATIO;
 		
 		forceYOffset = -(shape.getRadius() / 3.0f) * growthScale;
 						
 		contactResolver = new ContactResolver() {
 			@Override
 			public void enterContact(PhysicsObject collidesWith) {
-				GameObject otherObject = (GameObject) collidesWith.body.getUserData();
-				
-				if (isRollable(otherObject))			
-					objectsToRoll.add(otherObject);
+				if (collidesWith.type == Type.ROLLABLE) {
+					GameObject otherObject = (GameObject) collidesWith.body.getUserData();
+					
+					if (isRollable(otherObject))			
+						objectsToRoll.add(otherObject);
+				}
 			}
 			
 			@Override public void leaveContact(PhysicsObject leftCollisionWith) { }
 		};
+		
+		body.setUserData(this);
 	}
 	
 	@Override
@@ -140,15 +145,8 @@ public class Player extends GameObject {
 		else if (isGrounded())
 			state = STATE_IDLE;
 		
-		if (IS_GROWING) {
-			// Level up
-			if (xp.currentLevel.tag != PlayerXP.MAX_LEVEL.tag && score >= xp.nextLevel.score) {
-				grow();
-				xp.levelUp();
-			}
-			
-			IS_GROWING = false;
-		}
+		if (xp.justLeveledUp())
+			levelUp();
 				
 		// Desktop player controls
 		if (Gdx.input.isKeyPressed(Keys.A))
@@ -160,12 +158,11 @@ public class Player extends GameObject {
 		for (int i = 0; i < objectsToRoll.size; i++) {
 			rolledObj = objectsToRoll.pop();
 			
-			// Update if object is rolled
-			if (controller.rollObject(rolledObj))
-				score += rolledObj.score;
+			controller.rollObject(rolledObj);
+			xp.addPoints(rolledObj.points);
 		}
 			
-		// Set X velocity to MAX if we're going too fast
+		// Keep X velocity within maximum
 		if (Math.abs(vel.x) > MAX_VELOCITY) {			
 			vel.x = Math.signum(vel.x) * MAX_VELOCITY;
 			body.setLinearVelocity(vel.x, vel.y);
@@ -183,23 +180,22 @@ public class Player extends GameObject {
 		if (vel.x < MAX_VELOCITY/4.0f || vel.x > -MAX_VELOCITY/4.0f)
 			body.applyLinearImpulse(Gdx.input.getAccelerometerY() * 0.1f, 0.0f, pos.x, pos.y);
 		
-		for (int i = 0; i < childObj.size; i++) {
-			childObj.get(i).rot = this.rot;
-			childObj.get(i).pos.set(this.pos.x * Level.PTM_RATIO, this.pos.y * Level.PTM_RATIO);
+		for (int i = 0; i < children.size; i++) {
+			children.get(i).rot = this.rot;
+			children.get(i).pos.set(this.pos.x, this.pos.y);
 		}
 
 		groundSensor.update();
 	}
 	
-	public void grow() {
-		forceYOffset = -(shape.getRadius() / 4.5f) * growthScale;
-		controller.scaleCircle(this, growthScale, 0.0f, 0.0f);
-		worldLevel.zoom += 0.375f;
+	public void levelUp() {
+		xp.levelUp();
+		controller.grow();		
 	}
 	
 	public boolean isRollable(GameObject otherObj) {
-		if (otherObj.getType().equals(GameObjectType.ROLLABLE) && otherObj.childObj.size == 0)
-			if (otherObj.level <= xp.currentLevel.tag)
+		if (otherObj.type == Type.ROLLABLE && otherObj.children.size == 0)
+			if (otherObj.level <= xp.getLevelTag())
 				return true;
 		return false;
 	}

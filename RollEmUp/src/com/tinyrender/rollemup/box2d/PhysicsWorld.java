@@ -1,11 +1,15 @@
 package com.tinyrender.rollemup.box2d;
 
+import java.util.Iterator;
+
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
+import com.tinyrender.rollemup.box2d.PhysicsObject.Type;
 
 public abstract class PhysicsWorld implements ContactListener {
 	public final static int PTM_RATIO = 64;
@@ -13,11 +17,16 @@ public abstract class PhysicsWorld implements ContactListener {
 	final static float MINIMUM_TIMESTEP = UPDATE_INTERVAL / 2.0f;
 	final static int MAX_CYCLES_PER_FRAME = 25;
 	
-	public World b2world;
-	public Vector2 gravity;
+	static Vector2 gravity = new Vector2(0, -12.0f);
+	public static World b2world;
+	
+	protected FrustrumCulling frustrumCulling = new FrustrumCulling();
+	
+	public static Iterator<Body> bodiesList;
+	public Body nextWorldBody;
+	public PhysicsObject nextWorldPhysicsObj;
 	
 	public PhysicsWorld() {
-		gravity = new Vector2(0, -12.0f);
 		b2world = new World(gravity, true);
 		b2world.setContactListener(this);
 	}
@@ -40,6 +49,51 @@ public abstract class PhysicsWorld implements ContactListener {
 		}
 		
 		b2world.clearForces();
+	}
+	
+	protected void updateBodies() {
+		bodiesList = getWorldBodies();
+		
+		while (bodiesList.hasNext()) {
+			nextWorldBody = bodiesList.next();
+			
+			if (null != nextWorldBody) {
+				nextWorldPhysicsObj = (PhysicsObject) nextWorldBody.getUserData();
+				
+				if (nextWorldPhysicsObj.isDead) {
+					removeDeadObject(nextWorldPhysicsObj);
+				} else {
+					// Culling
+					if (nextWorldPhysicsObj.type == Type.ROLLABLE)
+						if (frustrumCulling.isInFrustrum(nextWorldBody)) {
+							if (!nextWorldBody.isActive())
+								nextWorldBody.setActive(true);
+						} else {
+							nextWorldBody.setActive(false);
+						}
+							
+					
+					if (nextWorldPhysicsObj.body.isActive())
+						nextWorldPhysicsObj.update();
+				}
+				
+			}
+		}
+	}
+	
+	protected void removeDeadObject(PhysicsObject object) {
+		if (object.joint != null)
+			b2world.destroyJoint(object.joint);
+		if (object.body.getUserData() != null)
+			b2world.destroyBody(object.body);
+	}
+	
+	public static Iterator<Body> getWorldBodies() {
+		return b2world.getBodies();
+	}
+	
+	public FrustrumCulling getFrustrumCulling() {
+		return frustrumCulling;
 	}
 	
 	public void resumeWorld() {

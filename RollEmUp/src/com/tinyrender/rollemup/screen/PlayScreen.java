@@ -1,5 +1,6 @@
 package com.tinyrender.rollemup.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector3;
 import com.tinyrender.rollemup.GameScreen;
@@ -9,11 +10,11 @@ import com.tinyrender.rollemup.RollEmUp;
 import com.tinyrender.rollemup.level.TestLevel;
 
 public class PlayScreen extends GameScreen {
-	static final int GAME_READY = 0;
-	static final int GAME_RUNNING = 1;
-	static final int GAME_PAUSED = 2;
-	static final int GAME_LEVEL_END = 3;
-	static final int GAME_OVER = 4;
+	public static final int GAME_READY = 0;
+	public static final int GAME_RUNNING = 1;
+	public static final int GAME_PAUSED = 2;
+	public static final int GAME_LEVEL_END = 3;
+	public static final int GAME_OVER = 4;
 	
 	int state;
 	public Level level;
@@ -22,6 +23,7 @@ public class PlayScreen extends GameScreen {
 
 	public PlayScreen(RollEmUp game) {
 		super(game);
+		Gdx.app.log("PlayScreen", "CONSTRUCTOR");
 		level = new TestLevel();
 		levelRenderer = new LevelRenderer(this);
 		touchPoint = new Vector3();
@@ -31,60 +33,34 @@ public class PlayScreen extends GameScreen {
 
 	@Override
 	public void dispose() {
+		Gdx.app.log("PlayScreen", "DISPOSE");
 		level.disposeWorld();
 		levelRenderer.dispose();
 	}
 
 	@Override
 	public void hide() {
+		Gdx.app.log("PlayScreen", "HIDE");
+		level.disposeWorld();
+		levelRenderer.dispose();
 	}
 
 	@Override
 	public void pause() {
+		Gdx.app.log("PlayScreen", "PAUSE");
 	}
 	
-	public void update(float deltaTime) {
-		switch (state) {
-			case GAME_READY:
-				level.ready(deltaTime);
-				break;
-			case GAME_RUNNING:
-				level.running(deltaTime);
-				break;
-			case GAME_PAUSED:
-				level.paused(deltaTime);
-				break;
-			case GAME_LEVEL_END:
-				level.levelEnd(deltaTime);
-				break;
-			case GAME_OVER:
-				level.gameOver(deltaTime);
-				break;
-		}
+	public void update(int state, float deltaTime) {
+		level.update(state, deltaTime);
+		level.gui.update(state, level.player.xp.getTotalScore());
 	}
 
 	@Override
 	public void render(float deltaTime) {
-		update(deltaTime);
-		levelRenderer.render(deltaTime);
+		this.update(state, deltaTime);
 		
-		switch (state) {
-			case GAME_READY:
-				level.gui.ready(deltaTime);
-				break;
-			case GAME_RUNNING:
-				level.gui.running(deltaTime);
-				break;
-			case GAME_PAUSED:
-				level.gui.paused(deltaTime);
-				break;
-			case GAME_LEVEL_END:
-				level.gui.levelEnd(deltaTime);
-				break;
-			case GAME_OVER:
-				level.gui.gameOver(deltaTime);
-				break;
-		}
+		levelRenderer.render(deltaTime);
+		level.gui.render(deltaTime);
 	}
 
 	@Override
@@ -92,17 +68,19 @@ public class PlayScreen extends GameScreen {
 
 	@Override
 	public void resume() {
+		Gdx.app.log("PlayScreen", "RESUME");
 		level.resumeWorld();
 		levelRenderer.resume();
 	}
 
 	@Override
 	public void show() {
-		level.create();
+		Gdx.app.log("PlayScreen", "SHOW");
+		level.createWorld();
 	}
 	
 	@Override
-	public boolean touchDown(int x, int y, int pointerId, int button) {
+	public boolean touchDown(int x, int y, int pointerId, int button) {		
 		level.gui.cam.unproject(touchPoint.set(x, y, 0.0f));
 		
 		switch (state) {

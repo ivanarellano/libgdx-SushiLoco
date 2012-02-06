@@ -7,10 +7,10 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject;
-import com.tinyrender.rollemup.ObjectFactory;
-import com.tinyrender.rollemup.GameObject.GameObjectType;
 import com.tinyrender.rollemup.Level;
+import com.tinyrender.rollemup.ObjectFactory;
 import com.tinyrender.rollemup.box2d.BodyFactory;
+import com.tinyrender.rollemup.box2d.PhysicsObject.Type;
 
 public class SoySauce implements ObjectFactory {
 	Vector2 poly1[] = {
@@ -61,8 +61,9 @@ public class SoySauce implements ObjectFactory {
 		GameObject soyObj = new GameObject(world);
 		
 		soyObj.level = 3;
-		soyObj.score = 9;
-		soyObj.gameObjType = GameObjectType.ROLLABLE;
+		soyObj.points = 9;
+		soyObj.type = Type.ROLLABLE;
+
 		soyObj.objRep.setTexture(texture);
 		
 		y += soyObj.objRep.texture.getRegionHeight() / 2.0f / Level.PTM_RATIO;
@@ -70,9 +71,7 @@ public class SoySauce implements ObjectFactory {
 		soyObj.body = BodyFactory.createPoly(verts, x, y,
 				1.5f, 1.0f, BodyType.DynamicBody, soyObj.world);
 		soyObj.body.setUserData(soyObj);
-		
-		//Gdx.app.log("soyMass", Float.toString(soyObj.body.getMass()));
-		
+						
 		return soyObj;
 	}
 }

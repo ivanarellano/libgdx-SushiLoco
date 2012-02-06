@@ -8,12 +8,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.tinyrender.rollemup.Assets;
 import com.tinyrender.rollemup.GameObject;
-import com.tinyrender.rollemup.ObjectFactory;
-import com.tinyrender.rollemup.GameObject.GameObjectType;
 import com.tinyrender.rollemup.Level;
+import com.tinyrender.rollemup.ObjectFactory;
 import com.tinyrender.rollemup.box2d.BodyFactory;
 import com.tinyrender.rollemup.box2d.JointFactory;
 import com.tinyrender.rollemup.box2d.PhysicsObject;
+import com.tinyrender.rollemup.box2d.PhysicsObject.Type;
 
 public class Boat implements ObjectFactory {
 	Vector2 boatbodyVec1[] = {
@@ -109,12 +109,12 @@ public class Boat implements ObjectFactory {
 		GameObject boatObj = new GameObject(world);
 		
 		boatObj.level = 4;
-		boatObj.score = 10;
+		boatObj.points = 10;
 		
-		filter.categoryBits = PhysicsObject.CATEGORY_OBJECT;
-		filter.maskBits = PhysicsObject.MASK_OBJECT;
+		filter.categoryBits = PhysicsObject.Category.OBJECT;
+		filter.maskBits = PhysicsObject.Mask.OBJECT;
 		
-		boatObj.gameObjType = GameObjectType.ROLLABLE;
+		boatObj.type = Type.ROLLABLE;
 		boatObj.objRep.setTexture(boatTex);
 		y += boatObj.objRep.texture.getRegionHeight() / 2.0f / Level.PTM_RATIO;
 				
@@ -148,7 +148,7 @@ public class Boat implements ObjectFactory {
 		
 		boatBackBarObj.body = BodyFactory.createBox(x+(304.0f/Level.PTM_RATIO), y+(86.0f/Level.PTM_RATIO),
 				8.0f/Level.PTM_RATIO, 43.0f/Level.PTM_RATIO,
-				1.1f, BodyType.DynamicBody, world);
+				1.1f, false, BodyType.DynamicBody, world);
 		
 		/* 
 		// Boat Net
@@ -161,25 +161,25 @@ public class Boat implements ObjectFactory {
 		boatFlagObj.objRep.setTexture(boatFlagTex);
 		boatBackBarObj.objRep.setTexture(boatBackBarTex);
 		
-		filter.categoryBits = PhysicsObject.CATEGORY_SUB_OBJECT;
-		filter.maskBits = PhysicsObject.MASK_SUB_OBJECT;
+		filter.categoryBits = PhysicsObject.Category.SUB_OBJECT;
+		filter.maskBits = PhysicsObject.Mask.SUB_OBJECT;
 		
-		boatObj.childObj.add(boatFrontObj);
-		boatObj.childObj.add(boatFlagObj);
-		boatObj.childObj.add(boatBackBarObj);
+		boatObj.children.add(boatFrontObj);
+		boatObj.children.add(boatFlagObj);
+		boatObj.children.add(boatBackBarObj);
 		
 		// Set joint, GameObjectType, collision data, user data
-		for (int i = 0; i < boatObj.childObj.size; i++) {
-			GameObject child = boatObj.childObj.get(i);
+		for (int i = 0; i < boatObj.children.size; i++) {
+			GameObject child = boatObj.children.get(i);
 			
-			child.level = 2;
-			child.score = 4;
-			child.gameObjType = GameObjectType.ROLLABLE;
+			child.level = 3;
+			child.points = 4;
+			child.type = Type.ROLLABLE;
 			
 			child.body.getFixtureList().get(0).setFilterData(filter);
 			child.joint = JointFactory.weld(boatObj.body, child.body, boatObj.body.getWorldCenter(), world);
 			
-			child.parentObj = boatObj;
+			child.parent = boatObj;
 			child.body.setUserData(child);
 		}
 				
