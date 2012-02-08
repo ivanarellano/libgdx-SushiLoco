@@ -11,16 +11,16 @@ public abstract class Level extends PhysicsWorld implements LevelState {
 	public LevelGui gui;
 	public Player player;
 	
-	OrthographicCamera levelCam = new OrthographicCamera(RollEmUp.TARGET_WIDTH, RollEmUp.TARGET_HEIGHT);
-	OrthographicCamera box2dCam = new OrthographicCamera(RollEmUp.TARGET_WIDTH/Level.PTM_RATIO, RollEmUp.TARGET_HEIGHT/Level.PTM_RATIO);
+	OrthographicCamera levelCam = new OrthographicCamera(RollEmUp.SCREEN_WIDTH, RollEmUp.SCREEN_HEIGHT);
+	OrthographicCamera box2dCam = new OrthographicCamera(RollEmUp.SCREEN_WIDTH/Level.PTM_RATIO, RollEmUp.SCREEN_HEIGHT/Level.PTM_RATIO);
 	
 	public GameObject nextWorldGameObj;
 	
 	public Level() {
 		gui = new LevelGui(this);
 		
-		levelCam.setToOrtho(false, RollEmUp.TARGET_WIDTH, RollEmUp.TARGET_HEIGHT);		
-		box2dCam.setToOrtho(false, RollEmUp.TARGET_WIDTH/Level.PTM_RATIO, RollEmUp.TARGET_HEIGHT/Level.PTM_RATIO);		
+		levelCam.setToOrtho(false, RollEmUp.SCREEN_WIDTH, RollEmUp.SCREEN_HEIGHT);		
+		box2dCam.setToOrtho(false, RollEmUp.SCREEN_WIDTH/Level.PTM_RATIO, RollEmUp.SCREEN_HEIGHT/Level.PTM_RATIO);		
 	}
 	
 	public void update(int state, float deltaTime) {

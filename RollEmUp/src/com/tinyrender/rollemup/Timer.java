@@ -38,7 +38,7 @@ public class Timer implements Drawable {
     public void draw() {
 		font.draw(Assets.batch,
 				timeString, 
-				RollEmUp.TARGET_WIDTH - font.getBounds(timeString).width - 20.0f,
-				RollEmUp.TARGET_HEIGHT - 20.0f);
+				RollEmUp.SCREEN_WIDTH - font.getBounds(timeString).width - 20.0f,
+				RollEmUp.SCREEN_HEIGHT - 20.0f);
     }
 }

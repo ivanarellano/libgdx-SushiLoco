@@ -19,7 +19,7 @@ public class GoalMeter extends ObjectRepresentation {
 	@Override
 	public void draw() {
 		Assets.batch.draw(texture,
-				(-width * scale) /2.0f, RollEmUp.TARGET_HEIGHT -(height * scale) / 2.0f,
+				(-width * scale) /2.0f, RollEmUp.SCREEN_HEIGHT -(height * scale) / 2.0f,
 				width * scale / 2.0f, height * scale / 2.0f,
 				width * scale, 
 				height * scale,
