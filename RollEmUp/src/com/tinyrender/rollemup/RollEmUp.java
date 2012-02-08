@@ -7,14 +7,14 @@ import com.tinyrender.rollemup.gui.Gui;
 import com.tinyrender.rollemup.screen.SplashScreen;
 
 public class RollEmUp extends Game implements ApplicationListener {
-	public final static float TARGET_WIDTH = 854.0f;
-	public final static float TARGET_HEIGHT = 480.0f;
-	public final static float TARGET_HALF_WIDTH = (float) Math.ceil(TARGET_WIDTH / 2);
-	public final static float TARGET_HALF_HEIGHT = (float) Math.ceil(TARGET_HEIGHT /2);
-	public final static float TARGET_WIDTH_BOX2D = TARGET_WIDTH / Level.PTM_RATIO;
-	public final static float TARGET_HEIGHT_BOX2D = TARGET_HEIGHT / Level.PTM_RATIO;
-	public final static float TARGET_HALF_WIDTH_BOX2D = TARGET_HALF_WIDTH / Level.PTM_RATIO;
-	public final static float TARGET_HALF_HEIGHT_BOX2D = TARGET_HALF_HEIGHT / Level.PTM_RATIO;
+	public final static float SCREEN_WIDTH = 854.0f;
+	public final static float SCREEN_HEIGHT = 480.0f;
+	public final static float SCREEN_HALF_WIDTH = (float) Math.ceil(SCREEN_WIDTH / 2);
+	public final static float SCREEN_HALF_HEIGHT = (float) Math.ceil(SCREEN_HEIGHT /2);
+	public final static float SCREEN_WIDTH_BOX2D = SCREEN_WIDTH / Level.PTM_RATIO;
+	public final static float SCREEN_HEIGHT_BOX2D = SCREEN_HEIGHT / Level.PTM_RATIO;
+	public final static float SCREEN_HALF_WIDTH_BOX2D = SCREEN_HALF_WIDTH / Level.PTM_RATIO;
+	public final static float SCREEN_HALF_HEIGHT_BOX2D = SCREEN_HALF_HEIGHT / Level.PTM_RATIO;
 	public boolean finishedLoading = false;
 	public ScreenStack screenStack;
 	public Gui gui;
@@ -55,11 +55,11 @@ public class RollEmUp extends Game implements ApplicationListener {
 		if (finishedLoading) {
 			// Persistent FPS counter
 			String fps = Integer.toString(Gdx.graphics.getFramesPerSecond());
-			Assets.batch.getProjectionMatrix().setToOrtho2D(0.0f, 0.0f, RollEmUp.TARGET_WIDTH, RollEmUp.TARGET_HEIGHT);
+			Assets.batch.getProjectionMatrix().setToOrtho2D(0.0f, 0.0f, RollEmUp.SCREEN_WIDTH, RollEmUp.SCREEN_HEIGHT);
 			Assets.batch.begin();
 				Assets.droidSansFont.draw(Assets.batch,
 										  fps, 
-										  RollEmUp.TARGET_WIDTH - Assets.droidSansFont.getBounds(fps).width - 20.0f,
+										  RollEmUp.SCREEN_WIDTH - Assets.droidSansFont.getBounds(fps).width - 20.0f,
 										  Assets.droidSansFont.getBounds(fps).height + 20.0f);
 			Assets.batch.end();
 		}

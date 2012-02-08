@@ -23,10 +23,10 @@ public class LevelGui extends Gui implements LevelState {
     	goalMeter = new GoalMeter();
     	
     	paused = new LabelButton(droidSans, "Paused");
-    	paused.setPosition(RollEmUp.TARGET_HALF_WIDTH-paused.bounds.width/2.0f, RollEmUp.TARGET_HALF_HEIGHT+150.0f);
+    	paused.setPosition(RollEmUp.SCREEN_HALF_WIDTH-paused.bounds.width/2.0f, RollEmUp.SCREEN_HALF_HEIGHT+150.0f);
     	
     	quit = new LabelButton(droidSans, "Quit");
-    	quit.setPosition(RollEmUp.TARGET_HALF_WIDTH-quit.bounds.width/2.0f, RollEmUp.TARGET_HALF_HEIGHT+80.0f);
+    	quit.setPosition(RollEmUp.SCREEN_HALF_WIDTH-quit.bounds.width/2.0f, RollEmUp.SCREEN_HALF_HEIGHT+80.0f);
     }
     
     public void update(int state, int totalScore) {

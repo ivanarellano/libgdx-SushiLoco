@@ -11,8 +11,8 @@ public class FrustrumCulling {
 	
 	Vector2 bodyPosition = new Vector2();
 	
-	Rectangle bounds = new Rectangle(0.0f, 0.0f, RollEmUp.TARGET_WIDTH_BOX2D * boundsScale,
-			RollEmUp.TARGET_HEIGHT_BOX2D * boundsScale);
+	Rectangle bounds = new Rectangle(0.0f, 0.0f, RollEmUp.SCREEN_WIDTH_BOX2D * boundsScale,
+			RollEmUp.SCREEN_HEIGHT_BOX2D * boundsScale);
 	float halfWidth = bounds.width / 2;
 	float halfHeight = bounds.height / 2;
 	
@@ -27,8 +27,8 @@ public class FrustrumCulling {
 	public void scale(float scale) {
 		zoom += scale;
 		
-		bounds.width = RollEmUp.TARGET_WIDTH_BOX2D * boundsScale * zoom;
-		bounds.height = RollEmUp.TARGET_HEIGHT_BOX2D * boundsScale * zoom;
+		bounds.width = RollEmUp.SCREEN_WIDTH_BOX2D * boundsScale * zoom;
+		bounds.height = RollEmUp.SCREEN_HEIGHT_BOX2D * boundsScale * zoom;
 		
 		halfWidth = bounds.width / 2;
 		halfHeight = bounds.height / 2;		
