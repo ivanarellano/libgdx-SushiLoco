@@ -63,16 +63,17 @@ public abstract class PhysicsWorld implements ContactListener {
 				if (nextWorldPhysicsObj.isDead) {
 					removeDeadObject(nextWorldPhysicsObj);
 				} else {
+					
 					// Culling
-					if (nextWorldPhysicsObj.type == Type.ROLLABLE)
-						if (frustrumCulling.isInFrustrum(nextWorldBody)) {
+					if (nextWorldPhysicsObj.type == Type.ROLLABLE) {
+						if (frustrumCulling.contains(nextWorldBody.getPosition().x, nextWorldBody.getPosition().y)) {
 							if (!nextWorldBody.isActive())
 								nextWorldBody.setActive(true);
 						} else {
 							nextWorldBody.setActive(false);
 						}
+					}
 							
-					
 					if (nextWorldPhysicsObj.body.isActive())
 						nextWorldPhysicsObj.update();
 				}

@@ -2,17 +2,17 @@ package com.tinyrender.rollemup.box2d;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.tinyrender.rollemup.RollEmUp;
 
 public class FrustrumCulling {
 	float zoom = 1.0f;
-	private float boundsScale = 2.15f;
+	private final static float BOUNDS_SCALE = 2.15f;
 	
-	Vector2 bodyPosition = new Vector2();
+	Vector2 pointPosition = new Vector2();
 	
-	Rectangle bounds = new Rectangle(0.0f, 0.0f, RollEmUp.SCREEN_WIDTH_BOX2D * boundsScale,
-			RollEmUp.SCREEN_HEIGHT_BOX2D * boundsScale);
+	Rectangle bounds = new Rectangle(0.0f, 0.0f, RollEmUp.SCREEN_WIDTH_BOX2D * BOUNDS_SCALE,
+			RollEmUp.SCREEN_HEIGHT_BOX2D * BOUNDS_SCALE);
+	
 	float halfWidth = bounds.width / 2;
 	float halfHeight = bounds.height / 2;
 	
@@ -27,8 +27,8 @@ public class FrustrumCulling {
 	public void scale(float scale) {
 		zoom += scale;
 		
-		bounds.width = RollEmUp.SCREEN_WIDTH_BOX2D * boundsScale * zoom;
-		bounds.height = RollEmUp.SCREEN_HEIGHT_BOX2D * boundsScale * zoom;
+		bounds.width = RollEmUp.SCREEN_WIDTH_BOX2D * BOUNDS_SCALE * zoom;
+		bounds.height = RollEmUp.SCREEN_HEIGHT_BOX2D * BOUNDS_SCALE * zoom;
 		
 		halfWidth = bounds.width / 2;
 		halfHeight = bounds.height / 2;		
@@ -39,10 +39,15 @@ public class FrustrumCulling {
 		bounds.setY(y - halfHeight);
 	}
 	
-	protected boolean isInFrustrum(Body body) {
-		bodyPosition.set(body.getPosition().x, body.getPosition().y);
+	protected boolean contains(Rectangle rectangle) {
+		if(bounds.contains(rectangle))
+			return true;
 		
-		if (bounds.contains(bodyPosition.x, bodyPosition.y))
+		return false;
+	}
+	
+	protected boolean contains(float x, float y) {
+		if (bounds.contains(x, y))
 			return true;
 		
 		return false;
