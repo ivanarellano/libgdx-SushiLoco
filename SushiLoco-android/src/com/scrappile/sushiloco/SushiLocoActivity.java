@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.PowerManager;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
-import com.scrappile.sushiloco.SushiLoco;
 
 public class SushiLocoActivity extends AndroidApplication {
 	private PowerManager.WakeLock wakeLock;

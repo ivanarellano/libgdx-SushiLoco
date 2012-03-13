@@ -15,7 +15,8 @@
 					  android:anyDensity="true"
 					  android:normalScreens="true" />
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name="com.scrappile.sushiloco.AcraActivity">
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name="AcraActivity">
+        
         <activity android:name="com.scrappile.sushiloco.SushiLocoActivity"
                   android:label="@string/app_name"
                   android:screenOrientation="landscape"
