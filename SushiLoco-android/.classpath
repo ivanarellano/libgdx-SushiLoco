@@ -5,9 +5,9 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="lib" path="libs/gdx-backend-android.jar"/>
 	<classpathentry kind="lib" path="libs/acra-4.2.3.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/SushiLoco"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SushiLoco-desktop"/>
 	<classpathentry kind="lib" path="libs/bugsense-trace-1-1.jar"/>
 	<classpathentry kind="lib" path="libs/libGoogleAnalytics.jar"/>
-	<classpathentry kind="lib" path="/Users/ivanarellano/Documents/Eclipse/Roll/SushiLoco/libs/gdx.jar" sourcepath="/RollEmUp/libs/gdx-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/ivanarellano/Documents/Eclipse/SushiLoco/SushiLoco-desktop/libs/gdx.jar" sourcepath="/RollEmUp/libs/gdx-sources.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
