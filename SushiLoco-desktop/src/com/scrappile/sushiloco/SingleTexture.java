@@ -5,6 +5,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class SingleTexture extends ObjectRepresentation {
 	public TextureRegion texture;
 	
+	public SingleTexture() {
+		
+	}
+	
+	public SingleTexture(TextureRegion texture) {
+		setTexture(texture);
+	}
+	
 	@Override
 	public void setTexture(TextureRegion texture) {
 		this.texture = texture;

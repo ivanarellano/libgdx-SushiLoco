@@ -43,6 +43,9 @@ public class TestLevel extends Level {
 		
 		for (int i = 0; i < 7168; i+= 2560)
 			counter.build(512.0f + i, 0.0f);
+		
+		for (int i = 0; i < 7168; i += 1016)
+			unreachableObjects.add(counter.buildPanel(i, -490.0f));
 
 		float offsetX = 0;
 
@@ -50,14 +53,14 @@ public class TestLevel extends Level {
 		offsetX += 2600.0f;
 		for (int i = 0; i < 3; i++) {
 			boat.build(offsetX, 0.0f);
-			offsetX += 1500.0f + (float) Math.random() * 850.0f;
+			offsetX += 1500.0f + (float) Math.random() * 650.0f;
 		}
 
 		// soy bottles
 		offsetX = 2800.0f;
 		for (int i = 0; i < 4; i++) {
 			soySauce.build(offsetX, 55.0f);
-			offsetX += 200.0f + (float) Math.random() * 1000.0f;
+			offsetX += 400.0f + (float) Math.random() * 1000.0f;
 		}
 
 		// boxes

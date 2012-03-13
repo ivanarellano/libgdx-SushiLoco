@@ -2,6 +2,7 @@ package com.scrappile.sushiloco;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.scrappile.sushiloco.box2d.PhysicsWorld;
 import com.scrappile.sushiloco.gui.LevelGui;
 import com.scrappile.sushiloco.object.Player;
@@ -10,7 +11,6 @@ import com.scrappile.sushiloco.screen.PlayScreen;
 
 public abstract class Level extends PhysicsWorld implements LevelState {
 	public int time = 5;
-	public LevelGui gui;
 	public Player player;
 	
     ParallaxBackground background = new ParallaxBackground(new ParallaxLayer[]{
@@ -21,13 +21,14 @@ public abstract class Level extends PhysicsWorld implements LevelState {
 	
 	OrthographicCamera levelCam = new OrthographicCamera(SushiLoco.SCREEN_WIDTH, SushiLoco.SCREEN_HEIGHT);
 	OrthographicCamera box2dCam = new OrthographicCamera(SushiLoco.SCREEN_WIDTH/Level.PTM_RATIO, SushiLoco.SCREEN_HEIGHT/Level.PTM_RATIO);
+	public LevelGui gui = new LevelGui(this);
 	
 	public GameObject nextWorldGameObj;
 	public StaticObject nextStaticObj;
 	
+	public Array<SingleTexture> unreachableObjects = new Array<SingleTexture>();
+	
 	public Level() {
-		gui = new LevelGui(this);
-		
 		levelCam.setToOrtho(false, SushiLoco.SCREEN_WIDTH, SushiLoco.SCREEN_HEIGHT);		
 		box2dCam.setToOrtho(false, SushiLoco.SCREEN_WIDTH/Level.PTM_RATIO, SushiLoco.SCREEN_HEIGHT/Level.PTM_RATIO);		
 	}
