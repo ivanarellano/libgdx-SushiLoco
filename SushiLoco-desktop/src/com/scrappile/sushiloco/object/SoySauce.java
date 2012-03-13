@@ -56,7 +56,9 @@ public class SoySauce implements ObjectFactory {
 	}
 
 	@Override
-	public GameObject build(float x, float y) {
+	public GameObject build(float screenPosX, float screenPosY) {
+		screenPosX /= Level.PTM_RATIO;
+		screenPosY /= Level.PTM_RATIO;
 		GameObject soyObj = new GameObject();
 		
 		soyObj.level = 3;
@@ -65,9 +67,9 @@ public class SoySauce implements ObjectFactory {
 
 		soyObj.objRep.setTexture(texture);
 		
-		y += soyObj.objRep.texture.getRegionHeight() / 2.0f / Level.PTM_RATIO;
+		screenPosY += soyObj.objRep.texture.getRegionHeight() / 2.0f / Level.PTM_RATIO;
 				
-		soyObj.body = BodyFactory.createPoly(verts, x, y,
+		soyObj.body = BodyFactory.createPoly(verts, screenPosX, screenPosY,
 				1.5f, 1.0f, BodyType.DynamicBody, soyObj);
 						
 		return soyObj;

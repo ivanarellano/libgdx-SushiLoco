@@ -36,47 +36,43 @@ public class TestLevel extends Level {
 	@Override
 	public void createWorld() {
 		// Left edge
-		new Ground(0.0f, 0.0f, 0.0f, (480.0f * 2.0f) / Level.PTM_RATIO, 1.0f);
+		new Ground(0.0f, 0.0f, 0.0f, (480.0f * 2.0f), 1.0f);
 		
 		// Right edge
-		new Ground((854.0f * 8.0f) / Level.PTM_RATIO, 0.0f, (854.0f * 8.0f)
-				/ Level.PTM_RATIO, (480.0f * 2.0f) / Level.PTM_RATIO, 1.0f);
+		new Ground((854.0f * 8.0f), 0.0f, (854.0f * 8.0f), (480.0f * 2.0f), 1.0f);
 		
-		counter.build(512.0f, 0.0f);
+		for (int i = 0; i < 7168; i+= 2560)
+			counter.build(512.0f + i, 0.0f);
 
 		float offsetX = 0;
 
 		// boat
 		offsetX += 2600.0f;
 		for (int i = 0; i < 3; i++) {
-			boat.build(offsetX / Level.PTM_RATIO, 0.0f);
-			offsetX += 1500.0f + (float) Math.random() * 1250.0f;
+			boat.build(offsetX, 0.0f);
+			offsetX += 1500.0f + (float) Math.random() * 850.0f;
 		}
 
 		// soy bottles
 		offsetX = 2800.0f;
 		for (int i = 0; i < 4; i++) {
-			soySauce.build(offsetX / Level.PTM_RATIO, 55.0f / Level.PTM_RATIO);
+			soySauce.build(offsetX, 55.0f);
 			offsetX += 200.0f + (float) Math.random() * 1000.0f;
 		}
 
 		// boxes
 		for (int i = 0; i < 60; i++) {
-			new GameBoxObject(
-					boxSushiTex,
-					((float) Math.random() * 4000.0f + 325.0f)
-							/ Level.PTM_RATIO,
-					((float) Math.random() * 150.0f + 230.0f) / Level.PTM_RATIO,
+			new GameBoxObject(boxSushiTex,
+					((float) Math.random() * 4000.0f + 325.0f),
+					((float) Math.random() * 150.0f + 230.0f),
 					0.4f, 1, 1, false, true, Type.ROLLABLE);
 		}
 
 		// circles
 		for (int i = 0; i < 50; i++) {
-			new GameCircleObject(
-					circleSushiTex,
-					((float) Math.random() * 4000.0f + 325.0f)
-							/ Level.PTM_RATIO,
-					((float) Math.random() * 150.0f + 230.0f) / Level.PTM_RATIO,
+			new GameCircleObject(circleSushiTex,
+					((float) Math.random() * 4000.0f + 325.0f),
+					((float) Math.random() * 150.0f + 230.0f),
 					(float) (Math.random() * 2.0f * MathUtils.PI), 0.4f, 1, 1,
 					false, true, Type.ROLLABLE);
 		}

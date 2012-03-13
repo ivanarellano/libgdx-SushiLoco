@@ -104,7 +104,9 @@ public class Boat implements ObjectFactory {
 	TextureRegion boatBackBarTex = Assets.atlas.findRegion("boatbackbar");
 	
 	@Override
-	public GameObject build(float x, float y) {
+	public GameObject build(float screenPosX, float screenPosY) {
+		screenPosX /= Level.PTM_RATIO;
+		screenPosY /= Level.PTM_RATIO;
 		GameObject boatObj = new GameObject();
 		
 		boatObj.level = 4;
@@ -115,14 +117,14 @@ public class Boat implements ObjectFactory {
 		
 		boatObj.type = Type.ROLLABLE;
 		boatObj.objRep.setTexture(boatTex);
-		y += boatObj.objRep.texture.getRegionHeight() / 2.0f / Level.PTM_RATIO;
-				
+		screenPosY += boatObj.objRep.texture.getRegionHeight() / 2.0f / Level.PTM_RATIO;
+		
 		// Boat body
 		verts.clear();
 		verts.add(boatbodyVec1); verts.add(boatbodyVec2);
 		verts.add(boatbodyVec3); verts.add(boatbodyVec4);
 		
-		boatObj.body = BodyFactory.createPoly(verts, x, y, 4.5f, 1.0f, BodyType.DynamicBody, boatObj);
+		boatObj.body = BodyFactory.createPoly(verts, screenPosX, screenPosY, 4.5f, 1.0f, BodyType.DynamicBody, boatObj);
 		boatObj.body.getFixtureList().get(0).setFilterData(filter);
 				
 		/*
@@ -136,15 +138,15 @@ public class Boat implements ObjectFactory {
 		verts.clear();
 		verts.add(boatfrontVec);
 		boatFrontObj.body = BodyFactory.createPoly(verts,
-				x-(381.0f/Level.PTM_RATIO), y+(48.0f/Level.PTM_RATIO), 1.1f, 1.0f, BodyType.DynamicBody, boatFrontObj);
+				screenPosX-(381.0f/Level.PTM_RATIO), screenPosY+(48.0f/Level.PTM_RATIO), 1.1f, 1.0f, BodyType.DynamicBody, boatFrontObj);
 		
 		verts.clear();
 		verts.add(boatflagVec1);
 		verts.add(boatflagVec2);
 		boatFlagObj.body = BodyFactory.createPoly(verts,
-				x+(237.0f/Level.PTM_RATIO), y+(185.0f/Level.PTM_RATIO), 1.1f, 1.0f, BodyType.DynamicBody, boatFlagObj);
+				screenPosX+(237.0f/Level.PTM_RATIO), screenPosY+(185.0f/Level.PTM_RATIO), 1.1f, 1.0f, BodyType.DynamicBody, boatFlagObj);
 		
-		boatBackBarObj.body = BodyFactory.createBox(x+(304.0f/Level.PTM_RATIO), y+(86.0f/Level.PTM_RATIO),
+		boatBackBarObj.body = BodyFactory.createBox(screenPosX+(304.0f/Level.PTM_RATIO), screenPosY+(86.0f/Level.PTM_RATIO),
 				8.0f/Level.PTM_RATIO, 43.0f/Level.PTM_RATIO,
 				1.1f, 1.0f, false, BodyType.DynamicBody, boatBackBarObj);
 		

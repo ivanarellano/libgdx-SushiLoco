@@ -1,10 +1,12 @@
 package com.scrappile.sushiloco;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * Highly experimental.
+ */
 public class ParallaxBackground {
 	private ParallaxLayer[] layers;
 	private ParallaxLayer curLayer;
@@ -80,9 +82,5 @@ public class ParallaxBackground {
 	
 	public void setZoom(float zoom) {
 		this.camera.zoom += zoom;
-		//this.zoom += zoom;
-		//camera.viewportWidth = SushiLoco.SCREEN_WIDTH * scale * this.zoom;
-		//camera.viewportHeight = SushiLoco.SCREEN_HEIGHT * scale * this.zoom;
-		//Gdx.app.log("zoom", ""+camera.viewportWidth + "x" + camera.viewportHeight);
 	}
 }

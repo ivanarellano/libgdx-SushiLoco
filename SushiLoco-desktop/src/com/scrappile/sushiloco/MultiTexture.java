@@ -3,6 +3,10 @@ package com.scrappile.sushiloco;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
+/**
+ * Defines an array of textures that can draw themselves. Highly experimental.
+ * @author ivanarellano
+ */
 public class MultiTexture extends ObjectRepresentation {
 	protected Array<TextureRegion> textureList = new Array<TextureRegion>();
 	private Array<Float> offsetX = new Array<Float>();
