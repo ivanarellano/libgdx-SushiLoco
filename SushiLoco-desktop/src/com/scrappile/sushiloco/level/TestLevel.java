@@ -8,6 +8,7 @@ import com.scrappile.sushiloco.Level;
 import com.scrappile.sushiloco.box2d.PhysicsObject.Type;
 import com.scrappile.sushiloco.object.Boat;
 import com.scrappile.sushiloco.object.Counter;
+import com.scrappile.sushiloco.object.Dumpling;
 import com.scrappile.sushiloco.object.GameBoxObject;
 import com.scrappile.sushiloco.object.GameCircleObject;
 import com.scrappile.sushiloco.object.Ground;
@@ -18,6 +19,7 @@ public class TestLevel extends Level {
 	Boat boat = new Boat();
 	SoySauce soySauce = new SoySauce();
 	Counter counter = new Counter();
+	Dumpling dumpling = new Dumpling();
 
 	TextureRegion boxSushiTex = Assets.atlas.findRegion("boxsushi");
 	TextureRegion circleSushiTex = Assets.atlas.findRegion("circlesushi");
@@ -47,6 +49,11 @@ public class TestLevel extends Level {
 		for (int i = 0; i < 7168; i += 1016)
 			unreachableObjects.add(counter.buildPanel(i, -490.0f));
 
+		for (int i = 0; i < 10; i++) {
+			dumpling.build((float) Math.random() * 2000.0f + 900.0f, 
+					(float) Math.random() * 150.0f + 400.0f);
+		}
+		
 		float offsetX = 0;
 
 		// boat

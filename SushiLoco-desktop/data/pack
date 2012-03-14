@@ -45,9 +45,16 @@ titlelogo
   orig: 151, 118
   offset: 0, 0
   index: -1
-player
+dumpling
   rotate: false
   xy: 498, 705
+  size: 148, 115
+  orig: 148, 115
+  offset: 0, 0
+  index: -1
+player
+  rotate: false
+  xy: 498, 826
   size: 128, 117
   orig: 128, 117
   offset: 0, 0
@@ -82,7 +89,7 @@ boatbackbar
   index: -1
 circlesushi
   rotate: false
-  xy: 498, 828
+  xy: 498, 949
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

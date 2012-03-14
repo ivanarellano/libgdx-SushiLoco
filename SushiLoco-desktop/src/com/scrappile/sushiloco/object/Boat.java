@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.Array;
 import com.scrappile.sushiloco.Assets;
 import com.scrappile.sushiloco.GameObject;
 import com.scrappile.sushiloco.Level;
-import com.scrappile.sushiloco.ObjectFactory;
 import com.scrappile.sushiloco.box2d.BodyFactory;
 import com.scrappile.sushiloco.box2d.JointFactory;
 import com.scrappile.sushiloco.box2d.PhysicsObject;
