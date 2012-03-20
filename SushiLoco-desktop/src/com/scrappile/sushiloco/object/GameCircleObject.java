@@ -1,4 +1,4 @@
-package com.scrappile.sushiloco.object.test;
+package com.scrappile.sushiloco.object;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
