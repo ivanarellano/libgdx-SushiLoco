@@ -1,4 +1,4 @@
-package com.scrappile.sushiloco.object;
+package com.scrappile.sushiloco.object.food;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -9,6 +9,7 @@ import com.scrappile.sushiloco.GameObject;
 import com.scrappile.sushiloco.Level;
 import com.scrappile.sushiloco.box2d.BodyFactory;
 import com.scrappile.sushiloco.box2d.PhysicsObject.Type;
+import com.scrappile.sushiloco.object.ObjectFactory;
 
 public class Dumpling implements ObjectFactory {
 	Vector2 poly1[] = {
@@ -51,7 +52,7 @@ public class Dumpling implements ObjectFactory {
 		screenPosY += dumplingObj.objRep.halfHeight / Level.PTM_RATIO;
 				
 		dumplingObj.body = BodyFactory.createPoly(verts, screenPosX, screenPosY,
-				1.1f, 1.0f, BodyType.DynamicBody, dumplingObj);
+				1.2f, 1.0f, BodyType.DynamicBody, dumplingObj);
 		
 		return dumplingObj;
 	}
