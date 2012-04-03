@@ -68,8 +68,8 @@ public class TestLevel extends Level {
 			dishes.smallCups.build2((float) Math.random() * 2000.0f + 850.0f, 
 					(float) Math.random() * 225.0f + 200.0f);
 			
-			//dishes.woodenPlate.build((float) Math.random() * 2300.0f + 1350.0f, 
-			//		(float) Math.random() * 225.0f + 200.0f);
+			dishes.woodenPlate.build((float) Math.random() * 2300.0f + 1350.0f, 
+					(float) Math.random() * 225.0f + 200.0f);
 			
 			
 			//dishes.saucer.build((float) Math.random() * 2900.0f + 1750.0f, 
