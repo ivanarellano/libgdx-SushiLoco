@@ -34,8 +34,8 @@ public class MackarelNigiri implements ObjectFactory {
 		screenPosY /= Level.PTM_RATIO;
 		GameObject mackarelNigiri = new GameObject();
 		
-		mackarelNigiri.level = 3;
-		mackarelNigiri.points = 9;
+		mackarelNigiri.level = 2;
+		mackarelNigiri.points = 8;
 		mackarelNigiri.type = Type.ROLLABLE;
 
 		mackarelNigiri.objRep.setTexture(texture);

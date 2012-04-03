@@ -34,8 +34,8 @@ public class TunaNigiri implements ObjectFactory {
 		screenPosY /= Level.PTM_RATIO;
 		GameObject tunaNigiri = new GameObject();
 		
-		tunaNigiri.level = 3;
-		tunaNigiri.points = 9;
+		tunaNigiri.level = 1;
+		tunaNigiri.points = 7;
 		tunaNigiri.type = Type.ROLLABLE;
 
 		tunaNigiri.objRep.setTexture(texture);
