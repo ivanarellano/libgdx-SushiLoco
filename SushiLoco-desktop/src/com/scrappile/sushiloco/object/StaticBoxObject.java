@@ -13,7 +13,7 @@ public class StaticBoxObject extends StaticObject {
 	/**
 	 * Builds a static box2d box.
 	 */
-	protected void build(float screenPosX, float screenPosY, float screenWidth,
+	public void build(float screenPosX, float screenPosY, float screenWidth,
 			float screenHeight) {
 		screenPosX /= Level.PTM_RATIO;
 		screenPosY /= Level.PTM_RATIO;
