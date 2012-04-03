@@ -1,4 +1,4 @@
-package com.scrappile.sushiloco.object;
+package com.scrappile.sushiloco.object.food;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -7,9 +7,9 @@ import com.badlogic.gdx.utils.Array;
 import com.scrappile.sushiloco.Assets;
 import com.scrappile.sushiloco.GameObject;
 import com.scrappile.sushiloco.Level;
-import com.scrappile.sushiloco.ObjectFactory;
 import com.scrappile.sushiloco.box2d.BodyFactory;
 import com.scrappile.sushiloco.box2d.PhysicsObject.Type;
+import com.scrappile.sushiloco.object.ObjectFactory;
 
 public class SoySauce implements ObjectFactory {
 	Vector2 poly1[] = {
@@ -46,7 +46,7 @@ public class SoySauce implements ObjectFactory {
 	*/
 	
 	public Array<Vector2[]> verts = new Array<Vector2[]>(2);
-	public TextureRegion texture = Assets.atlas.findRegion("soy");
+	public TextureRegion texture = Assets.atlas.findRegion("soysauce");
 	
 	public SoySauce() {		
 		verts.add(poly1);
