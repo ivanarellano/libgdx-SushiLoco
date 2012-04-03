@@ -72,8 +72,8 @@ public class TestLevel extends Level {
 					(float) Math.random() * 225.0f + 200.0f);
 			
 			
-			//dishes.saucer.build((float) Math.random() * 2900.0f + 1750.0f, 
-			//		(float) Math.random() * 225.0f + 200.0f);
+			dishes.saucer.build((float) Math.random() * 2900.0f + 1750.0f, 
+					(float) Math.random() * 225.0f + 200.0f);
 			
 		}
 		
@@ -91,23 +91,6 @@ public class TestLevel extends Level {
 		for (int i = 0; i < 4; i++) {
 			food.soySauce.build(offsetX, 55.0f);
 			offsetX += 1000.0f + (float) Math.random() * 2000.0f;
-		}
-
-		// boxes
-		for (int i = 0; i < 60; i++) {
-			new GameBoxObject(testBoxTex,
-					((float) Math.random() * 4000.0f + 325.0f),
-					((float) Math.random() * 150.0f + 130.0f),
-					0.4f, 1, 1, false, true, Type.ROLLABLE);
-		}
-
-		// circles
-		for (int i = 0; i < 50; i++) {
-			new GameCircleObject(testCircleTex,
-					((float) Math.random() * 4000.0f + 325.0f),
-					((float) Math.random() * 150.0f + 130.0f),
-					(float) (Math.random() * 2.0f * MathUtils.PI), 0.4f, 1, 1,
-					false, true, Type.ROLLABLE);
 		}
 
 	}
