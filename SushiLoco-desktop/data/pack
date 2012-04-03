@@ -31,11 +31,11 @@ boatfront
   orig: 151, 189
   offset: 0, 0
   index: -1
-boatflag
+plate1
   rotate: false
   xy: 409, 705
-  size: 83, 290
-  orig: 83, 290
+  size: 383, 64
+  orig: 383, 64
   offset: 0, 0
   index: -1
 titlelogo
@@ -47,35 +47,105 @@ titlelogo
   index: -1
 dumpling
   rotate: false
-  xy: 498, 705
+  xy: 409, 775
   size: 148, 115
   orig: 148, 115
   offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 498, 826
+  xy: 409, 896
   size: 128, 117
   orig: 128, 117
   offset: 0, 0
   index: -1
-start
+cup1
+  rotate: false
+  xy: 563, 775
+  size: 99, 109
+  orig: 99, 109
+  offset: 0, 0
+  index: -1
+crabnigiri
+  rotate: false
+  xy: 668, 775
+  size: 109, 81
+  orig: 109, 81
+  offset: 0, 0
+  index: -1
+cup2
+  rotate: false
+  xy: 668, 862
+  size: 102, 84
+  orig: 102, 84
+  offset: 0, 0
+  index: -1
+shrimpnigiri
+  rotate: false
+  xy: 798, 705
+  size: 135, 63
+  orig: 135, 63
+  offset: 0, 0
+  index: -1
+eggnigiri
+  rotate: false
+  xy: 783, 775
+  size: 129, 62
+  orig: 129, 62
+  offset: 0, 0
+  index: -1
+ricecake
   rotate: false
   xy: 0, 967
+  size: 141, 55
+  orig: 141, 55
+  offset: 0, 0
+  index: -1
+mackarelnigiri
+  rotate: false
+  xy: 783, 843
+  size: 125, 58
+  orig: 125, 58
+  offset: 0, 0
+  index: -1
+tunanigiri
+  rotate: false
+  xy: 668, 952
+  size: 107, 64
+  orig: 107, 64
+  offset: 0, 0
+  index: -1
+salmonnigiri
+  rotate: false
+  xy: 918, 775
+  size: 106, 59
+  orig: 106, 59
+  offset: 0, 0
+  index: -1
+saucer
+  rotate: false
+  xy: 783, 907
+  size: 149, 32
+  orig: 149, 32
+  offset: 0, 0
+  index: -1
+start
+  rotate: false
+  xy: 147, 967
   size: 99, 30
   orig: 99, 30
   offset: 0, 0
   index: -1
 soundon
   rotate: false
-  xy: 105, 967
+  xy: 783, 945
   size: 128, 22
   orig: 128, 22
   offset: 0, 0
   index: -1
 soundoff
   rotate: false
-  xy: 105, 995
+  xy: 783, 973
   size: 128, 22
   orig: 128, 22
   offset: 0, 0
@@ -89,14 +159,14 @@ boatbackbar
   index: -1
 circlesushi
   rotate: false
-  xy: 498, 949
+  xy: 939, 705
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 boxsushi
   rotate: false
-  xy: 0, 1003
+  xy: 147, 1003
   size: 33, 17
   orig: 33, 17
   offset: 0, 0
@@ -113,11 +183,18 @@ counter1
   orig: 1024, 577
   offset: 0, 0
   index: -1
-soy
+soysauce
   rotate: false
   xy: 0, 583
-  size: 169, 385
-  orig: 169, 385
+  size: 153, 349
+  orig: 153, 349
+  offset: 0, 0
+  index: -1
+boatflag
+  rotate: false
+  xy: 159, 583
+  size: 83, 290
+  orig: 83, 290
   offset: 0, 0
   index: -1
 
@@ -144,23 +221,16 @@ assets4.png
 format: RGBA8888
 filter: MipMapLinearNearest,Nearest
 repeat: none
-levelselect
+bgtitlescreen
   rotate: false
   xy: 0, 0
   size: 854, 480
   orig: 854, 480
   offset: 0, 0
   index: -1
-bgtitlescreen
-  rotate: false
-  xy: 0, 486
-  size: 854, 480
-  orig: 854, 480
-  offset: 0, 0
-  index: -1
 droidsans
   rotate: false
-  xy: 860, 486
+  xy: 0, 486
   size: 128, 512
   orig: 128, 512
   offset: 0, 0

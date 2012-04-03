@@ -30,7 +30,7 @@ public class SmallCups {
 	
 	public Array<Vector2[]> verts = new Array<Vector2[]>(1);
 	
-	GameObject build1(float screenPosX, float screenPosY) {
+	public GameObject build1(float screenPosX, float screenPosY) {
 		screenPosX /= Level.PTM_RATIO;
 		screenPosY /= Level.PTM_RATIO;
 		GameObject cup1 = new GameObject();
@@ -51,7 +51,7 @@ public class SmallCups {
 		return cup1;
 	}
 	
-	GameObject build2(float screenPosX, float screenPosY) {
+	public GameObject build2(float screenPosX, float screenPosY) {
 		screenPosX /= Level.PTM_RATIO;
 		screenPosY /= Level.PTM_RATIO;
 		GameObject cup2 = new GameObject();

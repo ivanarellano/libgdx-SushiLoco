@@ -6,23 +6,23 @@ import com.badlogic.gdx.math.MathUtils;
 import com.scrappile.sushiloco.Assets;
 import com.scrappile.sushiloco.Level;
 import com.scrappile.sushiloco.box2d.PhysicsObject.Type;
-import com.scrappile.sushiloco.object.Boat;
-import com.scrappile.sushiloco.object.Counter;
-import com.scrappile.sushiloco.object.Dumpling;
 import com.scrappile.sushiloco.object.GameBoxObject;
 import com.scrappile.sushiloco.object.GameCircleObject;
 import com.scrappile.sushiloco.object.Ground;
 import com.scrappile.sushiloco.object.Player;
-import com.scrappile.sushiloco.object.SoySauce;
+import com.scrappile.sushiloco.object.decor.Boat;
+import com.scrappile.sushiloco.object.decor.Counter;
+import com.scrappile.sushiloco.object.dishes.Dishes;
+import com.scrappile.sushiloco.object.food.FoodFactory;
 
 public class TestLevel extends Level {
 	Boat boat = new Boat();
-	SoySauce soySauce = new SoySauce();
 	Counter counter = new Counter();
-	Dumpling dumpling = new Dumpling();
+	FoodFactory food = new FoodFactory();
+	Dishes dishes = new Dishes();
 
-	TextureRegion boxSushiTex = Assets.atlas.findRegion("boxsushi");
-	TextureRegion circleSushiTex = Assets.atlas.findRegion("circlesushi");
+	TextureRegion testBoxTex = Assets.atlas.findRegion("boxsushi");
+	TextureRegion testCircleTex = Assets.atlas.findRegion("circlesushi");
 
 	public TestLevel() {
 		player = new Player(this);
@@ -49,16 +49,39 @@ public class TestLevel extends Level {
 		for (int i = 0; i < 7168; i += 1016)
 			unreachableObjects.add(counter.buildPanel(i, -490.0f));
 
-		for (int i = 0; i < 10; i++) {
-			dumpling.build((float) Math.random() * 2000.0f + 900.0f, 
-					(float) Math.random() * 150.0f + 400.0f);
+		for (int i = 0; i < 3; i++) {
+			
+			food.eggNigiri.build((float) Math.random() * 2500.0f + 950.0f, 
+					(float) Math.random() * 225.0f + 200.0f);
+			food.mackarelNigiri.build((float) Math.random() * 2700.0f + 1350.0f, 
+					(float) Math.random() * 225.0f + 200.0f);
+			food.tunaNigiri.build((float) Math.random() * 2900.0f + 1750.0f, 
+					(float) Math.random() * 225.0f + 200.0f);
+			food.crabNigiri.build((float) Math.random() * 3100.0f + 2150.0f, 
+					(float) Math.random() * 225.0f + 200.0f);
+			food.dumpling.build((float) Math.random() * 3200.0f + 2650.0f, 
+					(float) Math.random() * 225.0f + 200.0f);
+			
+			dishes.smallCups.build1((float) Math.random() * 2500.0f + 950.0f, 
+					(float) Math.random() * 225.0f + 200.0f);
+			
+			dishes.smallCups.build2((float) Math.random() * 2000.0f + 850.0f, 
+					(float) Math.random() * 225.0f + 200.0f);
+			
+			//dishes.woodenPlate.build((float) Math.random() * 2300.0f + 1350.0f, 
+			//		(float) Math.random() * 225.0f + 200.0f);
+			
+			
+			//dishes.saucer.build((float) Math.random() * 2900.0f + 1750.0f, 
+			//		(float) Math.random() * 225.0f + 200.0f);
+			
 		}
 		
 		float offsetX = 0;
 
 		// boat
 		offsetX += 2600.0f;
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 2; i++) {
 			boat.build(offsetX, 0.0f);
 			offsetX += 1500.0f + (float) Math.random() * 650.0f;
 		}
@@ -66,23 +89,23 @@ public class TestLevel extends Level {
 		// soy bottles
 		offsetX = 2800.0f;
 		for (int i = 0; i < 4; i++) {
-			soySauce.build(offsetX, 55.0f);
-			offsetX += 400.0f + (float) Math.random() * 1000.0f;
+			food.soySauce.build(offsetX, 55.0f);
+			offsetX += 1000.0f + (float) Math.random() * 2000.0f;
 		}
 
 		// boxes
 		for (int i = 0; i < 60; i++) {
-			new GameBoxObject(boxSushiTex,
+			new GameBoxObject(testBoxTex,
 					((float) Math.random() * 4000.0f + 325.0f),
-					((float) Math.random() * 150.0f + 230.0f),
+					((float) Math.random() * 150.0f + 130.0f),
 					0.4f, 1, 1, false, true, Type.ROLLABLE);
 		}
 
 		// circles
 		for (int i = 0; i < 50; i++) {
-			new GameCircleObject(circleSushiTex,
+			new GameCircleObject(testCircleTex,
 					((float) Math.random() * 4000.0f + 325.0f),
-					((float) Math.random() * 150.0f + 230.0f),
+					((float) Math.random() * 150.0f + 130.0f),
 					(float) (Math.random() * 2.0f * MathUtils.PI), 0.4f, 1, 1,
 					false, true, Type.ROLLABLE);
 		}
