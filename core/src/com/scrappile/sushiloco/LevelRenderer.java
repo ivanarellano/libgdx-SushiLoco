@@ -8,15 +8,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.scrappile.sushiloco.box2d.PhysicsObject;
-import com.scrappile.sushiloco.box2d.PhysicsObject.Type;
-import com.scrappile.sushiloco.box2d.PhysicsWorld;
 import com.scrappile.sushiloco.object.StaticObject;
 import com.scrappile.sushiloco.screen.PlayScreen;
 
 public class LevelRenderer {
     public Level level;
-    Box2DDebugRenderer box2dDebugRenderer = new Box2DDebugRenderer(true, false, false, false, false, false);
-    ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private Box2DDebugRenderer box2dDebugRenderer = new Box2DDebugRenderer(true, false, false, false, false, false);
+    private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     public LevelRenderer(PlayScreen screen) {
         level = screen.level;
@@ -40,31 +38,35 @@ public class LevelRenderer {
         }
 
         Array<Body> bodies = level.getBodies();
+
         for (Body b : bodies) {
-            level.physicsObject = (PhysicsObject) b.getUserData();
+            PhysicsObject physicsObject = (PhysicsObject) b.getUserData();
 
-            if (level.physicsObject.body.isActive() && level.physicsObject.type == Type.STATIC) {
-                level.nextStaticObj = (StaticObject) level.physicsObject;
+            if (physicsObject.body.isActive()) {
+                switch (physicsObject.type) {
+                    case ROLLABLE:
+                        GameObject gameObject = (GameObject) physicsObject;
 
-                if (!level.nextStaticObj.hidden)
-                    level.nextStaticObj.objRep.draw();
-            }
-        }
+                        if (gameObject.objRep.texture != null)
+                            gameObject.objRep.draw();
 
-        // Draw level objects and their sub-objects
-        PhysicsWorld.bodiesList = PhysicsWorld.getWorldBodies();
-        while (PhysicsWorld.bodiesList.hasNext()) {
-            level.physicsObject = (PhysicsObject) PhysicsWorld.bodiesList.next().getUserData();
+                        for (int i = 0; i < gameObject.children.size; i++) {
+                            if (gameObject.children.get(i).objRep.texture != null)
+                                gameObject.children.get(i).objRep.draw();
+                        }
 
-            if (level.physicsObject.body.isActive() && level.physicsObject.type == Type.ROLLABLE) {
-                level.nextWorldGameObj = (GameObject) level.physicsObject;
+                        break;
+                    case STATIC:
+                        StaticObject staticObject = (StaticObject) physicsObject;
 
-                if (level.nextWorldGameObj.objRep.texture != null)
-                    level.nextWorldGameObj.objRep.draw();
+                        if (!staticObject.hidden)
+                            staticObject.objRep.draw();
 
-                for (int i = 0; i < level.nextWorldGameObj.children.size; i++) {
-                    if (level.nextWorldGameObj.children.get(i).objRep.texture != null)
-                        level.nextWorldGameObj.children.get(i).objRep.draw();
+                        break;
+                    case PLAYER:
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -82,9 +84,10 @@ public class LevelRenderer {
 
         Assets.batch.end();
 
+        // TODO: Move to DebugRenderer
         if (Settings.debugEnabled) {
             level.getBox2dCamera().update(false);
-            box2dDebugRenderer.render(PhysicsWorld.b2world, level.getBox2dCamera().combined);
+            box2dDebugRenderer.render(level.getWorld(), level.getBox2dCamera().combined);
 
             shapeRenderer.setProjectionMatrix(level.getLevelCamera().combined);
 

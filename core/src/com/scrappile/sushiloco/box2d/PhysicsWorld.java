@@ -10,14 +10,11 @@ public abstract class PhysicsWorld implements ContactListener {
     final static float UPDATE_INTERVAL = 1.0f / 60.0f;
     final static float MINIMUM_TIMESTEP = UPDATE_INTERVAL / 2.0f;
     final static int MAX_CYCLES_PER_FRAME = 25;
-
-    protected static Vector2 gravity = new Vector2(0, -12.0f);
     public static World b2world;
-
-    protected FrustrumCulling frustrumCulling = new FrustrumCulling();
-
-    public static Array<Body> bodies;
-    public static PhysicsObject physicsObject;
+    private static Vector2 gravity = new Vector2(0, -12.0f);
+    // TODO: Make private and create listeners
+    public FrustrumCulling frustrumCulling = new FrustrumCulling();
+    private Array<Body> bodies = new Array<Body>();
 
     public PhysicsWorld() {
         b2world = new World(gravity, true);
@@ -45,30 +42,28 @@ public abstract class PhysicsWorld implements ContactListener {
     }
 
     protected void updateBodies() {
-        b2world.getBodies(bodies);
+        PhysicsObject physicsObject;
+
+        getBodies();
 
         for (Body b : bodies) {
-            if (null != b) {
-                physicsObject = (PhysicsObject) b.getUserData();
+            physicsObject = (PhysicsObject) b.getUserData();
 
-                if (physicsObject.isDead) {
-                    b2world.destroyBody(physicsObject.body);
-                } else {
-
-                    // Culling
-                    if (physicsObject.type == Type.ROLLABLE) {
-                        if (frustrumCulling.contains(b.getPosition())) {
-                            if (!b.isActive())
-                                b.setActive(true);
-                        } else {
-                            b.setActive(false);
-                        }
+            if (physicsObject.isDead) {
+                b2world.destroyBody(physicsObject.body);
+            } else {
+                // TODO: Move to FrustrumCulling
+                if (physicsObject.type == Type.ROLLABLE) {
+                    if (frustrumCulling.contains(b.getPosition())) {
+                        if (!b.isActive())
+                            b.setActive(true);
+                    } else {
+                        b.setActive(false);
                     }
-
-                    if (physicsObject.body.isActive())
-                        physicsObject.update();
                 }
 
+                if (physicsObject.body.isActive())
+                    physicsObject.update();
             }
         }
     }
@@ -77,12 +72,17 @@ public abstract class PhysicsWorld implements ContactListener {
         return frustrumCulling;
     }
 
+    public World getWorld() {
+        return b2world;
+    }
+
     public void resumeWorld() {
         if (null == b2world)
             b2world = new World(gravity, true);
     }
 
-    public static Array<Body> getBodies() {
+    public Array<Body> getBodies() {
+        b2world.getBodies(bodies);
         return bodies;
     }
 
