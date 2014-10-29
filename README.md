@@ -1,5 +1,5 @@
 # Sushi Loco
 A gyro-controlled platformer featuring a possessed sushi roll bent on rescuing sushi.
 
-### Online Applet
-http://ivanarellano.com/nightlies/applet
+### Demo Video
+https://www.youtube.com/watch?v=vTGNaYLkfRU
