@@ -26,10 +26,10 @@ public class Assets implements Disposable, AssetErrorListener {
         manager.setErrorListener(this);
         Texture.setAssetManager(manager);
 
-        manager.load("data/pack", TextureAtlas.class);
+        manager.load("textures.pack", TextureAtlas.class);
         manager.finishLoading();
 
-        atlas = manager.get("data/pack", TextureAtlas.class);
+        atlas = manager.get("textures.pack", TextureAtlas.class);
 
         batch = new SpriteBatch();
     }

@@ -19,9 +19,9 @@ public class SplashScreen extends GameScreen {
 	public SplashScreen(SushiLoco game) {
 		super(game);
 		
-		Assets.loadBitmapFont("data/droidsans.fnt");
-		Assets.loadMusic("data/music.mp3");
-		Assets.loadSound("data/click.ogg");
+		Assets.loadBitmapFont("droidsans.fnt");
+		Assets.loadMusic("music.mp3");
+		Assets.loadSound("click.ogg");
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class SplashScreen extends GameScreen {
 			Gdx.app.log("AssetManagerDiagnostics", "\n" + Assets.manager.getDiagnostics() + "\n" + Texture.getManagedStatus());
 			
 			splashScreen = Assets.atlas.findRegion("tuna");
-			Assets.droidSansFont = Assets.getBitmapFont("data/droidsans.fnt", "droidsans");
+			Assets.droidSansFont = Assets.getBitmapFont("droidsans.fnt", "droidsans");
 		}
 		
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

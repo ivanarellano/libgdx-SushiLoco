@@ -9,7 +9,7 @@ import com.scrappile.sushiloco.Timer;
 import com.scrappile.sushiloco.screen.PlayScreen;
 
 public class LevelGui extends Gui implements LevelState {
-	BitmapFont droidSans = Assets.getBitmapFont("data/droidsans.fnt", "droidsans");
+	BitmapFont droidSans = Assets.getBitmapFont("droidsans.fnt", "droidsans");
 	public LabelButton paused = new LabelButton(droidSans, "Paused");
 	public LabelButton quit = new LabelButton(droidSans, "Quit");
 	public GoalMeter goalMeter = new GoalMeter();

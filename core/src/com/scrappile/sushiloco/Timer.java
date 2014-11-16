@@ -10,7 +10,7 @@ public class Timer implements Drawable {
     public BitmapFont font;
 
     public Timer() {
-    	font = Assets.getBitmapFont("data/droidsans.fnt", "droidsans");
+    	font = Assets.getBitmapFont("droidsans.fnt", "droidsans");
     }
     
     public Timer(int levelTime) {

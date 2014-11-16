@@ -12,7 +12,7 @@ public class Button {
 	
 	public Button() {
 		bounds = new Rectangle();
-		hitSound = Assets.getSound("data/click.ogg");
+		hitSound = Assets.getSound("click.ogg");
 	}
 	
 	public boolean justHit(Vector3 touchPoint) {

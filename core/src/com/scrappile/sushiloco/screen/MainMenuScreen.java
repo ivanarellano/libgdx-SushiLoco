@@ -21,8 +21,8 @@ public class MainMenuScreen extends GameScreen {
 		touchPoint = new Vector3();
 		gui = new MainMenuGui();
 		
-		if (Assets.manager.isLoaded("data/music.mp3")) {
-			music = Assets.getMusic("data/music.mp3");
+		if (Assets.manager.isLoaded("music.mp3")) {
+			music = Assets.getMusic("music.mp3");
     		music.setLooping(true);
     		music.setVolume(0.25f);
 		}
