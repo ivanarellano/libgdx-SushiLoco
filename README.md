@@ -1,5 +1,5 @@
 # Sushi Loco
-A gyroscope controlled platformer game about a sushi roll possessed by its spirit.
+An accelerometer controlled platformer game about a sushi roll possessed by its spirit.
 
 Note: This project will not run because it does not include the required assets. 
 You will run into issues with `texture.pack` and TextureAtlas. (01/15/2017)
