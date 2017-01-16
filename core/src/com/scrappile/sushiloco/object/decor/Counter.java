@@ -10,10 +10,11 @@ import com.scrappile.sushiloco.SingleTexture;
 import com.scrappile.sushiloco.object.StaticBoxObject;
 
 public class Counter {
+
 	public Array<TextureRegion> textures = new Array<TextureRegion>(3);
 	public TextureRegion counterPanel = Assets.atlas.findRegion("counterpanel");
-	
-	private int[] offsets= new int[3];
+
+	private int[] offsets = new int[3];
 
 	public Counter() {
 		textures.add(Assets.atlas.findRegion("counter1"));
@@ -28,9 +29,8 @@ public class Counter {
 
 	public StaticBoxObject buildSingle(float screenPosX, float screenPosY, TextureRegion tex) {
 		StaticBoxObject singleCounter = new StaticBoxObject();
-		SingleTexture singleTex = new SingleTexture();
 
-		singleCounter.objRep = singleTex;
+		singleCounter.objRep = new SingleTexture();
 		singleCounter.objRep.setTexture(tex);
 
 		singleCounter.build(screenPosX, screenPosY, tex.getRegionWidth(), 68.0f);
@@ -54,9 +54,7 @@ public class Counter {
 	public SingleTexture buildPanel(float screenPosX, float screenPosY) {
 		SingleTexture panelTex = new SingleTexture();
 		panelTex.setTexture(counterPanel);
-		
-		panelTex.pos.set(screenPosX, screenPosY);
-		
+		panelTex.setPos(screenPosX, screenPosY);
 		return panelTex;
 	}
 }

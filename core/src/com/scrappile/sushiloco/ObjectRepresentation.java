@@ -3,18 +3,37 @@ package com.scrappile.sushiloco;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class ObjectRepresentation extends Renderable {
-	public int width;
-	public int height;
-	public float halfWidth;
-	public float halfHeight;
+
+	protected int width;
+	protected int height;
+	protected float halfWidth;
+	protected float halfHeight;
 		
 	public int getLargestDimension() {
-		if (width > height)
-			return width;
-		else
-			return height;
+		return width > height ? width : height;
 	}
 
-	public void setTexture(TextureRegion texture) {}
-	public void setTexture(boolean isHorizontal, TextureRegion... texture) {}
+	public void setTexture(TextureRegion texture) {
+		// No-op
+	};
+
+	public void setTexture(boolean isHorizontal, TextureRegion... texture) {
+		// No-op
+	};
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public float getHalfWidth() {
+		return halfWidth;
+	}
+
+	public float getHalfHeight() {
+		return halfHeight;
+	}
 }

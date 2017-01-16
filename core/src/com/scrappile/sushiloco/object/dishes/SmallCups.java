@@ -10,7 +10,8 @@ import com.scrappile.sushiloco.box2d.BodyFactory;
 import com.scrappile.sushiloco.box2d.PhysicsObject.Type;
 
 public class SmallCups {
-	Vector2 cup1_poly[] = {
+
+	private Vector2 cup1_poly[] = {
 			new Vector2(-44.5f / Level.PTM_RATIO, 46.0f / Level.PTM_RATIO),
 			new Vector2(-42.4f / Level.PTM_RATIO, -48.4f / Level.PTM_RATIO),
 			new Vector2(43.1f / Level.PTM_RATIO, -48.1f / Level.PTM_RATIO),
@@ -19,7 +20,7 @@ public class SmallCups {
 			new Vector2(-30.1f / Level.PTM_RATIO, 51.3f / Level.PTM_RATIO)
 		};
 	
-	Vector2 cup2_poly[] = {
+	private Vector2 cup2_poly[] = {
 			new Vector2(-48.8f / Level.PTM_RATIO, 14.5f / Level.PTM_RATIO),
 			new Vector2(-30.4f / Level.PTM_RATIO, -39.2f / Level.PTM_RATIO),
 			new Vector2(32.9f / Level.PTM_RATIO, -38.2f / Level.PTM_RATIO),
@@ -41,12 +42,11 @@ public class SmallCups {
 
 		cup1.objRep.setTexture(Assets.atlas.findRegion("cup1"));
 		
-		screenPosY += cup1.objRep.halfHeight / Level.PTM_RATIO;
+		screenPosY += cup1.objRep.getHalfHeight() / Level.PTM_RATIO;
 				
 		verts.clear();
 		verts.add(cup1_poly);
-		cup1.body = BodyFactory.createPoly(verts, screenPosX, screenPosY,
-				1.1f, 1.2f, BodyType.DynamicBody, cup1);
+		cup1.body = BodyFactory.createPoly(verts, screenPosX, screenPosY, 1.1f, 1.2f, BodyType.DynamicBody, cup1);
 		
 		return cup1;
 	}
@@ -62,12 +62,11 @@ public class SmallCups {
 
 		cup2.objRep.setTexture(Assets.atlas.findRegion("cup2"));
 		
-		screenPosY += cup2.objRep.halfHeight / Level.PTM_RATIO;
+		screenPosY += cup2.objRep.getHalfHeight() / Level.PTM_RATIO;
 				
 		verts.clear();
 		verts.add(cup2_poly);
-		cup2.body = BodyFactory.createPoly(verts, screenPosX, screenPosY,
-				1.1f, 1.2f, BodyType.DynamicBody, cup2);
+		cup2.body = BodyFactory.createPoly(verts, screenPosX, screenPosY, 1.1f, 1.2f, BodyType.DynamicBody, cup2);
 		
 		return cup2;
 	}

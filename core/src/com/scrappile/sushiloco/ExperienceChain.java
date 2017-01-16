@@ -4,24 +4,26 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 
 public class ExperienceChain {
-	public class Level {
+
+	public final static class Level {
+
+		private final int maxScore;
+		private int tag;
+
 		public Level(int tag, int maxScore) {
 			this.tag = tag;
 			this.maxScore = maxScore;
 		}
-		
-		int tag;
-		int maxScore;
 	}
 	
 	public static Level MAX_LEVEL;
 	
-	int totalScore;
-	int currentScore;
-	Level currentLevel;
-	Array<Level> levelChain = new Array<Level>();
+	private int totalScore;
+	private int currentScore;
+	private Level currentLevel;
+	private Array<Level> levelChain = new Array<Level>();
 	
-	/** Assumes levels are in ascending order. (1..3) */
+	/** Levels are in ascending order. (1..3) */
 	public void populate(Level...levels) {
 		for (int i = 0; i < levels.length; i++) {
 			this.levelChain.add(levels[i]);
@@ -36,7 +38,6 @@ public class ExperienceChain {
 	
 	public void levelUp() {
 		int remainder = currentScore - currentLevel.maxScore;
-		
 		currentLevel = getNextLevel();
 		currentScore = remainder;
 	}
@@ -50,17 +51,19 @@ public class ExperienceChain {
 	}
 	
 	public Level getNextLevel() {
-		if ((currentLevel.tag + 1) <= MAX_LEVEL.tag)
+		if ((currentLevel.tag + 1) <= MAX_LEVEL.tag) {
 			return levelChain.get(currentLevel.tag++);
-		else
+		} else {
 			return currentLevel;
+		}
 	}
 	
 	public Level getPreviousLevel() {
-		if ((currentLevel.tag - 1) >= 0)
+		if ((currentLevel.tag - 1) >= 0) {
 			return levelChain.get(currentLevel.tag--);
-		else
+		} else {
 			return currentLevel;
+		}
 	}
 	
 	public void addPoints(int points) {
@@ -68,14 +71,11 @@ public class ExperienceChain {
 		totalScore += points;
 	}
 	
-	public void setLevel(int level) {
-		
-	}
-	
 	public boolean justLeveledUp() {
 		if (currentScore >= currentLevel.maxScore) {
-			if (currentLevel.tag < MAX_LEVEL.tag)
+			if (currentLevel.tag < MAX_LEVEL.tag) {
 				return true;
+			}
 		}
 		
 		return false;

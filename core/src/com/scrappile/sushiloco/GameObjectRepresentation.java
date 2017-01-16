@@ -1,6 +1,7 @@
 package com.scrappile.sushiloco;
 
 public class GameObjectRepresentation extends SingleTexture {
+
 	public GameObject gameObj;
 
 	public GameObjectRepresentation(GameObject gameObj) {

@@ -12,12 +12,14 @@ import com.scrappile.sushiloco.SushiLoco;
 import com.scrappile.sushiloco.gui.MainMenuGui;
 
 public class MainMenuScreen extends GameScreen {
-	Music music;
-	Vector3 touchPoint;
-	MainMenuGui gui;
+
+	private Music music;
+	private Vector3 touchPoint;
+	private MainMenuGui gui;
 	
 	public MainMenuScreen(SushiLoco game) {
 		super(game);
+
 		touchPoint = new Vector3();
 		gui = new MainMenuGui();
 		
@@ -36,14 +38,14 @@ public class MainMenuScreen extends GameScreen {
 	@Override
 	public void render(float deltaTime) {		
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
 		gui.render();
 	}
 
 	@Override
 	public void show() {		
-		if(Settings.soundEnabled) // FIXME: CHANGE TO "musicEnabled" WHEN READY
+		if (Settings.soundEnabled) { // FIXME: CHANGE TO "musicEnabled" WHEN READY
 			music.play();
+		}
 	}
 	
 	@Override
@@ -57,27 +59,28 @@ public class MainMenuScreen extends GameScreen {
 	public boolean touchDown(int x, int y, int pointerId, int button) {
 		gui.cam.unproject(touchPoint.set(x, y, 0.0f));
 		
-		if (gui.start.justHit(touchPoint)) {
+		if (gui.getStart().intersectsWith(touchPoint)) {
 			game.screenStack.add(new PlayScreen(game));
 		}
 		
-		if (gui.sound.justHit(touchPoint)) {
+		if (gui.getSound().intersectsWith(touchPoint)) {
 			Settings.soundEnabled = !Settings.soundEnabled;
 			if (Settings.soundEnabled) {
 				music.play();
-				gui.sound.replaceTexture(Assets.atlas.findRegion("soundon"));
+				gui.getSound().replaceTexture(Assets.atlas.findRegion("soundon"));
 			} else {
 				music.pause();
-				gui.sound.replaceTexture(Assets.atlas.findRegion("soundoff"));
+				gui.getSound().replaceTexture(Assets.atlas.findRegion("soundoff"));
 			}
 		}
 		
-		if (gui.debug.justHit(touchPoint)) {
+		if (gui.getDebug().intersectsWith(touchPoint)) {
 			Settings.debugEnabled = !Settings.debugEnabled;
-			if (Settings.debugEnabled)
-				gui.debug.replaceText("debug: on");
-			else
-				gui.debug.replaceText("debug: off");
+			if (Settings.debugEnabled) {
+				gui.getDebug().setText("debug: on");
+			} else {
+				gui.getDebug().setText("debug: off");
+			}
 		}
 		
 		return false;

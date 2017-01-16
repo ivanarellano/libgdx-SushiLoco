@@ -1,9 +1,9 @@
 package com.scrappile.sushiloco;
 
-public interface LevelState {	
-	public void ready(float deltaTime);
-	public void running(float deltaTime);
-	public void paused(float deltaTime);
-	public void levelEnd(float deltaTime);
-	public void gameOver(float deltaTime);
+public interface LevelState {
+	void ready(float deltaTime);
+	void running(float deltaTime);
+	void paused(float deltaTime);
+	void levelEnd(float deltaTime);
+	void gameOver(float deltaTime);
 }

@@ -12,14 +12,17 @@ import com.scrappile.sushiloco.box2d.PhysicsObject.Type;
 import com.scrappile.sushiloco.object.ObjectFactory;
 
 public class WoodenPlate implements ObjectFactory {
-	Vector2 body[] = {
+
+	private Array<Vector2[]> verts = new Array<Vector2[]>(3);
+	private TextureRegion texture = Assets.atlas.findRegion("plate1");
+	private Vector2 body[] = {
 			new Vector2(-190.4f / Level.PTM_RATIO, 31.3f / Level.PTM_RATIO),
 			new Vector2(-190.4f / Level.PTM_RATIO, -3.7f / Level.PTM_RATIO),
 			new Vector2(190.4f / Level.PTM_RATIO, -3.7f / Level.PTM_RATIO),
 			new Vector2(190.4f / Level.PTM_RATIO, 31.3f / Level.PTM_RATIO)
 		};
 	
-	Vector2 leg_l[] = {
+	private Vector2 leg_l[] = {
 			new Vector2(-144.4f / Level.PTM_RATIO, -4.4f / Level.PTM_RATIO),
 			new Vector2(-143.7f / Level.PTM_RATIO, -30.6f / Level.PTM_RATIO),
 			new Vector2(-108.4f / Level.PTM_RATIO, -30.2f / Level.PTM_RATIO),
@@ -28,16 +31,13 @@ public class WoodenPlate implements ObjectFactory {
 			new Vector2(-93.2f / Level.PTM_RATIO, -5.5f / Level.PTM_RATIO)
 		};
 	
-	Vector2 leg_r[] = {
+	private Vector2 leg_r[] = {
 			new Vector2(90.3f / Level.PTM_RATIO, -5.1f / Level.PTM_RATIO),
 			new Vector2(99.9f / Level.PTM_RATIO, -15.4f / Level.PTM_RATIO),
 			new Vector2(108.0f / Level.PTM_RATIO, -30.2f / Level.PTM_RATIO),
 			new Vector2(143.7f / Level.PTM_RATIO, -30.2f / Level.PTM_RATIO),
 			new Vector2(143.0f / Level.PTM_RATIO, -5.1f / Level.PTM_RATIO),
 		};
-	
-	public Array<Vector2[]> verts = new Array<Vector2[]>(3);
-	TextureRegion texture = Assets.atlas.findRegion("plate1");
 
 	WoodenPlate() {
 		verts.add(body);
@@ -57,10 +57,9 @@ public class WoodenPlate implements ObjectFactory {
 
 		woodenPlate.objRep.setTexture(texture);
 		
-		screenPosY += woodenPlate.objRep.halfHeight / Level.PTM_RATIO;
+		screenPosY += woodenPlate.objRep.getHalfHeight() / Level.PTM_RATIO;
 				
-		woodenPlate.body = BodyFactory.createPoly(verts, screenPosX, screenPosY,
-				1.1f, 1.2f, BodyType.DynamicBody, woodenPlate);
+		woodenPlate.body = BodyFactory.createPoly(verts, screenPosX, screenPosY, 1.1f, 1.2f, BodyType.DynamicBody, woodenPlate);
 		
 		return woodenPlate;
 	}

@@ -2,42 +2,34 @@ package com.scrappile.sushiloco.gui;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.scrappile.sushiloco.Assets;
 import com.scrappile.sushiloco.Drawable;
 
 public class LabelButton extends Button implements Drawable {
-	public BitmapFontCache fontCache;
+
+	private BitmapFontCache fontCache;
+	private GlyphLayout layout;
 	
 	public LabelButton(BitmapFont font, String string) {
 		fontCache = new BitmapFontCache(font);
-		
-		fontCache.setText(string, 0.0f, 0.0f);
+		layout = fontCache.setText(string, 0.0f, 0.0f);
 		setPosition(0.0f, 0.0f);
 	}
 	
 	public LabelButton(BitmapFont font, String string, float x, float y) {
 		fontCache = new BitmapFontCache(font);
-		
 		fontCache.setText(string, 0.0f, 0.0f);
 		setPosition(x, y);
 	}
 
 	public void setPosition(float x, float y) {
 		fontCache.setPosition(x, y);
-		
-		setBounds(fontCache.getX(),
-				  fontCache.getY() - fontCache.getBounds().height,
-				  fontCache.getBounds().width,
-				  fontCache.getBounds().height);
 	}
 	
-	public void replaceText(String string) {
-		float prevX = fontCache.getX();
-		float prevY = fontCache.getY();
-		
-		fontCache.setText(string, 0.0f, 0.0f);
-		
-		setPosition(prevX, prevY);
+	public void setText(String string) {
+		layout = fontCache.setText(string, fontCache.getX(), fontCache.getY());
+		setBounds(fontCache.getX(), fontCache.getY() - layout.height, layout.width, layout.height);
 	}
 
 	@Override
