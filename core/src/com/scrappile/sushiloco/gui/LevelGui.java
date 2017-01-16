@@ -13,6 +13,7 @@ public class LevelGui extends Gui implements LevelState {
 	private final GoalMeter goalMeter = new GoalMeter();
 	private final Timer timer = new Timer();
 
+	private int state;
 
     public LevelGui(Level level) {    	
     	PAUSED.setPosition(SushiLoco.SCREEN_HALF_WIDTH - PAUSED.getWidth() / 2.0f, SushiLoco.SCREEN_HALF_HEIGHT + 150.0f);
@@ -67,6 +68,7 @@ public class LevelGui extends Gui implements LevelState {
 
     @Override
 	public void levelEnd(float deltaTime) {
+		// No-op
 	}
 
     @Override
