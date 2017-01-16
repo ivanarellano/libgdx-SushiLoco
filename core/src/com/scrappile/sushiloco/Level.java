@@ -8,17 +8,19 @@ import com.scrappile.sushiloco.gui.LevelGui;
 import com.scrappile.sushiloco.object.Player;
 import com.scrappile.sushiloco.screen.PlayScreen;
 
-public abstract class Level extends PhysicsWorld implements LevelState {
+abstract public class Level extends PhysicsWorld implements LevelState {
+
 	public int time = 5;
 	public Player player;
     public LevelGui gui = new LevelGui(this);
     public Array<SingleTexture> unreachableObjects = new Array<SingleTexture>();
-    ParallaxBackground background = new ParallaxBackground(new ParallaxLayer[]{
-            new ParallaxLayer(Assets.atlas.findRegion("counterpanel"), new Vector2(100.0f, 100.0f), new Vector2(0.0f, -200.0f), new Vector2(0,2200.0f)),
-            new ParallaxLayer(Assets.atlas.findRegion("counter1"), new Vector2(100.0f, 100.0f), new Vector2(0.0f,0.0f), new Vector2(0,2200.0f)),
-      }, SushiLoco.SCREEN_WIDTH, SushiLoco.SCREEN_HEIGHT, new Vector2());
-	OrthographicCamera levelCam = new OrthographicCamera(SushiLoco.SCREEN_WIDTH, SushiLoco.SCREEN_HEIGHT);
-	OrthographicCamera box2dCam = new OrthographicCamera(SushiLoco.SCREEN_WIDTH/Level.PTM_RATIO, SushiLoco.SCREEN_HEIGHT/Level.PTM_RATIO);
+
+	private OrthographicCamera levelCam = new OrthographicCamera(SushiLoco.SCREEN_WIDTH, SushiLoco.SCREEN_HEIGHT);
+	private OrthographicCamera box2dCam = new OrthographicCamera(SushiLoco.SCREEN_WIDTH/Level.PTM_RATIO, SushiLoco.SCREEN_HEIGHT/Level.PTM_RATIO);
+	private ParallaxBackground background = new ParallaxBackground(new ParallaxLayer[]{
+			new ParallaxLayer(Assets.atlas.findRegion("counterpanel"), new Vector2(100.0f, 100.0f), new Vector2(0.0f, -200.0f), new Vector2(0,2200.0f)),
+			new ParallaxLayer(Assets.atlas.findRegion("counter1"), new Vector2(100.0f, 100.0f), new Vector2(0.0f,0.0f), new Vector2(0,2200.0f)),
+	}, SushiLoco.SCREEN_WIDTH, SushiLoco.SCREEN_HEIGHT, new Vector2());
 	
 	public Level() {
 		levelCam.setToOrtho(false, SushiLoco.SCREEN_WIDTH, SushiLoco.SCREEN_HEIGHT);		
@@ -51,8 +53,9 @@ public abstract class Level extends PhysicsWorld implements LevelState {
 		levelCam.position.set(x * Level.PTM_RATIO, y * Level.PTM_RATIO, 0.0f);
 		frustrumCulling.setPosition(x, y);
 		
-		if (Settings.debugEnabled)
+		if (Settings.debugEnabled) {
 			box2dCam.position.set(x, y, 0.0f);
+		}
 	}
 	
 	public void zoomCamera(float zoom) {
@@ -75,7 +78,6 @@ public abstract class Level extends PhysicsWorld implements LevelState {
 	}
 	
 	public abstract void createWorld();
-	
 	public abstract void touchDown();
 	public abstract void touchUp();
 	public abstract boolean keyDown(int keyCode);

@@ -23,6 +23,7 @@ import com.scrappile.sushiloco.controller.PlayerController;
 import java.util.ArrayList;
 
 public class Player extends GameObject {
+
     public final static float MAX_VELOCITY = 7.0f;
     public final static float MAX_JUMP = 12.0f;
     public final static int STATE_IDLE = 0;
@@ -32,20 +33,23 @@ public class Player extends GameObject {
     public final static int DIRECTION_NONE = 0;
     public final static int DIRECTION_LEFT = 1;
     public final static int DIRECTION_RIGHT = 2;
-    public int state;
-    public int direction;
-    public float growthScale = 1.3f;
-    public float forceYOffset;
-    public Vector2 vel = new Vector2();
-	// The player's physical shape
-	public CircleShape shape;
-	// Detects when the player is grounded
-	public GroundSensor groundSensor = new GroundSensor();
-	public ExperienceChain xp = new ExperienceChain();
-	public PlayerController controller = new PlayerController(this);
-	public Array<GameObject> objectsToRoll = new Array<GameObject>();
-	public Level worldLevel;
-	GameObject rolledObj;
+
+    private int state;
+    private int direction;
+    private float growthScale = 1.3f;
+    private float forceYOffset;
+    private Vector2 vel = new Vector2();
+    private ExperienceChain xp = new ExperienceChain();
+    private PlayerController controller = new PlayerController(this);
+    private Array<GameObject> objectsToRoll = new Array<GameObject>();
+    private Level worldLevel;
+	private GameObject rolledObj;
+
+    // The player's physical shape
+    private CircleShape shape;
+
+    // Detects when the player is grounded
+    private GroundSensor groundSensor = new GroundSensor();
 
     public Player(Level worldLevel) {
         this.worldLevel = worldLevel;
@@ -57,7 +61,7 @@ public class Player extends GameObject {
 
         objRep.setTexture(Assets.atlas.findRegion("player"));
 
-        float radius = (objRep.halfWidth) * 0.7f / Level.PTM_RATIO;
+        float radius = objRep.getHalfWidth() * 0.7f / Level.PTM_RATIO;
 
         // Generate box2d circle body
         body = BodyFactory.createCircle(427.0f / Level.PTM_RATIO, 64.0f / Level.PTM_RATIO, radius,
@@ -168,6 +172,34 @@ public class Player extends GameObject {
         groundSensor.update();
     }
 
+    public ExperienceChain getXp() {
+        return xp;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public CircleShape getShape() {
+        return shape;
+    }
+
+    public float getGrowthScale() {
+        return growthScale;
+    }
+
+    public GroundSensor getGroundSensor() {
+        return groundSensor;
+    }
+
+    public PlayerController getController() {
+        return controller;
+    }
+
+    public void setForceYOffset(float forceYOffset) {
+        this.forceYOffset = forceYOffset;
+    }
+
     public void levelUp() {
         xp.levelUp();
         controller.grow();
@@ -185,6 +217,7 @@ public class Player extends GameObject {
     }
 
     public class GroundSensor implements QueryCallback {
+
         public Rectangle rect = new Rectangle();
         public ArrayList<Fixture> foundBodies = new ArrayList<Fixture>();
 
@@ -196,7 +229,6 @@ public class Player extends GameObject {
 
         public void update() {
             groundSensor.foundBodies.clear();
-
             groundSensor.rect.x = pos.x - groundSensor.rect.width / 2.0f;
             groundSensor.rect.y = pos.y - shape.getRadius() - groundSensor.rect.height;
 

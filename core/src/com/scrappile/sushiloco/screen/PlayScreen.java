@@ -9,56 +9,50 @@ import com.scrappile.sushiloco.LevelRenderer;
 import com.scrappile.sushiloco.SushiLoco;
 import com.scrappile.sushiloco.level.TestLevel;
 
+import static com.scrappile.sushiloco.gui.LevelGui.QUIT;
+
 public class PlayScreen extends GameScreen {
+
 	public static final int GAME_READY = 0;
 	public static final int GAME_RUNNING = 1;
 	public static final int GAME_PAUSED = 2;
 	public static final int GAME_LEVEL_END = 3;
 	public static final int GAME_OVER = 4;
-	
-	int state;
-	public Level level;
-	public LevelRenderer levelRenderer;
-    public Vector3 touchPoint;
+
+	private int state;
+	private Level level;
+	private LevelRenderer levelRenderer;
+	private Vector3 touchPoint;
 
 	public PlayScreen(SushiLoco game) {
 		super(game);
-		Gdx.app.log("PlayScreen", "CONSTRUCTOR");
+
 		level = new TestLevel();
 		levelRenderer = new LevelRenderer(this);
 		touchPoint = new Vector3();
-		
 		state = GAME_RUNNING;
 	}
 
 	@Override
 	public void dispose() {
-		Gdx.app.log("PlayScreen", "DISPOSE");
 		level.disposeWorld();
 		levelRenderer.dispose();
 	}
 
 	@Override
 	public void hide() {
-		Gdx.app.log("PlayScreen", "HIDE");
 		level.disposeWorld();
 		levelRenderer.dispose();
 	}
 
 	@Override
 	public void pause() {
-		Gdx.app.log("PlayScreen", "PAUSE");
-	}
-	
-	public void update(int state, float deltaTime) {
-		level.update(state, deltaTime);
-		level.gui.update(state, level.player.xp.getTotalScore());
+		// No-op
 	}
 
 	@Override
 	public void render(float deltaTime) {
-		this.update(state, deltaTime);
-		
+		update(state, deltaTime);
 		levelRenderer.render(deltaTime);
 		level.gui.render(deltaTime);
 	}
@@ -68,14 +62,12 @@ public class PlayScreen extends GameScreen {
 
 	@Override
 	public void resume() {
-		Gdx.app.log("PlayScreen", "RESUME");
 		level.resumeWorld();
 		levelRenderer.resume();
 	}
 
 	@Override
 	public void show() {
-		Gdx.app.log("PlayScreen", "SHOW");
 		level.createWorld();
 	}
 	
@@ -88,8 +80,9 @@ public class PlayScreen extends GameScreen {
 				level.touchDown();
 				break;
 			case GAME_PAUSED:
-				if (level.gui.quit.justHit(touchPoint))
+				if (QUIT.intersectsWith(touchPoint)) {
 					game.screenStack.setPrevious();
+				}
 			case GAME_READY:
 			case GAME_LEVEL_END:
 			case GAME_OVER:
@@ -109,11 +102,11 @@ public class PlayScreen extends GameScreen {
 	public boolean keyDown(int keyCode) {
 		switch (state) {
 			case GAME_RUNNING:
-				if (keyCode == Keys.MENU || keyCode == Keys.BACK ||
-					keyCode == Keys.BACKSPACE || keyCode == Keys.ESCAPE)
+				if (keyCode == Keys.MENU || keyCode == Keys.BACK || keyCode == Keys.BACKSPACE || keyCode == Keys.ESCAPE) {
 					state = GAME_PAUSED;
-				else
+				} else {
 					level.keyDown(keyCode);
+				}
 				
 				break;
 			case GAME_PAUSED:
@@ -135,5 +128,14 @@ public class PlayScreen extends GameScreen {
 	public boolean keyUp(int keyCode) {
 		level.keyUp(keyCode);
 		return false;
+	}
+
+	public void update(int state, float deltaTime) {
+		level.update(state, deltaTime);
+		level.gui.update(state, level.player.getXp().getTotalScore());
+	}
+
+	public Level getLevel() {
+		return level;
 	}
 }

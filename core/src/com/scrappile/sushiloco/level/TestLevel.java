@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.scrappile.sushiloco.Assets;
+import com.scrappile.sushiloco.ExperienceChain;
 import com.scrappile.sushiloco.Level;
 import com.scrappile.sushiloco.box2d.PhysicsObject.Type;
 import com.scrappile.sushiloco.object.GameBoxObject;
@@ -16,6 +17,7 @@ import com.scrappile.sushiloco.object.dishes.Dishes;
 import com.scrappile.sushiloco.object.food.FoodFactory;
 
 public class TestLevel extends Level {
+
 	Boat boat = new Boat();
 	Counter counter = new Counter();
 	FoodFactory food = new FoodFactory();
@@ -26,13 +28,19 @@ public class TestLevel extends Level {
 
 	public TestLevel() {
 		player = new Player(this);
-		player.xp.populate(player.xp.new Level(1, 17), player.xp.new Level(2,
-				35), player.xp.new Level(3, 75), player.xp.new Level(4, 100));
+
+		ExperienceChain xp = player.getXp();
+		xp.populate(
+				new ExperienceChain.Level(1, 17),
+				new ExperienceChain.Level(2, 35),
+				new ExperienceChain.Level(3, 75),
+				new ExperienceChain.Level(4, 100)
+		);
 
 		time = 3;
 
-		gui.timer.reset(time);
-		gui.goalMeter.setTexture(player.objRep.texture);
+		gui.getTimer().reset(time);
+		gui.getGoalMeter().setTexture(player.objRep.texture);
 	}
 
 	@Override
@@ -50,7 +58,6 @@ public class TestLevel extends Level {
 			unreachableObjects.add(counter.buildPanel(i, -490.0f));
 
 		for (int i = 0; i < 3; i++) {
-			
 			food.eggNigiri.build((float) Math.random() * 2500.0f + 950.0f, 
 					(float) Math.random() * 225.0f + 200.0f);
 			food.mackarelNigiri.build((float) Math.random() * 2700.0f + 1350.0f, 
@@ -61,20 +68,14 @@ public class TestLevel extends Level {
 					(float) Math.random() * 225.0f + 200.0f);
 			food.dumpling.build((float) Math.random() * 3200.0f + 2650.0f, 
 					(float) Math.random() * 225.0f + 200.0f);
-			
 			dishes.smallCups.build1((float) Math.random() * 2500.0f + 950.0f, 
 					(float) Math.random() * 225.0f + 200.0f);
-			
 			dishes.smallCups.build2((float) Math.random() * 2000.0f + 850.0f, 
 					(float) Math.random() * 225.0f + 200.0f);
-			
 			dishes.woodenPlate.build((float) Math.random() * 2300.0f + 1350.0f, 
 					(float) Math.random() * 225.0f + 200.0f);
-			
-			
 			dishes.saucer.build((float) Math.random() * 2900.0f + 1750.0f, 
 					(float) Math.random() * 225.0f + 200.0f);
-			
 		}
 		
 		float offsetX = 0;
@@ -92,7 +93,6 @@ public class TestLevel extends Level {
 			food.soySauce.build(offsetX, 55.0f);
 			offsetX += 1000.0f + (float) Math.random() * 2000.0f;
 		}
-
 	}
 
 	@Override
@@ -101,53 +101,59 @@ public class TestLevel extends Level {
 
 		updateBodies();
 
-		if (player.xp.justLeveledUp())
+		if (player.getXp().justLeveledUp()) {
 			zoomCamera(0.375f);
+		}
 
 		physicsStep(deltaTime);
 	}
 
 	@Override
 	public void ready(float deltaTime) {
+		// No-op
 	}
 
 	@Override
 	public void paused(float deltaTime) {
+		// No-op
 	}
 
 	@Override
 	public void levelEnd(float deltaTime) {
+		// No-op
 	}
 
 	@Override
 	public void gameOver(float deltaTime) {
+		// No-op
 	}
 
 	@Override
 	public void touchDown() {
-		player.controller.touchDown();
+		player.getController().touchDown();
 	}
 
 	@Override
 	public void touchUp() {
-		player.controller.touchUp();
+		player.getController().touchUp();
 	}
 
 	@Override
 	public boolean keyDown(int keyCode) {
-		player.controller.keyDown(keyCode);
+		player.getController().keyDown(keyCode);
 
-		if (keyCode == Keys.DOWN)
+		if (keyCode == Keys.DOWN) {
 			zoomCamera(0.1f);
-		else if (keyCode == Keys.UP)
+		} else if (keyCode == Keys.UP) {
 			zoomCamera(-0.1f);
+		}
 
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keyCode) {
-		player.controller.keyUp(keyCode);
+		player.getController().keyUp(keyCode);
 		return false;
 	}
 }

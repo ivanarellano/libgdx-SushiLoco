@@ -12,11 +12,11 @@ import com.scrappile.sushiloco.box2d.PhysicsObject;
 import com.scrappile.sushiloco.object.Player;
 
 public class PlayerController implements Controller {
-	Player player;
-	Fixture fixture;
-	
-	Shape.Type shapeType;
-	Vector2 vecPosOffset = new Vector2();
+
+	private Player player;
+	private Fixture fixture;
+	private Shape.Type shapeType;
+	private Vector2 vecPosOffset = new Vector2();
 	
 	public PlayerController(Player player) {
 		this.player = player;
@@ -40,7 +40,7 @@ public class PlayerController implements Controller {
 		Vector2 newOffset = player.body.getLocalVector(otherWorldCenter);
 		
 		// Re-adjust position to half graphic's rep
-		newOffset.sub(other.objRep.halfWidth/Level.PTM_RATIO, other.objRep.halfHeight/Level.PTM_RATIO);
+		newOffset.sub(other.objRep.getHalfWidth() / Level.PTM_RATIO, other.objRep.getHalfHeight() / Level.PTM_RATIO);
 		
 		other.rolledPos.set(newOffset);
 				
@@ -55,8 +55,8 @@ public class PlayerController implements Controller {
 	}
 	
 	public void grow() {
-		player.forceYOffset = -(player.shape.getRadius() / 4.5f) * player.growthScale;
-		scaleCircle(player, player.growthScale, 0.0f, 0.0f);
+		player.setForceYOffset(-(player.getShape().getRadius() / 4.5f) * player.getGrowthScale());
+		scaleCircle(player, player.getGrowthScale(), 0.0f, 0.0f);
 	}
 	
 	void scaleCircle(PhysicsObject object, float scale, float offsetX, float offsetY) {
@@ -76,7 +76,7 @@ public class PlayerController implements Controller {
 	
 	public void keyDown(int keyCode) {
 		if (keyCode == Keys.SPACE) {
-			if (player.state != Player.STATE_JUMPING && player.state != Player.STATE_FALLING)
+			if (player.getState() != Player.STATE_JUMPING && player.getState() != Player.STATE_FALLING)
 				jump(player, Player.MAX_JUMP);
 		}
 	}
@@ -85,10 +85,11 @@ public class PlayerController implements Controller {
 	}
 	
 	public void touchDown() {
-		if (player.state != Player.STATE_JUMPING && player.state != Player.STATE_FALLING)
+		if (player.getState() != Player.STATE_JUMPING && player.getState() != Player.STATE_FALLING)
 			jump(player, Player.MAX_JUMP);
 	}
 	
 	public void touchUp() {
+		// No-op
 	}
 }

@@ -1,25 +1,22 @@
 package com.scrappile.sushiloco.gui;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.scrappile.sushiloco.Assets;
-import com.scrappile.sushiloco.Level;
-import com.scrappile.sushiloco.LevelState;
-import com.scrappile.sushiloco.SushiLoco;
-import com.scrappile.sushiloco.Timer;
+import com.scrappile.sushiloco.*;
 import com.scrappile.sushiloco.screen.PlayScreen;
 
 public class LevelGui extends Gui implements LevelState {
-	BitmapFont droidSans = Assets.getBitmapFont("droidsans.fnt", "droidsans");
-	public LabelButton paused = new LabelButton(droidSans, "Paused");
-	public LabelButton quit = new LabelButton(droidSans, "Quit");
-	public GoalMeter goalMeter = new GoalMeter();
-    public Timer timer = new Timer();
-    
-    int state;
+
+	private static final BitmapFont DROID_SANS = Assets.getBitmapFont("droidsans.fnt", "droidsans");
+	private static final LabelButton PAUSED = new LabelButton(DROID_SANS, "Paused");
+	public static final LabelButton QUIT = new LabelButton(DROID_SANS, "Quit");
+
+	private final GoalMeter goalMeter = new GoalMeter();
+	private final Timer timer = new Timer();
+
 
     public LevelGui(Level level) {    	
-    	paused.setPosition(SushiLoco.SCREEN_HALF_WIDTH-paused.bounds.width/2.0f, SushiLoco.SCREEN_HALF_HEIGHT+150.0f);    	
-    	quit.setPosition(SushiLoco.SCREEN_HALF_WIDTH-quit.bounds.width/2.0f, SushiLoco.SCREEN_HALF_HEIGHT+80.0f);
+    	PAUSED.setPosition(SushiLoco.SCREEN_HALF_WIDTH - PAUSED.getWidth() / 2.0f, SushiLoco.SCREEN_HALF_HEIGHT + 150.0f);
+    	QUIT.setPosition(SushiLoco.SCREEN_HALF_WIDTH - QUIT.getWidth() / 2.0f, SushiLoco.SCREEN_HALF_HEIGHT + 80.0f);
     }
     
     public void update(int state, int totalScore) {
@@ -58,17 +55,30 @@ public class LevelGui extends Gui implements LevelState {
     @Override
 	public void running(float deltaTime) {
 		timer.update();
-		
 		timer.draw();
 		goalMeter.draw();
 	}
 
     @Override
 	public void paused(float deltaTime) {
-		paused.draw();
-		quit.draw();
+		PAUSED.draw();
+		QUIT.draw();
 	}
 
-    @Override public void levelEnd(float deltaTime) {}
-    @Override public void gameOver(float deltaTime) {}
+    @Override
+	public void levelEnd(float deltaTime) {
+	}
+
+    @Override
+	public void gameOver(float deltaTime) {
+		// No-op
+	}
+
+	public Timer getTimer() {
+		return timer;
+	}
+
+	public GoalMeter getGoalMeter() {
+		return goalMeter;
+	}
 }

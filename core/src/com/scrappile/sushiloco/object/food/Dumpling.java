@@ -12,7 +12,10 @@ import com.scrappile.sushiloco.box2d.PhysicsObject.Type;
 import com.scrappile.sushiloco.object.ObjectFactory;
 
 public class Dumpling implements ObjectFactory {
-	Vector2 poly1[] = {
+
+	private Array<Vector2[]> verts = new Array<Vector2[]>(2);
+	private TextureRegion texture = Assets.atlas.findRegion("dumpling");
+	private Vector2 poly1[] = {
 			new Vector2(-5.8f / Level.PTM_RATIO, 53.2f / Level.PTM_RATIO),
 			new Vector2(-53.6f / Level.PTM_RATIO, 32.7f / Level.PTM_RATIO),
 			new Vector2(-70.9f / Level.PTM_RATIO, -9.0f / Level.PTM_RATIO),
@@ -20,7 +23,7 @@ public class Dumpling implements ObjectFactory {
 			new Vector2(-15.0f / Level.PTM_RATIO, -55.7f / Level.PTM_RATIO)
 		};
 	
-	Vector2 poly2[] = {
+	private Vector2 poly2[] = {
 			new Vector2(-15.0f / Level.PTM_RATIO, -55.7f / Level.PTM_RATIO),
 			new Vector2(29.9f / Level.PTM_RATIO, -53.9f / Level.PTM_RATIO),
 			new Vector2(62.0f / Level.PTM_RATIO, -38.7f / Level.PTM_RATIO),
@@ -28,9 +31,6 @@ public class Dumpling implements ObjectFactory {
 			new Vector2(40.5f / Level.PTM_RATIO, 39.4f / Level.PTM_RATIO),
 			new Vector2(-5.8f / Level.PTM_RATIO, 53.2f / Level.PTM_RATIO)
 		};
-	
-	public Array<Vector2[]> verts = new Array<Vector2[]>(2);
-	public TextureRegion texture = Assets.atlas.findRegion("dumpling");
 	
 	public Dumpling() {
 		verts.add(poly1);
@@ -49,10 +49,9 @@ public class Dumpling implements ObjectFactory {
 
 		dumplingObj.objRep.setTexture(texture);
 		
-		screenPosY += dumplingObj.objRep.halfHeight / Level.PTM_RATIO;
+		screenPosY += dumplingObj.objRep.getHalfHeight() / Level.PTM_RATIO;
 				
-		dumplingObj.body = BodyFactory.createPoly(verts, screenPosX, screenPosY,
-				1.2f, 1.0f, BodyType.DynamicBody, dumplingObj);
+		dumplingObj.body = BodyFactory.createPoly(verts, screenPosX, screenPosY, 1.2f, 1.0f, BodyType.DynamicBody, dumplingObj);
 		
 		return dumplingObj;
 	}

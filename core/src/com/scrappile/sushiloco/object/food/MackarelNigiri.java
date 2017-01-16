@@ -12,7 +12,10 @@ import com.scrappile.sushiloco.box2d.PhysicsObject.Type;
 import com.scrappile.sushiloco.object.ObjectFactory;
 
 public class MackarelNigiri implements ObjectFactory {
-	Vector2 poly1[] = {
+
+	private Array<Vector2[]> verts = new Array<Vector2[]>(1);
+	private TextureRegion texture = Assets.atlas.findRegion("mackarelnigiri");
+	private Vector2 poly1[] = {
 			new Vector2(-57.6f / Level.PTM_RATIO, 6.7f / Level.PTM_RATIO),
 			new Vector2(-46.0f / Level.PTM_RATIO, -17.7f / Level.PTM_RATIO),
 			new Vector2(16.6f / Level.PTM_RATIO, -24.7f / Level.PTM_RATIO),
@@ -20,9 +23,6 @@ public class MackarelNigiri implements ObjectFactory {
 			new Vector2(9.5f / Level.PTM_RATIO, 26.2f / Level.PTM_RATIO),
 			new Vector2(-24.7f / Level.PTM_RATIO, 24.7f / Level.PTM_RATIO)
 		};
-	
-	public Array<Vector2[]> verts = new Array<Vector2[]>(1);
-	public TextureRegion texture = Assets.atlas.findRegion("mackarelnigiri");
 	
 	MackarelNigiri() {
 		verts.add(poly1);
@@ -40,10 +40,9 @@ public class MackarelNigiri implements ObjectFactory {
 
 		mackarelNigiri.objRep.setTexture(texture);
 		
-		screenPosY += mackarelNigiri.objRep.halfHeight / Level.PTM_RATIO;
+		screenPosY += mackarelNigiri.objRep.getHalfHeight() / Level.PTM_RATIO;
 				
-		mackarelNigiri.body = BodyFactory.createPoly(verts, screenPosX, screenPosY,
-				1.1f, 1.2f, BodyType.DynamicBody, mackarelNigiri);
+		mackarelNigiri.body = BodyFactory.createPoly(verts, screenPosX, screenPosY, 1.1f, 1.2f, BodyType.DynamicBody, mackarelNigiri);
 		
 		return mackarelNigiri;
 	}

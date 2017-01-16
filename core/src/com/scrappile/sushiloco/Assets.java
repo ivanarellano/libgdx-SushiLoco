@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Disposable;
 
 public class Assets implements Disposable, AssetErrorListener {
     private static final String LOG = Assets.class.getSimpleName();
+
 	public static AssetManager manager;
 	public static TextureAtlas atlas;
 	public static SpriteBatch batch;
@@ -87,9 +88,6 @@ public class Assets implements Disposable, AssetErrorListener {
             sound.play(1);
     }
 
-    /**
-     * Releases all resources of this object.
-     */
     @Override
     public void dispose() {
         manager.dispose();

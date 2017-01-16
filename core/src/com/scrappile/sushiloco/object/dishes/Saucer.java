@@ -12,29 +12,27 @@ import com.scrappile.sushiloco.box2d.PhysicsObject.Type;
 import com.scrappile.sushiloco.object.ObjectFactory;
 
 public class Saucer implements ObjectFactory {
-	Vector2 body[] = {
+
+	private Array<Vector2[]> verts = new Array<Vector2[]>(3);
+	private TextureRegion texture = Assets.atlas.findRegion("saucer");
+	private Vector2 body[] = {
 			new Vector2(-72.3f / Level.PTM_RATIO, 8.0f / Level.PTM_RATIO),
 			new Vector2(-48.6f / Level.PTM_RATIO, -0.5f / Level.PTM_RATIO),
 			new Vector2(48.6f / Level.PTM_RATIO, -0.5f / Level.PTM_RATIO),
 			new Vector2(72.3f / Level.PTM_RATIO, 8.0f / Level.PTM_RATIO)
 		};
-	
-	Vector2 leg_l[] = {
+	private Vector2 leg_l[] = {
 			new Vector2(-48.2f / Level.PTM_RATIO, -0.8f / Level.PTM_RATIO),
 			new Vector2(-45.7f / Level.PTM_RATIO, -14.2f / Level.PTM_RATIO),
 			new Vector2(-27.8f / Level.PTM_RATIO, -14.2f / Level.PTM_RATIO),
 			new Vector2(-21.5f / Level.PTM_RATIO, -0.8f / Level.PTM_RATIO)
 		};
-	
-	Vector2 leg_r[] = {
+	private Vector2 leg_r[] = {
 			new Vector2(21.5f / Level.PTM_RATIO, -0.8f / Level.PTM_RATIO),
 			new Vector2(27.8f / Level.PTM_RATIO, -14.2f / Level.PTM_RATIO),
 			new Vector2(45.7f / Level.PTM_RATIO, -14.2f / Level.PTM_RATIO),
 			new Vector2(48.2f / Level.PTM_RATIO, -0.8f / Level.PTM_RATIO)
 		};
-	
-	public Array<Vector2[]> verts = new Array<Vector2[]>(3);
-	TextureRegion texture = Assets.atlas.findRegion("saucer");
 	
 	Saucer() {
 		verts.add(body);
@@ -54,13 +52,10 @@ public class Saucer implements ObjectFactory {
 
 		saucer.objRep.setTexture(texture);
 		
-		screenPosY += saucer.objRep.halfHeight / Level.PTM_RATIO;
+		screenPosY += saucer.objRep.getHalfHeight() / Level.PTM_RATIO;
 				
-		saucer.body = BodyFactory.createPoly(verts, screenPosX, screenPosY,
-				1.1f, 1.2f, BodyType.DynamicBody, saucer);
+		saucer.body = BodyFactory.createPoly(verts, screenPosX, screenPosY, 1.1f, 1.2f, BodyType.DynamicBody, saucer);
 		
 		return saucer;
 	}
-	
-
 }

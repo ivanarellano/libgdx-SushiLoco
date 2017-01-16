@@ -8,16 +8,18 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.scrappile.sushiloco.box2d.PhysicsObject;
+import com.scrappile.sushiloco.object.Player;
 import com.scrappile.sushiloco.object.StaticObject;
 import com.scrappile.sushiloco.screen.PlayScreen;
 
 public class LevelRenderer {
+
     public Level level;
     private Box2DDebugRenderer box2dDebugRenderer = new Box2DDebugRenderer(true, false, false, false, false, false);
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     public LevelRenderer(PlayScreen screen) {
-        level = screen.level;
+        level = screen.getLevel();
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     }
 
@@ -91,13 +93,14 @@ public class LevelRenderer {
 
             shapeRenderer.setProjectionMatrix(level.getLevelCamera().combined);
 
+            Player.GroundSensor sensor = level.player.getGroundSensor();
             // Render player grounding sensor
             shapeRenderer.begin(ShapeType.Line);
             shapeRenderer.setColor(1.0f, 1.0f, 0.0f, 1.0f);
-            shapeRenderer.rect(level.player.groundSensor.rect.x * Level.PTM_RATIO,
-                    level.player.groundSensor.rect.y * Level.PTM_RATIO,
-                    level.player.groundSensor.rect.width * Level.PTM_RATIO,
-                    level.player.groundSensor.rect.height * Level.PTM_RATIO);
+            shapeRenderer.rect(sensor.rect.x * Level.PTM_RATIO,
+                    sensor.rect.y * Level.PTM_RATIO,
+                    sensor.rect.width * Level.PTM_RATIO,
+                    sensor.rect.height * Level.PTM_RATIO);
             shapeRenderer.end();
 
             // Render culling sensor

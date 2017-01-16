@@ -3,10 +3,11 @@ package com.scrappile.sushiloco;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class SingleTexture extends ObjectRepresentation {
+
 	public TextureRegion texture;
-	
+
 	public SingleTexture() {
-		
+		// No-op
 	}
 	
 	public SingleTexture(TextureRegion texture) {
@@ -18,7 +19,6 @@ public class SingleTexture extends ObjectRepresentation {
 		this.texture = texture;
 		width = texture.getRegionWidth();
 		height = texture.getRegionHeight();
-	
 		halfWidth = width / 2.0f;
 		halfHeight = height / 2.0f;		
 	}

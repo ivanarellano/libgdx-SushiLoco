@@ -6,9 +6,9 @@ import com.badlogic.gdx.utils.Array;
 import com.scrappile.sushiloco.box2d.PhysicsObject;
 
 public class GameObject extends PhysicsObject {
+
 	public int points;
 	public int level;
-	
 	public float rot;
 	public Vector2 pos = new Vector2();
 	public Vector2 rolledPos = new Vector2();
@@ -27,13 +27,11 @@ public class GameObject extends PhysicsObject {
 		if (!isDead && body.isActive()) {
 			pos = body.getPosition();
 			rot = body.getAngle() * MathUtils.radiansToDegrees;
-				
-			for (int i = 0; i < children.size; i++) {
-				children.get(i).pos = children.get(i).body.getPosition();
-				children.get(i).rot = children.get(i).body.getAngle() * MathUtils.radiansToDegrees;
+
+			for (GameObject child : children) {
+				child.pos = child.body.getPosition();
+				child.rot = child.body.getAngle() * MathUtils.radiansToDegrees;
 			}
 		}
-		
 	}
-	
 }
