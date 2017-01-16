@@ -9,7 +9,7 @@ https://www.youtube.com/watch?v=vTGNaYLkfRU
 
 ### Pre-requisites
 - Setup a supported development environment using either Eclipse, Android Studio, IntelliJ IDEA, or Netbeans. 
-	- [LibGDX setup steps are provided each IDE](https://github.com/libgdx/libgdx/wiki/Setting-up-your-Development-Environment-%28Eclipse%2C-Intellij-IDEA%2C-NetBeans%29)
+	- [LibGDX setup steps are provided for each IDE](https://github.com/libgdx/libgdx/wiki/Setting-up-your-Development-Environment-%28Eclipse%2C-Intellij-IDEA%2C-NetBeans%29)
 
 ### How to run
 - [Eclipse](https://github.com/libgdx/libgdx/wiki/Gradle-and-Eclipse)
